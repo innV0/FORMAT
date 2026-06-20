@@ -1,0 +1,41 @@
+# Implementation Tasks: Relational Matrix View
+
+Implementation plan for upgrading the interactive matrix view in `mockups/index.html`.
+
+## Phase 1: State Initialization & Setup
+- [ ] Define reactive state variables: `activeGeneratedMatrix`, `simThreshold`, `isSimulating`, `stagedSuggestions`, and `selectedCell`.
+- [ ] Implement utility methods: hierarchy breadcrumb resolver for rows/columns (`Profiles`, `Segments`, `Channels`, etc.).
+
+## Phase 2: Refactoring Grid Layout & Toolbar
+- [ ] Update `matrix-view` container to a three-part layout: Toolbar (Top), Interactive Grid (Left/Center), Contextual Preview Panel (Right Sidebar).
+- [ ] Implement toolbar controls: Matrix Selector dropdown, threshold range slider, and "Run Simulation" trigger button.
+
+## Phase 3: Interactive Cell Widgets
+- [ ] Implement `boolean` widget: checkbox/switch toggling state in `matrixValues`.
+- [ ] Implement `cycle` widget: button cycling state list on click, applying color classes.
+- [ ] Implement `scale` widget: numeric input or range selector bound to min/max configuration.
+- [ ] Implement `set` widget: dropdown menu selection for managing tags.
+
+## Phase 4: Contextual Preview Panel
+- [ ] Integrate `MatrixPreviewPanel` in the right sidebar.
+- [ ] Add click handler on cells to populate `selectedCell` and display detailed metadata.
+- [ ] Implement staged AI suggestion actions (Accept/Reject) within the panel.
+
+## Phase 5: Simulated AI Engine
+- [ ] Write `runAiSimulation()` mock function with `setTimeout` delay (800ms) and `isSimulating` loading status.
+- [ ] Randomly inject staged suggestions into `stagedSuggestions` filtering by the threshold slider value.
+- [ ] Apply dashed border styling and inline Accept/Reject buttons to cells with staged suggestions.
+
+## Phase 6: Verification
+- [ ] Verify Scenario 1: Clicking cell updates preview panel with source/target metadata.
+- [ ] Verify Scenario 2: Cycle widgets correctly transition states and colors.
+- [ ] Verify Scenario 3: AI recommendations commit correctly or discard, removing borders.
+
+---
+
+```text
+Decision needed before apply: No
+Chained PRs recommended: No
+Chain strategy: pending
+400-line budget risk: Low
+```

@@ -1,0 +1,1086 @@
+import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore } from '../types';
+
+/**
+ * Parses a YAML-like indentation-based frontmatter block into a JS object.
+ */
+export function parseYaml(yamlStr: string): any {
+  const lines = yamlStr.split(/\r?\n/);
+  const root: any = {};
+  
+  const stack: Array<{ indent: number; key: string | null; data: any; type: 'object' | 'array' }> = [
+    { indent: -1, key: null, data: root, type: 'object' }
+  ];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) {
+      continue;
+    }
+    
+    const indent = line.search(/\S/);
+    
+    while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
+      stack.pop();
+    }
+    
+    const parent = stack[stack.length - 1];
+    
+    if (trimmed.startsWith('-')) {
+      // Element in an array
+      if (parent.type !== 'array') {
+        if (parent.key !== null) {
+          const grandParent = stack[stack.length - 2];
+          if (grandParent) {
+            grandParent.data[parent.key] = [];
+            parent.data = grandParent.data[parent.key];
+            parent.type = 'array';
+          }
+        }
+      }
+      
+      const rest = trimmed.substring(1).trim();
+      if (rest === '') {
+        const newObj = {};
+        parent.data.push(newObj);
+        stack.push({ indent: indent, key: null, data: newObj, type: 'object' });
+      } else {
+        const colonIdx = rest.indexOf(':');
+        if (colonIdx !== -1) {
+          const key = rest.substring(0, colonIdx).trim();
+          const valStr = rest.substring(colonIdx + 1).trim();
+          const val = parseYamlValue(valStr);
+          
+          const newObj = { [key]: val };
+          parent.data.push(newObj);
+          stack.push({ indent: indent, key: key, data: newObj, type: 'object' });
+        } else {
+          parent.data.push(parseYamlValue(rest));
+        }
+      }
+    } else {
+      const colonIdx = trimmed.indexOf(':');
+      if (colonIdx === -1) {
+        continue;
+      }
+      
+      const key = trimmed.substring(0, colonIdx).trim();
+      const valStr = trimmed.substring(colonIdx + 1).trim();
+      
+      if (valStr === '') {
+        parent.data[key] = {};
+        stack.push({ indent: indent, key: key, data: parent.data[key], type: 'object' });
+      } else {
+        parent.data[key] = parseYamlValue(valStr);
+      }
+    }
+  }
+  
+  return root;
+}
+
+function parseYamlValue(valStr: string): any {
+  valStr = valStr.trim();
+  if (valStr.includes('#') && !valStr.startsWith('"') && !valStr.startsWith("'")) {
+    valStr = valStr.split('#')[0].trim();
+  }
+  if ((valStr.startsWith('"') && valStr.endsWith('"')) || (valStr.startsWith("'") && valStr.endsWith("'"))) {
+    return valStr.substring(1, valStr.length - 1);
+  }
+  if (valStr.toLowerCase() === 'null') {
+    return null;
+  }
+  if (valStr.toLowerCase() === 'true') {
+    return true;
+  }
+  if (valStr.toLowerCase() === 'false') {
+    return false;
+  }
+  if (valStr !== '' && !isNaN(Number(valStr))) {
+    return Number(valStr);
+  }
+  return valStr;
+}
+
+/**
+ * Stringifies a JS object into YAML format.
+ */
+export function stringifyYaml(obj: any, indent: number = 0): string {
+  const spaces = ' '.repeat(indent);
+  if (obj === null) return 'null';
+  if (typeof obj === 'boolean' || typeof obj === 'number') return String(obj);
+  if (typeof obj === 'string') {
+    return `"${obj.replace(/"/g, '\\"')}"`;
+  }
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return '[]';
+    return obj.map(item => {
+      if (typeof item === 'object' && item !== null) {
+        const keys = Object.keys(item);
+        const firstKey = keys[0];
+        const firstVal = stringifyYaml(item[firstKey], 0);
+        let res = `${spaces}- ${firstKey}: ${firstVal}\n`;
+        for (let i = 1; i < keys.length; i++) {
+          const k = keys[i];
+          const val = item[k];
+          if (typeof val === 'object' && val !== null) {
+            if (Array.isArray(val) && val.length === 0) {
+              res += `${spaces}  ${k}: []\n`;
+            } else if (!Array.isArray(val) && Object.keys(val).length === 0) {
+              res += `${spaces}  ${k}: {}\n`;
+            } else {
+              res += `${spaces}  ${k}:\n${stringifyYaml(val, indent + 4)}\n`;
+            }
+          } else {
+            const v = stringifyYaml(val, 0);
+            res += `${spaces}  ${k}: ${v}\n`;
+          }
+        }
+        return res.trimEnd();
+      } else {
+        return `${spaces}- ${stringifyYaml(item, 0)}`;
+      }
+    }).join('\n');
+  }
+  if (typeof obj === 'object') {
+    return Object.entries(obj).map(([k, v]) => {
+      if (typeof v === 'object' && v !== null) {
+        if (Array.isArray(v) && v.length === 0) {
+          return `${spaces}${k}: []`;
+        }
+        if (!Array.isArray(v) && Object.keys(v).length === 0) {
+          return `${spaces}${k}: {}`;
+        }
+        return `${spaces}${k}:\n${stringifyYaml(v, indent + 2)}`;
+      } else {
+        return `${spaces}${k}: ${stringifyYaml(v, 0)}`;
+      }
+    }).join('\n');
+  }
+  return '';
+}
+
+/**
+ * Parses node instances and their multi-line descriptions from markdown content.
+ */
+export interface ParsedInstance {
+  type: string;
+  name: string;
+  description: string;
+  fields?: Record<string, any>;
+}
+
+export function parseNodeInstances(text: string): ParsedInstance[] {
+  const lines = text.split(/\r?\n/);
+  const instances: ParsedInstance[] = [];
+  
+  let currentInstance: ParsedInstance | null = null;
+  let descriptionLines: string[] = [];
+  let parsingFields = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    
+    // Match optional * or - followed by <!-- block: [type] --> then the name
+    const markerMatch = line.match(/^[-*]?\s*<!--\s*block:\s*([a-zA-Z0-9_-]+)\s*-->\s*(.*)$/i);
+    
+    if (markerMatch) {
+      if (currentInstance) {
+        currentInstance.description = descriptionLines.join('\n').trim();
+        instances.push(currentInstance);
+        descriptionLines = [];
+      }
+      
+      const type = markerMatch[1].trim();
+      const rawName = markerMatch[2].trim();
+      
+      // Strip formatting: **, *, __, [[, ]]
+      const name = rawName.replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim();
+      
+      currentInstance = { type, name, description: '', fields: {} };
+      parsingFields = true;
+    } else {
+      if (trimmed.startsWith('#') || trimmed.includes('<!-- block:')) {
+        if (currentInstance) {
+          currentInstance.description = descriptionLines.join('\n').trim();
+          instances.push(currentInstance);
+          currentInstance = null;
+          descriptionLines = [];
+        }
+        parsingFields = false;
+      } else {
+        if (currentInstance) {
+          if (parsingFields) {
+            if (trimmed === '') {
+              // skip blank lines during fields parsing
+            } else {
+              const fieldMatch = line.match(/^\s*[-*]\s*([a-zA-Z0-9_-]+)\s*:\s*(.*)$/);
+              if (fieldMatch) {
+                const key = fieldMatch[1].trim();
+                const value = fieldMatch[2].trim();
+                currentInstance.fields = currentInstance.fields || {};
+                currentInstance.fields[key] = parseYamlValue(value);
+              } else {
+                parsingFields = false;
+                descriptionLines.push(line);
+              }
+            }
+          } else {
+            descriptionLines.push(line);
+          }
+        }
+      }
+    }
+  }
+  
+  if (currentInstance) {
+    currentInstance.description = descriptionLines.join('\n').trim();
+    instances.push(currentInstance);
+  }
+  
+  return instances;
+}
+
+/**
+ * Parses a Markdown table block into an array of objects.
+ */
+export function parseMarkdownTable(md: string): Array<Record<string, string>> {
+  const lines = md.split('\n').map(l => l.trim()).filter(l => l.startsWith('|'));
+  if (lines.length < 3) return [];
+  
+  const headers = lines[0].split('|').map(h => h.trim()).filter((h, idx, arr) => {
+    if (idx === 0 || idx === arr.length - 1) return h !== '';
+    return true;
+  });
+  const data: Array<Record<string, string>> = [];
+  
+  for (let i = 2; i < lines.length; i++) {
+    const cells = lines[i].split('|').map(c => c.trim()).filter((c, idx, arr) => {
+      if (idx === 0 || idx === arr.length - 1) return c !== '';
+      return true;
+    });
+    const obj: Record<string, string> = {};
+    headers.forEach((h, idx) => {
+      obj[h] = cells[idx] || '';
+    });
+    data.push(obj);
+  }
+  return data;
+}
+
+/**
+ * Parses a full Markdown model content into application state values.
+ */
+export function parseMarkdownModel(content: string, conceptsList: Concept[], metamatrixList?: MetamatrixRow[]) {
+  const parsed = {
+    metamodelPath: null as string | null,
+    title: '',
+    specificationVersion: '',
+    documentationLocation: '',
+    lastSaved: '',
+    matrixValues: {} as MatrixValues,
+    modelTextData: {} as Record<string, string>,
+    metamatrix: [] as MetamatrixRow[],
+    nodeMarkers: {} as NodeMarkers,
+    modelTree: [] as TreeNode[],
+    analysisScores: {} as AnalysisScores,
+    metamodel: null as {
+      title?: string;
+      last_updated?: string;
+      concepts?: Concept[];
+      markers?: Marker[];
+      matrices?: any[];
+    } | null
+  };
+
+  if (metamatrixList) {
+    parsed.metamatrix.push(...metamatrixList);
+  }
+
+  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---/);
+  if (fmMatch) {
+    let frontmatter: any;
+    try {
+      frontmatter = parseYaml(fmMatch[1]);
+    } catch (e) {
+      console.error("YAML PARSE FAILURE CONTENT:\n", fmMatch[1]);
+      throw e;
+    }
+    if (frontmatter.metamodel) {
+      if (typeof frontmatter.metamodel === 'string') {
+        parsed.metamodelPath = frontmatter.metamodel;
+      } else {
+        parsed.metamodelPath = null;
+        parsed.metamodel = frontmatter.metamodel;
+        if (Array.isArray(frontmatter.metamodel.concepts)) {
+          conceptsList = frontmatter.metamodel.concepts;
+        }
+        if (Array.isArray(frontmatter.metamodel.matrices)) {
+          frontmatter.metamodel.matrices.forEach((m: any) => {
+            parsed.metamatrix.push({
+              name: m.name,
+              source: m.source,
+              target: m.target,
+              widgetType: m.widgetType || 'cycle',
+              params: m.params || m.values || ''
+            });
+          });
+        }
+      }
+    }
+    if (frontmatter.title) {
+      parsed.title = frontmatter.title;
+    }
+    if (frontmatter.specification_version) {
+      parsed.specificationVersion = String(frontmatter.specification_version);
+    }
+    if (frontmatter.documentation_location) {
+      parsed.documentationLocation = String(frontmatter.documentation_location);
+    }
+    if (frontmatter.last_saved) {
+      parsed.lastSaved = frontmatter.last_saved;
+    }
+  }
+
+  const sections = content.split(/^#\s+/gm);
+  
+  const matrixValues: MatrixValues = parsed.matrixValues;
+  const modelTextData: Record<string, string> = parsed.modelTextData;
+  const metamatrix: MetamatrixRow[] = parsed.metamatrix;
+  const nodeMarkers: NodeMarkers = parsed.nodeMarkers;
+  const parsedTree: TreeNode[] = parsed.modelTree;
+
+  // Derive hierarchyConcepts dynamically based on conceptsList
+  const nonCategoryConcepts = conceptsList.filter(c => c.type !== 'category' && c.type !== null);
+  const parentMap = new Map<string, string>();
+  nonCategoryConcepts.forEach(c => {
+    if (c.category_id) {
+      const parentConcept = conceptsList.find(p => p.name === c.category_id);
+      if (parentConcept && parentConcept.type !== 'category') {
+        parentMap.set(c.name, parentConcept.name);
+      }
+    }
+  });
+
+  const chains: string[][] = [];
+  nonCategoryConcepts.forEach(c => {
+    const hasChildren = Array.from(parentMap.values()).includes(c.name);
+    const parentIsCategory = !c.category_id || conceptsList.some(p => p.name === c.category_id && p.type === 'category');
+    if (hasChildren && parentIsCategory) {
+      const chain = [c.name];
+      let current = c.name;
+      while (true) {
+        const childName = Array.from(parentMap.keys()).find(k => parentMap.get(k) === current);
+        if (childName) {
+          chain.push(childName);
+          current = childName;
+        } else {
+          break;
+        }
+      }
+      chains.push(chain);
+    }
+  });
+
+  let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
+  if (chains.length > 0) {
+    const primaryChain = chains[0];
+    const rootConcept = conceptsList.find(p => p.name === primaryChain[0]);
+    if (rootConcept && rootConcept.category_id) {
+      const siblings = conceptsList.filter(c => c.category_id === rootConcept.category_id && c.type !== 'category' && c.name !== rootConcept.name);
+      if (siblings.length > 0) {
+        hierarchyConcepts = [...siblings.map(s => s.name), ...primaryChain];
+      } else {
+        hierarchyConcepts = primaryChain;
+      }
+    } else {
+      hierarchyConcepts = primaryChain;
+    }
+  }
+
+  hierarchyConcepts = hierarchyConcepts.map(hc => {
+    const found = conceptsList.find(c => c.name.toLowerCase() === hc.toLowerCase());
+    return found ? found.name : hc;
+  });
+
+  // Pre-generate expected hierarchy matrices name list
+  const hierarchyMatrixPairs: { name: string, source: string, target: string }[] = [];
+  for (let i = 0; i < hierarchyConcepts.length - 1; i++) {
+    const src = hierarchyConcepts[i];
+    const tgt = hierarchyConcepts[i+1];
+    hierarchyMatrixPairs.push({
+      name: `${src}-${tgt} Hierarchy Matrix`,
+      source: src,
+      target: tgt
+    });
+  }
+
+  // Helper to find node by name in the tree
+  const findNodeByName = (nodes: TreeNode[], name: string): TreeNode | null => {
+    const clean = (s: string) => s.replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim().toLowerCase();
+    for (const n of nodes) {
+      if (clean(n.name) === clean(name)) return n;
+      if (n.children && n.children.length) {
+        const found = findNodeByName(n.children, name);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const cleanTitle = (title: string): { name: string; type: 'concept' | 'matrix' | 'unknown' } => {
+    const conceptMatch = title.match(/<!--\s*block:\s*concepts\s*-->\s*(.*)/i);
+    if (conceptMatch) {
+      return { name: conceptMatch[1].trim(), type: 'concept' };
+    }
+    const matrixMatch = title.match(/<!--\s*block:\s*matrices\s*-->\s*(.*)/i);
+    if (matrixMatch) {
+      return { name: matrixMatch[1].trim(), type: 'matrix' };
+    }
+    return { name: title, type: 'unknown' };
+  };
+
+  sections.forEach(sec => {
+    const lines = sec.split(/\r?\n/);
+    const titleText = lines[0].trim();
+    const body = lines.slice(1).join('\n').trim();
+    
+    if (!titleText) return;
+    
+    const cleaned = cleanTitle(titleText);
+    const name = cleaned.name;
+    const nameLower = name.toLowerCase();
+    
+    if (nameLower === 'metamatrix') {
+      parseMarkdownTable(body).forEach(row => {
+        const matrixName = row['Matrix Name'] || row['Nombre de la matriz'] || '';
+        if (matrixName && !metamatrix.some(m => m.name.toLowerCase() === matrixName.toLowerCase())) {
+          let p = row['Widget Parameters'] || row['Parámetros del widget'] || '';
+          if (p === '-') p = '';
+          let w = (row['Widget Type'] || row['Tipo de widget']) as any || 'cycle';
+          if (w === '-') w = 'cycle';
+          metamatrix.push({
+            name: matrixName,
+            source: row['Source'] || row['Origen'] || '',
+            target: row['Target'] || row['Destino'] || '',
+            widgetType: w,
+            params: p
+          });
+        }
+      });
+    }
+    else {
+      const matchedPair = hierarchyMatrixPairs.find(p => p.name.toLowerCase() === nameLower);
+      if (matchedPair) {
+        const source = matchedPair.source;
+        const target = matchedPair.target;
+        const table = parseMarkdownTable(body);
+        table.forEach(row => {
+          const colHeader = `${source} \\ ${target}`;
+          const rowKey = Object.keys(row).find(k => k.toLowerCase() === colHeader.toLowerCase() || k.toLowerCase() === `${source.toLowerCase()} \\ ${target.toLowerCase()}`) || Object.keys(row)[0] || '';
+          const rawSourceName = row[rowKey] || '';
+          const sourceName = rawSourceName.replace(/\*\*|\*|__/g, '').trim();
+          
+          if (source === hierarchyConcepts[0]) {
+            let parentNode = parsedTree.find(item => item.name.replace(/\*\*|\*|__/g, '').trim().toLowerCase() === sourceName.toLowerCase());
+            if (!parentNode) {
+              parentNode = { id: 'sh-' + Math.random().toString(36).substr(2, 9), name: sourceName, type: source, description: '', children: [] };
+              parsedTree.push(parentNode);
+            }
+            
+            Object.entries(row).forEach(([colKey, val]) => {
+              const cleanColKey = colKey.replace(/\*\*|\*|__/g, '').trim();
+              if (cleanColKey.toLowerCase() !== rowKey.toLowerCase() && val === 'X') {
+                if (!parentNode!.children.some(c => c.name.replace(/\*\*|\*|__/g, '').trim().toLowerCase() === cleanColKey.toLowerCase())) {
+                  parentNode!.children.push({
+                    id: 'seg-' + Math.random().toString(36).substr(2, 9),
+                    name: cleanColKey,
+                    type: target,
+                    description: '',
+                    children: []
+                  });
+                }
+              }
+            });
+          } else {
+            let foundParent = findNodeByName(parsedTree, sourceName);
+            if (foundParent) {
+              const prefix = target.substring(0, 3).toLowerCase() + '-';
+              Object.entries(row).forEach(([colKey, val]) => {
+                const cleanColKey = colKey.replace(/\*\*|\*|__/g, '').trim();
+                if (cleanColKey.toLowerCase() !== rowKey.toLowerCase() && val === 'X') {
+                  if (!foundParent!.children.some(c => c.name.replace(/\*\*|\*|__/g, '').trim().toLowerCase() === cleanColKey.toLowerCase())) {
+                    foundParent!.children.push({
+                      id: prefix + Math.random().toString(36).substr(2, 9),
+                      name: cleanColKey,
+                      type: target,
+                      description: '',
+                      children: []
+                    });
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
+      else if (nameLower === 'item-markers matrix') {
+        const table = parseMarkdownTable(body);
+        table.forEach(row => {
+          const itemKey = Object.keys(row).find(k => k.toLowerCase() === 'item \\ marker') || Object.keys(row)[0] || '';
+          const nodeName = (row[itemKey] || '').replace(/\*\*|\*|__/g, '').trim();
+          if (!nodeName) return;
+          
+          const node = findNodeByName(parsedTree, nodeName);
+          const nodeId = node ? node.id : nodeName;
+          
+          if (!nodeMarkers[nodeId]) {
+            nodeMarkers[nodeId] = {};
+          }
+          Object.entries(row).forEach(([marker, val]) => {
+            if (marker.toLowerCase() !== itemKey.toLowerCase()) {
+              nodeMarkers[nodeId][marker] = parseInt(val) || 0;
+            }
+          });
+        });
+      }
+      else if (metamatrix.some(m => m.name.toLowerCase() === nameLower)) {
+        const foundMat = metamatrix.find(m => m.name.toLowerCase() === nameLower)!;
+        const table = parseMarkdownTable(body);
+        table.forEach(row => {
+          const rawRowName = row[Object.keys(row)[0]] || '';
+          const rowName = rawRowName.replace(/\*\*|\*|__/g, '').trim();
+          Object.entries(row).forEach(([colName, cellVal]) => {
+            const cleanColName = colName.replace(/\*\*|\*|__/g, '').trim();
+            if (cleanColName !== Object.keys(row)[0] && cellVal !== '-') {
+              let typedVal: string | number | boolean = cellVal;
+              if (cellVal === 'true') typedVal = true;
+              else if (cellVal === 'false') typedVal = false;
+              else if (!isNaN(Number(cellVal)) && cellVal.trim() !== '') typedVal = Number(cellVal);
+              
+              matrixValues[`${foundMat.name}||${rowName}||${cleanColName}`] = typedVal;
+            }
+          });
+        });
+      }
+      else if (nameLower === 'analysis evaluations') {
+        const table = parseMarkdownTable(body);
+        table.forEach(row => {
+          const keyName = row['Target'] || row['Objetivo'] || '';
+          if (!keyName) return;
+          const scoreRecord = {
+            timestamp: row['Timestamp'] || new Date().toISOString(),
+            evaluator_id: row['Evaluator'] || row['Evaluador'] || 'unknown',
+            evaluator_type: ((row['Evaluator'] || row['Evaluador'] || '').toLowerCase().startsWith('ai')) ? 'ai' as const : 'human' as const,
+            score: Number(row['Score'] || row['Puntuación']) || 1,
+            comment: row['Comments'] || row['Comentarios'] || ''
+          };
+          if (!(parsed as any).analysisScores) {
+            (parsed as any).analysisScores = {};
+          }
+          if (!(parsed as any).analysisScores[keyName]) {
+            (parsed as any).analysisScores[keyName] = [];
+          }
+          (parsed as any).analysisScores[keyName].push(scoreRecord);
+        });
+      }
+      else {
+        const matchingConcept = conceptsList.find(c => c.name.toLowerCase() === nameLower);
+        const storedKey = matchingConcept ? matchingConcept.name : name;
+        modelTextData[storedKey] = '# ' + sec;
+      }
+    }
+  });
+
+  const parseDescriptionsFromText = (conceptName: string, nodes: TreeNode[]) => {
+    const actualKey = Object.keys(modelTextData).find(k => k.toLowerCase() === conceptName.toLowerCase());
+    if (!actualKey) return;
+    let textSec = modelTextData[actualKey];
+    
+    if (textSec.includes('<!-- block:')) {
+      const instances = parseNodeInstances(textSec);
+      instances.forEach(inst => {
+        let node = findNodeByName(nodes, inst.name);
+        
+        if (!node) {
+          const actualType = hierarchyConcepts.find(hc => hc.toLowerCase() === inst.type.toLowerCase()) || conceptName;
+          if (actualType === hierarchyConcepts[0]) {
+            node = {
+              id: 'sh-' + Math.random().toString(36).substr(2, 9),
+              name: inst.name,
+              type: actualType,
+              description: inst.description,
+              fields: inst.fields || {},
+              children: []
+            };
+            parsedTree.push(node);
+          } else {
+            const childIdx = hierarchyConcepts.indexOf(actualType);
+            if (childIdx > 0) {
+              const parentType = hierarchyConcepts[childIdx - 1];
+              const findParentNodeOfType = (nodesList: TreeNode[], typeName: string): TreeNode | null => {
+                for (const n of nodesList) {
+                  if (n.type === typeName) return n;
+                  if (n.children && n.children.length) {
+                    const found = findParentNodeOfType(n.children, typeName);
+                    if (found) return found;
+                  }
+                }
+                return null;
+              };
+              const parentNode = findParentNodeOfType(parsedTree, parentType);
+              if (parentNode) {
+                const prefix = actualType.substring(0, 3).toLowerCase() + '-';
+                node = {
+                  id: prefix + Math.random().toString(36).substr(2, 9),
+                  name: inst.name,
+                  type: actualType,
+                  description: inst.description,
+                  fields: inst.fields || {},
+                  children: []
+                };
+                parentNode.children.push(node);
+              }
+            }
+          }
+        }
+        
+        if (node) {
+          node.description = inst.description;
+          node.fields = inst.fields || {};
+        }
+      });
+    } else {
+      const headerPrefix = `# ${conceptName}`;
+      if (textSec.startsWith(headerPrefix)) {
+        textSec = textSec.substring(headerPrefix.length).trim();
+      }
+      
+      const addMissingNode = (name: string, desc: string) => {
+        const actualType = hierarchyConcepts.find(hc => hc.toLowerCase() === conceptName.toLowerCase()) || conceptName;
+        if (actualType === hierarchyConcepts[0]) {
+          const node = {
+            id: 'sh-' + Math.random().toString(36).substr(2, 9),
+            name: name,
+            type: actualType,
+            description: desc,
+            children: []
+          };
+          parsedTree.push(node);
+        } else {
+          const childIdx = hierarchyConcepts.indexOf(actualType);
+          if (childIdx > 0) {
+            const parentType = hierarchyConcepts[childIdx - 1];
+            const findParentNodeOfType = (nodesList: TreeNode[], typeName: string): TreeNode | null => {
+              for (const n of nodesList) {
+                if (n.type === typeName) return n;
+                if (n.children && n.children.length) {
+                  const found = findParentNodeOfType(n.children, typeName);
+                  if (found) return found;
+                }
+              }
+              return null;
+            };
+            const parentNode = findParentNodeOfType(parsedTree, parentType);
+            if (parentNode) {
+              const prefix = actualType.substring(0, 3).toLowerCase() + '-';
+              const node = {
+                id: prefix + Math.random().toString(36).substr(2, 9),
+                name: name,
+                type: actualType,
+                description: desc,
+                children: []
+              };
+              parentNode.children.push(node);
+            }
+          }
+        }
+      };
+      
+      const lines = textSec.split('\n');
+      lines.forEach(line => {
+        const bulletMatch = line.match(/^[-*]\s+\*\*?([^*:]+)\*\*?:?\s*(.*)$/);
+        if (bulletMatch) {
+          const name = bulletMatch[1].trim();
+          const desc = bulletMatch[2].trim();
+          const node = findNodeByName(nodes, name);
+          if (node) {
+            node.description = desc;
+          } else {
+            addMissingNode(name, desc);
+          }
+        } else {
+          const simpleBulletMatch = line.match(/^[-*]\s+([^:]+?)\s*:\s*(.*)$/);
+          if (simpleBulletMatch) {
+            const name = simpleBulletMatch[1].trim();
+            const desc = simpleBulletMatch[2].trim();
+            const node = findNodeByName(nodes, name);
+            if (node) {
+              node.description = desc;
+            } else {
+              addMissingNode(name, desc);
+            }
+          }
+        }
+      });
+    }
+  };
+
+  hierarchyConcepts.forEach(concept => {
+    parseDescriptionsFromText(concept, parsedTree);
+  });
+
+  return parsed;
+}
+
+/**
+ * Serializes state values back into Markdown format.
+ */
+export function generateMarkdownFileContent(params: {
+  activeFileName: string;
+  metamodelPath?: string;
+  specificationVersion?: string;
+  documentationLocation?: string;
+  modelTextData: Record<string, string>;
+  modelTree: TreeNode[];
+  nodeMarkers: NodeMarkers;
+  markers: Marker[];
+  metamatrix: MetamatrixRow[];
+  matrixValues: MatrixValues;
+  concepts: Concept[];
+  analysisScores?: AnalysisScores;
+  getMatrixRowsList: (source: string, tree: TreeNode[]) => string[];
+  getMatrixColsList: (target: string) => string[];
+}): string {
+  const isFlatFormat = !params.metamodelPath;
+  const title = params.activeFileName.replace('.md', '');
+  const lastSaved = new Date().toISOString();
+  
+  let md = '';
+  if (!isFlatFormat) {
+    md = `---
+metamodel: "${params.metamodelPath}"
+title: "${title}"
+${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
+---
+
+`;
+  } else {
+    const inlineMetamodel = {
+      title: "innV0 Metamodel",
+      last_updated: lastSaved,
+      concepts: params.concepts.map(c => {
+        const copy = { ...c } as any;
+        delete copy.description;
+        delete copy.methodologies;
+        delete copy.prompts;
+        delete copy.summary;
+        return copy;
+      }),
+      markers: params.markers.map(m => {
+        const copy = { ...m } as any;
+        delete copy.description;
+        delete copy.guidelines;
+        delete copy.examples_high_score;
+        delete copy.examples_low_score;
+        return copy;
+      }),
+      matrices: params.metamatrix.map(m => {
+        const row: any = {
+          name: m.name,
+          source: m.source,
+          target: m.target
+        };
+        if (m.widgetType && m.widgetType !== 'cycle') {
+          row.widgetType = m.widgetType;
+        }
+        if (m.params) {
+          row.params = m.params;
+        }
+        return row;
+      })
+    };
+    md = `---
+${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}metamodel:
+${stringifyYaml(inlineMetamodel, 2)}
+title: "${title}"
+last_saved: "${lastSaved}"
+---
+
+`;
+  }
+  const updatedModelTextData = { ...params.modelTextData };
+  const cleanName = (n: string) => n.replace(/\*\*|\*|__/g, '').trim();
+
+  // Derive hierarchyConcepts dynamically based on params.concepts
+  const list = params.concepts;
+  const nonCategoryConcepts = list.filter(c => c.type !== 'category' && c.type !== null);
+  const parentMap = new Map<string, string>();
+  nonCategoryConcepts.forEach(c => {
+    if (c.category_id) {
+      const parentConcept = list.find(p => p.name === c.category_id);
+      if (parentConcept && parentConcept.type !== 'category') {
+        parentMap.set(c.name, parentConcept.name);
+      }
+    }
+  });
+
+  const chains: string[][] = [];
+  nonCategoryConcepts.forEach(c => {
+    const hasChildren = Array.from(parentMap.values()).includes(c.name);
+    const parentIsCategory = !c.category_id || list.some(p => p.name === c.category_id && p.type === 'category');
+    if (hasChildren && parentIsCategory) {
+      const chain = [c.name];
+      let current = c.name;
+      while (true) {
+        const childName = Array.from(parentMap.keys()).find(k => parentMap.get(k) === current);
+        if (childName) {
+          chain.push(childName);
+          current = childName;
+        } else {
+          break;
+        }
+      }
+      chains.push(chain);
+    }
+  });
+
+  let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
+  if (chains.length > 0) {
+    const primaryChain = chains[0];
+    const rootConcept = list.find(p => p.name === primaryChain[0]);
+    if (rootConcept && rootConcept.category_id) {
+      const siblings = list.filter(c => c.category_id === rootConcept.category_id && c.type !== 'category' && c.name !== rootConcept.name);
+      if (siblings.length > 0) {
+        hierarchyConcepts = [...siblings.map(s => s.name), ...primaryChain];
+      } else {
+        hierarchyConcepts = primaryChain;
+      }
+    } else {
+      hierarchyConcepts = primaryChain;
+    }
+  }
+
+  hierarchyConcepts = hierarchyConcepts.map(hc => {
+    const found = list.find(c => c.name.toLowerCase() === hc.toLowerCase());
+    return found ? found.name : hc;
+  });
+
+  const hierarchyMatrixPairs: { name: string, source: string, target: string }[] = [];
+  for (let i = 0; i < hierarchyConcepts.length - 1; i++) {
+    const src = hierarchyConcepts[i];
+    const tgt = hierarchyConcepts[i+1];
+    hierarchyMatrixPairs.push({
+      name: `${src}-${tgt} Hierarchy Matrix`,
+      source: src,
+      target: tgt
+    });
+  }
+
+  const getNodesAtLevel = (conceptName: string): TreeNode[] => {
+    const result: TreeNode[] = [];
+    const visit = (nodes: TreeNode[]) => {
+      nodes.forEach(n => {
+        if (n.type === conceptName) {
+          result.push(n);
+        }
+        if (n.children) visit(n.children);
+      });
+    };
+    visit(params.modelTree);
+    return result;
+  };
+
+  hierarchyConcepts.forEach(concept => {
+    let text = '';
+    if (isFlatFormat) {
+      const conceptLower = concept.toLowerCase();
+      text = `# <!-- block: concepts --> ${conceptLower}\n\n`;
+      getNodesAtLevel(concept).forEach(node => {
+        text += `* <!-- block: ${conceptLower} --> ${node.name}\n`;
+        let hasFields = false;
+        if (node.fields && Object.keys(node.fields).length > 0) {
+          Object.entries(node.fields).forEach(([k, v]) => {
+            if (v !== undefined && v !== null && v !== '') {
+              text += `  - ${k}: ${stringifyYaml(v, 0)}\n`;
+              hasFields = true;
+            }
+          });
+        }
+        if (node.description) {
+          if (hasFields) {
+            text += '\n';
+          }
+          text += node.description + '\n';
+        }
+        text += '\n';
+      });
+    } else {
+      text = `# ${concept}\n`;
+      getNodesAtLevel(concept).forEach(node => {
+        text += `- ${node.name}${node.description ? ': ' + node.description : ''}\n`;
+      });
+    }
+    updatedModelTextData[concept] = text.trim();
+  });
+
+  params.concepts.forEach(c => {
+    if (c.type !== 'category') {
+      if (hierarchyConcepts.includes(c.name)) {
+        const content = updatedModelTextData[c.name]?.trim();
+        if (content) {
+          md += content + '\n\n';
+        }
+      } else if (updatedModelTextData[c.name] !== undefined) {
+        let content = updatedModelTextData[c.name].trim();
+        if (content) {
+          if (isFlatFormat) {
+            const cleanHeader = c.name.toLowerCase();
+            const lowerContent = content.toLowerCase();
+            if (lowerContent.startsWith(`# ${cleanHeader}`)) {
+              content = `# <!-- block: concepts --> ${cleanHeader}\n` + content.substring(cleanHeader.length + 2).trim();
+            } else if (!content.startsWith('# <!-- block:')) {
+              content = `# <!-- block: concepts --> ${cleanHeader}\n` + content;
+            }
+          }
+          md += content + '\n\n';
+        }
+      }
+    }
+  });
+
+  for (let i = 0; i < hierarchyConcepts.length - 1; i++) {
+    const source = hierarchyConcepts[i];
+    const target = hierarchyConcepts[i+1];
+    
+    const sourceNodes = getNodesAtLevel(source);
+    const targetNodes = getNodesAtLevel(target);
+    const cleanTargets = Array.from(new Set(targetNodes.map(t => cleanName(t.name))));
+    
+    if (cleanTargets.length > 0) {
+      if (isFlatFormat) {
+        md += `# <!-- block: matrices --> ${source.toLowerCase()}-${target.toLowerCase()} hierarchy matrix\n\n`;
+      } else {
+        md += `# ${source}-${target} Hierarchy Matrix\n\n`;
+      }
+      md += `| ${source} \\ ${target} | ` + cleanTargets.join(' | ') + ' |\n';
+      md += `| :--- | ` + cleanTargets.map(() => ':---:').join(' | ') + ' |\n';
+      sourceNodes.forEach(s => {
+        const sourceCleanName = cleanName(s.name);
+        const childNames = s.children.map(c => cleanName(c.name));
+        const rowVals = cleanTargets.map(t => childNames.some(c => c.toLowerCase() === t.toLowerCase()) ? 'X' : '-');
+        md += `| **${sourceCleanName}** | ` + rowVals.join(' | ') + ' |\n';
+      });
+      md += '\n';
+    }
+  }
+
+  if (isFlatFormat) {
+    md += `# <!-- block: matrices --> item-markers matrix\n\n`;
+  } else {
+    md += `# Item-Markers Matrix\n\n`;
+  }
+  
+  const allNodeIds: string[] = [];
+  const allNodeNames: string[] = [];
+  const traverseByLevel = (nodes: TreeNode[]) => {
+    const levelNodesMap: Record<string, TreeNode[]> = {};
+    hierarchyConcepts.forEach(c => {
+      levelNodesMap[c] = [];
+    });
+    
+    const visit = (list: TreeNode[]) => {
+      list.forEach(n => {
+        if (levelNodesMap[n.type]) {
+          levelNodesMap[n.type].push(n);
+        }
+        if (n.children) visit(n.children);
+      });
+    };
+    visit(nodes);
+    
+    hierarchyConcepts.forEach(c => {
+      levelNodesMap[c].forEach(n => {
+        allNodeIds.push(n.id);
+        allNodeNames.push(n.name);
+      });
+    });
+  };
+  traverseByLevel(params.modelTree);
+  
+  const markerNames = params.markers.map(m => m.name);
+  md += `| Item \\ Marker | ` + markerNames.join(' | ') + ' |\n';
+  md += `| :--- | ` + markerNames.map(() => ':---:').join(' | ') + ' |\n';
+  
+  allNodeIds.forEach((id, idx) => {
+    const nodeName = allNodeNames[idx];
+    const nodeCleanName = cleanName(nodeName);
+    const markerKey = Object.keys(params.nodeMarkers).find(k => k.toLowerCase() === id.toLowerCase() || k.toLowerCase() === nodeCleanName.toLowerCase()) || nodeCleanName;
+    const nodeMarkerVals = params.nodeMarkers[markerKey] || {};
+    const rowVals = markerNames.map(m => {
+      const markerKey = Object.keys(nodeMarkerVals).find(k => k.toLowerCase() === m.toLowerCase()) || m;
+      const v = nodeMarkerVals[markerKey];
+      return (v !== undefined && v !== 0) ? v : '-';
+    });
+    md += `| **${nodeCleanName}** | ` + rowVals.join(' | ') + ' |\n';
+  });
+  md += '\n';
+
+  if (isFlatFormat) {
+    md += `# <!-- block: matrices --> metamatrix\n\n`;
+  } else {
+    md += `# Metamatrix\n\n`;
+  }
+  md += `| Matrix Name | Source | Target | Widget Type | Widget Parameters |\n`;
+  md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+  params.metamatrix.forEach(mat => {
+    md += `| ${mat.name} | ${mat.source} | ${mat.target} | ${mat.widgetType} | ${mat.params || '-'} |\n`;
+  });
+  md += '\n';
+
+  params.metamatrix.forEach(mat => {
+    if (hierarchyMatrixPairs.some(p => p.name.toLowerCase() === mat.name.toLowerCase())) {
+      return;
+    }
+    const rows = params.getMatrixRowsList(mat.source, params.modelTree);
+    const cols = params.getMatrixColsList(mat.target);
+    
+    if (isFlatFormat) {
+      md += `# <!-- block: matrices --> ${mat.name.toLowerCase()}\n\n`;
+    } else {
+      md += `# ${mat.name}\n\n`;
+    }
+    md += `| ${mat.source} \\ ${mat.target} | ` + cols.join(' | ') + ' |\n';
+    md += `| :--- | ` + cols.map(() => ':---:').join(' | ') + ' |\n';
+    
+    rows.forEach(row => {
+      const cleanRow = cleanName(row);
+      const colsVal = cols.map(col => {
+        const expectedKey = `${mat.name}||${cleanRow}||${col}`.toLowerCase();
+        const actualKey = Object.keys(params.matrixValues).find(k => k.toLowerCase() === expectedKey);
+        const val = actualKey ? params.matrixValues[actualKey] : undefined;
+        return val !== undefined ? val : '-';
+      });
+      md += `| **${cleanRow}** | ` + colsVal.join(' | ') + ' |\n';
+    });
+    md += '\n';
+  });
+
+  if (params.analysisScores && Object.keys(params.analysisScores).length > 0) {
+    if (isFlatFormat) {
+      md += `# <!-- block: matrices --> analysis evaluations\n\n`;
+    } else {
+      md += `# Analysis Evaluations\n\n`;
+    }
+    md += `| Timestamp | Evaluator | Target | Score | Comments |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    Object.entries(params.analysisScores).forEach(([keyName, scores]) => {
+      (scores as EvaluatorScore[]).forEach((s: EvaluatorScore) => {
+        md += `| ${s.timestamp} | ${s.evaluator_id} | ${keyName} | ${s.score} | ${s.comment || '-'} |\n`;
+      });
+    });
+    md += '\n';
+  }
+
+  return md.trim();
+}
