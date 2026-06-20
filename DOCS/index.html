@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMAT — Business Strategy as Code</title>
+  <meta name="description" content="The open-source framework for versioning, auditing, and AI-validating your entire business model in plain Markdown. Built for founders, consultants, and product teams.">
+  <meta property="og:title" content="FORMAT — Business Strategy as Code">
+  <meta property="og:description" content="The open-source framework for versioning, auditing, and AI-validating your entire business model in plain Markdown. Built for founders, consultants, and product teams.">
+  <meta property="og:image" content="https://innv0.github.io/FORMAT/og.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #09090f;
+      --surface:  #0e0f1c;
+      --border:   #1a1d35;
+      --text:     #dde1f5;
+      --muted:    #6b7280;
+      --accent:   #4f8ef7;
+      --accent2:  #38e5c4;
+      --danger:   #f87171;
+      --mono:     'JetBrains Mono', monospace;
+      --sans:     'Inter', system-ui, sans-serif;
+      --max:      72rem;
+      --r:        0.75rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(9, 9, 15, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── LAYOUT ── */
+    section {
+      padding: 6rem 2rem;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,142,247,0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 120%, rgba(56,229,196,0.06), transparent);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-family: var(--mono);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .hero h2 {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      color: var(--accent2);
+      margin-bottom: 1.75rem;
+      border: none;
+      padding: 0;
+      letter-spacing: 0.01em;
+    }
+    .hero p {
+      max-width: 52ch;
+      margin: 0 auto 2.5rem;
+      color: var(--muted);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+    }
+    .hero a {
+      display: inline-block;
+      margin: 0.375rem 0.5rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: var(--r);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .hero a:first-of-type {
+      background: var(--accent);
+      color: #fff;
+    }
+    .hero a:first-of-type:hover { background: #3a7eef; transform: translateY(-1px); }
+    .hero a:last-of-type {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .hero a:last-of-type:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ── SECTION HEADERS ── */
+    section h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    section h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--accent2);
+      margin: 2rem 0 0.5rem;
+    }
+
+    /* ── BODY TEXT ── */
+    section p { color: var(--muted); margin-bottom: 1rem; max-width: 68ch; }
+    section strong { color: var(--text); font-weight: 600; }
+    section em { color: var(--text); font-style: italic; }
+
+    /* ── LISTS ── */
+    section ul, section ol {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+    section li {
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      padding-left: 0.25rem;
+    }
+    section li strong { color: var(--text); }
+
+    /* ── BLOCKQUOTE (testimonial/pitch) ── */
+    section blockquote {
+      margin: 2rem 0;
+      padding: 1.25rem 1.75rem;
+      border-left: 3px solid var(--accent);
+      background: var(--surface);
+      border-radius: 0 var(--r) var(--r) 0;
+    }
+    section blockquote p {
+      color: var(--text);
+      font-style: italic;
+      font-size: 1.0625rem;
+      max-width: none;
+      margin: 0;
+    }
+
+    /* ── ORDERED LIST (how it works) ── */
+    .section-3 ol {
+      counter-reset: steps;
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .section-3 ol li {
+      counter-increment: steps;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.125rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      color: var(--muted);
+    }
+    .section-3 ol li::before {
+      content: counter(steps);
+      flex-shrink: 0;
+      width: 1.75rem; height: 1.75rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 0.125rem;
+    }
+
+    /* ── FEATURE CARDS (segments + products) ── */
+    .section-4 h3, .section-5 h3 {
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r) var(--r) 0 0;
+      margin: 1.5rem 0 0;
+    }
+    .section-4 h3 + p, .section-5 h3 + p {
+      padding: 0 1.5rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--r) var(--r);
+      margin: 0 0 0.25rem;
+      max-width: none;
+    }
+
+    /* ── PRICING TABLE ── */
+    section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9375rem;
+    }
+    section th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border-bottom: 1px solid var(--border);
+    }
+    section td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    section tr:last-child td { border-bottom: none; }
+    section td:first-child { color: var(--text); font-weight: 500; }
+    section td:nth-child(2) { font-family: var(--mono); color: var(--accent2); }
+
+    /* ── PRICING SECTION CTA ── */
+    .section-6 a {
+      display: inline-block;
+      margin: 1.25rem 0.5rem 0;
+      padding: 0.65rem 1.5rem;
+      border-radius: var(--r);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .section-6 a:first-of-type {
+      background: var(--accent);
+      color: #fff;
+    }
+    .section-6 a:first-of-type:hover { background: #3a7eef; }
+    .section-6 a:last-of-type {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .section-6 a:last-of-type:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ── OPEN STANDARDS (last section) ── */
+    .section-7 {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .section-7 ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .section-7 ul li {
+      padding: 0.4rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent2);
+      margin: 0;
+    }
+    .section-7 ul li strong {
+      color: var(--accent2);
+    }
+    .section-7 p { text-align: center; margin: 0 auto; }
+    .section-7 a { color: var(--accent); text-decoration: none; }
+    .section-7 a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8125rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    /* ── DIVIDER between sections ── */
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+    .hero + section { border-top: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 5rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="/">FORMAT</a>
+    <div class="nav-links">
+      <a href="#pricing">Pricing</a>
+      <a href="../DOCS/v1.0.0/format-spec.md">Spec</a>
+      <a href="https://github.com/innV0/FORMAT">GitHub</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+<h1>FORMAT</h1>
+<h2>Your business strategy. Version-controlled.</h2>
+<p>Stop building business plans that die in PowerPoint.
+FORMAT brings Git-based versioning, AI coherence validation, and relational mapping
+to your entire business model — all in plain Markdown.</p>
+<p><a href="#pricing">Get started free →</a> <a href="../DOCS/v1.0.0/format-spec.md">Read the spec →</a></p>
+
+</section>
+<section class="section section-1">
+<h2>The problem with business planning today</h2>
+<p>Business plans fail — not because of bad ideas, but because of <strong>strategic incoherence</strong>.
+The model your investor saw is never the model your team executes.</p>
+<ul>
+<li><strong>Static documents</strong> become obsolete the moment they&#39;re saved</li>
+<li><strong>No traceability</strong> between problems, features, and metrics</li>
+<li><strong>No validation</strong> that your value proposition actually solves the stated problem</li>
+</ul>
+<p><em>&quot;Companies don&#39;t die from lack of ideas. They die from strategic incoherence.&quot;</em></p>
+
+</section>
+<section class="section section-2">
+<h2>FORMAT is different</h2>
+<p>FORMAT is a plain-text, structured Markdown specification that lives in your Git repository
+alongside your code. One file. Your entire business model.</p>
+<h3>Version-controlled living models</h3>
+<p>Your business strategy evolves as pull requests. Every change is tracked, diffable,
+and reversible. Strategic PRs are a real thing now.</p>
+<h3>Automated strategic coherence</h3>
+<p>An AI engine validates the consistency between your problems, value propositions,
+features, and metrics — and delivers a coherence score you can act on.</p>
+<h3>Complete strategic traceability</h3>
+<p>Every dimension of your business (team, finance, roadmap, customer problems)
+is connected in a multidimensional relational graph — no more silos.</p>
+
+</section>
+<section class="section section-3">
+<h2>How it works</h2>
+<ol>
+<li><strong>Connect</strong> your local repository to the FORMAT editor</li>
+<li><strong>Declare</strong> your stakeholders, problems, and value propositions in plain Markdown</li>
+<li><strong>Map</strong> bidirectional relationships in matrix tables</li>
+<li><strong>Validate</strong> — AI and logic engine deliver a coherence report with scores</li>
+<li><strong>Save</strong> directly to your repo and iterate with your team</li>
+</ol>
+
+</section>
+<section class="section section-4">
+<h2>Built for serious teams</h2>
+<h3>Startup Founders</h3>
+<p>Iterate business hypotheses fast. Keep strategy and product roadmap in sync from day one.</p>
+<h3>Strategy Consultants</h3>
+<p>Deliver structured audits and coherence reports. Manage 5–8 client models simultaneously
+without them going stale.</p>
+<h3>Product Managers</h3>
+<p>Align your technical roadmap with value propositions. Trace every feature back to a real customer problem.</p>
+<h3>Investors</h3>
+<p>Evaluate the structural coherence and risk profile of startup business models — objectively.</p>
+
+</section>
+<section class="section section-5">
+<h2>Three ways to use FORMAT</h2>
+<h3>Open Source Engine · Free</h3>
+<p>Local Markdown parser and graph renderer for individual developers and teams getting started.
+No account required.</p>
+<h3>Cloud Pro · $29 / month per user</h3>
+<p>Real-time collaborative editing, full Git history, advanced AI audits, repository integrations,
+and export to PDF and presentation formats.</p>
+<h3>Enterprise Suite · Custom pricing</h3>
+<p>On-premise deployment, access control, regulatory audit trails, custom metamodels,
+and priority support.</p>
+
+</section>
+<section class="section section-6">
+<h2>Pricing</h2>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Price</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Community</td>
+<td>Free</td>
+<td>Personal use, local files in browser</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>$29 / month</td>
+<td>Teams, full history, AI API</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>On request</td>
+<td>On-premise, compliance, custom metamodels</td>
+</tr>
+</tbody></table>
+<p><a href="#">Start for free →</a> <a href="mailto:lucas@lucascervera.com">Talk to us →</a></p>
+
+</section>
+<section class="section section-7">
+<h2>Built on open standards</h2>
+<p>FORMAT uses no proprietary formats. Every file is a valid Markdown document readable
+without any tool.</p>
+<ul>
+<li><strong>Markdown</strong> — human-readable, no lock-in</li>
+<li><strong>YAML frontmatter</strong> — machine-readable schema definition</li>
+<li><strong>Git-native</strong> — diff, branch, and PR your strategy like code</li>
+<li><strong>AI-ready</strong> — designed from the ground up for LLM parsing and generation</li>
+</ul>
+<p><a href="../DOCS/v1.0.0/format-spec.md">Read the full specification →</a> · <a href="https://github.com/innV0/FORMAT">View on GitHub →</a></p>
+
+</section>
+  </main>
+
+  <footer>
+    <p>
+      FORMAT · Open-source · MIT License ·
+      <a href="https://github.com/innV0/FORMAT">GitHub</a> ·
+      <a href="mailto:lucas@lucascervera.com">Contact</a>
+    </p>
+  </footer>
+</body>
+</html>
