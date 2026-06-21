@@ -54,9 +54,9 @@
       <div class="mb-4 flex items-center justify-between">
         <div class="flex items-center gap-1.5 flex-wrap">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Matrix:</span>
-          <BlockPill size="xs" :concept-type="activeMatrix.source" />
+          <BlockPill kind="concept" :concept-type="activeMatrix.source" />
           <span class="text-slate-400">➔</span>
-          <BlockPill size="xs" :concept-type="activeMatrix.target" />
+          <BlockPill kind="concept" :concept-type="activeMatrix.target" />
           <Badge class="text-slate-500 bg-slate-100">{{ activeMatrix.widgetType }}</Badge>
         </div>
         
@@ -76,9 +76,9 @@
             <tr>
               <th class="border-r border-slate-200 px-4 py-3 text-left font-bold text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-50 min-w-[150px]">
                 <div class="flex items-center gap-1 flex-wrap">
-                  <BlockPill size="xs" :concept-type="activeMatrix.source" />
+                  <BlockPill kind="concept" :concept-type="activeMatrix.source" />
                   <span class="text-slate-400 font-normal">\</span>
-                  <BlockPill size="xs" :concept-type="activeMatrix.target" />
+                  <BlockPill kind="concept" :concept-type="activeMatrix.target" />
                 </div>
               </th>
               <th 
@@ -86,7 +86,7 @@
                 :key="col"
                 class="px-3 py-3 text-center min-w-[100px] border-r border-slate-100"
               >
-                <BlockPill :concept-type="activeMatrix.target" :name="col" size="xs" :interactive="true" />
+                <BlockPill kind="instance" :concept-type="activeMatrix.target" :name="col" :interactive="true" />
               </th>
               <th v-if="!columns.length" class="px-3 py-3 text-center font-bold text-slate-400">
                 No items defined in {{ activeMatrix.target }}
@@ -96,7 +96,7 @@
           <tbody class="bg-white divide-y divide-slate-100">
             <tr v-for="row in rows" :key="row">
               <td class="border-r border-slate-200 px-4 py-2.5 sticky left-0 bg-white shadow-2xs min-w-[150px]">
-                <BlockPill :concept-type="activeMatrix.source" :name="row" size="xs" :interactive="true" />
+                <BlockPill kind="instance" :concept-type="activeMatrix.source" :name="row" :interactive="true" />
               </td>
               
               <td 
@@ -166,7 +166,6 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Copy, ChevronDown, Check } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
-import { getColorClasses } from '../../utils/colors';
 import BlockPill from './BlockPill.vue';
 import Badge from '../ui/Badge.vue';
 
@@ -199,29 +198,6 @@ const activeMatrix = computed(() => {
   if (documentStore.metamatrix.length === 0) return null;
   return documentStore.metamatrix[documentStore.activeGeneratedMatrixIndex];
 });
-
-const sourceConceptEmoji = computed(() => {
-  if (!activeMatrix.value) return '';
-  return metamodelStore.getConceptByName(activeMatrix.value.source)?.emoji || '';
-});
-
-const targetConceptEmoji = computed(() => {
-  if (!activeMatrix.value) return '';
-  return metamodelStore.getConceptByName(activeMatrix.value.target)?.emoji || '';
-});
-
-const sourceConceptColor = computed(() => {
-  if (!activeMatrix.value) return '';
-  return metamodelStore.getConceptByName(activeMatrix.value.source)?.color || '';
-});
-
-const targetConceptColor = computed(() => {
-  if (!activeMatrix.value) return '';
-  return metamodelStore.getConceptByName(activeMatrix.value.target)?.color || '';
-});
-
-const sourceColorClasses = computed(() => getColorClasses(sourceConceptColor.value));
-const targetColorClasses = computed(() => getColorClasses(targetConceptColor.value));
 
 const rows = computed(() => {
   if (!activeMatrix.value) return [];

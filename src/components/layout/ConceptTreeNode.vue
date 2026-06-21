@@ -24,7 +24,6 @@
         :name="node.name"
         :emoji="node.emoji"
         :selected="activeName === node.name"
-        :size="activeName === node.name ? 'md' : 'sm'"
         :interactive="true"
         @click="emitSelect(node.name)"
         class="flex-1"
