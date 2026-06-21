@@ -197,7 +197,6 @@ import { computed } from 'vue';
 import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2 } from 'lucide-vue-next';
 import BlockPill from './BlockPill.vue';
 import { useBlockVisuals } from '../../composables/useBlockVisuals';
-import { getColorClasses } from '../../utils/colors';
 import { renderInlineMarkdown } from '../../utils/renderMarkdown';
 import { useDocumentStore } from '../../stores/document';
 import type { BlockKind } from '../../utils/conceptVisuals';
@@ -251,8 +250,6 @@ const visuals = useBlockVisuals({
 });
 
 const palette = computed(() => visuals.palette.value);
-
-const colorClasses = computed(() => getColorClasses(props.conceptColor));
 
 const cleanConceptName = computed(() => {
   const name = props.conceptName;

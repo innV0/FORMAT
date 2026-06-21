@@ -97,8 +97,10 @@ defineEmits<{
 // Single-active-editor state: at most ONE editor open at a time
 const editingId = ref<string | null>(null);
 
-// Collapse state for concept sheet and instance sheets
-const conceptCollapsed = ref(false);
+// Collapse state for concept sheet and instance sheets.
+// A list concept's sheet is pure context (collapse it); a single-block concept's
+// sheet IS the content, so it starts expanded for immediate read/edit.
+const conceptCollapsed = ref(props.isListConcept);
 const instanceCollapsed = reactive<Record<string, boolean>>({});
 
 const toggleEdit = (key: string) => {

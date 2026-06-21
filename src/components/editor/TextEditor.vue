@@ -14,8 +14,12 @@
       </button>
     </div>
 
-    <!-- Central feed: concept pinned + instances -->
+    <!-- Central feed: concept pinned + instances.
+         Keyed by concept so switching concepts remounts the feed — this resets
+         edit state and collapse defaults (list concept = collapsed context,
+         single concept = expanded content). -->
     <BlockFeed
+      :key="activeConcept"
       :concept-name="activeConcept"
       :concept-type="conceptType"
       :concept-color="conceptColor"
