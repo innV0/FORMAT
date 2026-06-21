@@ -17,18 +17,18 @@
       </button>
       <span v-else class="w-4.5 shrink-0"></span>
 
-      <!-- Uniform BlockPill representing the Block Instance -->
-      <BlockPill
+      <!-- BlockCard representing the Block Instance -->
+      <BlockCard
         kind="instance"
         :block-id="node.id"
         :concept-type="currentConcept"
-        :selected="documentStore.selectedNode?.id === node.id"
-        :interactive="true"
         :name="node.name || '(Empty)'"
+        :selected="documentStore.selectedNode?.id === node.id"
         :show-markers="conceptType === 'weight'"
         :show-add-child="!!nextConcept"
-        @add-child="nextConcept && documentStore.addChildTreeNode(node, nextConcept)"
+        :show-reorder="false"
         @click="documentStore.selectTreeNode(node, currentConcept)"
+        @add-child="nextConcept && documentStore.addChildTreeNode(node, nextConcept)"
         class="flex-1"
       />
     </div>
@@ -57,7 +57,7 @@ import { TreeNode } from '../../types';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import TreeNodeItem from './TreeNodeItem.vue';
-import BlockPill from './BlockPill.vue';
+import BlockCard from './BlockCard.vue';
 import { ChevronDown } from 'lucide-vue-next';
 
 const props = defineProps<{
