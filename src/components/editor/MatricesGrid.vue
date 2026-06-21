@@ -1,22 +1,51 @@
 <template>
   <div class="flex-1 flex flex-col min-h-0">
-    <!-- Matrix Tabs Header -->
-    <div class="flex border-b border-slate-200 overflow-x-auto shrink-0 mb-4 bg-slate-50 p-1 rounded-md">
-      <button 
-        v-for="(matrix, idx) in documentStore.metamatrix" 
-        :key="matrix.name"
-        @click="documentStore.activeGeneratedMatrixIndex = idx"
-        :class="[
-          documentStore.activeGeneratedMatrixIndex === idx 
-            ? 'bg-white text-indigo-600 font-semibold shadow-xs' 
-            : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50',
-          'px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap cursor-pointer transition-all'
-        ]"
-      >
-        {{ matrix.name }}
-      </button>
-      <div v-if="!documentStore.metamatrix.length" class="text-slate-400 text-xs italic p-2 mx-auto">
-        No relational matrices defined. Define them in Metamatrix Config.
+    <!-- Matrix Dropdown Selector Header -->
+    <div class="flex items-center justify-between border-b border-slate-200 pb-3 shrink-0 mb-4 bg-slate-50 p-2 rounded-lg gap-3">
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-semibold text-slate-500">Select Matrix:</span>
+        <div v-if="documentStore.metamatrix.length" ref="dropdownRef" class="relative">
+          <button 
+            @click="isOpen = !isOpen"
+            class="min-w-[200px] flex items-center justify-between gap-2 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-md text-xs font-semibold text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer transition-all"
+          >
+            <span class="truncate">{{ activeMatrix ? activeMatrix.name : 'Select Matrix' }}</span>
+            <ChevronDown class="w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200" :class="{ 'rotate-180': isOpen }" />
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div 
+            v-if="isOpen" 
+            class="absolute left-0 z-20 mt-1 w-64 bg-white border border-slate-200 rounded-md shadow-lg py-1 max-h-60 overflow-y-auto"
+          >
+            <button
+              v-for="(matrix, idx) in documentStore.metamatrix"
+              :key="matrix.name"
+              @click="selectMatrix(idx)"
+              class="w-full flex flex-col px-3 py-2 text-left hover:bg-slate-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0"
+              :class="{ 'bg-indigo-50/30 text-indigo-600': documentStore.activeGeneratedMatrixIndex === idx }"
+            >
+              <div class="flex items-center justify-between w-full">
+                <span class="text-xs font-semibold truncate" :class="{ 'text-indigo-600': documentStore.activeGeneratedMatrixIndex === idx, 'text-slate-700': documentStore.activeGeneratedMatrixIndex !== idx }">
+                  {{ matrix.name }}
+                </span>
+                <Check v-if="documentStore.activeGeneratedMatrixIndex === idx" class="w-3.5 h-3.5 text-indigo-600 shrink-0 ml-2" />
+              </div>
+              <div class="flex items-center gap-1 text-[10px] text-slate-400 mt-0.5">
+                <span>{{ matrix.source }}</span>
+                <span>➔</span>
+                <span>{{ matrix.target }}</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div v-else class="text-slate-400 text-xs italic">
+          No relational matrices defined. Define them in Metamatrix Config.
+        </div>
+      </div>
+      
+      <div v-if="activeMatrix" class="text-slate-400 text-xs font-medium">
+        Total: {{ documentStore.metamatrix.length }} matrices
       </div>
     </div>
 
@@ -25,16 +54,10 @@
       <div class="mb-4 flex items-center justify-between">
         <div class="flex items-center gap-1.5 flex-wrap">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Matrix:</span>
-          <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border" :class="[sourceColorClasses.bg, sourceColorClasses.text, sourceColorClasses.border]">
-            <span v-if="sourceConceptEmoji" class="mr-0.5">{{ sourceConceptEmoji }}</span>{{ activeMatrix.source }}
-          </span>
+          <BlockPill size="xs" :concept-type="activeMatrix.source" />
           <span class="text-slate-400">➔</span>
-          <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border" :class="[targetColorClasses.bg, targetColorClasses.text, targetColorClasses.border]">
-            <span v-if="targetConceptEmoji" class="mr-0.5">{{ targetConceptEmoji }}</span>{{ activeMatrix.target }}
-          </span>
-          <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
-            {{ activeMatrix.widgetType }}
-          </span>
+          <BlockPill size="xs" :concept-type="activeMatrix.target" />
+          <Badge class="text-slate-500 bg-slate-100">{{ activeMatrix.widgetType }}</Badge>
         </div>
         
         <button 
@@ -53,13 +76,9 @@
             <tr>
               <th class="border-r border-slate-200 px-4 py-3 text-left font-bold text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-50 min-w-[150px]">
                 <div class="flex items-center gap-1 flex-wrap">
-                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border" :class="[sourceColorClasses.bg, sourceColorClasses.text, sourceColorClasses.border]">
-                    {{ activeMatrix.source }}
-                  </span>
+                  <BlockPill size="xs" :concept-type="activeMatrix.source" />
                   <span class="text-slate-400 font-normal">\</span>
-                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border" :class="[targetColorClasses.bg, targetColorClasses.text, targetColorClasses.border]">
-                    {{ activeMatrix.target }}
-                  </span>
+                  <BlockPill size="xs" :concept-type="activeMatrix.target" />
                 </div>
               </th>
               <th 
@@ -67,10 +86,7 @@
                 :key="col"
                 class="px-3 py-3 text-center min-w-[100px] border-r border-slate-100"
               >
-                <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-semibold border whitespace-nowrap" :class="[targetColorClasses.bg, targetColorClasses.text, targetColorClasses.border]">
-                  <span v-if="targetConceptEmoji">{{ targetConceptEmoji }}</span>
-                  {{ col }}
-                </span>
+                <BlockPill :concept-type="activeMatrix.target" :name="col" size="xs" :interactive="true" />
               </th>
               <th v-if="!columns.length" class="px-3 py-3 text-center font-bold text-slate-400">
                 No items defined in {{ activeMatrix.target }}
@@ -80,10 +96,7 @@
           <tbody class="bg-white divide-y divide-slate-100">
             <tr v-for="row in rows" :key="row">
               <td class="border-r border-slate-200 px-4 py-2.5 sticky left-0 bg-white shadow-2xs min-w-[150px]">
-                <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-semibold border whitespace-nowrap" :class="[sourceColorClasses.bg, sourceColorClasses.text, sourceColorClasses.border]">
-                  <span v-if="sourceConceptEmoji">{{ sourceConceptEmoji }}</span>
-                  {{ row }}
-                </span>
+                <BlockPill :concept-type="activeMatrix.source" :name="row" size="xs" :interactive="true" />
               </td>
               
               <td 
@@ -149,14 +162,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Copy } from 'lucide-vue-next';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { Copy, ChevronDown, Check } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { getColorClasses } from '../../utils/colors';
+import BlockPill from './BlockPill.vue';
+import Badge from '../ui/Badge.vue';
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
+
+const isOpen = ref(false);
+const dropdownRef = ref<HTMLElement | null>(null);
+
+const selectMatrix = (idx: number) => {
+  documentStore.activeGeneratedMatrixIndex = idx;
+  isOpen.value = false;
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    isOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 const activeMatrix = computed(() => {
   if (documentStore.metamatrix.length === 0) return null;

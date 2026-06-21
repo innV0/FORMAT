@@ -3,95 +3,54 @@
     class="border border-slate-200 rounded-lg p-5 bg-white shadow-2xs hover:shadow-xs transition-all duration-200 flex flex-col gap-4 relative"
     :class="[isList ? 'border-l-4' : '', isList ? borderLeftColorClass : '']"
   >
-    <!-- Header Block (Giant Pill + Actions) -->
+    <!-- Header Block (Giant Pill + Actions in Two Levels) -->
     <div 
       :class="[
         colorClasses.border,
         colorClasses.bg,
         colorClasses.text,
-        'flex flex-wrap items-center justify-between border-2 rounded-xl px-4 py-2.5 shadow-xs transition-all duration-150 gap-3.5 select-none'
+        'flex flex-col border-2 rounded-xl p-4 shadow-xs transition-all duration-150 gap-3 select-none'
       ]"
     >
-      <div class="flex items-center gap-2.5 min-w-0 flex-1">
-        <!-- Concept Icon -->
-        <component :is="conceptIcon" class="w-5 h-5 shrink-0 opacity-90" />
-        
-        <!-- Emoji -->
-        <span v-if="conceptEmoji" class="text-xl shrink-0">{{ conceptEmoji }}</span>
-        
-        <!-- Concept Type Label -->
-        <span class="text-xs font-extrabold uppercase tracking-widest opacity-80 shrink-0">
-          {{ cleanConceptName }}
-          <span v-if="index !== undefined">#{{ index }}</span>
-        </span>
-        
-        <!-- Fine Divider -->
-        <span class="w-0.5 h-5 bg-current opacity-25 shrink-0"></span>
-        
-        <!-- Block Name -->
-        <h3 class="text-base md:text-lg font-bold truncate" :title="block.name || '(Empty)'">
-          {{ block.name || '(Empty)' }}
-        </h3>
-
-        <!-- Markers (if applicable, e.g. for weight types) -->
-        <div 
-          v-if="hasMarkers && block.id" 
-          class="flex items-center gap-2 ml-2 border-l pl-3 border-current/20 shrink-0"
-        >
-          <span 
-            v-for="marker in metamodelStore.markers" 
-            :key="marker.name"
-            @click="$emit('cycle-marker', marker.name)"
-            class="inline-flex items-center justify-center text-base md:text-lg transition-all duration-150 cursor-pointer hover:scale-120 active:scale-90"
-            :class="getMarkerClasses(marker.name)"
-            :title="`${marker.name}: ${marker.description}`"
-          >
-            {{ marker.emoji }}
-          </span>
-        </div>
+      <!-- Level 1: Concept Type (with internal Opciones Expandidas) -->
+      <div class="flex items-center w-full">
+        <BlockPill 
+          size="sm" 
+          :block-id="block.id || block.name"
+          :concept-type="conceptName" 
+          :emoji="conceptEmoji"
+          :name="`${cleanConceptName}${index !== undefined ? ' #' + index : ''}`"
+          :show-markers="hasMarkers && !!(block.id || block.name)"
+          :show-reorder="isList"
+          :is-first="isFirst"
+          :is-last="isLast"
+          :show-edit="true"
+          :is-editing="isEditing"
+          :show-delete="showDelete"
+          @move-up="$emit('move-up')"
+          @move-down="$emit('move-down')"
+          @edit-toggle="isEditing = !isEditing"
+          @delete="$emit('delete')"
+          class="w-full"
+        />
       </div>
 
-      <!-- Action Buttons (Edit, Sort, Delete) -->
-      <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Reorder list controls -->
-        <template v-if="isList">
-          <button 
-            @click="$emit('move-up')"
-            :disabled="isFirst"
-            title="Move Up"
-            class="p-1 hover:bg-current/10 disabled:opacity-20 disabled:hover:bg-transparent rounded transition cursor-pointer text-current"
-          >
-            <ArrowUp class="w-3.5 h-3.5" />
-          </button>
-          <button 
-            @click="$emit('move-down')"
-            :disabled="isLast"
-            title="Move Down"
-            class="p-1 hover:bg-current/10 disabled:opacity-20 disabled:hover:bg-transparent rounded transition cursor-pointer text-current text-opacity-80"
-          >
-            <ArrowDown class="w-3.5 h-3.5" />
-          </button>
-          <span class="w-px h-4 bg-current opacity-20 mx-0.5"></span>
-        </template>
-
-        <!-- Edit Toggle Button -->
-        <button 
-          @click="isEditing = !isEditing"
-          class="text-xs bg-white/80 hover:bg-white text-slate-800 font-semibold px-2.5 py-1 rounded-md border border-slate-200 hover:border-slate-300 shadow-2xs cursor-pointer flex items-center gap-1 transition"
+      <!-- Level 2: Block Name -->
+      <div class="w-full">
+        <!-- If list instance, render as nested Big BlockPill. Otherwise, render as standard page header h3 -->
+        <BlockPill
+          v-if="isList"
+          size="lg"
+          :full-width="true"
+          :concept-type="conceptName"
+          :interactive="false"
+          class="font-bold shadow-2xs border border-current/25"
         >
-          <component :is="isEditing ? Check : Pencil" class="w-3 h-3" />
-          <span>{{ isEditing ? 'Done' : 'Edit' }}</span>
-        </button>
-
-        <!-- Delete Button -->
-        <button 
-          v-if="showDelete"
-          @click="$emit('delete')"
-          class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold px-2.5 py-1 rounded-md border border-rose-200 cursor-pointer flex items-center gap-1 transition"
-        >
-          <Trash2 class="w-3 h-3" />
-          <span>Delete</span>
-        </button>
+          {{ block.name || '(Empty)' }}
+        </BlockPill>
+        <h3 v-else class="text-lg md:text-xl font-bold break-words whitespace-normal leading-tight" :title="block.name || '(Empty)'">
+          {{ block.name || '(Empty)' }}
+        </h3>
       </div>
     </div>
 
@@ -105,7 +64,7 @@
         <span 
           v-for="field in visibleFields" 
           :key="field.name" 
-          class="inline-flex items-center px-2 py-0.5 rounded bg-slate-50 text-slate-600 font-medium border border-slate-200/60"
+          class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-50 text-slate-600 font-medium border border-slate-200/60"
         >
           <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
           <span>{{ field.value }}</span>
@@ -204,21 +163,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { 
-  Pencil, 
-  Check, 
-  Trash2, 
-  ArrowUp, 
-  ArrowDown, 
   FileText, 
   Folder, 
-  Scale, 
+  Scale,
   ListChecks, 
   GitCommit, 
-  HelpCircle 
+  HelpCircle
 } from 'lucide-vue-next';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import { getColorClasses } from '../../utils/colors';
+import BlockPill from './BlockPill.vue';
 
 const props = withDefaults(defineProps<{
   block: {
@@ -353,19 +308,5 @@ const updateField = (fieldName: string, value: any) => {
   props.block.fields[fieldName] = value;
   onInput();
   emit('update:field', fieldName, value);
-};
-
-const getMarkerClasses = (markerName: string) => {
-  if (!props.block.id) return '';
-  const score = documentStore.getNodeMarkerValue(props.block.id, markerName);
-  if (score === 0) {
-    return 'grayscale opacity-25 scale-90 hover:opacity-60';
-  } else if (score === 1) {
-    return 'opacity-60 scale-100';
-  } else if (score === 2) {
-    return 'opacity-85 scale-110';
-  } else {
-    return 'opacity-100 scale-125 drop-shadow-xs font-bold';
-  }
 };
 </script>

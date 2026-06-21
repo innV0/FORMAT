@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMAT — Business Strategy as Code</title>
+  <meta name="description" content="One structured Markdown file gives any AI model instant, complete context of your entire business — and transforms into a visual, AI-validated, version-controlled strategy model.">
+  <meta property="og:title" content="FORMAT — Business Strategy as Code">
+  <meta property="og:description" content="One structured Markdown file gives any AI model instant, complete context of your entire business — and transforms into a visual, AI-validated, version-controlled strategy model.">
+  <meta property="og:image" content="https://innv0.github.io/FORMAT/og.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.slate.min.css">
+  <style>
+    :root {
+      --pico-font-family: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    /* ── NAV ── */
+    header > nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.88);
+      border-bottom: 1px solid var(--pico-muted-border-color);
+      padding: 0 var(--pico-spacing);
+    }
+    .nav-brand {
+      font-family: var(--mono);
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: var(--pico-color);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 6rem 1rem 4rem;
+    }
+    .hero h1 {
+      font-family: var(--mono);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .hero h2 {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 300;
+      color: var(--pico-primary);
+      border: none;
+      margin-bottom: 1.5rem;
+    }
+    .hero p {
+      max-width: 52ch;
+      margin: 0 auto 2rem;
+      color: var(--pico-muted-color);
+    }
+    .hero a[href] {
+      margin: 0.25rem 0.375rem;
+      display: inline-block;
+    }
+    .hero a:first-of-type {
+      background: var(--pico-primary);
+      color: #fff;
+      border-radius: var(--pico-border-radius);
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9375rem;
+    }
+    .hero a:last-of-type {
+      border: 1px solid var(--pico-muted-border-color);
+      color: var(--pico-muted-color);
+      border-radius: var(--pico-border-radius);
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      font-size: 0.9375rem;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 4rem 0; }
+    section + section { border-top: 1px solid var(--pico-muted-border-color); }
+    .hero + section { border-top: none; }
+
+    /* ── BLOCKQUOTE as pitch ── */
+    blockquote { border-left: 3px solid var(--pico-primary); }
+
+    /* ── HOW IT WORKS: numbered steps ── */
+    .section-3 ol {
+      counter-reset: steps;
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .section-3 ol li {
+      counter-increment: steps;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+    }
+    .section-3 ol li::before {
+      content: counter(steps);
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      background: var(--pico-primary);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.1rem;
+    }
+
+    /* ── OPEN STANDARDS: pill tags ── */
+    .section-7 { text-align: center; }
+    .section-7 ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+    .section-7 ul li {
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: 2rem;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--pico-primary);
+    }
+    .section-7 p { max-width: none; }
+
+    /* ── DEMO SPLIT ── */
+    .demo-split {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      margin: 2rem 0;
+    }
+    .demo-col { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; overflow: hidden; }
+    .demo-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pico-muted-color);
+      margin-bottom: 0.25rem;
+    }
+    .demo-label code {
+      font-size: 0.75rem;
+      background: none;
+      padding: 0;
+      color: var(--pico-primary);
+    }
+    .demo-code {
+      background: var(--pico-card-background-color);
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      padding: 1.25rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre;
+      margin: 0;
+      color: var(--pico-muted-color);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .dm-comment { color: var(--pico-primary); opacity: 0.7; }
+    .dm-bullet  { color: var(--pico-primary); font-weight: 700; }
+    .dm-item    { color: var(--pico-color); font-weight: 500; }
+
+    .demo-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--pico-primary);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .demo-arrow svg { width: 2rem; height: 2rem; }
+    .demo-arrow-line {
+      width: 1px;
+      height: 2rem;
+      background: var(--pico-muted-border-color);
+    }
+
+    /* demo UI panel */
+    .demo-ui {
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      overflow: hidden;
+      background: var(--pico-card-background-color);
+    }
+    .ui-concept { padding: 0; }
+    .ui-concept-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      background: var(--pico-primary);
+      color: #fff;
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+    .ui-emoji { font-size: 1rem; }
+    .ui-name  { flex: 1; }
+    .ui-count {
+      background: rgba(255,255,255,0.25);
+      border-radius: 1rem;
+      padding: 0.05rem 0.5rem;
+      font-size: 0.7rem;
+    }
+    .ui-elements { padding: 0.5rem; display: flex; flex-direction: column; gap: 0.375rem; }
+    .ui-element {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: calc(var(--pico-border-radius) * 0.6);
+      color: var(--pico-color);
+      flex: 1;
+    }
+    .ui-score { margin-left: auto; font-size: 0.6rem; letter-spacing: -1px; }
+    .ui-score.high { color: var(--pico-primary); }
+    .ui-score.mid  { color: var(--pico-muted-color); }
+
+    /* matrix inside demo */
+    .ui-matrix { border-top: 1px solid var(--pico-muted-border-color); padding: 0.625rem 0.75rem; }
+    .ui-matrix-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--pico-muted-color);
+      margin-bottom: 0.4rem;
+    }
+    .ui-matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65rem;
+      margin: 0;
+      table-layout: fixed;
+    }
+    .ui-matrix-table th, .ui-matrix-table td {
+      padding: 0.2rem 0.3rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border: 1px solid var(--pico-muted-border-color);
+      text-align: center;
+    }
+    .ui-matrix-table td:first-child { text-align: left; color: var(--pico-muted-color); }
+    .ui-matrix-table th { background: var(--pico-card-sectioning-background-color); font-weight: 500; }
+    .cell-max  { background: rgba(79,130,243,0.15); color: var(--pico-primary); font-weight: 600; }
+    .cell-high { background: rgba(79,130,243,0.07); color: var(--pico-primary); }
+    .cell-neu  { color: var(--pico-muted-color); }
+
+    @media (max-width: 700px) {
+      .demo-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+      .demo-arrow { flex-direction: row; }
+      .demo-arrow-line { width: 2rem; height: 1px; }
+    }
+
+    /* ── PRICING CTA buttons ── */
+    .section-6 a {
+      display: inline-block;
+      margin: 1rem 0.375rem 0;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--pico-border-radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .section-6 a:first-of-type {
+      background: var(--pico-primary);
+      color: #fff;
+    }
+    .section-6 a:last-of-type {
+      border: 1px solid var(--pico-muted-border-color);
+      color: var(--pico-muted-color);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul><li><a class="nav-brand" href="/">FORMAT</a></li></ul>
+      <ul>
+        <li><a href="#get-started">Get started</a></li>
+        <li><a href="../docs/v1.0.0/format-spec.md">Spec</a></li>
+        <li><a href="https://github.com/innV0/FORMAT">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+<h1>FORMAT</h1>
+<h2>One file. Your entire business — finally ready for AI.</h2>
+<p>FORMAT reads a single structured <code>.md</code> file that holds your complete business strategy:
+segments, problems, value propositions, roadmap, finances, team — all interconnected.
+Drop it as context into any AI model and get strategic answers. Commit it to Git and get a living, visual, version-controlled business model.</p>
+<p><a href="#get-started">Try it free →</a> <a href="../docs/v1.0.0/format-spec.md">Read the spec →</a></p>
+
+</section>
+<section class="section section-1">
+<div class="demo-split">
+  <div class="demo-col demo-source">
+    <div class="demo-label">your <code>.md</code> file</div>
+    <pre class="demo-code"><span class="dm-comment"># &lt;!-- block: concepts --&gt; problems</span>
+
+<p><span class="dm-bullet">*</span> <span class="dm-item">AI has no business context</span>
+  Every conversation resets.
+  Generic answers only.</p>
+<p><span class="dm-bullet">*</span> <span class="dm-item">Info scattered in 30 files</span>
+  No single source of truth
+  for strategy or AI.</p>
+<p><span class="dm-bullet">*</span> <span class="dm-item">Static business models</span>
+  Plans obsolete the moment
+  they&#39;re saved.</p>
+<p><span class="dm-comment"># &lt;!-- block: concepts --&gt; value propositions</span></p>
+<p><span class="dm-bullet"><em></span> <span class="dm-item">Instant AI context</span>
+<span class="dm-bullet"></em></span> <span class="dm-item">Version-controlled models</span>
+<span class="dm-bullet">*</span> <span class="dm-item">Automated coherence</span></pre>
+  </div>
+  <div class="demo-arrow">
+    <div class="demo-arrow-line"></div>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>FORMAT</span>
+  </div>
+  <div class="demo-col demo-visual">
+    <div class="demo-label">interactive visual model</div>
+    <div class="demo-ui">
+      <div class="ui-concept">
+        <div class="ui-concept-header">
+          <span class="ui-emoji">😟</span>
+          <span class="ui-name">Problems</span>
+          <span class="ui-count">3</span>
+        </div>
+        <div class="ui-elements">
+          <div class="ui-element"><span>🤖</span> AI has no business context <span class="ui-score high">●●●●●</span></div>
+          <div class="ui-element"><span>📂</span> Info scattered in 30 files <span class="ui-score high">●●●●●</span></div>
+          <div class="ui-element"><span>📄</span> Static business models <span class="ui-score high">●●●●○</span></div>
+        </div>
+      </div>
+      <div class="ui-matrix">
+        <div class="ui-matrix-label">problems × value propositions</div>
+        <table class="ui-matrix-table">
+          <thead><tr><th></th><th>AI Context</th><th>Versioned</th><th>Traceab.</th></tr></thead>
+          <tbody>
+            <tr><td>AI context gap</td><td class="cell-max">Max</td><td class="cell-max">Max</td><td class="cell-max">Max</td></tr>
+            <tr><td>Scattered info</td><td class="cell-max">Max</td><td class="cell-high">High</td><td class="cell-max">Max</td></tr>
+            <tr><td>Static models</td><td class="cell-high">High</td><td class="cell-neu">—</td><td class="cell-high">High</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div></p>
+</div>
+</section>
+<section class="section section-2">
+<h2>The AI problem nobody talks about</h2>
+<p>You use AI every day. But how much time do you spend explaining your business <em>every single time</em>?</p>
+<p>Who are your customers. What problems you solve. What your product does. How you make money.
+Over and over. In every conversation. Starting from zero.</p>
+<p>That&#39;s not an AI limitation — it&#39;s a context problem.
+<strong>Your business information is scattered across 30 different files that no AI can read coherently.</strong></p>
+<p><em>&quot;Companies don&#39;t die from lack of ideas. They die from strategic incoherence — and from AI that can&#39;t help because it doesn&#39;t know the whole picture.&quot;</em></p>
+
+</section>
+<section class="section section-3">
+<h2>One file changes everything</h2>
+<p>A FORMAT file is a single, structured <code>.md</code> document that holds your <strong>complete business context</strong>:
+every segment, problem, value proposition, channel, metric, team member, and financial projection —
+all interconnected through relational matrices.</p>
+<p>Drop it into any AI conversation as context. Claude, GPT, Gemini — they all instantly know your entire business.
+No more generic answers. No more starting over. Strategic depth, every time.</p>
+
+</section>
+<section class="section section-4">
+<h2>FORMAT closes that gap</h2>
+<p>FORMAT is a plain-text specification that lives in your Git repository alongside your code.
+Write your business model in Markdown. FORMAT renders the rest.</p>
+<h3>Instant AI context — the real superpower</h3>
+<p>One file holds your complete, structured business knowledge.
+Paste it into any AI model and ask real strategic questions:
+<em>&quot;Which customer segment has the weakest value proposition alignment?&quot;</em>
+<em>&quot;What&#39;s the biggest coherence gap between our roadmap and our problems?&quot;</em>
+The AI knows your entire business. It answers with precision, not generalities.</p>
+<h3>Version-controlled living models</h3>
+<p>Your strategy evolves as pull requests. Every change is tracked, diffable, and reversible.
+Strategic PRs are now a real thing.</p>
+<h3>Automated coherence validation</h3>
+<p>An AI and logic engine scores the consistency between your problems, value propositions,
+features, and metrics. You see exactly where the model breaks down — before you build the wrong thing.</p>
+<h3>Complete strategic traceability</h3>
+<p>Every dimension — team, finance, roadmap, customer problems — is connected in a
+multidimensional relational graph. No more silos between strategy and execution.</p>
+
+</section>
+<section class="section section-5">
+<h2>What happens when AI knows your whole business</h2>
+<p><strong>Without FORMAT</strong> — every conversation resets:</p>
+<blockquote>
+<p><em>&quot;My startup helps B2B SaaS companies with onboarding... we have two customer segments... our main problem is...&quot;</em>
+Generic advice. Wasted time. Shallow answers.</p>
+</blockquote>
+<p><strong>With FORMAT</strong> — paste the file, ask the real question:</p>
+<blockquote>
+<p><em>&quot;Based on our business model, which value proposition has the weakest coverage for the Consulting Firms segment, and what features should we prioritize?&quot;</em>
+Deep, specific, actionable. Because the AI has full context.</p>
+</blockquote>
+
+</section>
+<section class="section section-6">
+<h2>How it works</h2>
+<ol>
+<li><strong>Connect</strong> your local repository to the FORMAT editor</li>
+<li><strong>Declare</strong> your stakeholders, problems, and value propositions in plain Markdown</li>
+<li><strong>Map</strong> bidirectional relationships in matrix tables</li>
+<li><strong>Validate</strong> — AI and logic engine deliver a coherence report with scores</li>
+<li><strong>Save</strong> directly to your repo — and use the file as AI context in any conversation</li>
+</ol>
+
+</section>
+<section class="section section-7">
+<h2>Built for serious teams</h2>
+<h3>Startup Founders</h3>
+<p>One FORMAT file = instant AI co-founder. Ask Claude or GPT to review your go-to-market,
+validate your pricing, or identify the weakest link in your model — with full business context.
+Plus: keep strategy and product roadmap in sync from day one with Git versioning.</p>
+<h3>Strategy Consultants</h3>
+<p>Manage 8 client models simultaneously — each as a structured file with complete business context.
+Drop any client file into an AI session and get deep analysis without explaining the business every time.
+Deliver coherence reports backed by relational matrix scoring, not gut feeling.</p>
+<h3>Product Managers</h3>
+<p>Use your FORMAT file as AI context to ask: <em>&quot;Does this feature address a validated customer problem?&quot;</em>
+Trace every roadmap decision back to real customer pain — with matrix-level traceability.
+No more strategy-execution disconnects.</p>
+<h3>Investors</h3>
+<p>Evaluate startup business models with structural coherence scoring, not slide decks.
+Each FORMAT file is a machine-readable, auditable view of the full business hypothesis —
+objective, reproducible, and comparable across portfolio companies.</p>
+
+</section>
+<section class="section section-8">
+<h2>Three ways to use FORMAT</h2>
+<h3>Open Source Engine · Free</h3>
+<p>Local Markdown parser and graph renderer. No account required. Works offline.
+The entire spec is open — fork it, extend it, build on it.</p>
+<h3>FORMAT Cloud · Team collaboration</h3>
+<p>Real-time collaborative editing, full Git history, advanced AI audits,
+repository integrations, and export to PDF and presentation formats.</p>
+<h3>Enterprise Suite · Full control</h3>
+<p>On-premise deployment, access control, regulatory audit trails,
+custom metamodels, and dedicated support.</p>
+<p><a href="#">Get started →</a> · <a href="mailto:lucas@lucascervera.com">Contact us →</a></p>
+
+</section>
+<section class="section section-9">
+<h2>Built on open standards — designed for the AI era</h2>
+<p>FORMAT uses no proprietary formats. Every file is a valid Markdown document
+readable without any tool — by humans and AI models alike.</p>
+<ul>
+<li><strong>Markdown</strong> — human-readable, no lock-in, pasteable as AI context in any tool</li>
+<li><strong>YAML frontmatter</strong> — machine-readable schema definition for structured AI parsing</li>
+<li><strong>Git-native</strong> — diff, branch, and PR your strategy like code</li>
+<li><strong>AI-ready</strong> — designed from the ground up for LLM context injection and generation</li>
+<li><strong>Single source of truth</strong> — one file, complete business knowledge, zero context fragmentation</li>
+</ul>
+<p><a href="../docs/v1.0.0/format-spec.md">Read the full specification →</a> · <a href="https://github.com/innV0/FORMAT">View on GitHub →</a></p>
+
+</section>
+  </main>
+
+  <footer class="container">
+    <small>
+      FORMAT · Open-source · MIT License ·
+      <a href="https://github.com/innV0/FORMAT">GitHub</a> ·
+      <a href="mailto:lucas@lucascervera.com">Contact</a>
+    </small>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<template>
+  <div 
+    ref="triggerEl"
+    class="relative inline-flex items-center justify-center"
+    @mouseenter="showTooltip"
+    @mouseleave="hideTooltip"
+  >
+    <slot></slot>
+    
+    <Teleport to="body">
+      <Transition name="fade-fast">
+        <div 
+          v-if="visible"
+          :style="tooltipStyle"
+          class="fixed z-[999] w-80 bg-slate-900 dark:bg-slate-950 text-slate-100 border border-slate-800 dark:border-slate-850 rounded-xl shadow-2xl p-4 text-xs pointer-events-none transition-all duration-200 select-none"
+        >
+          <!-- Header: Emoji, Name, Score indicator -->
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5 font-semibold text-sm">
+              <IconRenderer :icon="marker.emoji" fallback="help-circle" custom-class="w-4 h-4 text-indigo-400 shrink-0" />
+              <span class="capitalize text-slate-200">{{ marker.name }}</span>
+            </div>
+            
+            <!-- Score Visualizer (0-3 dots) -->
+            <div class="flex items-center gap-1">
+              <span class="text-[10px] text-slate-400 mr-1">Valor: {{ score }}/3</span>
+              <div 
+                v-for="i in 3" 
+                :key="i"
+                class="w-2 h-2 rounded-full transition-colors duration-150"
+                :class="[
+                  i <= score 
+                    ? getActiveDotClass(marker.name)
+                    : 'bg-slate-700'
+                ]"
+              ></div>
+            </div>
+          </div>
+          
+          <!-- Score Meaning (Text) -->
+          <div class="text-[11px] text-slate-400 font-medium mb-2">
+            Valoración: <span class="text-slate-300 font-semibold">{{ getScoreLabel(score) }}</span>
+          </div>
+
+          <!-- Divider -->
+          <div class="border-t border-slate-800 my-2"></div>
+
+          <!-- Description -->
+          <p class="text-slate-300 leading-relaxed mb-3 text-[11px]">
+            {{ marker.description }}
+          </p>
+
+          <!-- Guidelines / Criterios de Evaluación -->
+          <div v-if="formattedGuidelines && formattedGuidelines.length" class="mb-3">
+            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1.5">
+              Criterios de Evaluación
+            </div>
+            <ul class="space-y-1 text-slate-300 pl-3.5 list-disc text-[11px]">
+              <li v-for="(g, idx) in formattedGuidelines" :key="idx" class="leading-normal">
+                {{ g }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Examples High/Low -->
+          <div v-if="examples && examples.length" class="mt-2 border-t border-slate-800/60 pt-2.5">
+            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1.5">
+              Ejemplos de Referencia
+            </div>
+            <div class="space-y-2">
+              <div v-for="(exampleGroup, idx) in examples" :key="idx" class="text-[11px]">
+                <div class="text-[10px] font-semibold mb-0.5" :class="exampleGroup.type === 'high' ? 'text-emerald-400' : 'text-rose-400'">
+                  {{ exampleGroup.type === 'high' ? 'Alta valoración (3/3):' : 'Baja valoración (1/3):' }}
+                </div>
+                <ul class="space-y-0.5 text-slate-400 pl-3 list-disc text-[10.5px]">
+                  <li v-for="(ex, exIdx) in exampleGroup.items" :key="exIdx" class="leading-normal">
+                    {{ ex }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import IconRenderer from './IconRenderer.vue';
+
+interface Marker {
+  name: string;
+  symbol: string;
+  emoji: string;
+  description: string;
+  guidelines?: string;
+  examples_high_score?: string;
+  examples_low_score?: string;
+}
+
+const props = defineProps<{
+  marker: Marker;
+  score: number;
+}>();
+
+const triggerEl = ref<HTMLElement | null>(null);
+const visible = ref(false);
+const coords = ref({ top: 0, left: 0 });
+const isAbove = ref(true);
+
+const showTooltip = () => {
+  if (!triggerEl.value) return;
+  const rect = triggerEl.value.getBoundingClientRect();
+  
+  // Decide placing above or below
+  const placeAbove = rect.top > 320;
+  
+  coords.value = {
+    left: rect.left + rect.width / 2,
+    top: placeAbove ? rect.top - 8 : rect.bottom + 8
+  };
+  
+  isAbove.value = placeAbove;
+  visible.value = true;
+};
+
+const hideTooltip = () => {
+  visible.value = false;
+};
+
+const tooltipStyle = computed(() => ({
+  top: `${coords.value.top}px`,
+  left: `${coords.value.left}px`,
+  transform: isAbove.value ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
+}));
+
+const getScoreLabel = (score: number) => {
+  switch (score) {
+    case 0: return 'Sin asignar / No relevante';
+    case 1: return 'Bajo';
+    case 2: return 'Medio';
+    case 3: return 'Alto';
+    default: return 'No especificado';
+  }
+};
+
+const getActiveDotClass = (markerName: string) => {
+  switch (markerName) {
+    case 'completion': return 'bg-emerald-500';
+    case 'certainty': return 'bg-blue-500';
+    case 'priority': return 'bg-rose-500';
+    case 'rating': return 'bg-amber-500';
+    case 'weight': return 'bg-indigo-500';
+    default: return 'bg-indigo-500';
+  }
+};
+
+// Format guidelines string into an array of strings (lines without the leading '*')
+const formattedGuidelines = computed(() => {
+  if (!props.marker.guidelines) return [];
+  return props.marker.guidelines
+    .split('\n')
+    .map(line => line.replace(/^\s*\*\s*/, '').trim())
+    .filter(line => line.length > 0);
+});
+
+// Format examples into structures
+const examples = computed(() => {
+  const result = [];
+  
+  if (props.marker.examples_high_score) {
+    const items = props.marker.examples_high_score
+      .split('\n')
+      .map(line => line.replace(/^\s*\*\s*/, '').trim())
+      .filter(line => line.length > 0);
+    if (items.length) {
+      result.push({ type: 'high', items });
+    }
+  }
+  
+  if (props.marker.examples_low_score) {
+    const items = props.marker.examples_low_score
+      .split('\n')
+      .map(line => line.replace(/^\s*\*\s*/, '').trim())
+      .filter(line => line.length > 0);
+    if (items.length) {
+      result.push({ type: 'low', items });
+    }
+  }
+  
+  return result;
+});
+</script>
+
+<style scoped>
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+  transition: opacity 0.12s ease-out, transform 0.12s ease-out;
+}
+.fade-fast-enter-from,
+.fade-fast-leave-to {
+  opacity: 0;
+}
+</style>

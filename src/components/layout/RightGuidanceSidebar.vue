@@ -56,7 +56,7 @@
         <!-- Title & Emoji -->
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-2xl">{{ guidance.emoji || 'ℹ️' }}</span>
+            <IconRenderer :icon="guidance?.emoji" fallback="info" custom-class="w-6 h-6 text-indigo-600 shrink-0" />
             <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
               {{ activeConcept }} Guidance
             </h2>
@@ -118,6 +118,7 @@
 import { ref, computed } from 'vue';
 import { Copy, ChevronRight, BookOpen, BarChart2 } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
+import IconRenderer from '../editor/IconRenderer.vue';
 
 const documentStore = useDocumentStore();
 const isCollapsed = ref(false);

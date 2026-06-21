@@ -15,6 +15,10 @@ export interface Marker {
   symbol: string;
   emoji: string;
   description: string;
+  color?: string;
+  guidelines?: string;
+  examples_high_score?: string;
+  examples_low_score?: string;
 }
 
 export interface MetamatrixRow {

@@ -1,39 +1,40 @@
 <template>
   <div class="space-y-1">
-    <div 
-      :class="[
-        activeName === node.name 
-          ? [colorClasses.bg, colorClasses.text, colorClasses.border, 'font-bold shadow-xs'] 
-          : 'border-transparent bg-transparent text-slate-600 hover:bg-slate-100 hover:border-slate-200 hover:text-slate-800',
-        'w-full flex items-center gap-1.5 rounded-lg border px-2 py-1 text-xs transition-all text-left cursor-pointer select-none'
-      ]"
-      @click="emitSelect(node.name)"
-    >
-      <div class="flex items-center gap-1.5 truncate flex-1">
-        <!-- Collapse toggle button on the left -->
-        <button 
-          v-if="node.children && node.children.length"
-          @click.stop="isCollapsed = !isCollapsed"
-          class="p-0.5 hover:bg-current/10 rounded text-current transition-colors flex items-center justify-center cursor-pointer shrink-0"
-          aria-label="Toggle node collapse"
-        >
-          <ChevronDown 
-            class="transition-transform duration-200 w-3 h-3 inline-block"
-            :class="{ '-rotate-90': isCollapsed }"
-          />
-        </button>
-        <!-- Spacer for items without children to align icons -->
-        <span v-else class="w-[18px] shrink-0"></span>
+    <div class="flex items-center gap-1.5 w-full">
+      <!-- Collapse toggle button on the left (outside the pill) -->
+      <button 
+        v-if="node.children && node.children.length"
+        @click.stop="isCollapsed = !isCollapsed"
+        class="p-0.5 hover:bg-slate-100 rounded text-slate-500 transition-colors flex items-center justify-center cursor-pointer shrink-0"
+        aria-label="Toggle node collapse"
+      >
+        <ChevronDown 
+          class="transition-transform duration-200 w-3 h-3 inline-block"
+          :class="{ '-rotate-90': isCollapsed }"
+        />
+      </button>
+      <!-- Spacer for items without children to align icons -->
+      <span v-else class="w-[18px] shrink-0"></span>
 
-        <!-- Type Icon -->
-        <component :is="conceptIcon" class="w-3.5 h-3.5 shrink-0 opacity-70" />
-
-        <!-- Emoji -->
-        <span class="shrink-0 text-[11px]">{{ node.emoji || '📄' }}</span>
-        
-        <!-- Name -->
-        <span class="truncate font-medium">{{ node.name }}</span>
-      </div>
+      <!-- Uniform BlockPill representing the Concept -->
+      <BlockPill
+        :concept-type="node.name"
+        :name="node.name"
+        :emoji="node.emoji"
+        :selected="activeName === node.name"
+        :variant="activeName === node.name ? 'medium' : 'small'"
+        :interactive="true"
+        @click="emitSelect(node.name)"
+        class="flex-1"
+      />
+      <!-- Hierarchy badge -->
+      <span
+        v-if="isHierarchyConcept"
+        class="shrink-0 flex items-center justify-center w-4 h-4 rounded text-indigo-400 opacity-60"
+        title="Has hierarchy"
+      >
+        <GitBranch class="w-3 h-3" />
+      </span>
     </div>
 
     <!-- Recursive children rendering -->
@@ -56,17 +57,21 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import { 
+import {
   ChevronDown,
   FileText,
   Folder,
   Scale,
   ListChecks,
   GitCommit,
-  HelpCircle
+  HelpCircle,
+  GitBranch
 } from 'lucide-vue-next';
 import { Concept } from '../../types';
 import { getColorClasses } from '../../utils/colors';
+import { useMetamodelStore } from '../../stores/metamodel';
+import BlockPill from '../editor/BlockPill.vue';
+import IconRenderer from '../editor/IconRenderer.vue';
 
 interface ConceptNode extends Concept {
   children?: ConceptNode[];
@@ -82,7 +87,12 @@ const emit = defineEmits<{
   (e: 'select', name: string): void;
 }>();
 
+const metamodelStore = useMetamodelStore();
 const isCollapsed = ref(false);
+
+const isHierarchyConcept = computed(() =>
+  metamodelStore.hierarchyConcepts.includes(props.node.name)
+);
 
 // Watch the global generation counter to expand/collapse all
 watch(() => props.expandedGeneration, (newVal) => {

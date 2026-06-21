@@ -86,21 +86,14 @@
       <div v-if="selectedKey" class="bg-slate-50 border border-slate-200/60 p-5 rounded-xl space-y-4">
         <div class="flex justify-between items-start">
           <div>
-            <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 mr-2">
-              {{ selectedKey.domain }}
-            </span>
+            <Badge class="bg-slate-200 text-slate-600 mr-2">{{ selectedKey.domain }}</Badge>
             <h3 class="text-sm font-bold text-slate-800 mt-1.5">{{ selectedKey.name }}</h3>
           </div>
           
           <!-- Consensus Badge -->
           <div class="flex items-center gap-1.5 shrink-0">
             <span class="text-[11px] text-slate-500">Evaluation Consensus:</span>
-            <span 
-              :class="consensusStyle"
-              class="text-[10px] font-bold px-2 py-0.5 rounded-full border"
-            >
-              {{ consensusLevel }}
-            </span>
+            <Badge size="sm" :class="[consensusStyle, 'border']">{{ consensusLevel }}</Badge>
           </div>
         </div>
 
@@ -188,6 +181,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Sparkles } from 'lucide-vue-next';
+import Badge from '../ui/Badge.vue';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import { AnalysisKey } from '../../types';

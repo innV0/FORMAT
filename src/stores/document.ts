@@ -23,7 +23,7 @@ export const useDocumentStore = defineStore('document', () => {
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
   const specificationVersion = ref<string>('1.0.0');
-  const documentationLocation = ref<string>('DOCS/v1.0.0/');
+  const documentationLocation = ref<string>('docs/v1.0.0/');
   const analysisScores = ref<AnalysisScores>({});
 
   const loadDocument = (markdownContent: string) => {
@@ -37,7 +37,7 @@ export const useDocumentStore = defineStore('document', () => {
     
     metamodelPath.value = parsed.metamodelPath;
     specificationVersion.value = parsed.specificationVersion || '1.0.0';
-    documentationLocation.value = parsed.documentationLocation || 'DOCS/v1.0.0/';
+    documentationLocation.value = parsed.documentationLocation || 'docs/v1.0.0/';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
     nodeMarkers.value = parsed.nodeMarkers;
@@ -198,8 +198,12 @@ export const useDocumentStore = defineStore('document', () => {
     // Extract list items from modelTextData for that concept name
     const rawText = modelTextData.value[source] || '';
     if (rawText.includes('<!-- block:')) {
-      const matchAll = [...rawText.matchAll(/<!--\s*block:\s*[\w-]+\s*-->\s*(.*)/gi)];
-      return matchAll.map(m => m[1].replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim());
+      const escapedSource = source.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const regex = new RegExp(`<!--\\s*block:\\s*${escapedSource}\\s*-->\\s*(.*)`, 'gi');
+      const matchAll = [...rawText.matchAll(regex)];
+      if (matchAll.length > 0) {
+        return matchAll.map(m => m[1].replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim());
+      }
     }
     const items: string[] = [];
     const lines = rawText.split('\n');
@@ -226,8 +230,12 @@ export const useDocumentStore = defineStore('document', () => {
     // Extract list items from modelTextData for that concept name
     const rawText = modelTextData.value[target] || '';
     if (rawText.includes('<!-- block:')) {
-      const matchAll = [...rawText.matchAll(/<!--\s*block:\s*[\w-]+\s*-->\s*(.*)/gi)];
-      return matchAll.map(m => m[1].replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim());
+      const escapedTarget = target.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const regex = new RegExp(`<!--\\s*block:\\s*${escapedTarget}\\s*-->\\s*(.*)`, 'gi');
+      const matchAll = [...rawText.matchAll(regex)];
+      if (matchAll.length > 0) {
+        return matchAll.map(m => m[1].replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim());
+      }
     }
     const items: string[] = [];
     const lines = rawText.split('\n');
@@ -257,11 +265,50 @@ export const useDocumentStore = defineStore('document', () => {
 
   const getCycleBgColor = (val: any): string => {
     const cleanVal = String(val).toLowerCase().trim();
-    if (cleanVal === 'critical') return 'bg-rose-100 text-rose-800 border-rose-200';
-    if (cleanVal === 'high') return 'bg-amber-100 text-amber-800 border-amber-200';
-    if (cleanVal === 'neutral') return 'bg-slate-100 text-slate-800 border-slate-200';
-    if (cleanVal === 'medium') return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    if (cleanVal === 'low') return 'bg-slate-100 text-slate-800 border-slate-200';
+
+    // Check if it's a number
+    if (cleanVal !== '' && !isNaN(Number(cleanVal))) {
+      const num = Number(cleanVal);
+      if (num <= 0) return 'bg-white text-slate-400 border-slate-200';
+      if (num <= 1) return 'bg-white text-slate-900 border-slate-200';
+      if (num <= 2) return 'bg-slate-200 text-slate-800 border-slate-300';
+      if (num <= 3) return 'bg-slate-400 text-white border-slate-400';
+      if (num <= 4) return 'bg-slate-600 text-white border-slate-600';
+      return 'bg-slate-900 text-white border-slate-900';
+    }
+
+    // Semantic text matches for good/bad
+    if (cleanVal === 'good' || cleanVal === 'ok' || cleanVal === 'yes' || cleanVal === 'success' || cleanVal === 'completed' || cleanVal === 'done' || cleanVal === 'passed') {
+      return 'bg-emerald-600 text-white border-emerald-600';
+    }
+    if (cleanVal === 'bad' || cleanVal === 'fail' || cleanVal === 'failed' || cleanVal === 'no' || cleanVal === 'error') {
+      return 'bg-rose-600 text-white border-rose-600';
+    }
+
+    // Grayscale semantic intensity scale
+    if (cleanVal === 'max' || cleanVal === 'very high' || cleanVal === 'extreme' || cleanVal === 'critical') {
+      return 'bg-slate-950 text-white border-slate-950';
+    }
+    if (cleanVal === 'high' || cleanVal === 'alto') {
+      return 'bg-slate-900 text-white border-slate-900';
+    }
+    if (cleanVal === 'slightly high' || cleanVal === 'medium-high') {
+      return 'bg-slate-600 text-white border-slate-600';
+    }
+    if (cleanVal === 'medium' || cleanVal === 'moderate' || cleanVal === 'average' || cleanVal === 'medio') {
+      return 'bg-slate-400 text-white border-slate-400';
+    }
+    if (cleanVal === 'slightly low' || cleanVal === 'medium-low') {
+      return 'bg-slate-200 text-slate-800 border-slate-300';
+    }
+    if (cleanVal === 'low' || cleanVal === 'bajo' || cleanVal === 'very low' || cleanVal === 'min') {
+      return 'bg-white text-slate-900 border-slate-200';
+    }
+    if (cleanVal === 'neutral' || cleanVal === '-' || cleanVal === '' || cleanVal === 'none' || cleanVal === 'pending') {
+      return 'bg-white text-slate-400 border-slate-200';
+    }
+
+    // Fallback/default minimal styling
     return 'bg-white text-slate-800 border-slate-200';
   };
 
@@ -412,7 +459,7 @@ export const useDocumentStore = defineStore('document', () => {
       if (!content) {
         const fetchUrls = [
           `/${docPath}`,
-          `/DOCS/v1.0.0/metamodel_documentation.md`,
+          `/docs/v1.0.0/metamodel_documentation.md`,
           `/Samples/metamodel_documentation.md`
         ];
         for (const url of fetchUrls) {
@@ -453,6 +500,7 @@ export const useDocumentStore = defineStore('document', () => {
     activeGeneratedMatrixIndex,
     metamodelPath,
     specificationVersion,
+    documentationLocation,
     loadDocument,
     getConceptType,
     selectConcept,

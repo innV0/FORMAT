@@ -182,7 +182,7 @@ export function parseNodeInstances(text: string): ParsedInstance[] {
     const trimmed = line.trim();
     
     // Match optional * or - followed by <!-- block: [type] --> then the name
-    const markerMatch = line.match(/^[-*]?\s*<!--\s*block:\s*([a-zA-Z0-9_-]+)\s*-->\s*(.*)$/i);
+    const markerMatch = line.match(/^[-*]?\s*<!--\s*block:\s*([a-zA-Z0-9_\s-]+)\s*-->\s*(.*)$/i);
     
     if (markerMatch) {
       if (currentInstance) {
