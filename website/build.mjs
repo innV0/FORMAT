@@ -43,4 +43,9 @@ template = template
 
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, 'index.html'), template, 'utf8');
+
+// Preserve CNAME for custom domain
+const cname = join(__dir, 'CNAME');
+if (existsSync(cname)) copyFileSync(cname, join(outDir, 'CNAME'));
+
 console.log('✓ Built → docs/index.html');

@@ -1,7 +1,14 @@
 <template>
   <header class="flex items-center justify-between border-b border-border bg-card text-card-foreground px-6 py-3 shrink-0">
     <div class="flex items-center gap-3">
-      <div class="h-8 w-8 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg shadow-sm">i</div>
+      <button 
+        @click="documentStore.selectConcept('info')"
+        :class="documentStore.activeConceptName === 'info' ? 'bg-primary text-primary-foreground border-primary shadow-xs' : 'bg-primary/10 border-primary/20 text-primary hover:bg-primary/20 hover:text-primary'"
+        class="h-8 w-8 rounded-md flex items-center justify-center border transition-all cursor-pointer shadow-2xs"
+        title="View Model Status & Workspace Files"
+      >
+        <Info class="w-4.5 h-4.5" />
+      </button>
       <div>
         <h1 class="text-sm font-semibold tracking-tight">innV0 Business Model Modeler</h1>
         <p class="text-xs text-muted-foreground">
@@ -14,14 +21,8 @@
     
     <div class="flex items-center gap-3">
       <!-- Unsaved changes badge -->
-      <span v-if="documentStore.unsavedChanges" class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/20">
-        <span class="h-1.5 w-1.5 rounded-full bg-amber-600"></span>
-        Unsaved Changes
-      </span>
-      <span v-else class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-800 ring-1 ring-inset ring-emerald-600/20">
-        <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
-        Synced
-      </span>
+      <StatusBadge v-if="documentStore.unsavedChanges" status="unsaved">Unsaved Changes</StatusBadge>
+      <StatusBadge v-else status="synced">Synced</StatusBadge>
 
       <!-- Workspace Connection Dropdown Split Button -->
       <div class="relative inline-flex rounded-md shadow-xs" ref="dropdownRef">
@@ -119,9 +120,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle } from 'lucide-vue-next';
+import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useDocumentStore } from '../../stores/document';
+import StatusBadge from '../ui/StatusBadge.vue';
 
 const workspaceStore = useWorkspaceStore();
 const documentStore = useDocumentStore();

@@ -8,6 +8,7 @@
       :concept-type="'text'"
       :concept-emoji="conceptEmoji"
       :concept-color="conceptColor"
+      :has-markers="true"
       @change="updateSingleBlockText"
     />
 
@@ -86,21 +87,31 @@ const textBlock = ref({
   description: ''
 });
 
+const HEADER_REGEX = /^#\s+<!--\s*block:\s*[a-zA-Z0-9_\s-]+\s*-->\s*[^\n]*\r?\n*/i;
+
+const stripHeader = (text: string) => {
+  return text.replace(HEADER_REGEX, '').trim();
+};
+
 watch(activeConcept, (newVal) => {
   textBlock.value = {
     name: newVal,
-    description: documentStore.modelTextData[newVal] || ''
+    description: stripHeader(documentStore.modelTextData[newVal] || '')
   };
 }, { immediate: true });
 
 watch(() => documentStore.modelTextData[activeConcept.value], (newText) => {
-  if (textBlock.value.description !== newText) {
-    textBlock.value.description = newText || '';
+  const cleanText = stripHeader(newText || '');
+  if (textBlock.value.description !== cleanText) {
+    textBlock.value.description = cleanText;
   }
 });
 
 const updateSingleBlockText = () => {
-  documentStore.modelTextData[activeConcept.value] = textBlock.value.description;
+  const rawText = documentStore.modelTextData[activeConcept.value] || '';
+  const match = rawText.match(HEADER_REGEX);
+  const header = match ? match[0] : `# <!-- block: concepts --> ${activeConcept.value.toLowerCase()}\n\n`;
+  documentStore.modelTextData[activeConcept.value] = header + textBlock.value.description;
   documentStore.triggerUnsavedChanges();
 };
 
@@ -109,20 +120,42 @@ interface ParsedItem {
   id: string;
   name: string;
   description: string;
+  blockType?: string;
 }
 
 const parsedItems = ref<ParsedItem[]>([]);
+
+// Build a deterministic, content-derived id so re-parsing on every keystroke
+// keeps the same id — this is what lets markers stay anchored to a list item
+// and prevents the component from remounting (and losing focus) while editing.
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const stableItemId = (name: string, seen: Map<string, number>) => {
+  const base = `li-${slugify(activeConcept.value)}-${slugify(name) || 'unnamed'}`;
+  const count = seen.get(base) ?? 0;
+  seen.set(base, count + 1);
+  return count === 0 ? base : `${base}-${count}`;
+};
 
 // Sync from text markdown content to structured parsed items
 const syncFromMarkdown = () => {
   const text = documentStore.modelTextData[activeConcept.value] || '';
   const lines = text.split('\n');
   const items: ParsedItem[] = [];
-  
+  const seenIds = new Map<string, number>();
+
   lines.forEach(line => {
     const trimmed = line.trim();
     if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
-      const bulletContent = trimmed.substring(1).trim();
+      let bulletContent = trimmed.substring(1).trim();
+      
+      // Match optional <!-- block: [type] --> tag at the start of the bullet content
+      let blockType: string | undefined = undefined;
+      const markerMatch = bulletContent.match(/^<!--\s*block:\s*([a-zA-Z0-9_\s-]+)\s*-->\s*(.*)$/i);
+      if (markerMatch) {
+        blockType = markerMatch[1].trim();
+        bulletContent = markerMatch[2].trim();
+      }
+      
       const colonIdx = bulletContent.indexOf(':');
       let name = '';
       let description = '';
@@ -135,9 +168,10 @@ const syncFromMarkdown = () => {
       }
       
       items.push({
-        id: Math.random().toString(36).substr(2, 9),
+        id: stableItemId(name, seenIds),
         name,
-        description
+        description,
+        blockType
       });
     }
   });
@@ -147,20 +181,26 @@ const syncFromMarkdown = () => {
 
 // Sync from structured items back to markdown text
 const syncToMarkdown = () => {
+  const rawText = documentStore.modelTextData[activeConcept.value] || '';
+  const match = rawText.match(HEADER_REGEX);
+  const header = match ? match[0] : '';
+
   const mdLines = parsedItems.value.map(item => {
     const cleanName = item.name.trim();
     const cleanDesc = item.description.trim();
+    const prefix = item.blockType ? `<!-- block: ${item.blockType} --> ` : '';
+    
     if (cleanName && cleanDesc) {
-      return `- ${cleanName}: ${cleanDesc}`;
+      return `- ${prefix}${cleanName}: ${cleanDesc}`;
     } else if (cleanName) {
-      return `- ${cleanName}`;
+      return `- ${prefix}${cleanName}`;
     } else if (cleanDesc) {
-      return `- ${cleanDesc}`;
+      return `- ${prefix}${cleanDesc}`;
     }
     return '';
   }).filter(line => line !== '');
   
-  documentStore.modelTextData[activeConcept.value] = mdLines.join('\n');
+  documentStore.modelTextData[activeConcept.value] = header + mdLines.join('\n');
   documentStore.triggerUnsavedChanges();
 };
 
@@ -170,10 +210,15 @@ watch([activeConcept, () => documentStore.modelTextData[activeConcept.value]], (
 }, { immediate: true });
 
 const addListItem = () => {
+  const activeLower = activeConcept.value.toLowerCase();
+  const hasBlockTags = parsedItems.value.some(item => !!item.blockType) || 
+                       (documentStore.modelTextData[activeConcept.value] || '').includes('<!-- block:');
+                       
   parsedItems.value.push({
     id: Math.random().toString(36).substr(2, 9),
     name: 'New Concept Instance',
-    description: 'Description of the concept instance.'
+    description: 'Description of the concept instance.',
+    blockType: hasBlockTags ? activeLower : undefined
   });
   syncToMarkdown();
 };

@@ -2,10 +2,23 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "format-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5173,
+      "autoPort": false
+    },
+    {
       "name": "format-website",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "docs", "--listen", "4000"],
       "port": 4000
+    },
+    {
+      "name": "format-app",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "dist", "--listen", "4001"],
+      "port": 4001
     }
   ]
 }

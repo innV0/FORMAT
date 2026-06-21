@@ -5,11 +5,11 @@
 
     <!-- App Workspace -->
     <div class="flex-1 flex overflow-hidden">
-      <!-- Left Sidebar Navigation -->
-      <LeftSidebar />
+      <!-- Left Sidebar Navigation (Only visible when a file is open) -->
+      <LeftSidebar v-if="workspaceStore.activeFileName" />
 
       <!-- Main Editor Workspace -->
-      <main v-if="workspaceStore.activeFileName" class="flex-1 flex overflow-hidden bg-background">
+      <main class="flex-1 flex overflow-hidden bg-background">
         <!-- Center/Left: Editor Workspace -->
         <div class="flex-1 flex flex-col overflow-y-auto border-r border-border p-8">
           
@@ -17,7 +17,7 @@
           <div class="border-b border-border pb-4 mb-6 flex justify-between items-center shrink-0">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-md">
-                Type: {{ conceptType }}
+                Type: {{ workspaceStore.activeFileName ? conceptType : 'setup' }}
               </span>
               <h2 class="text-xl font-bold tracking-tight text-slate-900 mt-1.5">
                 {{ headerTitle }}
@@ -26,19 +26,22 @@
           </div>
 
           <!-- 1. TEXT CONCEPT EDITOR -->
-          <TextEditor v-if="isMarkdownEditor && !isAnalysisMode" />
+          <TextEditor v-if="workspaceStore.activeFileName && isMarkdownEditor && !isAnalysisMode" />
 
           <!-- 2. UNIFIED TREE VIEW -->
-          <TreeEditor v-else-if="conceptType === 'instantiable' && !isAnalysisMode" />
+          <TreeEditor v-else-if="workspaceStore.activeFileName && conceptType === 'instantiable' && !isAnalysisMode" />
 
           <!-- 3. METAMATRIX SETUP CONFIG -->
-          <MetamatrixConfig v-else-if="activeConcept === 'metamatrix'" />
+          <MetamatrixConfig v-else-if="workspaceStore.activeFileName && activeConcept === 'metamatrix'" />
 
           <!-- 4. RELATIONAL MATRICES DATA -->
-          <MatricesGrid v-else-if="activeConcept === 'matrices'" />
+          <MatricesGrid v-else-if="workspaceStore.activeFileName && activeConcept === 'matrices'" />
 
           <!-- 5. BUSINESS ANALYSIS VIEW -->
-          <AnalysisPanel v-else-if="isAnalysisMode" />
+          <AnalysisPanel v-else-if="workspaceStore.activeFileName && isAnalysisMode" />
+
+          <!-- 6. MODEL INFO VIEW (Rendered if 'info' selected OR if no file is active) -->
+          <ModelInfoPanel v-else-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
           <!-- FALLBACK/EMPTY STATE -->
           <div v-else class="text-slate-400 text-xs italic text-center my-auto">
@@ -46,27 +49,16 @@
           </div>
         </div>
 
-        <!-- Right Guidance Sidebar -->
-        <RightGuidanceSidebar />
+        <!-- Right Guidance Sidebar (Only when active concept is not 'info' and a file is active) -->
+        <RightGuidanceSidebar v-if="workspaceStore.activeFileName && activeConcept !== 'info'" />
       </main>
-
-      <!-- Empty Startup Placeholder (when no file selected) -->
-      <div v-else class="flex-1 flex flex-col items-center justify-center bg-slate-50/50 text-slate-400 text-sm p-8 border-l border-slate-100">
-        <div class="max-w-md text-center space-y-3">
-          <FileText class="w-12 h-12 text-slate-300 mx-auto" />
-          <h3 class="font-bold text-slate-700">No Model Connected</h3>
-          <p class="text-xs text-slate-500">
-            Select a markdown file from the workspace list or create a new one to begin editing your business model.
-          </p>
-        </div>
-      </div>
     </div>
     <!-- Directory selection guidance modal -->
     <DirectoryPickerModal />
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import Header from './components/layout/Header.vue';
 import LeftSidebar from './components/layout/LeftSidebar.vue';
 import RightGuidanceSidebar from './components/layout/RightGuidanceSidebar.vue';
@@ -77,11 +69,12 @@ import TreeEditor from './components/editor/TreeEditor.vue';
 import MetamatrixConfig from './components/editor/MetamatrixConfig.vue';
 import MatricesGrid from './components/editor/MatricesGrid.vue';
 import AnalysisPanel from './components/editor/AnalysisPanel.vue';
+import ModelInfoPanel from './components/editor/ModelInfoPanel.vue';
 
 import { useWorkspaceStore } from './stores/workspace';
 import { useDocumentStore } from './stores/document';
 import { useMetamodelStore } from './stores/metamodel';
-import { FileText } from 'lucide-vue-next';
+import { TreeNode } from './types';
 
 const workspaceStore = useWorkspaceStore();
 const documentStore = useDocumentStore();
@@ -99,14 +92,79 @@ const isMarkdownEditor = computed(() => {
 });
 
 const headerTitle = computed(() => {
+  if (!workspaceStore.activeFileName || activeConcept.value === 'info') return 'Model Information & Workspace';
   if (activeConcept.value === 'metamatrix') return 'Metamatrix Configuration';
   if (activeConcept.value === 'matrices') return 'Relational Matrices Grid';
   return activeConcept.value;
 });
 
+// URL hash sync
+function buildHash(concept: string, nodeId?: string | null): string {
+  const params = new URLSearchParams();
+  params.set('concept', concept);
+  if (nodeId) params.set('node', nodeId);
+  return params.toString();
+}
+
+function findNodeById(nodes: TreeNode[], id: string): TreeNode | null {
+  for (const node of nodes) {
+    if (node.id === id) return node;
+    const found = findNodeById(node.children, id);
+    if (found) return found;
+  }
+  return null;
+}
+
+function restoreFromHash() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+  const params = new URLSearchParams(hash);
+  const concept = params.get('concept');
+  const nodeId = params.get('node');
+  if (concept) {
+    documentStore.selectConcept(concept);
+  }
+  if (nodeId && documentStore.modelTree.length) {
+    const node = findNodeById(documentStore.modelTree, nodeId);
+    if (node) documentStore.selectTreeNode(node, concept ?? '');
+  }
+}
+
+let updatingHash = false;
+
+watch(
+  [() => documentStore.activeConceptName, () => documentStore.selectedNode],
+  ([concept, node]) => {
+    if (updatingHash) return;
+    const newHash = buildHash(concept, node?.id);
+    if (window.location.hash.slice(1) !== newHash) {
+      history.replaceState(null, '', '#' + newHash);
+    }
+  }
+);
+
+// Restore node selection once the tree is populated
+watch(
+  () => documentStore.modelTree,
+  (tree) => {
+    if (!tree.length) return;
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    const params = new URLSearchParams(hash);
+    const nodeId = params.get('node');
+    const concept = params.get('concept');
+    if (nodeId) {
+      const node = findNodeById(tree, nodeId);
+      if (node) documentStore.selectTreeNode(node, concept ?? '');
+    }
+  },
+  { once: true }
+);
+
 // Setup keyboard shortcuts and auto-load last directory
 onMounted(async () => {
   await workspaceStore.loadLastDirectory();
+  restoreFromHash();
 
   window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {

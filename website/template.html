@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,186 +14,92 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.slate.min.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:       #09090f;
-      --surface:  #0e0f1c;
-      --border:   #1a1d35;
-      --text:     #dde1f5;
-      --muted:    #6b7280;
-      --accent:   #4f8ef7;
-      --accent2:  #38e5c4;
-      --danger:   #f87171;
-      --mono:     'JetBrains Mono', monospace;
-      --sans:     'Inter', system-ui, sans-serif;
-      --max:      72rem;
-      --r:        0.75rem;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 1.0625rem;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
+      --pico-font-family: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
     }
 
     /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(9, 9, 15, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
+    header > nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.88);
+      border-bottom: 1px solid var(--pico-muted-border-color);
+      padding: 0 var(--pico-spacing);
     }
     .nav-brand {
       font-family: var(--mono);
-      font-size: 1rem;
       font-weight: 500;
-      color: var(--text);
+      font-size: 1rem;
       letter-spacing: 0.08em;
       text-decoration: none;
-    }
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-
-    /* ── LAYOUT ── */
-    section {
-      padding: 6rem 2rem;
-      max-width: var(--max);
-      margin: 0 auto;
+      color: var(--pico-color);
     }
 
     /* ── HERO ── */
     .hero {
-      padding: 8rem 2rem 6rem;
       text-align: center;
-      position: relative;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,142,247,0.12), transparent),
-        radial-gradient(ellipse 60% 40% at 80% 120%, rgba(56,229,196,0.06), transparent);
-      pointer-events: none;
+      padding: 6rem 1rem 4rem;
     }
     .hero h1 {
       font-family: var(--mono);
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 500;
+      font-size: clamp(2.5rem, 6vw, 4rem);
       letter-spacing: -0.02em;
-      color: #fff;
-      line-height: 1.1;
       margin-bottom: 0.5rem;
     }
     .hero h2 {
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
       font-weight: 300;
-      color: var(--accent2);
-      margin-bottom: 1.75rem;
+      color: var(--pico-primary);
       border: none;
-      padding: 0;
-      letter-spacing: 0.01em;
+      margin-bottom: 1.5rem;
     }
     .hero p {
       max-width: 52ch;
-      margin: 0 auto 2.5rem;
-      color: var(--muted);
-      font-size: 1.0625rem;
-      line-height: 1.75;
+      margin: 0 auto 2rem;
+      color: var(--pico-muted-color);
     }
-    .hero a {
+    .hero a[href] {
+      margin: 0.25rem 0.375rem;
       display: inline-block;
-      margin: 0.375rem 0.5rem;
-      padding: 0.7rem 1.6rem;
-      border-radius: var(--r);
-      font-size: 0.9375rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
     }
     .hero a:first-of-type {
-      background: var(--accent);
+      background: var(--pico-primary);
       color: #fff;
+      border-radius: var(--pico-border-radius);
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9375rem;
     }
-    .hero a:first-of-type:hover { background: #3a7eef; transform: translateY(-1px); }
     .hero a:last-of-type {
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-    .hero a:last-of-type:hover { border-color: var(--accent); color: var(--text); }
-
-    /* ── SECTION HEADERS ── */
-    section h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-    section h3 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--accent2);
-      margin: 2rem 0 0.5rem;
+      border: 1px solid var(--pico-muted-border-color);
+      color: var(--pico-muted-color);
+      border-radius: var(--pico-border-radius);
+      padding: 0.6rem 1.5rem;
+      text-decoration: none;
+      font-size: 0.9375rem;
     }
 
-    /* ── BODY TEXT ── */
-    section p { color: var(--muted); margin-bottom: 1rem; max-width: 68ch; }
-    section strong { color: var(--text); font-weight: 600; }
-    section em { color: var(--text); font-style: italic; }
+    /* ── SECTIONS ── */
+    section { padding: 4rem 0; }
+    section + section { border-top: 1px solid var(--pico-muted-border-color); }
+    .hero + section { border-top: none; }
 
-    /* ── LISTS ── */
-    section ul, section ol {
-      padding-left: 1.5rem;
-      margin: 1rem 0;
-    }
-    section li {
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-      padding-left: 0.25rem;
-    }
-    section li strong { color: var(--text); }
+    /* ── BLOCKQUOTE as pitch ── */
+    blockquote { border-left: 3px solid var(--pico-primary); }
 
-    /* ── BLOCKQUOTE (testimonial/pitch) ── */
-    section blockquote {
-      margin: 2rem 0;
-      padding: 1.25rem 1.75rem;
-      border-left: 3px solid var(--accent);
-      background: var(--surface);
-      border-radius: 0 var(--r) var(--r) 0;
-    }
-    section blockquote p {
-      color: var(--text);
-      font-style: italic;
-      font-size: 1.0625rem;
-      max-width: none;
-      margin: 0;
-    }
-
-    /* ── ORDERED LIST (how it works) ── */
+    /* ── HOW IT WORKS: numbered steps ── */
     .section-3 ol {
       counter-reset: steps;
       list-style: none;
       padding: 0;
       display: grid;
-      gap: 1rem;
+      gap: 0.75rem;
       margin-top: 1.5rem;
     }
     .section-3 ol li {
@@ -201,169 +107,232 @@
       display: flex;
       align-items: flex-start;
       gap: 1rem;
-      padding: 1.125rem 1.25rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      color: var(--muted);
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
     }
     .section-3 ol li::before {
       content: counter(steps);
       flex-shrink: 0;
-      width: 1.75rem; height: 1.75rem;
-      background: var(--accent);
+      width: 1.75rem;
+      height: 1.75rem;
+      background: var(--pico-primary);
       color: #fff;
       font-family: var(--mono);
       font-size: 0.8rem;
       font-weight: 500;
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin-top: 0.125rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.1rem;
     }
 
-    /* ── FEATURE CARDS (segments + products) ── */
-    .section-4 h3, .section-5 h3 {
-      padding: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r) var(--r) 0 0;
-      margin: 1.5rem 0 0;
-    }
-    .section-4 h3 + p, .section-5 h3 + p {
-      padding: 0 1.5rem 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 var(--r) var(--r);
-      margin: 0 0 0.25rem;
-      max-width: none;
-    }
-
-    /* ── PRICING TABLE ── */
-    section table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-      font-size: 0.9375rem;
-    }
-    section th {
-      text-align: left;
-      padding: 0.75rem 1rem;
-      color: var(--muted);
-      font-weight: 500;
-      font-size: 0.8125rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      border-bottom: 1px solid var(--border);
-    }
-    section td {
-      padding: 0.875rem 1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
-    }
-    section tr:last-child td { border-bottom: none; }
-    section td:first-child { color: var(--text); font-weight: 500; }
-    section td:nth-child(2) { font-family: var(--mono); color: var(--accent2); }
-
-    /* ── PRICING SECTION CTA ── */
-    .section-6 a {
-      display: inline-block;
-      margin: 1.25rem 0.5rem 0;
-      padding: 0.65rem 1.5rem;
-      border-radius: var(--r);
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .section-6 a:first-of-type {
-      background: var(--accent);
-      color: #fff;
-    }
-    .section-6 a:first-of-type:hover { background: #3a7eef; }
-    .section-6 a:last-of-type {
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-    .section-6 a:last-of-type:hover { border-color: var(--accent); color: var(--text); }
-
-    /* ── OPEN STANDARDS (last section) ── */
-    .section-7 {
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
+    /* ── OPEN STANDARDS: pill tags ── */
+    .section-7 { text-align: center; }
     .section-7 ul {
       list-style: none;
       padding: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
       margin: 1.5rem 0;
     }
     .section-7 ul li {
-      padding: 0.4rem 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--pico-muted-border-color);
       border-radius: 2rem;
       font-family: var(--mono);
       font-size: 0.85rem;
-      color: var(--accent2);
+      color: var(--pico-primary);
+    }
+    .section-7 p { max-width: none; }
+
+    /* ── DEMO SPLIT ── */
+    .demo-split {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      margin: 2rem 0;
+    }
+    .demo-col { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; overflow: hidden; }
+    .demo-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pico-muted-color);
+      margin-bottom: 0.25rem;
+    }
+    .demo-label code {
+      font-size: 0.75rem;
+      background: none;
+      padding: 0;
+      color: var(--pico-primary);
+    }
+    .demo-code {
+      background: var(--pico-card-background-color);
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      padding: 1.25rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre;
       margin: 0;
+      color: var(--pico-muted-color);
+      width: 100%;
+      box-sizing: border-box;
     }
-    .section-7 ul li strong {
-      color: var(--accent2);
-    }
-    .section-7 p { text-align: center; margin: 0 auto; }
-    .section-7 a { color: var(--accent); text-decoration: none; }
-    .section-7 a:hover { text-decoration: underline; }
+    .dm-comment { color: var(--pico-primary); opacity: 0.7; }
+    .dm-bullet  { color: var(--pico-primary); font-weight: 700; }
+    .dm-item    { color: var(--pico-color); font-weight: 500; }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      color: var(--muted);
+    .demo-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--pico-primary);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .demo-arrow svg { width: 2rem; height: 2rem; }
+    .demo-arrow-line {
+      width: 1px;
+      height: 2rem;
+      background: var(--pico-muted-border-color);
+    }
+
+    /* demo UI panel */
+    .demo-ui {
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      overflow: hidden;
+      background: var(--pico-card-background-color);
+    }
+    .ui-concept { padding: 0; }
+    .ui-concept-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      background: var(--pico-primary);
+      color: #fff;
       font-size: 0.8125rem;
+      font-weight: 600;
     }
-    footer a { color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
-
-    /* ── DIVIDER between sections ── */
-    section + section {
-      border-top: 1px solid var(--border);
+    .ui-emoji { font-size: 1rem; }
+    .ui-name  { flex: 1; }
+    .ui-count {
+      background: rgba(255,255,255,0.25);
+      border-radius: 1rem;
+      padding: 0.05rem 0.5rem;
+      font-size: 0.7rem;
     }
-    .hero + section { border-top: none; }
+    .ui-elements { padding: 0.5rem; display: flex; flex-direction: column; gap: 0.375rem; }
+    .ui-element {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: calc(var(--pico-border-radius) * 0.6);
+      color: var(--pico-color);
+      flex: 1;
+    }
+    .ui-score { margin-left: auto; font-size: 0.6rem; letter-spacing: -1px; }
+    .ui-score.high { color: var(--pico-primary); }
+    .ui-score.mid  { color: var(--pico-muted-color); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      nav { padding: 0 1rem; }
-      .nav-links { gap: 1rem; }
-      section { padding: 4rem 1.25rem; }
-      .hero { padding: 5rem 1.25rem 4rem; }
+    /* matrix inside demo */
+    .ui-matrix { border-top: 1px solid var(--pico-muted-border-color); padding: 0.625rem 0.75rem; }
+    .ui-matrix-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--pico-muted-color);
+      margin-bottom: 0.4rem;
+    }
+    .ui-matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65rem;
+      margin: 0;
+      table-layout: fixed;
+    }
+    .ui-matrix-table th, .ui-matrix-table td {
+      padding: 0.2rem 0.3rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border: 1px solid var(--pico-muted-border-color);
+      text-align: center;
+    }
+    .ui-matrix-table td:first-child { text-align: left; color: var(--pico-muted-color); }
+    .ui-matrix-table th { background: var(--pico-card-sectioning-background-color); font-weight: 500; }
+    .cell-max  { background: rgba(79,130,243,0.15); color: var(--pico-primary); font-weight: 600; }
+    .cell-high { background: rgba(79,130,243,0.07); color: var(--pico-primary); }
+    .cell-neu  { color: var(--pico-muted-color); }
+
+    @media (max-width: 700px) {
+      .demo-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+      .demo-arrow { flex-direction: row; }
+      .demo-arrow-line { width: 2rem; height: 1px; }
+    }
+
+    /* ── PRICING CTA buttons ── */
+    .section-6 a {
+      display: inline-block;
+      margin: 1rem 0.375rem 0;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--pico-border-radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .section-6 a:first-of-type {
+      background: var(--pico-primary);
+      color: #fff;
+    }
+    .section-6 a:last-of-type {
+      border: 1px solid var(--pico-muted-border-color);
+      color: var(--pico-muted-color);
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a class="nav-brand" href="/">FORMAT</a>
-    <div class="nav-links">
-      <a href="#pricing">Pricing</a>
-      <a href="../DOCS/v1.0.0/format-spec.md">Spec</a>
-      <a href="https://github.com/innV0/FORMAT">GitHub</a>
-    </div>
-  </nav>
+  <header>
+    <nav>
+      <ul><li><a class="nav-brand" href="/">FORMAT</a></li></ul>
+      <ul>
+        <li><a href="#get-started">Get started</a></li>
+        <li><a href="../docs/v1.0.0/format-spec.md">Spec</a></li>
+        <li><a href="https://github.com/innV0/FORMAT">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <main>
+  <main class="container">
     {{content}}
   </main>
 
-  <footer>
-    <p>
+  <footer class="container">
+    <small>
       FORMAT · Open-source · MIT License ·
       <a href="https://github.com/innV0/FORMAT">GitHub</a> ·
       <a href="mailto:lucas@lucascervera.com">Contact</a>
-    </p>
+    </small>
   </footer>
 </body>
 </html>

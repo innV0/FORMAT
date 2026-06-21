@@ -616,7 +616,7 @@ Description of Hotel Managers.
     const serialized = generateMarkdownFileContent({
       activeFileName: 'ghostbusters_model.md',
       specificationVersion: parsedTemplate.specificationVersion || '1.0.0',
-      documentationLocation: parsedTemplate.documentationLocation || 'DOCS/v1.0.0/',
+      documentationLocation: parsedTemplate.documentationLocation || 'docs/v1.0.0/',
       modelTextData: parsed.modelTextData,
       modelTree: parsed.modelTree,
       nodeMarkers: parsed.nodeMarkers,
@@ -643,7 +643,7 @@ Description of Hotel Managers.
         const key = Object.keys(parsed.modelTextData).find(k => k.toLowerCase() === source.toLowerCase()) || source;
         const rawText = parsed.modelTextData[key] || '';
         if (rawText.includes('<!-- block:')) {
-          const matchAll = [...rawText.matchAll(/<!--\s*block:\s*[\w-]+\s*-->\s*(.*)/gi)];
+          const matchAll = [...rawText.matchAll(/<!--\s*block:\s*[\w\s-]+\s*-->\s*(.*)/gi)];
           return matchAll.map(m => m[1].replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim());
         }
         const items: string[] = [];
@@ -680,7 +680,7 @@ Description of Hotel Managers.
         const key = Object.keys(parsed.modelTextData).find(k => k.toLowerCase() === target.toLowerCase()) || target;
         const rawText = parsed.modelTextData[key] || '';
         if (rawText.includes('<!-- block:')) {
-          const matchAll = [...rawText.matchAll(/<!--\s*block:\s*[\w-]+\s*-->\s*(.*)/gi)];
+          const matchAll = [...rawText.matchAll(/<!--\s*block:\s*[\w\s-]+\s*-->\s*(.*)/gi)];
           return matchAll.map(m => m[1].replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim());
         }
         const items: string[] = [];
