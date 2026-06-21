@@ -7,7 +7,13 @@
   >
     <!-- Top Row: Icon + Name + Active Markers (inline when NOT hovered) -->
     <div class="flex items-center gap-1.5 w-full min-w-0">
-      <IconRenderer v-if="resolvedEmoji" :icon="resolvedEmoji" custom-class="shrink-0 w-3.5 h-3.5 text-current/80" />
+      <!-- Concept (mold): show the abstract TYPE icon. Instance (concrete): show its emoji. -->
+      <component
+        v-if="kind === 'concept'"
+        :is="typeIcon"
+        class="shrink-0 w-3.5 h-3.5 text-current/70"
+      />
+      <IconRenderer v-else-if="resolvedEmoji" :icon="resolvedEmoji" custom-class="shrink-0 w-3.5 h-3.5 text-current/80" />
       <span class="text-current leading-tight text-left flex-1 min-w-0">
         <slot>{{ name }}</slot>
       </span>
@@ -26,7 +32,7 @@
           <component 
             :is="getMarkerIcon(marker.name)"
             class="pointer-events-none"
-            :class="getMarkerClasses(marker.name)"
+            :class="markerClassesFor(marker.name)"
           />
         </MarkerTooltip>
       </div>
@@ -73,7 +79,7 @@
           <component 
             :is="getMarkerIcon(marker.name)"
             @click.stop="cycleMarker(marker.name)"
-            :class="getMarkerClasses(marker.name)"
+            :class="markerClassesFor(marker.name)"
           />
         </MarkerTooltip>
       </div>
@@ -121,20 +127,15 @@ import { useDocumentStore } from '../../stores/document';
 import { getColorClasses } from '../../utils/colors';
 import IconRenderer from './IconRenderer.vue';
 import MarkerTooltip from './MarkerTooltip.vue';
+import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
+import { getConceptTypeIcon, type BlockKind } from '../../utils/conceptVisuals';
 import {
-  SolidCompletionIcon,
-  SolidCertaintyIcon,
-  SolidPriorityIcon,
-  SolidRatingIcon,
-  SolidWeightIcon
-} from './MarkerIcons';
-import { 
-  PlusCircle, 
-  Pencil, 
-  Check, 
-  Trash2, 
-  ArrowUp, 
-  ArrowDown 
+  PlusCircle,
+  Pencil,
+  Check,
+  Trash2,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-vue-next';
 
 const props = withDefaults(defineProps<{
@@ -148,6 +149,10 @@ const props = withDefaults(defineProps<{
   fullWidth?: boolean;
   as?: string;
   simplified?: boolean;
+  /** Semantic kind: 'concept' renders an outline mold, 'instance' a solid fill. */
+  kind?: BlockKind;
+  /** Concept type ('text' | 'category' | ...) used to pick the type icon for concepts. */
+  typeName?: string;
   // Expanded options support
   blockId?: string;
   showMarkers?: boolean;
@@ -165,6 +170,7 @@ const props = withDefaults(defineProps<{
   fullWidth: false,
   as: 'div',
   simplified: false,
+  kind: 'instance',
   showMarkers: false,
   showAddChild: false,
   showEdit: false,
@@ -203,6 +209,16 @@ const resolvedEmoji = computed(() => {
   }
   return '';
 });
+
+const resolvedType = computed(() => {
+  if (props.typeName) return props.typeName;
+  if (props.conceptType) {
+    return metamodelStore.getConceptByName(props.conceptType)?.type || null;
+  }
+  return null;
+});
+
+const typeIcon = computed(() => getConceptTypeIcon(resolvedType.value));
 
 const colorClasses = computed(() => getColorClasses(resolvedColor.value));
 
@@ -260,7 +276,18 @@ const pillClasses = computed(() => {
     ];
   }
 
-  // Normal block pill
+  // Concept (mold): outline / dashed border, no solid fill — reads as abstract.
+  if (props.kind === 'concept') {
+    return [
+      ...baseClasses,
+      'bg-white border-dashed',
+      colorClasses.value.text,
+      colorClasses.value.border,
+      props.interactive ? `${colorClasses.value.hoverBg} hover:shadow-xs` : ''
+    ];
+  }
+
+  // Instance (concrete): solid tinted fill — reads as a real, materialized block.
   return [
     ...baseClasses,
     colorClasses.value.bg,
@@ -284,62 +311,8 @@ const cycleMarker = (markerName: string) => {
   documentStore.triggerUnsavedChanges();
 };
 
-const getMarkerIcon = (markerName: string) => {
-  switch (markerName) {
-    case 'completion':
-      return SolidCompletionIcon;
-    case 'certainty':
-      return SolidCertaintyIcon;
-    case 'priority':
-      return SolidPriorityIcon;
-    case 'rating':
-      return SolidRatingIcon;
-    case 'weight':
-      return SolidWeightIcon;
-    default:
-      return SolidCertaintyIcon;
-  }
-};
-
-const getMarkerClasses = (markerName: string) => {
+const markerClassesFor = (markerName: string) => {
   if (!props.blockId) return '';
-  const score = documentStore.getNodeMarkerValue(props.blockId, markerName);
-  const base = 'transition-all duration-200 ease-in-out inline-flex items-center justify-center cursor-pointer shrink-0 overflow-hidden w-3.5 h-3.5';
-  
-  let colorClass = '';
-  if (score === 0) {
-    colorClass = 'text-slate-355 dark:text-slate-645 opacity-20 hover:opacity-40';
-  } else {
-    let opacityClass = '';
-    if (score === 1) {
-      opacityClass = 'opacity-40 hover:opacity-60';
-    } else if (score === 2) {
-      opacityClass = 'opacity-70 hover:opacity-85';
-    } else {
-      opacityClass = 'opacity-100';
-    }
-
-    switch (markerName) {
-      case 'completion':
-        colorClass = `text-emerald-600 dark:text-emerald-400 ${opacityClass}`;
-        break;
-      case 'certainty':
-        colorClass = `text-blue-600 dark:text-blue-400 ${opacityClass}`;
-        break;
-      case 'priority':
-        colorClass = `text-rose-600 dark:text-rose-400 ${opacityClass}`;
-        break;
-      case 'rating':
-        colorClass = `text-amber-500 dark:text-amber-400 ${opacityClass}`;
-        break;
-      case 'weight':
-        colorClass = `text-indigo-500 dark:text-indigo-400 ${opacityClass}`;
-        break;
-      default:
-        colorClass = `text-slate-500 ${opacityClass}`;
-    }
-  }
-
-  return `${base} ${colorClass}`;
+  return getMarkerClasses(markerName, documentStore.getNodeMarkerValue(props.blockId, markerName));
 };
 </script>

@@ -18,11 +18,13 @@
 
       <!-- Uniform BlockPill representing the Concept -->
       <BlockPill
+        kind="concept"
         :concept-type="node.name"
+        :type-name="node.type || undefined"
         :name="node.name"
         :emoji="node.emoji"
         :selected="activeName === node.name"
-        :variant="activeName === node.name ? 'medium' : 'small'"
+        :size="activeName === node.name ? 'md' : 'sm'"
         :interactive="true"
         @click="emitSelect(node.name)"
         class="flex-1"
@@ -57,21 +59,10 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import {
-  ChevronDown,
-  FileText,
-  Folder,
-  Scale,
-  ListChecks,
-  GitCommit,
-  HelpCircle,
-  GitBranch
-} from 'lucide-vue-next';
+import { ChevronDown, GitBranch } from 'lucide-vue-next';
 import { Concept } from '../../types';
-import { getColorClasses } from '../../utils/colors';
 import { useMetamodelStore } from '../../stores/metamodel';
 import BlockPill from '../editor/BlockPill.vue';
-import IconRenderer from '../editor/IconRenderer.vue';
 
 interface ConceptNode extends Concept {
   children?: ConceptNode[];
@@ -105,24 +96,4 @@ watch(() => props.expandedGeneration, (newVal) => {
 const emitSelect = (name: string) => {
   emit('select', name);
 };
-
-const conceptColor = computed(() => props.node.color || '');
-const colorClasses = computed(() => getColorClasses(conceptColor.value));
-
-const conceptIcon = computed(() => {
-  switch (props.node.type) {
-    case 'text':
-      return FileText;
-    case 'category':
-      return Folder;
-    case 'weight':
-      return Scale;
-    case 'steps':
-      return ListChecks;
-    case 'sequence':
-      return GitCommit;
-    default:
-      return HelpCircle;
-  }
-});
 </script>

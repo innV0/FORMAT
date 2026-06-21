@@ -125,12 +125,24 @@ interface ParsedItem {
 
 const parsedItems = ref<ParsedItem[]>([]);
 
+// Build a deterministic, content-derived id so re-parsing on every keystroke
+// keeps the same id — this is what lets markers stay anchored to a list item
+// and prevents the component from remounting (and losing focus) while editing.
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const stableItemId = (name: string, seen: Map<string, number>) => {
+  const base = `li-${slugify(activeConcept.value)}-${slugify(name) || 'unnamed'}`;
+  const count = seen.get(base) ?? 0;
+  seen.set(base, count + 1);
+  return count === 0 ? base : `${base}-${count}`;
+};
+
 // Sync from text markdown content to structured parsed items
 const syncFromMarkdown = () => {
   const text = documentStore.modelTextData[activeConcept.value] || '';
   const lines = text.split('\n');
   const items: ParsedItem[] = [];
-  
+  const seenIds = new Map<string, number>();
+
   lines.forEach(line => {
     const trimmed = line.trim();
     if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
@@ -156,7 +168,7 @@ const syncFromMarkdown = () => {
       }
       
       items.push({
-        id: Math.random().toString(36).substr(2, 9),
+        id: stableItemId(name, seenIds),
         name,
         description,
         blockType

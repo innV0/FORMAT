@@ -1,7 +1,7 @@
 <template>
   <div 
     class="border border-slate-200 rounded-lg p-5 bg-white shadow-2xs hover:shadow-xs transition-all duration-200 flex flex-col gap-4 relative"
-    :class="[isList ? 'border-l-4' : '', isList ? borderLeftColorClass : '']"
+    :class="[isList ? 'border-l-4' : '', isList ? colorClasses.borderLeft : '']"
   >
     <!-- Header Block (Giant Pill + Actions in Two Levels) -->
     <div 
@@ -35,20 +35,9 @@
         />
       </div>
 
-      <!-- Level 2: Block Name -->
+      <!-- Level 2: Block Name — one consistent treatment for every block. -->
       <div class="w-full">
-        <!-- If list instance, render as nested Big BlockPill. Otherwise, render as standard page header h3 -->
-        <BlockPill
-          v-if="isList"
-          size="lg"
-          :full-width="true"
-          :concept-type="conceptName"
-          :interactive="false"
-          class="font-bold shadow-2xs border border-current/25"
-        >
-          {{ block.name || '(Empty)' }}
-        </BlockPill>
-        <h3 v-else class="text-lg md:text-xl font-bold break-words whitespace-normal leading-tight" :title="block.name || '(Empty)'">
+        <h3 class="text-lg md:text-xl font-bold break-words whitespace-normal leading-tight" :title="block.name || '(Empty)'">
           {{ block.name || '(Empty)' }}
         </h3>
       </div>
@@ -162,17 +151,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { 
-  FileText, 
-  Folder, 
-  Scale,
-  ListChecks, 
-  GitCommit, 
-  HelpCircle
-} from 'lucide-vue-next';
-import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import { getColorClasses } from '../../utils/colors';
+import { renderInlineMarkdown } from '../../utils/renderMarkdown';
 import BlockPill from './BlockPill.vue';
 
 const props = withDefaults(defineProps<{
@@ -215,7 +196,6 @@ const emit = defineEmits<{
   (e: 'change'): void;
 }>();
 
-const metamodelStore = useMetamodelStore();
 const documentStore = useDocumentStore();
 
 const isEditing = ref(false);
@@ -224,61 +204,12 @@ const colorClasses = computed(() => {
   return getColorClasses(props.conceptColor);
 });
 
-const borderLeftColorClass = computed(() => {
-  const colors: Record<string, string> = {
-    blue: 'border-l-blue-600',
-    green: 'border-l-emerald-600',
-    indigo: 'border-l-indigo-600',
-    orange: 'border-l-orange-600',
-    red: 'border-l-rose-600',
-    violet: 'border-l-violet-600',
-    amber: 'border-l-amber-600',
-    yellow: 'border-l-yellow-600'
-  };
-  return colors[props.conceptColor.toLowerCase()] || 'border-l-indigo-600';
-});
-
 const cleanConceptName = computed(() => {
   const name = props.conceptName;
   return name.endsWith('s') ? name.slice(0, -1) : name;
 });
 
-const conceptIcon = computed(() => {
-  switch (props.conceptType) {
-    case 'text':
-      return FileText;
-    case 'category':
-      return Folder;
-    case 'weight':
-      return Scale;
-    case 'steps':
-      return ListChecks;
-    case 'sequence':
-      return GitCommit;
-    default:
-      return HelpCircle;
-  }
-});
-
-const renderedDescription = computed(() => {
-  const text = props.block.description;
-  if (!text) return '<p class="text-slate-400 italic text-xs">No description or details.</p>';
-  
-  // Clean basic HTML formatting logic
-  let html = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // Re-enable specific formatting safely
-  html = html
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/^\s*[-*]\s+(.*)$/gim, '<li class="ml-4 list-disc text-xs text-slate-600 my-1">$1</li>')
-    .replace(/\n/g, '<br>');
-
-  return html;
-});
+const renderedDescription = computed(() => renderInlineMarkdown(props.block.description));
 
 const visibleFields = computed(() => {
   if (!props.conceptFields || !props.block.fields) return [];

@@ -19,6 +19,7 @@
 
       <!-- Uniform BlockPill representing the Block Instance -->
       <BlockPill
+        kind="instance"
         :block-id="node.id"
         :concept-type="currentConcept"
         :selected="documentStore.selectedNode?.id === node.id"
