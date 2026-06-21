@@ -14,8 +14,10 @@
       :is-editing="editingId === 'concept'"
       :show-reorder="false"
       :show-delete="false"
+      :show-add-child="isListConcept"
       @update:collapsed="conceptCollapsed = $event"
       @edit-toggle="toggleEdit('concept')"
+      @add-child="$emit('add-item')"
       @change="$emit('change-concept')"
     />
 
