@@ -1,57 +1,40 @@
 <template>
   <div class="flex flex-col flex-1 gap-4 overflow-y-auto p-1">
-    <!-- Single instance text view -->
-    <BlockViewer
-      v-if="!isListConcept"
-      :block="textBlock"
-      :concept-name="activeConcept"
-      :concept-type="'text'"
-      :concept-emoji="conceptEmoji"
-      :concept-color="conceptColor"
-      :has-markers="true"
-      @change="updateSingleBlockText"
-    />
-
-    <!-- Multi-instance list view -->
-    <div v-else class="space-y-4">
-      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">
-          Concept Instances ({{ conceptType }})
-        </h4>
-        <button 
-          @click="addListItem"
-          class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-md font-bold flex items-center gap-1 cursor-pointer transition shadow-xs"
-        >
-          <Plus class="w-3.5 h-3.5" />
-          Add Item
-        </button>
-      </div>
-
-      <div v-if="parsedItems.length === 0" class="text-center py-12 text-slate-400 italic text-xs bg-slate-50 rounded-lg border border-dashed border-slate-200">
-        No instances found. Use "+ Add Item" or create bullet points (- Name: Description) to begin.
-      </div>
-
-      <div v-else class="space-y-4">
-        <BlockViewer
-          v-for="(item, idx) in parsedItems"
-          :key="item.id"
-          :block="item"
-          :concept-name="activeConcept"
-          :concept-type="conceptType"
-          :concept-emoji="conceptEmoji"
-          :concept-color="conceptColor"
-          :index="idx + 1"
-          :is-list="true"
-          :is-first="idx === 0"
-          :is-last="idx === parsedItems.length - 1"
-          :show-delete="true"
-          @delete="deleteListItem(idx)"
-          @move-up="moveItemUp(idx)"
-          @move-down="moveItemDown(idx)"
-          @change="syncToMarkdown"
-        />
-      </div>
+    <!-- Header with Add Item button for list concepts -->
+    <div v-if="isListConcept" class="flex justify-between items-center pb-2 border-b border-slate-100 shrink-0">
+      <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+        Concept Instances ({{ conceptType }})
+      </h4>
+      <button
+        @click="addListItem"
+        class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-md font-bold flex items-center gap-1 cursor-pointer transition shadow-xs"
+      >
+        <Plus class="w-3.5 h-3.5" />
+        Add Item
+      </button>
     </div>
+
+    <!-- Central feed: concept pinned + instances.
+         Keyed by concept so switching concepts remounts the feed — this resets
+         edit state and collapse defaults (list concept = collapsed context,
+         single concept = expanded content). -->
+    <BlockFeed
+      :key="activeConcept"
+      :concept-name="activeConcept"
+      :concept-type="conceptType"
+      :concept-color="conceptColor"
+      :concept-emoji="conceptEmoji"
+      :concept-block="textBlock"
+      :items="parsedItems"
+      :is-list-concept="isListConcept"
+      :has-markers="true"
+      @change-concept="updateSingleBlockText"
+      @change-item="syncToMarkdown"
+      @add-item="addListItem"
+      @delete-item="deleteListItem"
+      @move-item-up="moveItemUp"
+      @move-item-down="moveItemDown"
+    />
   </div>
 </template>
 
@@ -60,7 +43,7 @@ import { computed, ref, watch } from 'vue';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { Plus } from 'lucide-vue-next';
-import BlockViewer from './BlockViewer.vue';
+import BlockFeed from './BlockFeed.vue';
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
@@ -147,7 +130,7 @@ const syncFromMarkdown = () => {
     const trimmed = line.trim();
     if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
       let bulletContent = trimmed.substring(1).trim();
-      
+
       // Match optional <!-- block: [type] --> tag at the start of the bullet content
       let blockType: string | undefined = undefined;
       const markerMatch = bulletContent.match(/^<!--\s*block:\s*([a-zA-Z0-9_\s-]+)\s*-->\s*(.*)$/i);
@@ -155,18 +138,18 @@ const syncFromMarkdown = () => {
         blockType = markerMatch[1].trim();
         bulletContent = markerMatch[2].trim();
       }
-      
+
       const colonIdx = bulletContent.indexOf(':');
       let name = '';
       let description = '';
-      
+
       if (colonIdx !== -1) {
         name = bulletContent.substring(0, colonIdx).trim();
         description = bulletContent.substring(colonIdx + 1).trim();
       } else {
         name = bulletContent;
       }
-      
+
       items.push({
         id: stableItemId(name, seenIds),
         name,
@@ -175,7 +158,7 @@ const syncFromMarkdown = () => {
       });
     }
   });
-  
+
   parsedItems.value = items;
 };
 
@@ -189,7 +172,7 @@ const syncToMarkdown = () => {
     const cleanName = item.name.trim();
     const cleanDesc = item.description.trim();
     const prefix = item.blockType ? `<!-- block: ${item.blockType} --> ` : '';
-    
+
     if (cleanName && cleanDesc) {
       return `- ${prefix}${cleanName}: ${cleanDesc}`;
     } else if (cleanName) {
@@ -199,7 +182,7 @@ const syncToMarkdown = () => {
     }
     return '';
   }).filter(line => line !== '');
-  
+
   documentStore.modelTextData[activeConcept.value] = header + mdLines.join('\n');
   documentStore.triggerUnsavedChanges();
 };
@@ -211,9 +194,9 @@ watch([activeConcept, () => documentStore.modelTextData[activeConcept.value]], (
 
 const addListItem = () => {
   const activeLower = activeConcept.value.toLowerCase();
-  const hasBlockTags = parsedItems.value.some(item => !!item.blockType) || 
+  const hasBlockTags = parsedItems.value.some(item => !!item.blockType) ||
                        (documentStore.modelTextData[activeConcept.value] || '').includes('<!-- block:');
-                       
+
   parsedItems.value.push({
     id: Math.random().toString(36).substr(2, 9),
     name: 'New Concept Instance',
