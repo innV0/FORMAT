@@ -1,16 +1,10 @@
 <template>
   <div
-    class="border border-slate-200 rounded-lg bg-white shadow-2xs hover:shadow-xs transition-all duration-200 flex flex-col relative"
-    :class="[isList ? 'border-l-4' : '', isList ? palette.borderLeft : '']"
+    class="rounded-lg bg-slate-50 transition-all duration-200 flex flex-col relative"
   >
     <!-- Header: identity pill + controls -->
     <div
-      :class="[
-        palette.border,
-        palette.bg,
-        palette.text,
-        'flex items-center border-2 rounded-xl p-3 shadow-xs transition-all duration-150 gap-2 select-none',
-      ]"
+      class="flex items-center rounded-xl p-3 transition-all duration-150 gap-2 select-none text-slate-700"
     >
       <!-- Chevron expand/collapse -->
       <button
@@ -29,10 +23,39 @@
         :kind="kind"
         :concept-type="conceptName"
         :color="conceptColor"
-        :emoji="conceptEmoji"
+        :icon="conceptIcon"
         :name="`${cleanConceptName}${index !== undefined ? ' #' + index : ''}`"
         class="flex-1"
       />
+
+      <!-- Marker cycling toolbar -->
+      <template v-if="hasMarkers && block.id">
+        <span class="w-px h-3.5 bg-current/20 mx-0.5"></span>
+        <MarkerTooltip
+          v-for="marker in allMarkers"
+          :key="marker.name"
+          :marker="marker"
+          :score="markerValue(marker.name)"
+        >
+          <component
+            :is="getMarkerIcon(marker.name)"
+            @click.stop="cycleMarker(marker.name)"
+            class="cursor-pointer"
+            :class="markerClassesFor(marker.name)"
+          />
+        </MarkerTooltip>
+        <span class="w-px h-3.5 bg-current/20 mx-0.5"></span>
+      </template>
+
+      <!-- Add child -->
+      <button
+        v-if="showAddChild"
+        @click.stop="$emit('add-child')"
+        aria-label="Add child"
+        class="p-0.5 hover:bg-current/10 rounded transition-all cursor-pointer flex items-center justify-center shrink-0"
+      >
+        <PlusCircle class="w-3.5 h-3.5" />
+      </button>
 
       <!-- Reorder controls -->
       <template v-if="showReorder">
@@ -194,9 +217,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2 } from 'lucide-vue-next';
+import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2, PlusCircle } from 'lucide-vue-next';
 import BlockPill from './BlockPill.vue';
-import { useBlockVisuals } from '../../composables/useBlockVisuals';
+import MarkerTooltip from './MarkerTooltip.vue';
+import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
+import { useMetamodelStore } from '../../stores/metamodel';
 import { renderInlineMarkdown } from '../../utils/renderMarkdown';
 import { useDocumentStore } from '../../stores/document';
 import type { BlockKind } from '../../utils/conceptVisuals';
@@ -208,7 +233,7 @@ const props = withDefaults(defineProps<{
   conceptName: string;
   conceptFields?: any[];
   conceptColor?: string;
-  conceptEmoji?: string;
+  conceptIcon?: string;
   collapsed: boolean;
   isEditing: boolean;
   hasMarkers?: boolean;
@@ -216,16 +241,18 @@ const props = withDefaults(defineProps<{
   isList?: boolean;
   showDelete?: boolean;
   showReorder?: boolean;
+  showAddChild?: boolean;
   isFirst?: boolean;
   isLast?: boolean;
 }>(), {
   conceptFields: () => [],
   conceptColor: '',
-  conceptEmoji: '',
+  conceptIcon: '',
   hasMarkers: false,
   isList: false,
   showDelete: false,
   showReorder: false,
+  showAddChild: false,
   isFirst: false,
   isLast: false,
 });
@@ -236,20 +263,29 @@ const emit = defineEmits<{
   (e: 'move-up'): void;
   (e: 'move-down'): void;
   (e: 'delete'): void;
+  (e: 'add-child'): void;
   (e: 'change'): void;
   (e: 'update:field', fieldName: string, value: any): void;
 }>();
 
 const documentStore = useDocumentStore();
+const metamodelStore = useMetamodelStore();
 
-const visuals = useBlockVisuals({
-  kind: computed(() => props.kind),
-  conceptType: computed(() => props.conceptName),
-  color: computed(() => props.conceptColor),
-  emoji: computed(() => props.conceptEmoji),
-});
+const allMarkers = computed(() => metamodelStore.markers);
 
-const palette = computed(() => visuals.palette.value);
+const markerValue = (markerName: string) =>
+  documentStore.getNodeMarkerValue(props.block.id ?? '', markerName);
+
+const cycleMarker = (markerName: string) => {
+  const id = props.block.id;
+  if (!id) return;
+  const current = documentStore.getNodeMarkerValue(id, markerName);
+  documentStore.setNodeMarkerValue(id, markerName, (current + 1) % 4);
+  documentStore.triggerUnsavedChanges();
+};
+
+const markerClassesFor = (markerName: string) =>
+  getMarkerClasses(markerName, documentStore.getNodeMarkerValue(props.block.id ?? '', markerName));
 
 const cleanConceptName = computed(() => {
   const name = props.conceptName;

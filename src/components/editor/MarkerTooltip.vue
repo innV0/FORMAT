@@ -17,7 +17,7 @@
           <!-- Header: Emoji, Name, Score indicator -->
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-1.5 font-semibold text-sm">
-              <IconRenderer :icon="marker.emoji" fallback="help-circle" custom-class="w-4 h-4 text-indigo-400 shrink-0" />
+              <IconRenderer :icon="marker.icon" fallback="help-circle" custom-class="w-4 h-4 text-indigo-400 shrink-0" />
               <span class="capitalize text-slate-200">{{ marker.name }}</span>
             </div>
             
@@ -93,7 +93,7 @@ import IconRenderer from './IconRenderer.vue';
 interface Marker {
   name: string;
   symbol: string;
-  emoji: string;
+  icon: string;
   description: string;
   guidelines?: string;
   examples_high_score?: string;

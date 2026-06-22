@@ -1,7 +1,7 @@
 export interface Concept {
   name: string;
   category_id: string | null;
-  emoji: string;
+  icon: string;
   type: 'text' | 'category' | 'weight' | 'steps' | 'sequence' | null;
   description: string | null;
   summary?: string | null;
@@ -13,7 +13,7 @@ export interface Concept {
 export interface Marker {
   name: string;
   symbol: string;
-  emoji: string;
+  icon: string;
   description: string;
   color?: string;
   guidelines?: string;

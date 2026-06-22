@@ -4,88 +4,88 @@ import { Concept, Marker } from '../../types';
 
 // Minimal mock concepts list matching Ghostbusters file structure
 const mockConcepts: Concept[] = [
-  { name: 'Business summary', category_id: null, emoji: '📄', type: 'text', description: '' },
-  { name: 'Stakeholders', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Segments', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Profiles', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Persona', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Segmentation', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Market trends', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Market size', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Competition', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Roles', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Problems', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Value propositions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Messages', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Channels', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Relationships', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Perceptions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Emotions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Behaviors', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Journey', category_id: null, emoji: '👥', type: 'steps', description: '' },
-  { name: 'Products and services', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Portfolio', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Components', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Features', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Roadmap', category_id: null, emoji: '👥', type: 'steps', description: '' },
-  { name: 'Pricing', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Offerings', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Naming', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Branding', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Visual identity', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Logo', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Media plan', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Pitch', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Brochure', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Web', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Storytelling', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Presentations', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Inspiration', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Opportunity', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Business status', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Challenges', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Mission', category_id: null, emoji: '🎯', type: 'text', description: '' },
-  { name: 'Vision', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Organizational values', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Organizational goals', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Activities', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Functions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Resources', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Goals', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Skills', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Contributions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Compensations', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Positions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Phases', category_id: null, emoji: '👥', type: 'steps', description: '' },
-  { name: 'Milestones', category_id: null, emoji: '👥', type: 'sequence', description: '' },
-  { name: 'Metrics', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Revenue', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Life Time Value', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Costs', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Customer Aquisition Cost', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Unit economics', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Funding sources', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Shareholders', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Projections', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Legal issues', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Contracts', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Matrices', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Assumptions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Risks', category_id: null, emoji: '🔑', type: 'weight', description: '' },
-  { name: 'Suggestions', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Unfair advantage', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'SWOT', category_id: null, emoji: '👥', type: 'text', description: '' },
-  { name: 'Keys', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Coherence', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Experiments', category_id: null, emoji: '👥', type: 'weight', description: '' },
-  { name: 'Misc', category_id: null, emoji: '👥', type: 'text', description: '' }
+  { name: 'Business summary', category_id: null, icon: 'file-text', type: 'text', description: '' },
+  { name: 'Stakeholders', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Segments', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Profiles', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Persona', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Segmentation', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Market trends', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Market size', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Competition', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Roles', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Problems', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Value propositions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Messages', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Channels', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Relationships', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Perceptions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Emotions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Behaviors', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Journey', category_id: null, icon: 'users', type: 'steps', description: '' },
+  { name: 'Products and services', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Portfolio', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Components', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Features', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Roadmap', category_id: null, icon: 'users', type: 'steps', description: '' },
+  { name: 'Pricing', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Offerings', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Naming', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Branding', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Visual identity', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Logo', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Media plan', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Pitch', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Brochure', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Web', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Storytelling', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Presentations', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Inspiration', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Opportunity', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Business status', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Challenges', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Mission', category_id: null, icon: 'target', type: 'text', description: '' },
+  { name: 'Vision', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Organizational values', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Organizational goals', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Activities', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Functions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Resources', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Goals', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Skills', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Contributions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Compensations', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Positions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Phases', category_id: null, icon: 'users', type: 'steps', description: '' },
+  { name: 'Milestones', category_id: null, icon: 'users', type: 'sequence', description: '' },
+  { name: 'Metrics', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Revenue', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Life Time Value', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Costs', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Customer Aquisition Cost', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Unit economics', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Funding sources', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Shareholders', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Projections', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Legal issues', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Contracts', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Matrices', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Assumptions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Risks', category_id: null, icon: 'key', type: 'weight', description: '' },
+  { name: 'Suggestions', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Unfair advantage', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'SWOT', category_id: null, icon: 'users', type: 'text', description: '' },
+  { name: 'Keys', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Coherence', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Experiments', category_id: null, icon: 'users', type: 'weight', description: '' },
+  { name: 'Misc', category_id: null, icon: 'users', type: 'text', description: '' }
 ];
 
 const mockMarkers: Marker[] = [
-  { name: 'weight', symbol: '*', emoji: '➕', description: 'Relevance score' },
-  { name: 'certainty', symbol: '?', emoji: '❓', description: 'Certainty score' },
-  { name: 'priority', symbol: '!', emoji: '🚩', description: 'Priority level' },
-  { name: 'rating', symbol: '+', emoji: '⭐', description: 'Impact evaluation' }
+  { name: 'weight', symbol: '*', icon: 'plus', description: 'Relevance score' },
+  { name: 'certainty', symbol: '?', icon: 'help-circle', description: 'Certainty score' },
+  { name: 'priority', symbol: '!', icon: 'flag', description: 'Priority level' },
+  { name: 'rating', symbol: '+', icon: 'star', description: 'Impact evaluation' }
 ];
 
 describe('Markdown Parser Parity Tests', () => {
@@ -469,20 +469,20 @@ metamodel:
   concepts:
     - name: "business summary"
       category_id: null
-      emoji: "📄"
+      icon: "file-text"
       type: "text"
     - name: "stakeholders"
       category_id: null
-      emoji: "👥"
+      icon: "users"
       type: "weight"
     - name: "segments"
       category_id: null
-      emoji: "👥"
+      icon: "users"
       type: "weight"
   markers:
     - name: "weight"
       symbol: "*"
-      emoji: "➕"
+      icon: "plus"
   matrices:
     - name: "stakeholders-segments hierarchy matrix"
       source: "stakeholders"
@@ -608,15 +608,16 @@ Description of Hotel Managers.
     const markers = parsedTemplate.metamodel?.markers || [];
     const metamatrix = parsedTemplate.metamatrix;
     
-    const oldFilePath = path.resolve(__dirname, '../../../Samples/Ghostbusters/ghostbusters_model.md');
+    const oldFilePath = path.resolve(__dirname, '../../../Samples/Ghostbusters/Ghostbusters_V_1-0-0_FORMAT.md');
     const oldContent = fs.readFileSync(oldFilePath, 'utf8');
     
     const parsed = parseMarkdownModel(oldContent, concepts, metamatrix);
     
     const serialized = generateMarkdownFileContent({
       activeFileName: 'ghostbusters_model.md',
-      specificationVersion: parsedTemplate.specificationVersion || '1.0.0',
-      documentationLocation: parsedTemplate.documentationLocation || 'docs/v1.0.0/',
+      specificationVersion: parsedTemplate.specificationVersion || 'V_0-1-1',
+      specificationUrl: parsedTemplate.specificationUrl || 'https://format.innv0.com/spec/v0-1-1/format-spec.md',
+      documentationLocation: parsedTemplate.documentationLocation || 'docs/V_0-1-1/',
       modelTextData: parsed.modelTextData,
       modelTree: parsed.modelTree,
       nodeMarkers: parsed.nodeMarkers,
@@ -716,7 +717,7 @@ metamodel:
   concepts:
     - name: "stakeholders"
       category_id: null
-      emoji: "🤔"
+      icon: "help-circle"
       type: "weight"
       fields:
         - name: "importance"
@@ -732,12 +733,12 @@ metamodel:
             - "Inactive"
     - name: "segments"
       category_id: "stakeholders"
-      emoji: "🙋"
+      icon: "user-check"
       type: "weight"
   markers:
     - name: "weight"
       symbol: "*"
-      emoji: "➕"
+      icon: "plus"
   matrices: []
 title: "Fields Test Model"
 last_saved: "2026-06-19T17:48:57.479Z"
@@ -823,6 +824,39 @@ Description of Distressed Homeowners.
       .trim();
 
     expect(cleanSerialized).toBe(cleanSample);
+  });
+});
+
+describe('concept-block marker persistence', () => {
+  it('round-trips marker assignments anchored to a concept-block id (concept:<slug>)', () => {
+    const markers: Marker[] = [
+      { name: 'weight', symbol: '!', icon: '', description: 'Weight marker' }
+    ];
+
+    // Concept-kind blocks live in modelTextData, not modelTree. Their marker
+    // assignments are keyed by the stable concept id `concept:<slug>`.
+    const nodeMarkers = { 'concept:single-text-block': { weight: 2 } };
+
+    const serialized = generateMarkdownFileContent({
+      activeFileName: 'Concept Marker Test.md',
+      modelTextData: { 'single text block': '# <!-- block: concepts --> single text block\n\nSome body.' },
+      modelTree: [], // no tree nodes — the only marker lives on a concept block
+      nodeMarkers,
+      markers,
+      metamatrix: [],
+      matrixValues: {},
+      concepts: [],
+      getMatrixRowsList: () => [],
+      getMatrixColsList: () => []
+    });
+
+    // The concept row must be emitted in the item-markers matrix.
+    expect(serialized).toMatch(/concept:single-text-block/);
+
+    // And it must survive a parse round-trip back into nodeMarkers.
+    const parsed = parseMarkdownModel(serialized, []);
+    expect(parsed.nodeMarkers['concept:single-text-block']).toBeDefined();
+    expect(parsed.nodeMarkers['concept:single-text-block'].weight).toBe(2);
   });
 });
 

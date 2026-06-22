@@ -8,7 +8,7 @@
         :kind="'instance'"
         :concept-name="documentStore.selectedNodeType"
         :concept-type="selectedNodeConceptType || 'text'"
-        :concept-emoji="conceptEmoji"
+        :concept-icon="conceptIcon"
         :concept-color="conceptColor"
         :concept-fields="conceptFields"
         :has-markers="selectedNodeConceptType === 'weight'"
@@ -54,8 +54,8 @@ const selectedNodeConceptType = computed(() => {
   return metamodelStore.getConceptByName(documentStore.selectedNodeType)?.type || null;
 });
 
-const conceptEmoji = computed(() => {
-  return metamodelStore.getConceptByName(documentStore.selectedNodeType)?.emoji || '';
+const conceptIcon = computed(() => {
+  return metamodelStore.getConceptByName(documentStore.selectedNodeType)?.icon || '';
 });
 
 const conceptColor = computed(() => {

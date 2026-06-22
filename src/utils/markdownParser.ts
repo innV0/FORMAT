@@ -276,6 +276,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     metamodelPath: null as string | null,
     title: '',
     specificationVersion: '',
+    specificationUrl: '',
     documentationLocation: '',
     lastSaved: '',
     matrixValues: {} as MatrixValues,
@@ -333,6 +334,9 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     }
     if (frontmatter.specification_version) {
       parsed.specificationVersion = String(frontmatter.specification_version);
+    }
+    if (frontmatter.specification_url) {
+      parsed.specificationUrl = String(frontmatter.specification_url);
     }
     if (frontmatter.documentation_location) {
       parsed.documentationLocation = String(frontmatter.documentation_location);
@@ -531,7 +535,10 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
           const nodeName = (row[itemKey] || '').replace(/\*\*|\*|__/g, '').trim();
           if (!nodeName) return;
           
-          const node = findNodeByName(parsedTree, nodeName);
+          // Concept-block rows carry their raw `concept:<slug>` id as the label;
+          // use it directly instead of resolving against the hierarchy tree.
+          const isConceptRow = nodeName.toLowerCase().startsWith('concept:');
+          const node = isConceptRow ? null : findNodeByName(parsedTree, nodeName);
           const nodeId = node ? node.id : nodeName;
           
           if (!nodeMarkers[nodeId]) {
@@ -740,6 +747,7 @@ export function generateMarkdownFileContent(params: {
   activeFileName: string;
   metamodelPath?: string;
   specificationVersion?: string;
+  specificationUrl?: string;
   documentationLocation?: string;
   modelTextData: Record<string, string>;
   modelTree: TreeNode[];
@@ -761,7 +769,7 @@ export function generateMarkdownFileContent(params: {
     md = `---
 metamodel: "${params.metamodelPath}"
 title: "${title}"
-${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
+${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
 ---
 
 `;
@@ -801,7 +809,7 @@ ${params.specificationVersion ? `specification_version: "${params.specificationV
       })
     };
     md = `---
-${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}metamodel:
+${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}metamodel:
 ${stringifyYaml(inlineMetamodel, 2)}
 title: "${title}"
 last_saved: "${lastSaved}"
@@ -1012,17 +1020,33 @@ last_saved: "${lastSaved}"
   md += `| Item \\ Marker | ` + markerNames.join(' | ') + ' |\n';
   md += `| :--- | ` + markerNames.map(() => ':---:').join(' | ') + ' |\n';
   
+  const rowValsFor = (markerVals: Record<string, any>) =>
+    markerNames.map(m => {
+      const markerKey = Object.keys(markerVals).find(k => k.toLowerCase() === m.toLowerCase()) || m;
+      const v = markerVals[markerKey];
+      return (v !== undefined && v !== 0) ? v : '-';
+    });
+
+  // Track which nodeMarkers keys we've already emitted so concept-block rows
+  // (added below) never duplicate a tree-node row.
+  const emittedKeys = new Set<string>();
   allNodeIds.forEach((id, idx) => {
     const nodeName = allNodeNames[idx];
     const nodeCleanName = cleanName(nodeName);
     const markerKey = Object.keys(params.nodeMarkers).find(k => k.toLowerCase() === id.toLowerCase() || k.toLowerCase() === nodeCleanName.toLowerCase()) || nodeCleanName;
+    emittedKeys.add(markerKey.toLowerCase());
     const nodeMarkerVals = params.nodeMarkers[markerKey] || {};
-    const rowVals = markerNames.map(m => {
-      const markerKey = Object.keys(nodeMarkerVals).find(k => k.toLowerCase() === m.toLowerCase()) || m;
-      const v = nodeMarkerVals[markerKey];
-      return (v !== undefined && v !== 0) ? v : '-';
-    });
-    md += `| **${nodeCleanName}** | ` + rowVals.join(' | ') + ' |\n';
+    md += `| **${nodeCleanName}** | ` + rowValsFor(nodeMarkerVals).join(' | ') + ' |\n';
+  });
+
+  // Concept-kind blocks live in modelTextData, not modelTree, so they are not
+  // visited above. Emit their assignments using the raw `concept:<slug>` id as
+  // the row label so the parser can route them back to the same key on load.
+  Object.keys(params.nodeMarkers).forEach(key => {
+    if (!key.toLowerCase().startsWith('concept:')) return;
+    if (emittedKeys.has(key.toLowerCase())) return;
+    emittedKeys.add(key.toLowerCase());
+    md += `| **${key}** | ` + rowValsFor(params.nodeMarkers[key]).join(' | ') + ' |\n';
   });
   md += '\n';
 

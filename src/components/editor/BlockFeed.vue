@@ -7,15 +7,17 @@
       :concept-name="conceptName"
       :concept-type="conceptType"
       :concept-color="conceptColor"
-      :concept-emoji="conceptEmoji"
+      :concept-icon="conceptIcon"
       :concept-fields="conceptFields"
       :has-markers="hasMarkers"
       :collapsed="conceptCollapsed"
       :is-editing="editingId === 'concept'"
       :show-reorder="false"
       :show-delete="false"
+      :show-add-child="isListConcept"
       @update:collapsed="conceptCollapsed = $event"
       @edit-toggle="toggleEdit('concept')"
+      @add-child="$emit('add-item')"
       @change="$emit('change-concept')"
     />
 
@@ -33,7 +35,7 @@
         :concept-name="conceptName"
         :concept-type="conceptType"
         :concept-color="conceptColor"
-        :concept-emoji="conceptEmoji"
+        :concept-icon="conceptIcon"
         :concept-fields="conceptFields"
         :has-markers="hasMarkers"
         :index="idx + 1"
@@ -72,7 +74,7 @@ const props = withDefaults(defineProps<{
   conceptName: string;
   conceptType: string;
   conceptColor?: string;
-  conceptEmoji?: string;
+  conceptIcon?: string;
   conceptFields?: any[];
   conceptBlock: { id?: string; name: string; description: string; fields?: Record<string, any> };
   items: ParsedItem[];
@@ -80,7 +82,7 @@ const props = withDefaults(defineProps<{
   hasMarkers?: boolean;
 }>(), {
   conceptColor: '',
-  conceptEmoji: '',
+  conceptIcon: '',
   conceptFields: () => [],
   hasMarkers: false,
 });

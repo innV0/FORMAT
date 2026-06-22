@@ -17,20 +17,32 @@
       </button>
       <span v-else class="w-4.5 shrink-0"></span>
 
-      <!-- BlockCard representing the Block Instance -->
-      <BlockCard
+      <!-- Pill identity + Info popup on hover -->
+      <BlockInfo
         kind="instance"
         :block-id="node.id"
         :concept-type="currentConcept"
         :name="node.name || '(Empty)'"
-        :selected="documentStore.selectedNode?.id === node.id"
+        :description="node.description"
+        :fields="node.fields"
         :show-markers="conceptType === 'weight'"
-        :show-add-child="!!nextConcept"
-        :show-reorder="false"
-        @click="documentStore.selectTreeNode(node, currentConcept)"
-        @add-child="nextConcept && documentStore.addChildTreeNode(node, nextConcept)"
-        class="flex-1"
-      />
+        class="flex-1 min-w-0"
+      >
+        <BlockPill
+          kind="instance"
+          icon-mode="own"
+          :block-id="node.id"
+          :concept-type="currentConcept"
+          :name="node.name || '(Empty)'"
+          :description="node.description"
+          :fields="node.fields"
+          :instance-count="node.children?.length ?? 0"
+          :selected="documentStore.selectedNode?.id === node.id"
+          :interactive="true"
+          full-width
+          @click="documentStore.selectTreeNode(node, currentConcept)"
+        />
+      </BlockInfo>
     </div>
 
     <!-- Recursive children -->
@@ -57,7 +69,8 @@ import { TreeNode } from '../../types';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import TreeNodeItem from './TreeNodeItem.vue';
-import BlockCard from './BlockCard.vue';
+import BlockPill from './BlockPill.vue';
+import BlockInfo from './BlockInfo.vue';
 import { ChevronDown } from 'lucide-vue-next';
 
 const props = defineProps<{
