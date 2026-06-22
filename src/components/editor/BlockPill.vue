@@ -53,7 +53,6 @@ const props = withDefaults(defineProps<{
   conceptType?: string;
   color?: string;
   icon?: string;
-  iconMode?: 'type' | 'own';
   typeName?: ConceptType;
   selected?: boolean;
   interactive?: boolean;
@@ -82,7 +81,6 @@ const visuals = useBlockVisuals({
   conceptType: computed(() => props.conceptType),
   color: computed(() => props.color),
   icon: computed(() => props.icon),
-  iconMode: computed(() => props.iconMode),
   typeName: computed(() => props.typeName),
 });
 

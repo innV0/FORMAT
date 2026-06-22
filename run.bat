@@ -4,19 +4,12 @@ echo   Iniciando Servidor de Desarrollo para FORMAT
 echo ===================================================
 echo.
 
-echo [1/3] Verificando e instalando dependencias de la app...
+echo [1/2] Verificando e instalando dependencias de la app...
 call npm install
 echo.
 
-echo [2/3] Construyendo la web comercial...
-cd website
-call npm install --silent
-call node build.mjs
-cd ..
-echo.
-
-echo [3/3] Abriendo la web y lanzando el servidor de desarrollo...
+echo [2/2] Abriendo la app, la documentación y lanzando el servidor...
 start http://localhost:5173
-start docs\index.html
+start http://localhost:5173/docs/
 call npm run dev
 pause

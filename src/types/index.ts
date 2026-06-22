@@ -29,6 +29,28 @@ export interface MetamatrixRow {
   params: string;
 }
 
+// A directed concept→concept edge within a lens (parent contains/precedes child).
+export interface LensEdge {
+  parent: string; // concept name
+  child: string;  // concept name
+}
+
+// A lens is a named projection of the concepts, backed by a hierarchy matrix.
+// Concepts have no intrinsic hierarchy; each lens is one view over them.
+export interface Lens {
+  id: string;
+  name: string;
+  icon: string;
+  edges: LensEdge[];
+}
+
+// The local neighborhood of a concept within a single lens.
+export interface LensNeighborhood {
+  lens: Lens;
+  parents: string[];
+  children: string[];
+}
+
 export interface TreeNode {
   id: string;
   name: string;

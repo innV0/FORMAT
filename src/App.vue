@@ -99,17 +99,21 @@ const headerTitle = computed(() => {
 });
 
 // URL hash sync
-function buildHash(concept: string, nodeId?: string | null): string {
+// Note: node.id is generated on the fly at parse time (Math.random) and is NOT
+// persisted in the markdown, so it cannot be used for a stable permalink.
+// We key the hash by node.name instead, which is the only stable identifier
+// that survives a reload. First match wins if names collide.
+function buildHash(concept: string, nodeName?: string | null): string {
   const params = new URLSearchParams();
   params.set('concept', concept);
-  if (nodeId) params.set('node', nodeId);
+  if (nodeName) params.set('node', nodeName);
   return params.toString();
 }
 
-function findNodeById(nodes: TreeNode[], id: string): TreeNode | null {
+function findNodeByName(nodes: TreeNode[], name: string): TreeNode | null {
   for (const node of nodes) {
-    if (node.id === id) return node;
-    const found = findNodeById(node.children, id);
+    if (node.name === name) return node;
+    const found = findNodeByName(node.children, name);
     if (found) return found;
   }
   return null;
@@ -120,12 +124,12 @@ function restoreFromHash() {
   if (!hash) return;
   const params = new URLSearchParams(hash);
   const concept = params.get('concept');
-  const nodeId = params.get('node');
+  const nodeName = params.get('node');
   if (concept) {
     documentStore.selectConcept(concept);
   }
-  if (nodeId && documentStore.modelTree.length) {
-    const node = findNodeById(documentStore.modelTree, nodeId);
+  if (nodeName && documentStore.modelTree.length) {
+    const node = findNodeByName(documentStore.modelTree, nodeName);
     if (node) documentStore.selectTreeNode(node, concept ?? '');
   }
 }
@@ -136,7 +140,7 @@ watch(
   [() => documentStore.activeConceptName, () => documentStore.selectedNode],
   ([concept, node]) => {
     if (updatingHash) return;
-    const newHash = buildHash(concept, node?.id);
+    const newHash = buildHash(concept, node?.name);
     if (window.location.hash.slice(1) !== newHash) {
       history.replaceState(null, '', '#' + newHash);
     }
@@ -151,10 +155,10 @@ watch(
     const hash = window.location.hash.slice(1);
     if (!hash) return;
     const params = new URLSearchParams(hash);
-    const nodeId = params.get('node');
+    const nodeName = params.get('node');
     const concept = params.get('concept');
-    if (nodeId) {
-      const node = findNodeById(tree, nodeId);
+    if (nodeName) {
+      const node = findNodeByName(tree, nodeName);
       if (node) documentStore.selectTreeNode(node, concept ?? '');
     }
   },

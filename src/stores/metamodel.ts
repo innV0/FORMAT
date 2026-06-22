@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Concept, Marker, AnalysisKey } from '../types';
+import { Concept, Marker, AnalysisKey, Lens, LensNeighborhood } from '../types';
 import defaultMasterData from '../../innV0_master_data.json';
 import { DocumentationEntry } from '../utils/documentationParser';
 
@@ -120,6 +120,46 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     return ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
   });
 
+  // Lenses: named projections of the concepts, each backed by a hierarchy matrix.
+  // A concept has no intrinsic position; hierarchy is a view (lens) you apply.
+  // Phase 1 derives lenses from existing data (no format change):
+  //  - Taxonomy: reconstructed from category_id (the legacy single hierarchy).
+  //  - Hierarchy Chain: the instance hierarchy sequence surfaced at concept level.
+  const lenses = computed<Lens[]>(() => {
+    const list = concepts.value;
+    const byName = new Set(list.map(c => c.name));
+    const result: Lens[] = [];
+
+    const taxEdges = list
+      .filter(c => c.category_id && byName.has(c.category_id))
+      .map(c => ({ parent: c.category_id as string, child: c.name }));
+    if (taxEdges.length) {
+      result.push({ id: 'taxonomy', name: 'Taxonomy', icon: 'layers', edges: taxEdges });
+    }
+
+    const hc = hierarchyConcepts.value;
+    if (hc.length > 1) {
+      const chainEdges = [];
+      for (let i = 0; i < hc.length - 1; i++) {
+        chainEdges.push({ parent: hc[i], child: hc[i + 1] });
+      }
+      result.push({ id: 'hierarchy', name: 'Chain', icon: 'workflow', edges: chainEdges });
+    }
+
+    return result;
+  });
+
+  // For a concept, the local neighborhood (parents + children) in every lens that contains it.
+  const getConceptLenses = (name: string): LensNeighborhood[] => {
+    return lenses.value
+      .map(lens => ({
+        lens,
+        parents: lens.edges.filter(e => e.child === name).map(e => e.parent),
+        children: lens.edges.filter(e => e.parent === name).map(e => e.child),
+      }))
+      .filter(n => n.parents.length > 0 || n.children.length > 0);
+  };
+
   const getConceptByName = (name: string) => {
     const concept = concepts.value.find(c => c.name.toLowerCase() === name.toLowerCase());
     if (!concept) return undefined;
@@ -173,6 +213,8 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     markers,
     metamodelMatrices,
     hierarchyConcepts,
+    lenses,
+    getConceptLenses,
     loadDefaultMetamodel,
     loadCustomMetamodel,
     loadMetamodelFromObject,
