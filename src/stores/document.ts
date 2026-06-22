@@ -22,8 +22,9 @@ export const useDocumentStore = defineStore('document', () => {
   const matrixValues = ref<MatrixValues>({});
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
-  const specificationVersion = ref<string>('1.0.0');
-  const documentationLocation = ref<string>('docs/v1.0.0/');
+  const specificationVersion = ref<string>('V_0-1-1');
+  const specificationUrl = ref<string>('https://format.innv0.com/spec/v0-1-1/format-spec.md');
+  const documentationLocation = ref<string>('docs/V_0-1-1/');
   const analysisScores = ref<AnalysisScores>({});
 
   const loadDocument = (markdownContent: string) => {
@@ -36,8 +37,9 @@ export const useDocumentStore = defineStore('document', () => {
     }
     
     metamodelPath.value = parsed.metamodelPath;
-    specificationVersion.value = parsed.specificationVersion || '1.0.0';
-    documentationLocation.value = parsed.documentationLocation || 'docs/v1.0.0/';
+    specificationVersion.value = parsed.specificationVersion || 'V_0-1-1';
+    specificationUrl.value = parsed.specificationUrl || 'https://format.innv0.com/spec/v0-1-1/format-spec.md';
+    documentationLocation.value = parsed.documentationLocation || 'docs/V_0-1-1/';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
     nodeMarkers.value = parsed.nodeMarkers;
@@ -154,7 +156,7 @@ export const useDocumentStore = defineStore('document', () => {
     markersList.forEach(m => {
       const val = scores[m.name];
       if (val && val > 0) {
-        summary += m.emoji.repeat(val) + ' ';
+        summary += m.symbol.repeat(val) + ' ';
       }
     });
     return summary.trim();
@@ -366,6 +368,7 @@ export const useDocumentStore = defineStore('document', () => {
       activeFileName: workspaceStore.activeFileName || 'model.md',
       metamodelPath: metamodelPath.value || undefined,
       specificationVersion: specificationVersion.value,
+      specificationUrl: specificationUrl.value,
       documentationLocation: documentationLocation.value,
       modelTextData: modelTextData.value,
       modelTree: modelTree.value,
@@ -459,7 +462,7 @@ export const useDocumentStore = defineStore('document', () => {
       if (!content) {
         const fetchUrls = [
           `/${docPath}`,
-          `/docs/v1.0.0/metamodel_documentation.md`,
+          `/docs/V_0-1-1/metamodel_documentation.md`,
           `/Samples/metamodel_documentation.md`
         ];
         for (const url of fetchUrls) {
@@ -500,6 +503,7 @@ export const useDocumentStore = defineStore('document', () => {
     activeGeneratedMatrixIndex,
     metamodelPath,
     specificationVersion,
+    specificationUrl,
     documentationLocation,
     loadDocument,
     getConceptType,

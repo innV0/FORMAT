@@ -23,7 +23,7 @@
       :concept-name="activeConcept"
       :concept-type="conceptType"
       :concept-color="conceptColor"
-      :concept-emoji="conceptEmoji"
+      :concept-icon="conceptIcon"
       :concept-block="textBlock"
       :items="parsedItems"
       :is-list-concept="isListConcept"
@@ -55,8 +55,8 @@ const conceptColor = computed(() => {
   return metamodelStore.getConceptByName(activeConcept.value)?.color || '';
 });
 
-const conceptEmoji = computed(() => {
-  return metamodelStore.getConceptByName(activeConcept.value)?.emoji || '';
+const conceptIcon = computed(() => {
+  return metamodelStore.getConceptByName(activeConcept.value)?.icon || '';
 });
 
 // Check if this is an instantiable list-like concept
@@ -64,8 +64,13 @@ const isListConcept = computed(() => {
   return ['weight', 'steps', 'sequence', 'list'].includes(conceptType.value);
 });
 
-// Single instance text block state
+// Single instance text block state.
+// A stable, concept-derived id lets markers anchor to the concept block itself
+// (not just its instances), and keeps those values persisted across re-renders.
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const conceptBlockId = (name: string) => `concept:${slugify(name)}`;
 const textBlock = ref({
+  id: '',
   name: '',
   description: ''
 });
@@ -78,6 +83,7 @@ const stripHeader = (text: string) => {
 
 watch(activeConcept, (newVal) => {
   textBlock.value = {
+    id: conceptBlockId(newVal),
     name: newVal,
     description: stripHeader(documentStore.modelTextData[newVal] || '')
   };
@@ -111,7 +117,6 @@ const parsedItems = ref<ParsedItem[]>([]);
 // Build a deterministic, content-derived id so re-parsing on every keystroke
 // keeps the same id — this is what lets markers stay anchored to a list item
 // and prevents the component from remounting (and losing focus) while editing.
-const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const stableItemId = (name: string, seen: Map<string, number>) => {
   const base = `li-${slugify(activeConcept.value)}-${slugify(name) || 'unnamed'}`;
   const count = seen.get(base) ?? 0;

@@ -7,7 +7,7 @@
       :concept-name="conceptName"
       :concept-type="conceptType"
       :concept-color="conceptColor"
-      :concept-emoji="conceptEmoji"
+      :concept-icon="conceptIcon"
       :concept-fields="conceptFields"
       :has-markers="hasMarkers"
       :collapsed="conceptCollapsed"
@@ -35,7 +35,7 @@
         :concept-name="conceptName"
         :concept-type="conceptType"
         :concept-color="conceptColor"
-        :concept-emoji="conceptEmoji"
+        :concept-icon="conceptIcon"
         :concept-fields="conceptFields"
         :has-markers="hasMarkers"
         :index="idx + 1"
@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
   conceptName: string;
   conceptType: string;
   conceptColor?: string;
-  conceptEmoji?: string;
+  conceptIcon?: string;
   conceptFields?: any[];
   conceptBlock: { id?: string; name: string; description: string; fields?: Record<string, any> };
   items: ParsedItem[];
@@ -82,7 +82,7 @@ const props = withDefaults(defineProps<{
   hasMarkers?: boolean;
 }>(), {
   conceptColor: '',
-  conceptEmoji: '',
+  conceptIcon: '',
   conceptFields: () => [],
   hasMarkers: false,
 });

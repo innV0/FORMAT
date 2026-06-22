@@ -2,7 +2,7 @@
 
 *Flat, Open, Readable — Model Architecture Template*
 
-**Version 1.0 — Draft**
+**Version V_0-1-0 — Draft**
 
 FORMAT is a human-readable, agent-friendly, and version-controlled format for representing business models. It is designed to be easily authored by humans, generated/analyzed by AI agents, and versioned cleanly in Git.
 

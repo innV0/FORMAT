@@ -30,6 +30,7 @@
       >
         <BlockPill
           kind="instance"
+          icon-mode="own"
           :block-id="node.id"
           :concept-type="currentConcept"
           :name="node.name || '(Empty)'"

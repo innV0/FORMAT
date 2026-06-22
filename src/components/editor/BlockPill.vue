@@ -5,16 +5,17 @@
   >
     <!-- Identity row: icon + name + active markers -->
     <div class="flex items-center gap-1.5 w-full min-w-0">
-      <!-- Concept (mold): show the abstract TYPE icon. Instance (concrete): show its emoji. -->
+      <!-- Icon: TYPE icon when iconToShow is 'type', otherwise the block's own icon
+           (falling back to the TYPE icon when no own icon is available). -->
+      <IconRenderer
+        v-if="visuals.iconToShow.value === 'icon' && visuals.resolvedIcon.value"
+        :icon="visuals.resolvedIcon.value"
+        custom-class="shrink-0 w-3.5 h-3.5 text-current/80"
+      />
       <component
-        v-if="visuals.iconToShow.value === 'type'"
+        v-else
         :is="visuals.typeIcon.value"
         class="shrink-0 w-3.5 h-3.5 text-current/70"
-      />
-      <IconRenderer
-        v-else-if="visuals.resolvedEmoji.value"
-        :icon="visuals.resolvedEmoji.value"
-        custom-class="shrink-0 w-3.5 h-3.5 text-current/80"
       />
       <span class="text-current leading-tight text-left flex-1 min-w-0">
         <slot>{{ name }}</slot>
@@ -51,7 +52,8 @@ const props = withDefaults(defineProps<{
   kind?: BlockKind;
   conceptType?: string;
   color?: string;
-  emoji?: string;
+  icon?: string;
+  iconMode?: 'type' | 'own';
   typeName?: ConceptType;
   selected?: boolean;
   interactive?: boolean;
@@ -79,7 +81,8 @@ const visuals = useBlockVisuals({
   kind: computed(() => props.kind ?? 'instance'),
   conceptType: computed(() => props.conceptType),
   color: computed(() => props.color),
-  emoji: computed(() => props.emoji),
+  icon: computed(() => props.icon),
+  iconMode: computed(() => props.iconMode),
   typeName: computed(() => props.typeName),
 });
 

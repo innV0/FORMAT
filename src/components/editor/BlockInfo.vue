@@ -24,8 +24,8 @@
               class="shrink-0 w-4 h-4 text-slate-500"
             />
             <IconRenderer
-              v-else-if="visuals.resolvedEmoji.value"
-              :icon="visuals.resolvedEmoji.value"
+              v-else-if="visuals.resolvedIcon.value"
+              :icon="visuals.resolvedIcon.value"
               custom-class="shrink-0 w-4 h-4 text-slate-500"
             />
             <span class="font-semibold text-sm text-slate-800 break-words">{{ name || '(Empty)' }}</span>
@@ -90,7 +90,7 @@ const props = withDefaults(defineProps<{
   kind?: BlockKind;
   conceptType?: string;
   color?: string;
-  emoji?: string;
+  icon?: string;
   typeName?: ConceptType;
   description?: string;
   fields?: Record<string, any>;
@@ -109,7 +109,7 @@ const visuals = useBlockVisuals({
   kind: computed(() => props.kind),
   conceptType: computed(() => props.conceptType),
   color: computed(() => props.color),
-  emoji: computed(() => props.emoji),
+  icon: computed(() => props.icon),
   typeName: computed(() => props.typeName),
 });
 

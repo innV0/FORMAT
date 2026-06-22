@@ -23,7 +23,7 @@
         :kind="kind"
         :concept-type="conceptName"
         :color="conceptColor"
-        :emoji="conceptEmoji"
+        :icon="conceptIcon"
         :name="`${cleanConceptName}${index !== undefined ? ' #' + index : ''}`"
         class="flex-1"
       />
@@ -233,7 +233,7 @@ const props = withDefaults(defineProps<{
   conceptName: string;
   conceptFields?: any[];
   conceptColor?: string;
-  conceptEmoji?: string;
+  conceptIcon?: string;
   collapsed: boolean;
   isEditing: boolean;
   hasMarkers?: boolean;
@@ -247,7 +247,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   conceptFields: () => [],
   conceptColor: '',
-  conceptEmoji: '',
+  conceptIcon: '',
   hasMarkers: false,
   isList: false,
   showDelete: false,

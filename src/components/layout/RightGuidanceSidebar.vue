@@ -53,10 +53,10 @@
 
       <!-- Main Guidance Content -->
       <div v-if="guidance" class="space-y-6 mt-4">
-        <!-- Title & Emoji -->
+        <!-- Title & Icon -->
         <div>
           <div class="flex items-center gap-2">
-            <IconRenderer :icon="guidance?.emoji" fallback="info" custom-class="w-6 h-6 text-indigo-600 shrink-0" />
+            <IconRenderer :icon="guidance?.icon" fallback="info" custom-class="w-6 h-6 text-indigo-600 shrink-0" />
             <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
               {{ activeConcept }} Guidance
             </h2>

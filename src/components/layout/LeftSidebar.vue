@@ -102,7 +102,11 @@
               <ArrowLeft class="w-3.5 h-3.5" />
             </button>
             <span v-if="activeHierarchyConcept" class="flex items-center gap-1.5 min-w-0">
-              <span v-if="activeHierarchyConcept.emoji" class="text-sm leading-none shrink-0">{{ activeHierarchyConcept.emoji }}</span>
+              <IconRenderer
+                v-if="activeHierarchyConcept.icon"
+                :icon="activeHierarchyConcept.icon"
+                custom-class="w-3.5 h-3.5 text-indigo-600 shrink-0"
+              />
               <span class="text-xs font-semibold text-indigo-700 truncate">{{ activeHierarchyConcept.name }}</span>
             </span>
           </div>
@@ -172,6 +176,7 @@ import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import ConceptTreeNode from './ConceptTreeNode.vue';
 import TreeNodeItem from '../editor/TreeNodeItem.vue';
+import IconRenderer from '../editor/IconRenderer.vue';
 
 const workspaceStore = useWorkspaceStore();
 const metamodelStore = useMetamodelStore();

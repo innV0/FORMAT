@@ -147,7 +147,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     if (doc) {
       return {
         name,
-        emoji: '📊',
+        icon: 'bar-chart-2',
         summary: doc.summary || `Relational matrix between ${source} and ${target}.`,
         description: doc.description || `Relational grid mapping ${source} to ${target}.`,
         methodologies: doc.methodologies,
@@ -157,7 +157,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     
     return {
       name,
-      emoji: '📊',
+      icon: 'bar-chart-2',
       summary: `Relational matrix between ${source} and ${target}.`,
       description: `Allows connecting and analyzing relationships between ${source} items (rows) and ${target} items (columns).`,
       prompts: [

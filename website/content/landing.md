@@ -11,7 +11,7 @@ FORMAT reads a single structured `.md` file that holds your complete business st
 segments, problems, value propositions, roadmap, finances, team — all interconnected.
 Drop it as context into any AI model and get strategic answers. Commit it to Git and get a living, visual, version-controlled business model.
 
-[Try it free →](#get-started) [Read the spec →](../docs/v1.0.0/format-spec.md)
+[Try it free →](#get-started) [Read the spec →](../docs/V_0-1-1/format-spec.md)
 
 ---
 
@@ -201,4 +201,4 @@ readable without any tool — by humans and AI models alike.
 - **AI-ready** — designed from the ground up for LLM context injection and generation
 - **Single source of truth** — one file, complete business knowledge, zero context fragmentation
 
-[Read the full specification →](../docs/v1.0.0/format-spec.md) · [View on GitHub →](https://github.com/innV0/FORMAT)
+[Read the full specification →](../docs/V_0-1-1/format-spec.md) · [View on GitHub →](https://github.com/innV0/FORMAT)

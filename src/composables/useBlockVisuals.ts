@@ -11,17 +11,24 @@ export interface BlockVisualsOptions {
   kind: MaybeRef<BlockKind>;
   conceptType?: MaybeRef<string | undefined>;
   color?: MaybeRef<string | undefined>;
-  emoji?: MaybeRef<string | undefined>;
+  icon?: MaybeRef<string | undefined>;
   typeName?: MaybeRef<ConceptType | undefined>;
+  /**
+   * Overrides which icon a pill shows, independent of `kind`:
+   * - `'type'` → the abstract concept-TYPE icon (text/category/weight/…).
+   * - `'own'`  → the concept's/instance's own icon.
+   * When omitted, defaults to the kind-based behavior (concept → type, instance → own).
+   */
+  iconMode?: MaybeRef<'type' | 'own' | undefined>;
 }
 
 export interface BlockVisuals {
   resolvedColor: ComputedRef<string>;
-  resolvedEmoji: ComputedRef<string>;
+  resolvedIcon: ComputedRef<string>;
   resolvedType: ComputedRef<ConceptType>;
   typeIcon: ComputedRef<Component>;
   palette: ComputedRef<ColorPalette>;
-  iconToShow: ComputedRef<'type' | 'emoji'>;
+  iconToShow: ComputedRef<'type' | 'icon'>;
   containerClasses: ComputedRef<string[]>;
 }
 
@@ -36,11 +43,11 @@ export function useBlockVisuals(opts: BlockVisualsOptions): BlockVisuals {
     return '';
   });
 
-  const resolvedEmoji = computed<string>(() => {
-    const emoji = toValue(opts.emoji);
-    if (emoji !== undefined) return emoji;
+  const resolvedIcon = computed<string>(() => {
+    const icon = toValue(opts.icon);
+    if (icon !== undefined) return icon;
     const ct = toValue(opts.conceptType);
-    if (ct) return metamodelStore.getConceptByName(ct)?.emoji || '';
+    if (ct) return metamodelStore.getConceptByName(ct)?.icon || '';
     return '';
   });
 
@@ -56,17 +63,20 @@ export function useBlockVisuals(opts: BlockVisualsOptions): BlockVisuals {
 
   const palette = computed<ColorPalette>(() => getColorClasses(resolvedColor.value));
 
-  const iconToShow = computed<'type' | 'emoji'>(() =>
-    toValue(opts.kind) === 'concept' ? 'type' : 'emoji'
-  );
+  const iconToShow = computed<'type' | 'icon'>(() => {
+    const mode = toValue(opts.iconMode);
+    if (mode === 'type') return 'type';
+    if (mode === 'own') return 'icon';
+    return toValue(opts.kind) === 'concept' ? 'type' : 'icon';
+  });
 
   const containerClasses = computed<string[]>(() => {
     const p = palette.value;
     if (toValue(opts.kind) === 'concept') {
-      return ['bg-white', 'border-dashed', p.text, p.border];
+      return [p.bg, 'border-solid', p.text, p.border];
     }
-    return [p.bg, p.text, p.border];
+    return [p.bg, 'border-dashed', p.text, p.border];
   });
 
-  return { resolvedColor, resolvedEmoji, resolvedType, typeIcon, palette, iconToShow, containerClasses };
+  return { resolvedColor, resolvedIcon, resolvedType, typeIcon, palette, iconToShow, containerClasses };
 }
