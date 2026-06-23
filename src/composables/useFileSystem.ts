@@ -40,7 +40,8 @@ export function useFileSystem() {
   const saveFileContent = async (
     directory: FileSystemDirectoryHandle,
     fileName: string,
-    content: string
+    content: string,
+    createBackup: boolean = false
   ): Promise<boolean> => {
     try {
       // 1. Get or create the active file
@@ -49,17 +50,19 @@ export function useFileSystem() {
       await writable.write(content);
       await writable.close();
 
-      // 2. Try creating backup
-      try {
-        const backupsDir = await directory.getDirectoryHandle('backups', { create: true });
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const backupName = fileName.replace('.md', '') + '_' + timestamp + '.md';
-        const backupFileHandle = await backupsDir.getFileHandle(backupName, { create: true });
-        const backupWritable = await backupFileHandle.createWritable();
-        await backupWritable.write(content);
-        await backupWritable.close();
-      } catch (backupErr) {
-        console.warn('Backup could not be written:', backupErr);
+      // 2. Optionally snapshot a timestamped copy into the backups folder
+      if (createBackup) {
+        try {
+          const backupsDir = await directory.getDirectoryHandle('backups', { create: true });
+          const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+          const backupName = fileName.replace('.md', '') + '_' + timestamp + '.md';
+          const backupFileHandle = await backupsDir.getFileHandle(backupName, { create: true });
+          const backupWritable = await backupFileHandle.createWritable();
+          await backupWritable.write(content);
+          await backupWritable.close();
+        } catch (backupErr) {
+          console.warn('Backup could not be written:', backupErr);
+        }
       }
 
       return true;

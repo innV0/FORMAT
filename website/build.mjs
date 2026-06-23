@@ -36,7 +36,7 @@ const sections = buildSections(body);
 
 let template = readFileSync(join(__dir, 'template.html'), 'utf8');
 template = template
-  .replace(/\{\{title\}\}/g, meta.title || 'FORMAT')
+  .replace(/\{\{title\}\}/g, meta.title || '_FORMAT')
   .replace(/\{\{description\}\}/g, meta.description || '')
   .replace(/\{\{og_image\}\}/g, meta.og_image || '')
   .replace(/\{\{content\}\}/g, sections);

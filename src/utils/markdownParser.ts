@@ -1,4 +1,5 @@
 import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore } from '../types';
+import { parseFormatFilename } from './version';
 
 /**
  * Parses a YAML-like indentation-based frontmatter block into a JS object.
@@ -276,6 +277,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     metamodelPath: null as string | null,
     title: '',
     specificationVersion: '',
+    modelVersion: '',
     specificationUrl: '',
     documentationLocation: '',
     lastSaved: '',
@@ -307,23 +309,26 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
       console.error("YAML PARSE FAILURE CONTENT:\n", fmMatch[1]);
       throw e;
     }
-    if (frontmatter.metamodel) {
-      if (typeof frontmatter.metamodel === 'string') {
-        parsed.metamodelPath = frontmatter.metamodel;
+    const metamodelObj = frontmatter.template || frontmatter.metamodel;
+    if (metamodelObj) {
+      if (typeof metamodelObj === 'string') {
+        parsed.metamodelPath = metamodelObj;
       } else {
         parsed.metamodelPath = null;
-        parsed.metamodel = frontmatter.metamodel;
-        if (Array.isArray(frontmatter.metamodel.concepts)) {
-          conceptsList = frontmatter.metamodel.concepts;
+        parsed.metamodel = metamodelObj;
+        if (Array.isArray(metamodelObj.concepts)) {
+          conceptsList = metamodelObj.concepts;
         }
-        if (Array.isArray(frontmatter.metamodel.matrices)) {
-          frontmatter.metamodel.matrices.forEach((m: any) => {
+        if (Array.isArray(metamodelObj.matrices)) {
+          metamodelObj.matrices.forEach((m: any) => {
             parsed.metamatrix.push({
               name: m.name,
               source: m.source,
               target: m.target,
               widgetType: m.widgetType || 'cycle',
-              params: m.params || m.values || ''
+              params: m.params || m.values || '',
+              min_color: m.min_color || m.minColor || undefined,
+              max_color: m.max_color || m.maxColor || undefined
             });
           });
         }
@@ -334,6 +339,9 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     }
     if (frontmatter.specification_version) {
       parsed.specificationVersion = String(frontmatter.specification_version);
+    }
+    if (frontmatter.model_version) {
+      parsed.modelVersion = String(frontmatter.model_version);
     }
     if (frontmatter.specification_url) {
       parsed.specificationUrl = String(frontmatter.specification_url);
@@ -468,7 +476,9 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
             source: row['Source'] || row['Origen'] || '',
             target: row['Target'] || row['Destino'] || '',
             widgetType: w,
-            params: p
+            params: p,
+            min_color: row['Min Color'] || row['Color Min'] || row['min_color'] || undefined,
+            max_color: row['Max Color'] || row['Color Max'] || row['max_color'] || undefined
           });
         }
       });
@@ -747,6 +757,7 @@ export function generateMarkdownFileContent(params: {
   activeFileName: string;
   metamodelPath?: string;
   specificationVersion?: string;
+  modelVersion?: string;
   specificationUrl?: string;
   documentationLocation?: string;
   modelTextData: Record<string, string>;
@@ -761,15 +772,18 @@ export function generateMarkdownFileContent(params: {
   getMatrixColsList: (target: string) => string[];
 }): string {
   const isFlatFormat = !params.metamodelPath;
-  const title = params.activeFileName.replace('.md', '');
+  // For FORMAT-compliant names (§8.1) the title is the <Name> segment, not the
+  // full versioned file name; otherwise fall back to the name minus extension.
+  const parsedName = parseFormatFilename(params.activeFileName);
+  const title = parsedName ? parsedName.baseName : params.activeFileName.replace('.md', '');
   const lastSaved = new Date().toISOString();
   
   let md = '';
   if (!isFlatFormat) {
     md = `---
-metamodel: "${params.metamodelPath}"
+template: "${params.metamodelPath}"
 title: "${title}"
-${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
+${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.modelVersion ? `model_version: "${params.modelVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
 ---
 
 `;
@@ -805,11 +819,17 @@ ${params.specificationVersion ? `specification_version: "${params.specificationV
         if (m.params) {
           row.params = m.params;
         }
+        if (m.min_color) {
+          row.min_color = m.min_color;
+        }
+        if (m.max_color) {
+          row.max_color = m.max_color;
+        }
         return row;
       })
     };
     md = `---
-${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}metamodel:
+${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.modelVersion ? `model_version: "${params.modelVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}template:
 ${stringifyYaml(inlineMetamodel, 2)}
 title: "${title}"
 last_saved: "${lastSaved}"
@@ -977,7 +997,7 @@ last_saved: "${lastSaved}"
         const sourceCleanName = cleanName(s.name);
         const childNames = s.children.map(c => cleanName(c.name));
         const rowVals = cleanTargets.map(t => childNames.some(c => c.toLowerCase() === t.toLowerCase()) ? 'X' : '-');
-        md += `| **${sourceCleanName}** | ` + rowVals.join(' | ') + ' |\n';
+        md += `| ${sourceCleanName} | ` + rowVals.join(' | ') + ' |\n';
       });
       md += '\n';
     }
@@ -1036,7 +1056,7 @@ last_saved: "${lastSaved}"
     const markerKey = Object.keys(params.nodeMarkers).find(k => k.toLowerCase() === id.toLowerCase() || k.toLowerCase() === nodeCleanName.toLowerCase()) || nodeCleanName;
     emittedKeys.add(markerKey.toLowerCase());
     const nodeMarkerVals = params.nodeMarkers[markerKey] || {};
-    md += `| **${nodeCleanName}** | ` + rowValsFor(nodeMarkerVals).join(' | ') + ' |\n';
+    md += `| ${nodeCleanName} | ` + rowValsFor(nodeMarkerVals).join(' | ') + ' |\n';
   });
 
   // Concept-kind blocks live in modelTextData, not modelTree, so they are not
@@ -1046,7 +1066,7 @@ last_saved: "${lastSaved}"
     if (!key.toLowerCase().startsWith('concept:')) return;
     if (emittedKeys.has(key.toLowerCase())) return;
     emittedKeys.add(key.toLowerCase());
-    md += `| **${key}** | ` + rowValsFor(params.nodeMarkers[key]).join(' | ') + ' |\n';
+    md += `| ${key} | ` + rowValsFor(params.nodeMarkers[key]).join(' | ') + ' |\n';
   });
   md += '\n';
 
@@ -1055,11 +1075,20 @@ last_saved: "${lastSaved}"
   } else {
     md += `# Metamatrix\n\n`;
   }
-  md += `| Matrix Name | Source | Target | Widget Type | Widget Parameters |\n`;
-  md += `| :--- | :--- | :--- | :--- | :--- |\n`;
-  params.metamatrix.forEach(mat => {
-    md += `| ${mat.name} | ${mat.source} | ${mat.target} | ${mat.widgetType} | ${mat.params || '-'} |\n`;
-  });
+  const hasColors = params.metamatrix.some(m => m.min_color || m.max_color);
+  if (hasColors) {
+    md += `| Matrix Name | Source | Target | Widget Type | Widget Parameters | Min Color | Max Color |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n`;
+    params.metamatrix.forEach(mat => {
+      md += `| ${mat.name} | ${mat.source} | ${mat.target} | ${mat.widgetType} | ${mat.params || '-'} | ${mat.min_color || '-'} | ${mat.max_color || '-'} |\n`;
+    });
+  } else {
+    md += `| Matrix Name | Source | Target | Widget Type | Widget Parameters |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+    params.metamatrix.forEach(mat => {
+      md += `| ${mat.name} | ${mat.source} | ${mat.target} | ${mat.widgetType} | ${mat.params || '-'} |\n`;
+    });
+  }
   md += '\n';
 
   params.metamatrix.forEach(mat => {
@@ -1085,7 +1114,7 @@ last_saved: "${lastSaved}"
         const val = actualKey ? params.matrixValues[actualKey] : undefined;
         return val !== undefined ? val : '-';
       });
-      md += `| **${cleanRow}** | ` + colsVal.join(' | ') + ' |\n';
+      md += `| ${cleanRow} | ` + colsVal.join(' | ') + ' |\n';
     });
     md += '\n';
   });

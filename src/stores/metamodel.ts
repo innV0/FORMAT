@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Concept, Marker, AnalysisKey } from '../types';
+import { Concept, Marker, AnalysisKey, Lens, LensEdge, LensNeighborhood } from '../types';
 import defaultMasterData from '../../innV0_master_data.json';
 import { DocumentationEntry } from '../utils/documentationParser';
 
@@ -167,12 +167,51 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     };
   };
 
+  const taxonomyEdges = computed<LensEdge[]>(() => {
+    return concepts.value
+      .filter(c => c.category_id)
+      .map(c => ({ parent: c.category_id!, child: c.name }));
+  });
+
+  const lenses = computed<Lens[]>(() => {
+    const result: Lens[] = [];
+
+    const taxEdges = taxonomyEdges.value;
+    if (taxEdges.length > 0) {
+      result.push({ id: 'taxonomy', name: 'Taxonomy', icon: 'layers', edges: taxEdges });
+    }
+
+    const hc = hierarchyConcepts.value;
+    if (hc.length > 1) {
+      const chainEdges: LensEdge[] = [];
+      for (let i = 0; i < hc.length - 1; i++) {
+        chainEdges.push({ parent: hc[i], child: hc[i + 1] });
+      }
+      result.push({ id: 'hierarchy', name: 'Chain', icon: 'workflow', edges: chainEdges });
+    }
+
+    return result;
+  });
+
+  const getConceptLenses = (name: string): LensNeighborhood[] => {
+    return lenses.value
+      .map(lens => ({
+        lens,
+        parents: lens.edges.filter(e => e.child === name).map(e => e.parent),
+        children: lens.edges.filter(e => e.parent === name).map(e => e.child),
+      }))
+      .filter(n => n.parents.length > 0 || n.children.length > 0);
+  };
+
   return {
     metamodelSource,
     concepts,
     markers,
     metamodelMatrices,
+    taxonomyEdges,
     hierarchyConcepts,
+    lenses,
+    getConceptLenses,
     loadDefaultMetamodel,
     loadCustomMetamodel,
     loadMetamodelFromObject,

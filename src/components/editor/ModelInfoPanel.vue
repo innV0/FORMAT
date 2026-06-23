@@ -246,7 +246,7 @@ const handleCreateFile = async () => {
 metamodel: "./innV0_master_data.json"
 title: "${filename.replace('.md', '')}"
 specification_version: "V_0-1-1"
-specification_url: "https://format.innv0.com/spec/v0-1-1/format-spec.md"
+specification_url: "https://format.innv0.com/spec/V_0-1-1/format-spec.md"
 last_saved: "${new Date().toISOString()}"
 ---
 

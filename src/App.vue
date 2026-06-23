@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col overflow-hidden bg-muted/40">
+  <div class="h-full flex flex-col overflow-hidden bg-muted/40 pt-[52px]">
     <!-- Top Nav Header -->
     <Header />
 

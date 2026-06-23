@@ -2,7 +2,7 @@
 
 *Flat, Open, Readable — Model Annotated Template*
 
-**Version V_0-1-1 — Draft**
+**Version V_0-1-2 — Draft**
 
 FORMAT is a human-readable, agent-friendly, and version-controlled format for representing business models. It is designed to be easily authored by humans, generated/analyzed by AI agents, and versioned cleanly in Git.
 
@@ -32,8 +32,8 @@ To resolve terminology ambiguity, FORMAT defines a clean, unified conceptual hie
 ```
                   [ BLOCK (Generic Card/Pill Unit) ]
                                  │
-         ┌───────────────────────┴───────────────────────┐
-         ▼                                               ▼
+          ┌───────────────────────┴───────────────────────┐
+          ▼                                               ▼
 [ concept (Category) ]                        [ element (Instance) ]
   ├── type: "text" (Single element)             ├── Can contain Fields (Key-Value)
   └── type: list/hierarchy (N elements)         └── Can have markers (Scores)
@@ -106,17 +106,19 @@ The frontmatter MUST be a valid YAML block delimited by `---` lines.
 
 For a document to be **FORMAT-compliant**, the frontmatter MUST declare which specification it conforms to, by version AND by URL:
 
-- `specification_version` (Required): The version of the FORMAT specification this document conforms to, in SemVer rendered as `V_MAJOR-MINOR-PATCH` (see §8.2). Example: `"V_0-1-1"`.
+- `specification_version` (Required): The version of the FORMAT specification this document conforms to, in SemVer rendered as `V_MAJOR-MINOR-PATCH` (see §8.2). Example: `"V_0-1-2"`.
 - `specification_url` (Required): The canonical URL where that exact specification version is published. A document without a resolvable spec URL is NOT compliant.
 
 ```yaml
 ---
-specification_version: "V_0-1-1"
-specification_url: "https://format.innv0.com/spec/v0-1-1/format-spec.md"
+specification_version: "V_0-1-2"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
 title: "Project Ghostbusters Model"
-model_version: "V_0-1-1"
-last_saved: "2026-06-20T09:55:17.941Z"
-metamodel:
+model_version: "V_0-3-0"
+last_saved: "2026-06-23T15:12:19.852Z"
+template:
+  name: "business"
+  version: "V_1-0-0"
   title: "innV0 Metamodel"
   concepts:
     - name: "business summary"
@@ -148,6 +150,8 @@ metamodel:
       source: "problems"
       target: "value propositions"
       params: "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+      min_color: "green"
+      max_color: "red"
 ---
 ```
 
@@ -213,8 +217,8 @@ Format:
 
 | stakeholders \ segments | Distressed Homeowners | Haunted Hotel Managers |
 | :--- | :---: | :---: |
-| **B2C Clients** | X | - |
-| **B2B Commercial** | - | X |
+| B2C Clients | X | - |
+| B2B Commercial | - | X |
 ```
 
 ### 6.2 Relational Matrices
@@ -226,8 +230,8 @@ Format:
 
 | problems \ value propositions | Instant Spectral Capture | Property Damage Mitigation |
 | :--- | :---: | :---: |
-| **Spectral Infestation** | Max | Neutral |
-| **Fear of Property Damage** | - | High |
+| Spectral Infestation | Max | Neutral |
+| Fear of Property Damage | - | High |
 ```
 
 ### 6.3 Element-Markers Matrix
@@ -235,11 +239,11 @@ A reserved matrix mapping elements to their numeric marker evaluations. (Formerl
 
 Format:
 ```markdown
-# <!-- block: matrices --> element-markers matrix
+# <!-- block: matrices --> item-markers matrix
 
-| Element \ Marker | weight | certainty | priority |
+| Item \ Marker | weight | certainty | priority |
 | :--- | :---: | :---: | :---: |
-| **B2C Clients** | 4 | 5 | 5 |
+| B2C Clients | 4 | 5 | 5 |
 ```
 
 ---
@@ -248,8 +252,10 @@ Format:
 
 1. **Title Alignment**: Concept header names MUST match the lowercase names in the Template.
 2. **Whitespace Tolerance**: Parsers must trim whitespaces from names, markers, and values.
-3. **Escaped Formatting**: Bold wrappers (`**`) and markdown links/brackets inside table headers or element names must be stripped during element extraction.
+3. **Escaped Formatting**: Row and column headers of matrices should not be written in bold by default. Bold wrappers (`**`) and markdown links/brackets inside table headers or element names must be stripped during element extraction if present.
 4. **Missing Values**: Cells containing `-` are treated as null/empty associations.
+5. **Cycle Default Values**: Widgets of type `cycle` must support and default to an empty/blank value (`'-'`).
+6. **Matrix Color Limits**: Relational matrices can optionally configure a `min_color` and `max_color` to represent values visually.
 
 ---
 
@@ -262,29 +268,46 @@ A FORMAT-compliant file MUST end its name with the suffix `_FORMAT.md`.
 The full filename is composed as:
 
 ```
-<ModelName>_<Version>_FORMAT.md
+<ModelName>_V_<Version>_<TemplateName>_FORMAT.md
 ```
 
 - `<ModelName>`: The model's name.
 - `<Version>`: The model's own version, using the versioning format defined in §8.2.
+- `<TemplateName>`: The name of the template this model conforms to (e.g., `business` or `procedures`).
 - `_FORMAT.md`: The mandatory compliance suffix.
 
-Example: `Ghostbusters_V_0-1-1_FORMAT.md`
+Example: `Ghostbusters_V_0-3-0_business_FORMAT.md`
+
+### 8.1.1 Recommended File Location
+
+The recommended location for a model file within a repository is:
+
+```
+_FORMAT/<TemplateName>/<ModelName>_V_<Version>_<TemplateName>_FORMAT.md
+```
+
+- `_FORMAT/`: A top-level directory that groups all FORMAT documents in the repository.
+- `<TemplateName>/`: A subdirectory named after the template the model conforms to.
+- The filename follows the convention defined in §8.1.
+
+Example: `_FORMAT/business/Ghostbusters_V_0-3-0_business_FORMAT.md`
+
+This structure keeps models organized by template type and makes the FORMAT directory self-describing at a glance.
 
 ### 8.2 Versioning Format
 
-All version strings in the FORMAT ecosystem (the specification version, the `specification_version` / `model_version` frontmatter keys, and the `<Version>` segment of the filename) use **Semantic Versioning**, rendered with a `V_` prefix and hyphen separators instead of dots:
+All version strings in the FORMAT ecosystem (the specification version, the `specification_version` / `model_version` frontmatter keys, and the version segment of the filename) use **Semantic Versioning**, rendered with a `V_` prefix and hyphen separators instead of dots:
 
 ```
 V_MAJOR-MINOR-PATCH
 ```
 
-Example: SemVer `0.1.1` is rendered as `V_0-1-1`.
+Example: SemVer `0.3.0` is rendered as `V_0-3-0`.
 
 ### 8.3 Compliance Checklist
 
 A document is FORMAT-compliant only if ALL of the following hold:
-1. Filename matches `<ModelName>_<Version>_FORMAT.md` (§8.1).
+1. Filename matches `<ModelName>_V_<Version>_<TemplateName>_FORMAT.md` (§8.1).
 2. Frontmatter declares `specification_version` in `V_MAJOR-MINOR-PATCH` form (§4, §8.2).
 3. Frontmatter declares a resolvable `specification_url` pointing to that exact spec version (§4).
 
@@ -312,4 +335,4 @@ When FORMAT describes itself, its own primitives map as concepts and relationshi
 - `BLOCK → marker` (blocks are evaluated by markers) is a **relational matrix** (N-to-N).
 - `Matrix` links a source `concept` to a target `concept` — a **relational matrix** over concepts.
 
-A self-describing document is itself subject to §8: it is named e.g. `FORMAT_V_0-1-1_FORMAT.md` and declares its own `specification_version` and `specification_url`.
+A self-describing document is itself subject to §8: it is named e.g. `FORMAT_V_0-1-2_FORMAT.md` and declares its own `specification_version` and `specification_url`.

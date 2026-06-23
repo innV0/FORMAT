@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore } from '../types';
 import { parseMarkdownModel, generateMarkdownFileContent } from '../utils/markdownParser';
+import { parseFormatFilename, buildFormatFilename, bumpVersion, formatVersionString, BumpLevel } from '../utils/version';
 import { useWorkspaceStore } from './workspace';
 import { useMetamodelStore } from './metamodel';
 import { parseMetamodelDocumentation } from '../utils/documentationParser';
@@ -23,7 +24,8 @@ export const useDocumentStore = defineStore('document', () => {
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
   const specificationVersion = ref<string>('V_0-1-1');
-  const specificationUrl = ref<string>('https://format.innv0.com/spec/v0-1-1/format-spec.md');
+  const modelVersion = ref<string>('V_0-1-0');
+  const specificationUrl = ref<string>('https://format.innv0.com/spec/V_0-1-1/format-spec.md');
   const documentationLocation = ref<string>('docs/V_0-1-1/');
   const analysisScores = ref<AnalysisScores>({});
 
@@ -38,7 +40,13 @@ export const useDocumentStore = defineStore('document', () => {
     
     metamodelPath.value = parsed.metamodelPath;
     specificationVersion.value = parsed.specificationVersion || 'V_0-1-1';
-    specificationUrl.value = parsed.specificationUrl || 'https://format.innv0.com/spec/v0-1-1/format-spec.md';
+    // Model version: prefer frontmatter, then the version segment of a
+    // compliant file name (§8.1), then a sensible default.
+    const parsedName = parseFormatFilename(workspaceStore.activeFileName || '');
+    modelVersion.value =
+      parsed.modelVersion ||
+      (parsedName ? formatVersionString(parsedName.version) : 'V_0-1-0');
+    specificationUrl.value = parsed.specificationUrl || 'https://format.innv0.com/spec/V_0-1-1/format-spec.md';
     documentationLocation.value = parsed.documentationLocation || 'docs/V_0-1-1/';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
@@ -74,6 +82,100 @@ export const useDocumentStore = defineStore('document', () => {
 
   const triggerUnsavedChanges = () => {
     unsavedChanges.value = true;
+  };
+
+  /**
+   * Centralized rename propagation. Call this whenever a block name changes
+   * to keep all dependent data structures in sync.
+   *
+   * @param oldName  Previous name (before the edit)
+   * @param newName  New name (after the edit)
+   * @param context  'tree-node'  — a TreeNode in modelTree (instance rename)
+   *                 'list-item' — a bullet item inside modelTextData (instance rename)
+   *                 'concept'   — a concept-level block in TextEditor (concept rename)
+   */
+  const renameBlock = (
+    oldName: string,
+    newName: string,
+    context: 'tree-node' | 'list-item' | 'concept'
+  ) => {
+    if (oldName === newName || !oldName || !newName) return;
+
+    // ── 1. matrixValues keys ───────────────────────────────────────────
+    // Keys are "MatrixName||Row||Col". Row/Col are instance names.
+    const newMatrixValues: MatrixValues = {};
+    for (const [key, val] of Object.entries(matrixValues.value)) {
+      const parts = key.split('||');
+      if (parts.length === 3) {
+        const [matrixName, row, col] = parts;
+        const newRow = row === oldName ? newName : row;
+        const newCol = col === oldName ? newName : col;
+        newMatrixValues[`${matrixName}||${newRow}||${newCol}`] = val;
+      } else {
+        newMatrixValues[key] = val;
+      }
+    }
+    matrixValues.value = newMatrixValues;
+
+    // ── 2. modelTextData inline markers ────────────────────────────────
+    // Update <!-- block: X --> Y patterns where Y is the instance name
+    if (context === 'list-item' || context === 'concept') {
+      const escaped = oldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const blockRegex = new RegExp(
+        `(<!--\\s*block:\\s*[^-]+\\s*-->)\\s*${escaped}`,
+        'gi'
+      );
+      for (const [textKey, textVal] of Object.entries(modelTextData.value)) {
+        if (blockRegex.test(textVal)) {
+          blockRegex.lastIndex = 0;
+          modelTextData.value[textKey] = textVal.replace(blockRegex, `$1 ${newName}`);
+        }
+      }
+    }
+
+    // ── 3. modelTextData header for concept blocks ─────────────────────
+    if (context === 'concept') {
+      const escaped = oldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const headerRegex = new RegExp(
+        `^(#\\s*<!--\\s*block:\\s*concepts\\s*-->)\\s*${escaped}\\s*$`,
+        'gim'
+      );
+      for (const [textKey, textVal] of Object.entries(modelTextData.value)) {
+        if (headerRegex.test(textVal)) {
+          headerRegex.lastIndex = 0;
+          modelTextData.value[textKey] = textVal.replace(headerRegex, `$1 ${newName}`);
+        }
+      }
+    }
+
+    // ── 4. metamatrix source / target / name ───────────────────────────
+    if (context === 'concept') {
+      const slugOld = oldName.toLowerCase();
+      const escapedOld = oldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      metamatrix.value.forEach(row => {
+        if (row.source === oldName) row.source = newName;
+        if (row.target === oldName) row.target = newName;
+        // Hierarchy matrix names follow "${src}-${tgt} Hierarchy Matrix"
+        if (row.name.toLowerCase().includes(slugOld)) {
+          row.name = row.name.replace(new RegExp(escapedOld, 'gi'), newName);
+        }
+      });
+    }
+
+    // ── 5. nodeMarkers keys ────────────────────────────────────────────
+    if (context === 'concept') {
+      const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const oldKey = `concept:${slugify(oldName)}`;
+      const newKey = `concept:${slugify(newName)}`;
+      if (nodeMarkers.value[oldKey]) {
+        if (!nodeMarkers.value[newKey]) {
+          nodeMarkers.value[newKey] = nodeMarkers.value[oldKey];
+        }
+        delete nodeMarkers.value[oldKey];
+      }
+    }
+
+    triggerUnsavedChanges();
   };
 
   // Node hierarchy operations
@@ -256,21 +358,107 @@ export const useDocumentStore = defineStore('document', () => {
   };
 
   const rotateMatrixCellCycle = (matrixName: string, rowName: string, colName: string, optionsStr: string) => {
-    const options = optionsStr.split(';').map(o => o.trim());
+    let options = optionsStr.split(';').map(o => o.trim());
+    if (!options.includes('-')) {
+      options = ['-', ...options];
+    }
     const key = `${matrixName}||${rowName}||${colName}`;
-    const currentVal = String(matrixValues.value[key] || 'Neutral');
+    const currentVal = String(matrixValues.value[key] || '-');
     const currentIdx = options.indexOf(currentVal);
     const nextIdx = (currentIdx + 1) % options.length;
     matrixValues.value[key] = options[nextIdx];
     triggerUnsavedChanges();
   };
 
-  const getCycleBgColor = (val: any): string => {
-    const cleanVal = String(val).toLowerCase().trim();
+  const getColorClassesForShade = (colorName: string, intensity: 'strong' | 'medium-strong' | 'medium' | 'soft'): string => {
+    const normColor = colorName.toLowerCase().trim();
+    const shades: Record<string, Record<string, string>> = {
+      red: {
+        strong: 'bg-rose-600 text-white border-rose-600',
+        'medium-strong': 'bg-rose-500 text-white border-rose-500',
+        medium: 'bg-rose-400 text-white border-rose-400',
+        soft: 'bg-rose-50 text-rose-700 border-rose-200'
+      },
+      green: {
+        strong: 'bg-emerald-600 text-white border-emerald-600',
+        'medium-strong': 'bg-emerald-500 text-white border-emerald-500',
+        medium: 'bg-emerald-400 text-white border-emerald-400',
+        soft: 'bg-emerald-50 text-emerald-700 border-emerald-200'
+      },
+      blue: {
+        strong: 'bg-blue-600 text-white border-blue-600',
+        'medium-strong': 'bg-blue-500 text-white border-blue-500',
+        medium: 'bg-blue-400 text-white border-blue-400',
+        soft: 'bg-blue-50 text-blue-700 border-blue-200'
+      },
+      indigo: {
+        strong: 'bg-indigo-600 text-white border-indigo-600',
+        'medium-strong': 'bg-indigo-500 text-white border-indigo-500',
+        medium: 'bg-indigo-400 text-white border-indigo-400',
+        soft: 'bg-indigo-50 text-indigo-700 border-indigo-200'
+      },
+      orange: {
+        strong: 'bg-orange-600 text-white border-orange-600',
+        'medium-strong': 'bg-orange-500 text-white border-orange-500',
+        medium: 'bg-orange-400 text-white border-orange-400',
+        soft: 'bg-orange-50 text-orange-700 border-orange-200'
+      },
+      violet: {
+        strong: 'bg-violet-600 text-white border-violet-600',
+        'medium-strong': 'bg-violet-500 text-white border-violet-500',
+        medium: 'bg-violet-400 text-white border-violet-400',
+        soft: 'bg-violet-50 text-violet-700 border-violet-200'
+      },
+      amber: {
+        strong: 'bg-amber-600 text-white border-amber-600',
+        'medium-strong': 'bg-amber-500 text-white border-amber-500',
+        medium: 'bg-amber-400 text-white border-amber-400',
+        soft: 'bg-amber-50 text-amber-700 border-amber-200'
+      },
+      yellow: {
+        strong: 'bg-yellow-600 text-white border-yellow-600',
+        'medium-strong': 'bg-yellow-500 text-white border-yellow-500',
+        medium: 'bg-yellow-400 text-white border-yellow-400',
+        soft: 'bg-yellow-50 text-yellow-700 border-yellow-200'
+      }
+    };
+    const colorShades = shades[normColor] || shades['blue'];
+    return colorShades[intensity];
+  };
+
+  const getCycleBgColor = (val: any, minColor?: string, maxColor?: string, optionsStr?: string): string => {
+    const cleanVal = String(val).trim();
+    if (cleanVal === '-' || cleanVal === '' || cleanVal === 'none') {
+      return 'bg-white text-slate-400 border-slate-200';
+    }
+
+    if (minColor && maxColor && optionsStr) {
+      let options = optionsStr.split(';').map(o => o.trim());
+      if (!options.includes('-')) {
+        options = ['-', ...options];
+      }
+      const activeOptions = options.filter(o => o !== '-');
+      const idx = activeOptions.findIndex(o => o.toLowerCase() === cleanVal.toLowerCase());
+      if (idx !== -1) {
+        const middle = Math.floor(activeOptions.length / 2);
+        if (idx < middle) {
+          const intensity = idx === 0 ? 'strong' : idx === 1 ? 'medium-strong' : idx === 2 ? 'medium' : 'soft';
+          return getColorClassesForShade(maxColor, intensity);
+        } else if (idx > middle) {
+          const dist = activeOptions.length - 1 - idx;
+          const intensity = dist === 0 ? 'strong' : dist === 1 ? 'medium-strong' : dist === 2 ? 'medium' : 'soft';
+          return getColorClassesForShade(minColor, intensity);
+        } else {
+          return 'bg-slate-100 text-slate-700 border-slate-200';
+        }
+      }
+    }
+
+    const cleanValLower = cleanVal.toLowerCase();
 
     // Check if it's a number
-    if (cleanVal !== '' && !isNaN(Number(cleanVal))) {
-      const num = Number(cleanVal);
+    if (cleanValLower !== '' && !isNaN(Number(cleanValLower))) {
+      const num = Number(cleanValLower);
       if (num <= 0) return 'bg-white text-slate-400 border-slate-200';
       if (num <= 1) return 'bg-white text-slate-900 border-slate-200';
       if (num <= 2) return 'bg-slate-200 text-slate-800 border-slate-300';
@@ -280,33 +468,33 @@ export const useDocumentStore = defineStore('document', () => {
     }
 
     // Semantic text matches for good/bad
-    if (cleanVal === 'good' || cleanVal === 'ok' || cleanVal === 'yes' || cleanVal === 'success' || cleanVal === 'completed' || cleanVal === 'done' || cleanVal === 'passed') {
+    if (cleanValLower === 'good' || cleanValLower === 'ok' || cleanValLower === 'yes' || cleanValLower === 'success' || cleanValLower === 'completed' || cleanValLower === 'done' || cleanValLower === 'passed') {
       return 'bg-emerald-600 text-white border-emerald-600';
     }
-    if (cleanVal === 'bad' || cleanVal === 'fail' || cleanVal === 'failed' || cleanVal === 'no' || cleanVal === 'error') {
+    if (cleanValLower === 'bad' || cleanValLower === 'fail' || cleanValLower === 'failed' || cleanValLower === 'no' || cleanValLower === 'error') {
       return 'bg-rose-600 text-white border-rose-600';
     }
 
     // Grayscale semantic intensity scale
-    if (cleanVal === 'max' || cleanVal === 'very high' || cleanVal === 'extreme' || cleanVal === 'critical') {
+    if (cleanValLower === 'max' || cleanValLower === 'very high' || cleanValLower === 'extreme' || cleanValLower === 'critical') {
       return 'bg-slate-950 text-white border-slate-950';
     }
-    if (cleanVal === 'high' || cleanVal === 'alto') {
+    if (cleanValLower === 'high' || cleanValLower === 'alto') {
       return 'bg-slate-900 text-white border-slate-900';
     }
-    if (cleanVal === 'slightly high' || cleanVal === 'medium-high') {
+    if (cleanValLower === 'slightly high' || cleanValLower === 'medium-high') {
       return 'bg-slate-600 text-white border-slate-600';
     }
-    if (cleanVal === 'medium' || cleanVal === 'moderate' || cleanVal === 'average' || cleanVal === 'medio') {
+    if (cleanValLower === 'medium' || cleanValLower === 'moderate' || cleanValLower === 'average' || cleanValLower === 'medio') {
       return 'bg-slate-400 text-white border-slate-400';
     }
-    if (cleanVal === 'slightly low' || cleanVal === 'medium-low') {
+    if (cleanValLower === 'slightly low' || cleanValLower === 'medium-low') {
       return 'bg-slate-200 text-slate-800 border-slate-300';
     }
-    if (cleanVal === 'low' || cleanVal === 'bajo' || cleanVal === 'very low' || cleanVal === 'min') {
+    if (cleanValLower === 'low' || cleanValLower === 'bajo' || cleanValLower === 'very low' || cleanValLower === 'min') {
       return 'bg-white text-slate-900 border-slate-200';
     }
-    if (cleanVal === 'neutral' || cleanVal === '-' || cleanVal === '' || cleanVal === 'none' || cleanVal === 'pending') {
+    if (cleanValLower === 'neutral' || cleanValLower === 'none' || cleanValLower === 'pending') {
       return 'bg-white text-slate-400 border-slate-200';
     }
 
@@ -368,6 +556,7 @@ export const useDocumentStore = defineStore('document', () => {
       activeFileName: workspaceStore.activeFileName || 'model.md',
       metamodelPath: metamodelPath.value || undefined,
       specificationVersion: specificationVersion.value,
+      modelVersion: modelVersion.value,
       specificationUrl: specificationUrl.value,
       documentationLocation: documentationLocation.value,
       modelTextData: modelTextData.value,
@@ -437,11 +626,60 @@ export const useDocumentStore = defineStore('document', () => {
     const success = await workspaceStore.fs.saveFileContent(
       workspaceStore.dirHandle,
       workspaceStore.activeFileName,
-      content
+      content,
+      workspaceStore.autoBackup
     );
     if (success) {
       unsavedChanges.value = false;
     }
+  };
+
+  /**
+   * Increments the model's semantic version (§8.2) and saves it as a NEW
+   * FORMAT-compliant file (§8.1), leaving the previous version untouched on
+   * disk as real version history. The active file then points at the new one.
+   */
+  const saveActiveFileWithVersionBump = async (
+    level: BumpLevel
+  ): Promise<{ ok: boolean; error?: string; fileName?: string }> => {
+    if (!workspaceStore.activeFileName || !workspaceStore.dirHandle) {
+      return { ok: false, error: 'No active file or workspace connected.' };
+    }
+    const parsedName = parseFormatFilename(workspaceStore.activeFileName);
+    if (!parsedName) {
+      // Spec over tolerant code: do not invent a version for a non-compliant
+      // name — surface the problem instead (§8.1).
+      return {
+        ok: false,
+        error: `"${workspaceStore.activeFileName}" is not a FORMAT-compliant name (§8.1). Expected <Name>[_BM]_V_x-y-z_FORMAT.md.`
+      };
+    }
+
+    const nextVersion = bumpVersion(parsedName.version, level);
+    const nextFileName = buildFormatFilename(
+      parsedName.baseName,
+      parsedName.isBusinessModel,
+      nextVersion
+    );
+
+    // Bump the in-memory version BEFORE serializing so frontmatter matches the
+    // file name (§8.3 keeps both in sync).
+    modelVersion.value = formatVersionString(nextVersion);
+    const content = serializeActiveFile();
+
+    const success = await workspaceStore.fs.saveFileContent(
+      workspaceStore.dirHandle,
+      nextFileName,
+      content,
+      workspaceStore.autoBackup
+    );
+    if (!success) {
+      return { ok: false, error: 'Failed to write the new version file.' };
+    }
+
+    await workspaceStore.switchActiveFile(nextFileName);
+    unsavedChanges.value = false;
+    return { ok: true, fileName: nextFileName };
   };
 
   const loadDocumentation = async () => {
@@ -509,6 +747,7 @@ export const useDocumentStore = defineStore('document', () => {
     getConceptType,
     selectConcept,
     triggerUnsavedChanges,
+    renameBlock,
     selectTreeNode,
     addTreeRoot,
     addChildTreeNode,
@@ -527,6 +766,8 @@ export const useDocumentStore = defineStore('document', () => {
     getActiveConceptGuidance,
     serializeActiveFile,
     saveActiveFile,
+    saveActiveFileWithVersionBump,
+    modelVersion,
     analysisScores,
     addEvaluatorScore,
     getKeyLatestScores,

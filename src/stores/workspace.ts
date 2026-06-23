@@ -19,6 +19,20 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   const needsPermission = ref<boolean>(false);
   const isPendingPermission = ref<boolean>(false);
 
+  // When enabled, every save also writes a timestamped copy into backups/.
+  // Guarded for non-browser environments (e.g. the test runner) where
+  // localStorage is not defined.
+  const hasLocalStorage = typeof localStorage !== 'undefined';
+  const autoBackup = ref<boolean>(
+    hasLocalStorage && localStorage.getItem('format.autoBackup') === 'true'
+  );
+  const setAutoBackup = (value: boolean) => {
+    autoBackup.value = value;
+    if (hasLocalStorage) {
+      localStorage.setItem('format.autoBackup', String(value));
+    }
+  };
+
   const isDemoMode = computed(() => !dirHandle.value || needsPermission.value);
 
   const imageCache = ref<Record<string, string>>({});
@@ -136,6 +150,14 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     }
   };
 
+  // Point the workspace at a (just-written) file, rescanning the directory so
+  // the new versioned file shows up in the list and becomes the active handle.
+  const switchActiveFile = async (fileName: string) => {
+    activeFileName.value = fileName;
+    await refreshFiles();
+    activeFileHandle.value = mdFiles.value.find(f => f.name === fileName)?.handle || null;
+  };
+
   const refreshFiles = async () => {
     if (dirHandle.value && !needsPermission.value) {
       try {
@@ -215,6 +237,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     savedDirectories,
     needsPermission,
     isPendingPermission,
+    autoBackup,
+    setAutoBackup,
+    switchActiveFile,
     openConnectDialog,
     connectFolder,
     connectSavedDirectory,

@@ -27,6 +27,8 @@ export interface MetamatrixRow {
   target: string;
   widgetType: 'boolean' | 'cycle' | 'scale' | 'set';
   params: string;
+  min_color?: string;
+  max_color?: string;
 }
 
 export interface TreeNode {
@@ -80,4 +82,23 @@ export interface EvaluatorScore {
 export interface AnalysisScores {
   [keyName: string]: EvaluatorScore[];
 }
+
+export interface LensEdge {
+  parent: string;
+  child: string;
+}
+
+export interface Lens {
+  id: string;
+  name: string;
+  icon: string;
+  edges: LensEdge[];
+}
+
+export interface LensNeighborhood {
+  lens: Lens;
+  parents: string[];
+  children: string[];
+}
+
 

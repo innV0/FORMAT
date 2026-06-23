@@ -71,4 +71,157 @@ describe('Document Store', () => {
       expect(rows).toEqual(['Alice', 'Ray']);
     });
   });
+
+  describe('renameBlock', () => {
+    it('should update matrixValues keys when renaming a tree-node', () => {
+      const store = useDocumentStore();
+      store.matrixValues = {
+        'MyMatrix||OldName||ColA': 'High',
+        'MyMatrix||OldName||ColB': 'Low',
+        'MyMatrix||OtherRow||ColA': 'Medium',
+      };
+
+      store.renameBlock('OldName', 'NewName', 'tree-node');
+
+      expect(store.matrixValues).toEqual({
+        'MyMatrix||NewName||ColA': 'High',
+        'MyMatrix||NewName||ColB': 'Low',
+        'MyMatrix||OtherRow||ColA': 'Medium',
+      });
+    });
+
+    it('should update matrixValues keys when renaming a list-item', () => {
+      const store = useDocumentStore();
+      store.matrixValues = {
+        'Mat1||Alice||Bob': 'X',
+        'Mat1||Charlie||Alice': '-',
+      };
+
+      store.renameBlock('Alice', 'Alicia', 'list-item');
+
+      expect(store.matrixValues).toEqual({
+        'Mat1||Alicia||Bob': 'X',
+        'Mat1||Charlie||Alicia': '-',
+      });
+    });
+
+    it('should update matrixValues keys in both row and col positions', () => {
+      const store = useDocumentStore();
+      store.matrixValues = {
+        'Mat1||Rename||Rename': 'Critical',
+      };
+
+      store.renameBlock('Rename', 'Renamed', 'tree-node');
+
+      expect(store.matrixValues).toEqual({
+        'Mat1||Renamed||Renamed': 'Critical',
+      });
+    });
+
+    it('should update modelTextData inline markers for list-item rename', () => {
+      const store = useDocumentStore();
+      store.modelTextData = {
+        'Problems': '# <!-- block: concepts --> problems\n- <!-- block: problems --> OldName: Description\n- <!-- block: problems --> Other: Other desc',
+      };
+
+      store.renameBlock('OldName', 'NewName', 'list-item');
+
+      expect(store.modelTextData['Problems']).toContain('<!-- block: problems --> NewName: Description');
+      expect(store.modelTextData['Problems']).not.toContain('OldName');
+    });
+
+    it('should update modelTextData header for concept rename', () => {
+      const store = useDocumentStore();
+      store.modelTextData = {
+        'OldConcept': '# <!-- block: concepts --> oldconcept\nSome content',
+      };
+
+      store.renameBlock('OldConcept', 'NewConcept', 'concept');
+
+      expect(store.modelTextData['OldConcept']).toBe('# <!-- block: concepts --> NewConcept\nSome content');
+    });
+
+    it('should update metamatrix source and target on concept rename', () => {
+      const store = useDocumentStore();
+      store.metamatrix = [
+        { name: 'Profiles-Channels Matrix', source: 'Profiles', target: 'Channels', widgetType: 'cycle', params: 'A;B;C' },
+        { name: 'Profiles-Problems Matrix', source: 'Profiles', target: 'Problems', widgetType: 'boolean', params: '' },
+      ];
+
+      store.renameBlock('Profiles', 'User Profiles', 'concept');
+
+      expect(store.metamatrix[0].source).toBe('User Profiles');
+      expect(store.metamatrix[0].target).toBe('Channels');
+      expect(store.metamatrix[1].source).toBe('User Profiles');
+    });
+
+    it('should migrate nodeMarkers concept:<slug> key on concept rename', () => {
+      const store = useDocumentStore();
+      store.nodeMarkers = {
+        'concept:old-concept': { Impact: 3, Risk: 1 },
+        'concept:other': { Impact: 2 },
+      };
+
+      store.renameBlock('Old Concept', 'New Concept', 'concept');
+
+      expect(store.nodeMarkers['concept:new-concept']).toEqual({ Impact: 3, Risk: 1 });
+      expect(store.nodeMarkers['concept:old-concept']).toBeUndefined();
+      expect(store.nodeMarkers['concept:other']).toEqual({ Impact: 2 });
+    });
+
+    it('should not overwrite existing marker entry if target slug already exists', () => {
+      const store = useDocumentStore();
+      store.nodeMarkers = {
+        'concept:new-concept': { Impact: 2, Risk: 2 },
+        'concept:old-concept': { Impact: 3, Risk: 1 },
+      };
+
+      store.renameBlock('Old Concept', 'New Concept', 'concept');
+
+      // Should keep the existing entry, not overwrite with the old one
+      expect(store.nodeMarkers['concept:new-concept']).toEqual({ Impact: 2, Risk: 2 });
+      // Old key should be deleted regardless
+      expect(store.nodeMarkers['concept:old-concept']).toBeUndefined();
+    });
+
+    it('should do nothing when old and new names are equal', () => {
+      const store = useDocumentStore();
+      store.matrixValues = { 'Mat||A||B': 'X' };
+
+      store.renameBlock('A', 'A', 'tree-node');
+
+      expect(store.matrixValues).toEqual({ 'Mat||A||B': 'X' });
+    });
+
+    it('should do nothing when name is empty', () => {
+      const store = useDocumentStore();
+      store.matrixValues = { 'Mat||A||B': 'X' };
+
+      store.renameBlock('', 'New', 'tree-node');
+
+      expect(store.matrixValues).toEqual({ 'Mat||A||B': 'X' });
+    });
+
+    it('should mark unsaved changes after rename', () => {
+      const store = useDocumentStore();
+      store.unsavedChanges = false;
+
+      store.renameBlock('Old', 'New', 'tree-node');
+
+      expect(store.unsavedChanges).toBe(true);
+    });
+
+    it('should handle matrixValues keys with multiple || delimiters gracefully', () => {
+      const store = useDocumentStore();
+      store.matrixValues = {
+        'Mat||Row||Col': 'X',
+        'InvalidKey': 'Y',
+      };
+
+      store.renameBlock('Row', 'NewRow', 'tree-node');
+
+      expect(store.matrixValues['Mat||NewRow||Col']).toBe('X');
+      expect(store.matrixValues['InvalidKey']).toBe('Y');
+    });
+  });
 });

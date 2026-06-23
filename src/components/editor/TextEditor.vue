@@ -44,6 +44,7 @@ import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { Plus } from 'lucide-vue-next';
 import BlockFeed from './BlockFeed.vue';
+import { slugify } from '../../utils/sanitize';
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
@@ -67,7 +68,6 @@ const isListConcept = computed(() => {
 // Single instance text block state.
 // A stable, concept-derived id lets markers anchor to the concept block itself
 // (not just its instances), and keeps those values persisted across re-renders.
-const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const conceptBlockId = (name: string) => `concept:${slugify(name)}`;
 const textBlock = ref({
   id: '',

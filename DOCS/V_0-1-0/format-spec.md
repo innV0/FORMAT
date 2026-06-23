@@ -1,6 +1,6 @@
 # FORMAT Specification
 
-*Flat, Open, Readable — Model Architecture Template*
+*Flat, Open, Readable — Model Annotated Template*
 
 **Version V_0-1-0 — Draft**
 

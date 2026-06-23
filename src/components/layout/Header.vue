@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center justify-between border-b border-border bg-card text-card-foreground px-6 py-3 shrink-0">
+  <header class="flex items-center justify-between border-b border-border bg-card text-card-foreground px-6 py-3 shrink-0 fixed top-0 left-0 right-0 z-10">
     <div class="flex items-center gap-3">
       <button 
         @click="documentStore.selectConcept('info')"
@@ -106,23 +106,103 @@
         </div>
       </div>
       
-      <button 
-        @click="documentStore.saveActiveFile" 
-        :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName" 
-        class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-      >
-        <Save class="w-3.5 h-3.5" />
-        Save (Ctrl+S)
-      </button>
+      <!-- Save Split Button with version & backup dropdown -->
+      <div class="relative inline-flex rounded-md shadow-xs" ref="saveDropdownRef">
+        <button
+          @click="documentStore.saveActiveFile"
+          :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName"
+          class="inline-flex items-center gap-1.5 rounded-l-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <Save class="w-3.5 h-3.5" />
+          Save (Ctrl+S)
+        </button>
+        <button
+          @click="toggleSaveDropdown"
+          :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName"
+          class="inline-flex items-center rounded-r-md bg-indigo-600 px-2 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 border-l border-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          title="Save options: backup & version"
+        >
+          <ChevronDown class="w-3.5 h-3.5" />
+        </button>
+
+        <div
+          v-if="saveDropdownOpen"
+          class="absolute right-0 top-full mt-1.5 w-72 rounded-lg bg-white shadow-lg border border-slate-200 py-2 z-50 animate-in fade-in duration-100"
+        >
+          <!-- Auto-backup toggle (single interactive element: no nested controls) -->
+          <div class="px-3 pb-2">
+            <button
+              type="button"
+              role="switch"
+              :aria-checked="workspaceStore.autoBackup"
+              @click="workspaceStore.setAutoBackup(!workspaceStore.autoBackup)"
+              class="flex items-center justify-between w-full cursor-pointer"
+            >
+              <span class="text-xs font-medium text-slate-700 flex items-center gap-1.5">
+                <Archive class="w-3.5 h-3.5 text-slate-400" />
+                Backup on every save
+              </span>
+              <span
+                :class="workspaceStore.autoBackup ? 'bg-indigo-600' : 'bg-slate-300'"
+                class="relative inline-flex h-4 w-7 items-center rounded-full transition-colors shrink-0"
+              >
+                <span
+                  :class="workspaceStore.autoBackup ? 'translate-x-3.5' : 'translate-x-0.5'"
+                  class="inline-block h-3 w-3 transform rounded-full bg-white transition-transform"
+                ></span>
+              </span>
+            </button>
+            <p class="text-[10px] text-slate-400 mt-1 leading-tight">
+              Writes a timestamped copy into <span class="font-mono">backups/</span>.
+            </p>
+          </div>
+
+          <div class="border-t border-slate-100 my-1.5"></div>
+
+          <!-- Version bump -->
+          <div class="px-3 pt-1">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                Model Version
+                <a
+                  :href="documentStore.specificationUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-indigo-400 hover:text-indigo-600 transition-colors cursor-pointer"
+                  title="How FORMAT uses Semantic Versioning & file naming rules (spec §8). Opens the specification."
+                >
+                  <Info class="w-3.5 h-3.5" />
+                </a>
+              </span>
+              <span class="font-mono text-xs font-semibold text-indigo-600">{{ documentStore.modelVersion }}</span>
+            </div>
+            <p v-if="bumpError" class="text-[10px] text-red-600 mb-1.5 leading-tight">{{ bumpError }}</p>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button
+                v-for="lvl in (['major', 'minor', 'patch'] as const)"
+                :key="lvl"
+                @click="bumpVersion(lvl)"
+                class="rounded-md bg-slate-100 px-2 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors cursor-pointer capitalize"
+              >
+                {{ lvl }}
+              </button>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1.5 leading-tight">
+              Saves a new versioned file, keeping the current one.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info } from 'lucide-vue-next';
+import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useDocumentStore } from '../../stores/document';
+import type { BumpLevel } from '../../utils/version';
 import StatusBadge from '../ui/StatusBadge.vue';
 
 const workspaceStore = useWorkspaceStore();
@@ -131,8 +211,27 @@ const documentStore = useDocumentStore();
 const dropdownOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);
 
+const saveDropdownOpen = ref(false);
+const saveDropdownRef = ref<HTMLElement | null>(null);
+const bumpError = ref('');
+
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
+};
+
+const toggleSaveDropdown = () => {
+  bumpError.value = '';
+  saveDropdownOpen.value = !saveDropdownOpen.value;
+};
+
+const bumpVersion = async (level: BumpLevel) => {
+  bumpError.value = '';
+  const result = await documentStore.saveActiveFileWithVersionBump(level);
+  if (result.ok) {
+    saveDropdownOpen.value = false;
+  } else {
+    bumpError.value = result.error || 'Could not bump version.';
+  }
 };
 
 const reconnectLast = async () => {
@@ -158,6 +257,9 @@ const connectNewDirectory = () => {
 const closeDropdown = (e: MouseEvent) => {
   if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
     dropdownOpen.value = false;
+  }
+  if (saveDropdownRef.value && !saveDropdownRef.value.contains(e.target as Node)) {
+    saveDropdownOpen.value = false;
   }
 };
 
