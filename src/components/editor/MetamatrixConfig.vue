@@ -60,6 +60,7 @@
                 <option value="cycle">Options Cycle Button</option>
                 <option value="scale">Rating Scale Input</option>
                 <option value="set">Custom Selection Set</option>
+                <option value="text">Free Text</option>
               </select>
             </td>
             <td class="px-4 py-2.5">

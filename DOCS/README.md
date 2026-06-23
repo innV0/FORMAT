@@ -5,7 +5,7 @@ og_image: https://innv0.github.io/FORMAT/og.png
 ---
 
 # _FORMAT
-**F****** Omnipotent Readable Model Annotated Template**
+**Flat, Open, Readable — Model Architecture Template**
 
 ## One file. Your entire business — finally ready for AI.
 
@@ -235,7 +235,7 @@ readable without any tool — by humans and AI models alike.
 ---
 
 # <!-- block: concepts --> <a id="format"></a>_FORMAT Specification
-**F****** Omnipotent Readable Model Annotated Template**
+**Flat, Open, Readable — Model Architecture Template**
 
 ## The format that powers it all
 

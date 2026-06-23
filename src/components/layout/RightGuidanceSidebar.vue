@@ -1,5 +1,16 @@
 <template>
-  <div class="relative flex shrink-0 transition-all duration-300 ease-in-out" :class="[isCollapsed ? 'w-0' : 'w-80']">
+  <div
+    class="relative flex shrink-0"
+    :class="[isCollapsed ? 'w-0 transition-all duration-300 ease-in-out' : '']"
+    :style="isCollapsed ? {} : { width: width + 'px' }"
+  >
+    <!-- Resize handle (left edge) -->
+    <div
+      v-if="!isCollapsed"
+      @pointerdown="startResize"
+      class="absolute top-0 left-0 z-30 h-full w-1.5 cursor-col-resize hover:bg-primary/30 active:bg-primary/50 transition-colors"
+      title="Drag to resize"
+    ></div>
     <!-- Collapse Button Trigger when Collapsed (Square Icon Button) -->
     <button 
       v-if="isCollapsed"
@@ -13,8 +24,8 @@
     <!-- Sidebar Container -->
     <aside 
       :class="[
-        isCollapsed ? 'w-0 opacity-0 border-l-0 p-0 pointer-events-none' : 'w-80 opacity-100 border-l border-slate-200 p-6',
-        'bg-slate-50 flex flex-col overflow-y-auto shrink-0 transition-all duration-300 ease-in-out relative h-full'
+        isCollapsed ? 'w-0 opacity-0 border-l-0 p-0 pointer-events-none' : 'w-full opacity-100 border-l border-slate-200 p-6',
+        'bg-slate-50 flex flex-col overflow-y-auto shrink-0 transition-all duration-300 ease-in-out relative h-full scrollbar-discreet'
       ]"
     >
       <!-- Collapse Button Inside Sidebar (top right when open) -->
@@ -119,9 +130,18 @@ import { ref, computed } from 'vue';
 import { Copy, ChevronRight, BookOpen, BarChart2 } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import IconRenderer from '../editor/IconRenderer.vue';
+import { useResizablePanel } from '../../composables/useResizablePanel';
 
 const documentStore = useDocumentStore();
 const isCollapsed = ref(false);
+
+const { width, startResize } = useResizablePanel({
+  storageKey: 'format.rightSidebarWidth',
+  defaultWidth: 320, // matches the previous w-80
+  minWidth: 240,
+  maxWidth: 640,
+  side: 'left',
+});
 
 const activeConcept = computed(() => documentStore.activeConceptName);
 const guidance = computed(() => documentStore.getActiveConceptGuidance(activeConcept.value));

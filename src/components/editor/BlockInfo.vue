@@ -18,15 +18,15 @@
         >
           <!-- Header: identity -->
           <div class="flex items-center gap-1.5 mb-2">
-            <component
-              v-if="visuals.iconToShow.value === 'type'"
-              :is="visuals.typeIcon.value"
-              class="shrink-0 w-4 h-4 text-slate-500"
-            />
             <IconRenderer
-              v-else-if="visuals.resolvedIcon.value"
+              v-if="visuals.resolvedIcon.value"
               :icon="visuals.resolvedIcon.value"
               custom-class="shrink-0 w-4 h-4 text-slate-500"
+            />
+            <component
+              v-else
+              :is="visuals.typeIcon.value"
+              class="shrink-0 w-4 h-4 text-slate-500"
             />
             <span class="font-semibold text-sm text-slate-800 break-words">{{ name || '(Empty)' }}</span>
           </div>

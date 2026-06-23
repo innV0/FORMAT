@@ -1,11 +1,51 @@
 ---
-name: "FORMAT-authoring"
-description: "Author, update, and validate files conforming to the _FORMAT.md specification (Business and Procedures templates)."
+name: FORMAT-skill
+description: "Use when creating, editing, or validating business models and specifications in the FORMAT format (Business and Procedures templates)."
 ---
 
-# FORMAT Model Authoring and Validation Skill
+# FORMAT Skill
 
-This skill allows the agent to read, write, and validate documents conforming to the **FORMAT** specification. 
+This skill guides LLMs and agents in authoring, editing, and validating FORMAT-compliant files and working within the FORMAT codebase.
+
+## Canonical Specification Index
+
+All historical and current specifications are immutable. The canonical specifications must be referenced via their raw GitHub tags to ensure immutability:
+
+- **V_0-1-0**: [format-spec.md (v0.1.0)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/spec/V_0-1-0/format-spec.md)
+- **V_0-1-1**: [format-spec.md (v0.1.1)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/spec/V_0-1-1/format-spec.md)
+- **V_0-1-2** (Current): [format-spec.md (v0.1.2)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/format-spec.md)
+
+## Reference Directory
+
+Agents working on model serialization, grammar validation, or language parsing should consult additional grammar and syntax rules located at:
+- `references/modeling-spec.md` (relative to the skill directory or workspace workspace reference folder).
+
+## Core Rules
+
+1. **Spec Immutability**:
+   - Published specifications (e.g., inside `DOCS/spec/V_0-1-0/` or `DOCS/spec/V_0-1-1/`) are completely frozen.
+   - Do NOT edit, "fix", or migrate files within historical spec directories. Apply changes only to the current/active spec directory.
+
+2. **Spec over Tolerant Code**:
+   - Prefer specifications to be clear, simple, and solid.
+   - Do NOT write code that silently tolerates or works around invalid models. If a model fails to comply with the current specification, reject it or surface the error clearly to the user.
+
+3. **No Backward Compatibility**:
+   - The codebase targets the CURRENT specification version only.
+   - Do NOT maintain parsers, loaders, or branches supporting older versions or obsolete keys (such as `category_id`).
+
+4. **Format Terminology**:
+   - Always use the key `template` instead of `metamodel` in frontmatter declarations, master data models, and serialization output.
+
+5. **Language Domain Contract**:
+   - Generated technical artifacts (code, documentation, specs, issues, commits) default to English.
+   - Keep direct conversation with the user in the user's active language, but respect English as the default for all code-level and documentation artifacts.
+
+---
+
+# FORMAT Model Authoring and Validation Guidelines
+
+This skill allows the agent to read, write, and validate documents conforming to the **_FORMAT** specification. 
 
 All FORMAT-compliant files use the `.md` extension and follow a specific naming convention:
 - **Model Document:** `<ModelName>_V_x-y-z_<TemplateName>_FORMAT.md` (e.g., `Ghostbusters_V_0-3-2_business_FORMAT.md`)
@@ -14,7 +54,7 @@ All FORMAT-compliant files use the `.md` extension and follow a specific naming 
 ## 1. Reference Locations (On-Demand Loading)
 To keep this skill lightweight and maintain a single source of truth, do not duplicate specification files locally in the skill. Instead, when validation or generation is requested, use your web-reading tools (e.g., `read_url_content`) to load the following canonical sources on-demand:
 
-* **Official FORMAT Specification (V_0-1-2):**
+* **Official _FORMAT Specification (V_0-1-2):**
   `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md`
 * **Business Template (V_1-0-0):**
   `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md`

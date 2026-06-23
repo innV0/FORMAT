@@ -1,4 +1,4 @@
-import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore } from '../types';
+import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore, LensEdge } from '../types';
 import { parseFormatFilename } from './version';
 
 /**
@@ -276,10 +276,12 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
   const parsed = {
     metamodelPath: null as string | null,
     title: '',
-    specificationVersion: '',
+    formatVersion: '',
     modelVersion: '',
     specificationUrl: '',
     documentationLocation: '',
+    templateName: '',
+    templateVersion: '',
     lastSaved: '',
     matrixValues: {} as MatrixValues,
     modelTextData: {} as Record<string, string>,
@@ -287,6 +289,8 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     nodeMarkers: {} as NodeMarkers,
     modelTree: [] as TreeNode[],
     analysisScores: {} as AnalysisScores,
+    taxonomyEdges: null as LensEdge[] | null,
+    hierarchyConcepts: null as string[] | null,
     metamodel: null as {
       title?: string;
       last_updated?: string;
@@ -309,18 +313,24 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
       console.error("YAML PARSE FAILURE CONTENT:\n", fmMatch[1]);
       throw e;
     }
-    const metamodelObj = frontmatter.template || frontmatter.metamodel;
-    if (metamodelObj) {
-      if (typeof metamodelObj === 'string') {
-        parsed.metamodelPath = metamodelObj;
+    let templateFm = frontmatter.template || frontmatter.metamodel;
+    if (templateFm) {
+      if (typeof templateFm === 'string') {
+        parsed.metamodelPath = templateFm;
       } else {
-        parsed.metamodelPath = null;
-        parsed.metamodel = metamodelObj;
-        if (Array.isArray(metamodelObj.concepts)) {
-          conceptsList = metamodelObj.concepts;
+        parsed.metamodelPath = templateFm.path || null;
+        if (templateFm.name) {
+          parsed.templateName = String(templateFm.name);
         }
-        if (Array.isArray(metamodelObj.matrices)) {
-          metamodelObj.matrices.forEach((m: any) => {
+        if (templateFm.version) {
+          parsed.templateVersion = String(templateFm.version);
+        }
+        if (Array.isArray(templateFm.concepts)) {
+          conceptsList = templateFm.concepts as Concept[];
+        }
+        parsed.metamodel = templateFm;
+        if (Array.isArray(templateFm.matrices)) {
+          templateFm.matrices.forEach((m: any) => {
             parsed.metamatrix.push({
               name: m.name,
               source: m.source,
@@ -337,8 +347,10 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     if (frontmatter.title) {
       parsed.title = frontmatter.title;
     }
-    if (frontmatter.specification_version) {
-      parsed.specificationVersion = String(frontmatter.specification_version);
+    if (frontmatter.format_version) {
+      parsed.formatVersion = String(frontmatter.format_version);
+    } else if (frontmatter.specification_version) {
+      parsed.formatVersion = String(frontmatter.specification_version);
     }
     if (frontmatter.model_version) {
       parsed.modelVersion = String(frontmatter.model_version);
@@ -355,29 +367,79 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
   }
 
   const sections = content.split(/^#\s+/gm);
-  
+
   const matrixValues: MatrixValues = parsed.matrixValues;
   const modelTextData: Record<string, string> = parsed.modelTextData;
   const metamatrix: MetamatrixRow[] = parsed.metamatrix;
   const nodeMarkers: NodeMarkers = parsed.nodeMarkers;
   const parsedTree: TreeNode[] = parsed.modelTree;
 
-  // Derive hierarchyConcepts dynamically based on conceptsList
-  const nonCategoryConcepts = conceptsList.filter(c => c.type !== 'category' && c.type !== null);
-  const parentMap = new Map<string, string>();
-  nonCategoryConcepts.forEach(c => {
-    if (c.category_id) {
-      const parentConcept = conceptsList.find(p => p.name === c.category_id);
-      if (parentConcept && parentConcept.type !== 'category') {
-        parentMap.set(c.name, parentConcept.name);
+  // Pre-pass: scan sections for the concept-taxonomy hierarchy matrix so we can
+  // use its edges when deriving the instance Chain (hierarchyConcepts).
+  const cleanSectionTitle = (t: string): string => {
+    const conceptMatch = t.match(/<!--\s*block:\s*concepts\s*-->\s*(.*)/i);
+    if (conceptMatch) return conceptMatch[1].trim();
+    const matrixMatch = t.match(/<!--\s*block:\s*matrices\s*-->\s*(.*)/i);
+    if (matrixMatch) return matrixMatch[1].trim();
+    return t;
+  };
+
+  // Normalize a raw name from a taxonomy matrix to the canonical concept name
+  // (case-insensitive match against the concept list). Falls back to the raw name
+  // as-is when no concept matches — preserves edges for category nodes too.
+  const normalizeTaxonomyName = (rawName: string): string => {
+    const lower = rawName.toLowerCase();
+    const match = conceptsList.find(c => c.name.toLowerCase() === lower);
+    return match ? match.name : rawName;
+  };
+
+  for (const sec of sections) {
+    const lines = sec.split(/\r?\n/);
+    const titleText = lines[0].trim();
+    if (!titleText) continue;
+    const secName = cleanSectionTitle(titleText).toLowerCase();
+    if (secName === 'concept-taxonomy hierarchy matrix') {
+      const body = lines.slice(1).join('\n').trim();
+      const table = parseMarkdownTable(body);
+      const edges: LensEdge[] = [];
+      table.forEach(row => {
+        const firstKey = Object.keys(row)[0] || '';
+        const rawParent = (row[firstKey] || '').replace(/\*\*|\*|__/g, '').trim();
+        const parentName = normalizeTaxonomyName(rawParent);
+        if (!parentName) return;
+        Object.entries(row).forEach(([colKey, val]) => {
+          const rawCol = colKey.replace(/\*\*|\*|__/g, '').trim();
+          if (rawCol.toLowerCase() !== firstKey.toLowerCase() && val === 'X') {
+            edges.push({ parent: parentName, child: normalizeTaxonomyName(rawCol) });
+          }
+        });
+      });
+      if (edges.length > 0) {
+        parsed.taxonomyEdges = edges;
       }
+      break;
+    }
+  }
+
+  // Derive hierarchyConcepts (Chain) from taxonomy edges and concept types.
+  // The Chain is the sequence of non-category concepts linked parent→child
+  // through the taxonomy, where the chain root's parent is a category concept.
+  const preTaxEdges: LensEdge[] = parsed.taxonomyEdges || [];
+  const conceptNameSet = new Set(conceptsList.filter(c => c.type !== 'category').map(c => c.name));
+  const categoryNameSet = new Set(conceptsList.filter(c => c.type === 'category').map(c => c.name));
+
+  const parentMap = new Map<string, string>();
+  preTaxEdges.forEach(e => {
+    if (conceptNameSet.has(e.child) && conceptNameSet.has(e.parent)) {
+      parentMap.set(e.child, e.parent);
     }
   });
 
   const chains: string[][] = [];
-  nonCategoryConcepts.forEach(c => {
+  conceptsList.filter(c => c.type !== 'category' && c.type !== null).forEach(c => {
     const hasChildren = Array.from(parentMap.values()).includes(c.name);
-    const parentIsCategory = !c.category_id || conceptsList.some(p => p.name === c.category_id && p.type === 'category');
+    const taxonomyParents = preTaxEdges.filter(e => e.child === c.name).map(e => e.parent);
+    const parentIsCategory = taxonomyParents.length === 0 || taxonomyParents.some(p => categoryNameSet.has(p));
     if (hasChildren && parentIsCategory) {
       const chain = [c.name];
       let current = c.name;
@@ -396,18 +458,26 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
 
   let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
   if (chains.length > 0) {
-    const primaryChain = chains[0];
-    const rootConcept = conceptsList.find(p => p.name === primaryChain[0]);
-    if (rootConcept && rootConcept.category_id) {
-      const siblings = conceptsList.filter(c => c.category_id === rootConcept.category_id && c.type !== 'category' && c.name !== rootConcept.name);
-      if (siblings.length > 0) {
-        hierarchyConcepts = [...siblings.map(s => s.name), ...primaryChain];
-      } else {
-        hierarchyConcepts = primaryChain;
-      }
-    } else {
-      hierarchyConcepts = primaryChain;
+    const chainRoot = chains[0][0];
+    // Sibling-prepend: find non-category concepts that share a category parent with
+    // the chain root but are NOT themselves in the chain (e.g. Stakeholders shares
+    // "Market" with Segments but has no concept-type children → excluded from chain).
+    const chainRootCategoryParents = preTaxEdges
+      .filter(e => e.child === chainRoot && categoryNameSet.has(e.parent))
+      .map(e => e.parent);
+    const siblings: string[] = [];
+    if (chainRootCategoryParents.length > 0) {
+      conceptsList
+        .filter(c => c.type !== 'category' && c.type !== null && !chains[0].includes(c.name))
+        .forEach(c => {
+          const parentsOfC = preTaxEdges.filter(e => e.child === c.name).map(e => e.parent);
+          const sharesCategoryParent = parentsOfC.some(p => chainRootCategoryParents.includes(p));
+          if (sharesCategoryParent) {
+            siblings.push(c.name);
+          }
+        });
     }
+    hierarchyConcepts = [...siblings, ...chains[0]];
   }
 
   hierarchyConcepts = hierarchyConcepts.map(hc => {
@@ -463,7 +533,30 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     const name = cleaned.name;
     const nameLower = name.toLowerCase();
     
-    if (nameLower === 'metamatrix') {
+    if (nameLower === 'concept-taxonomy hierarchy matrix') {
+      // Parse taxonomy edges from sparse X-table (parent→children).
+      // Re-use the pre-pass result if already populated to avoid double-parsing.
+      if (!parsed.taxonomyEdges) {
+        const table = parseMarkdownTable(body);
+        const edges: LensEdge[] = [];
+        table.forEach(row => {
+          const firstKey = Object.keys(row)[0] || '';
+          const rawParent = (row[firstKey] || '').replace(/\*\*|\*|__/g, '').trim();
+          const parentName = normalizeTaxonomyName(rawParent);
+          if (!parentName) return;
+          Object.entries(row).forEach(([colKey, val]) => {
+            const rawCol = colKey.replace(/\*\*|\*|__/g, '').trim();
+            if (rawCol.toLowerCase() !== firstKey.toLowerCase() && val === 'X') {
+              edges.push({ parent: parentName, child: normalizeTaxonomyName(rawCol) });
+            }
+          });
+        });
+        if (edges.length > 0) {
+          parsed.taxonomyEdges = edges;
+        }
+      }
+    }
+    else if (nameLower === 'metamatrix') {
       parseMarkdownTable(body).forEach(row => {
         const matrixName = row['Matrix Name'] || row['Nombre de la matriz'] || '';
         if (matrixName && !metamatrix.some(m => m.name.toLowerCase() === matrixName.toLowerCase())) {
@@ -747,6 +840,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     parseDescriptionsFromText(concept, parsedTree);
   });
 
+  parsed.hierarchyConcepts = hierarchyConcepts;
   return parsed;
 }
 
@@ -756,10 +850,12 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
 export function generateMarkdownFileContent(params: {
   activeFileName: string;
   metamodelPath?: string;
-  specificationVersion?: string;
+  formatVersion?: string;
   modelVersion?: string;
   specificationUrl?: string;
   documentationLocation?: string;
+  templateName?: string;
+  templateVersion?: string;
   modelTextData: Record<string, string>;
   modelTree: TreeNode[];
   nodeMarkers: NodeMarkers;
@@ -767,6 +863,7 @@ export function generateMarkdownFileContent(params: {
   metamatrix: MetamatrixRow[];
   matrixValues: MatrixValues;
   concepts: Concept[];
+  taxonomyEdges?: LensEdge[];
   analysisScores?: AnalysisScores;
   getMatrixRowsList: (source: string, tree: TreeNode[]) => string[];
   getMatrixColsList: (target: string) => string[];
@@ -781,15 +878,20 @@ export function generateMarkdownFileContent(params: {
   let md = '';
   if (!isFlatFormat) {
     md = `---
-template: "${params.metamodelPath}"
+template:
+  name: "${params.templateName || "business"}"
+  version: "${params.templateVersion || "V_1-0-0"}"
+  path: "${params.metamodelPath}"
 title: "${title}"
-${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.modelVersion ? `model_version: "${params.modelVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
+${params.formatVersion ? `specification_version: "${params.formatVersion}"\n` : ''}${params.modelVersion ? `model_version: "${params.modelVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}last_saved: "${lastSaved}"
 ---
 
 `;
   } else {
-    const inlineMetamodel = {
-      title: "innV0 Metamodel",
+    const inlineTemplate = {
+      name: params.templateName || "business",
+      version: params.templateVersion || "V_1-0-0",
+      title: "FORMAT Template",
       last_updated: lastSaved,
       concepts: params.concepts.map(c => {
         const copy = { ...c } as any;
@@ -797,6 +899,7 @@ ${params.specificationVersion ? `specification_version: "${params.specificationV
         delete copy.methodologies;
         delete copy.prompts;
         delete copy.summary;
+        delete copy.emoji; // legacy field; icon is the canonical visual
         return copy;
       }),
       markers: params.markers.map(m => {
@@ -805,6 +908,7 @@ ${params.specificationVersion ? `specification_version: "${params.specificationV
         delete copy.guidelines;
         delete copy.examples_high_score;
         delete copy.examples_low_score;
+        delete copy.emoji; // legacy field; icon is the canonical visual
         return copy;
       }),
       matrices: params.metamatrix.map(m => {
@@ -829,8 +933,8 @@ ${params.specificationVersion ? `specification_version: "${params.specificationV
       })
     };
     md = `---
-${params.specificationVersion ? `specification_version: "${params.specificationVersion}"\n` : ''}${params.modelVersion ? `model_version: "${params.modelVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}template:
-${stringifyYaml(inlineMetamodel, 2)}
+${params.formatVersion ? `specification_version: "${params.formatVersion}"\n` : ''}${params.modelVersion ? `model_version: "${params.modelVersion}"\n` : ''}${params.specificationUrl ? `specification_url: "${params.specificationUrl}"\n` : ''}${params.documentationLocation ? `documentation_location: "${params.documentationLocation}"\n` : ''}template:
+${stringifyYaml(inlineTemplate, 2)}
 title: "${title}"
 last_saved: "${lastSaved}"
 ---
@@ -840,23 +944,27 @@ last_saved: "${lastSaved}"
   const updatedModelTextData = { ...params.modelTextData };
   const cleanName = (n: string) => n.replace(/\*\*|\*|__/g, '').trim();
 
-  // Derive hierarchyConcepts dynamically based on params.concepts
+  // Derive hierarchyConcepts (Chain) from taxonomy edges and concept types.
+  // The Chain is the sequence of non-category concepts linked parent→child
+  // through the taxonomy, where the chain root's parent is a category concept.
   const list = params.concepts;
-  const nonCategoryConcepts = list.filter(c => c.type !== 'category' && c.type !== null);
+  const taxEdges = params.taxonomyEdges || [];
+  const conceptNames = new Set(list.filter(c => c.type !== 'category').map(c => c.name));
+  const categoryNames = new Set(list.filter(c => c.type === 'category').map(c => c.name));
+
+  // Build parentMap for concept→concept edges (both non-category)
   const parentMap = new Map<string, string>();
-  nonCategoryConcepts.forEach(c => {
-    if (c.category_id) {
-      const parentConcept = list.find(p => p.name === c.category_id);
-      if (parentConcept && parentConcept.type !== 'category') {
-        parentMap.set(c.name, parentConcept.name);
-      }
+  taxEdges.forEach(e => {
+    if (conceptNames.has(e.child) && conceptNames.has(e.parent)) {
+      parentMap.set(e.child, e.parent);
     }
   });
 
-  const chains: string[][] = [];
-  nonCategoryConcepts.forEach(c => {
+  const genChains: string[][] = [];
+  list.filter(c => c.type !== 'category' && c.type !== null).forEach(c => {
     const hasChildren = Array.from(parentMap.values()).includes(c.name);
-    const parentIsCategory = !c.category_id || list.some(p => p.name === c.category_id && p.type === 'category');
+    const taxonomyParents = taxEdges.filter(e => e.child === c.name).map(e => e.parent);
+    const parentIsCategory = taxonomyParents.length === 0 || taxonomyParents.some(p => categoryNames.has(p));
     if (hasChildren && parentIsCategory) {
       const chain = [c.name];
       let current = c.name;
@@ -869,24 +977,30 @@ last_saved: "${lastSaved}"
           break;
         }
       }
-      chains.push(chain);
+      genChains.push(chain);
     }
   });
 
   let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
-  if (chains.length > 0) {
-    const primaryChain = chains[0];
-    const rootConcept = list.find(p => p.name === primaryChain[0]);
-    if (rootConcept && rootConcept.category_id) {
-      const siblings = list.filter(c => c.category_id === rootConcept.category_id && c.type !== 'category' && c.name !== rootConcept.name);
-      if (siblings.length > 0) {
-        hierarchyConcepts = [...siblings.map(s => s.name), ...primaryChain];
-      } else {
-        hierarchyConcepts = primaryChain;
-      }
-    } else {
-      hierarchyConcepts = primaryChain;
+  if (genChains.length > 0) {
+    const genChainRoot = genChains[0][0];
+    // Sibling-prepend: same logic as parseMarkdownModel.
+    const genChainRootCategoryParents = taxEdges
+      .filter(e => e.child === genChainRoot && categoryNames.has(e.parent))
+      .map(e => e.parent);
+    const genSiblings: string[] = [];
+    if (genChainRootCategoryParents.length > 0) {
+      list
+        .filter(c => c.type !== 'category' && c.type !== null && !genChains[0].includes(c.name))
+        .forEach(c => {
+          const parentsOfC = taxEdges.filter(e => e.child === c.name).map(e => e.parent);
+          const sharesCategoryParent = parentsOfC.some(p => genChainRootCategoryParents.includes(p));
+          if (sharesCategoryParent) {
+            genSiblings.push(c.name);
+          }
+        });
     }
+    hierarchyConcepts = [...genSiblings, ...genChains[0]];
   }
 
   hierarchyConcepts = hierarchyConcepts.map(hc => {
@@ -976,6 +1090,28 @@ last_saved: "${lastSaved}"
       }
     }
   });
+
+  // Emit concept-taxonomy hierarchy matrix (first-class taxonomy storage)
+  const taxEdgesToSerialize = params.taxonomyEdges || [];
+  if (taxEdgesToSerialize.length > 0) {
+    // Collect unique parents (rows) and children (columns)
+    const taxParents = Array.from(new Set(taxEdgesToSerialize.map(e => e.parent)));
+    const taxChildren = Array.from(new Set(taxEdgesToSerialize.map(e => e.child)));
+    if (isFlatFormat) {
+      md += `# <!-- block: matrices --> concept-taxonomy hierarchy matrix\n\n`;
+    } else {
+      md += `# concept-taxonomy hierarchy matrix\n\n`;
+    }
+    md += `| concept \\ taxonomy | ${taxChildren.join(' | ')} |\n`;
+    md += `| :--- | ${taxChildren.map(() => ':---:').join(' | ')} |\n`;
+    taxParents.forEach(parent => {
+      const row = taxChildren.map(child =>
+        taxEdgesToSerialize.some(e => e.parent === parent && e.child === child) ? 'X' : '-'
+      );
+      md += `| **${parent}** | ${row.join(' | ')} |\n`;
+    });
+    md += '\n';
+  }
 
   for (let i = 0; i < hierarchyConcepts.length - 1; i++) {
     const source = hierarchyConcepts[i];

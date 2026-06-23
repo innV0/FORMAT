@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>_FORMAT — Business Strategy as Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="One structured Markdown file gives any AI model instant, complete context of your entire business — and transforms into a visual, AI-validated, version-controlled strategy model.">
   <meta property="og:title" content="_FORMAT — Business Strategy as Code">
   <meta property="og:description" content="One structured Markdown file gives any AI model instant, complete context of your entire business — and transforms into a visual, AI-validated, version-controlled strategy model.">
@@ -11,71 +11,145 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="robots" content="index, follow">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.slate.min.css">
+  
+  <!-- Theme: Simple (Light) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  
   <style>
     :root {
-      --pico-font-family: 'Inter', system-ui, sans-serif;
+      /* Fonts */
+      --base-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      --code-font-family: 'JetBrains Mono', monospace;
+
+      /* Colors */
+      --theme-color: #2563eb; /* Modern cobalt blue */
+      --base-background-color: #ffffff;
+      --base-color: #334155; /* Slate 700 */
+      --link-color: var(--theme-color);
+      
+      /* Sidebar */
+      --sidebar-background: #ffffff;
+      --sidebar-border-color: #e2e8f0;
+      --sidebar-width: 18rem;
+      --sidebar-nav-link-color: #475569; /* Slate 600 */
+      --sidebar-nav-link-color--active: var(--theme-color);
+      --sidebar-nav-link-font-weight--active: 600;
+      --sidebar-nav-link-border-color--active: var(--theme-color);
+      --sidebar-nav-link-border-width--active: 2px;
+      
+      /* Content */
+      --content-max-width: 54rem;
+      
+      /* Headings */
+      --heading-color: #0f172a; /* Slate 900 */
+      --heading-font-weight: 600;
+      --heading-h1-font-weight: 700;
+      
+      /* Tables */
+      --table-border-color: #e2e8f0;
+      --table-head-background: #f8fafc;
+      
+      /* Pico CSS mappings for the landing page demo splits */
+      --pico-primary: #2563eb;
+      --pico-muted-color: #64748b;
+      --pico-muted-border-color: #e2e8f0;
+      --pico-border-radius: 8px;
+      --pico-card-background-color: #ffffff;
+      --pico-color: #0f172a;
+      --pico-card-sectioning-background-color: #f8fafc;
       --mono: 'JetBrains Mono', monospace;
     }
 
-    /* ── NAV ── */
-    header > nav {
-      position: sticky;
+    /* â”€â”€ GLOBAL HEADER (NAVBAR) â”€â”€ */
+    .app-nav {
+      position: fixed;
       top: 0;
+      right: 0;
+      left: 0;
+      height: 3.75rem;
+      background-color: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 2rem;
       z-index: 100;
-      backdrop-filter: blur(12px);
-      background: rgba(255,255,255,0.88);
-      border-bottom: 1px solid var(--pico-muted-border-color);
-      padding: 0 var(--pico-spacing);
+      margin: 0;
     }
-    .nav-brand {
-      font-family: var(--mono);
+    .app-nav li {
+      display: inline-block;
+      margin-left: 1.5rem;
+      list-style: none;
+    }
+    .app-nav li a {
+      text-decoration: none;
+      font-size: 0.9rem;
+      color: #475569 !important;
       font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .app-nav li a:hover, .app-nav li a.active {
+      color: var(--theme-color) !important;
+    }
+    
+    /* Brand Link (First Item) */
+    .app-nav li:first-child {
+      position: absolute;
+      left: 2rem;
+      margin-left: 0;
+      font-family: var(--mono);
       font-size: 1rem;
       letter-spacing: 0.08em;
-      text-decoration: none;
-      color: var(--pico-color);
     }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--pico-color);
-      cursor: pointer;
-      padding: 0.25rem;
-    }
-    @media (max-width: 700px) {
-      .nav-toggle { display: block; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--pico-muted-border-color);
-        flex-direction: column;
-        padding: 0.5rem 1rem 1rem;
-        gap: 0.25rem;
-      }
-      header nav { position: relative; }
-      header nav.open .nav-links { display: flex; }
+    .app-nav li:first-child a {
+      color: #0f172a !important;
+      font-weight: 600 !important;
     }
 
-    /* ── HERO ── */
+    /* Offset main view and sidebar below header */
+    body .content {
+      padding-top: 3.75rem !important;
+    }
+    body .sidebar {
+      padding-top: 3.75rem !important;
+    }
+    body .sidebar-toggle {
+      top: 3.75rem !important;
+    }
+
+    /* â”€â”€ HOMEPAGE HIDING RULES â”€â”€ */
+    body.is-home .sidebar,
+    body.is-home .sidebar-toggle {
+      display: none !important;
+    }
+    body.is-home .content {
+      left: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: 100% !important;
+    }
+    body.is-home .markdown-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* â”€â”€ LANDING PAGE HERO â”€â”€ */
     .hero {
-      text-align: left;
-      padding: 6rem 1rem 4rem;
+      text-align: center;
+      padding: 3.5rem 1rem 3rem;
     }
     .hero h1 {
       font-family: var(--mono);
       font-size: clamp(2.5rem, 6vw, 4rem);
       letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
+      color: #0f172a;
     }
     .hero h2 {
       font-size: clamp(1.1rem, 2.5vw, 1.4rem);
@@ -86,7 +160,7 @@
     }
     .hero p {
       max-width: 52ch;
-      margin: 0 0 2rem;
+      margin: 0 auto 2rem;
       color: var(--pico-muted-color);
     }
     .hero a[href] {
@@ -102,6 +176,9 @@
       font-weight: 500;
       font-size: 0.9375rem;
     }
+    .hero a:first-of-type:hover {
+      opacity: 0.9;
+    }
     .hero a:last-of-type {
       border: 1px solid var(--pico-muted-border-color);
       color: var(--pico-muted-color);
@@ -109,59 +186,27 @@
       padding: 0.6rem 1.5rem;
       text-decoration: none;
       font-size: 0.9375rem;
+      background: #ffffff;
+    }
+    .hero a:last-of-type:hover {
+      background: #f8fafc;
     }
 
-    /* ── SECTIONS ── */
+    /* â”€â”€ LANDING SECTIONS â”€â”€ */
     section { padding: 4rem 0; }
     section + section { border-top: 1px solid var(--pico-muted-border-color); }
     .hero + section { border-top: none; }
 
-    /* ── TEMPLATE CARDS ── */
-    .template-cards {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-    .template-card {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex: 1;
-      min-width: 280px;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--pico-muted-border-color);
-      border-radius: var(--pico-border-radius);
-      text-decoration: none;
-      color: var(--pico-color);
-      background: #fff;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .template-card:hover {
-      border-color: var(--pico-primary);
-      background: #fff;
-    }
-    .template-card strong {
-      display: block;
-      font-size: 0.95rem;
-      margin-bottom: 0.2rem;
-      color: var(--pico-primary);
-    }
-    .template-card span:last-child {
-      font-size: 0.8rem;
-      color: var(--pico-muted-color);
-      line-height: 1.4;
-    }
-    .template-card-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
+    /* â”€â”€ BLOCKQUOTE â”€â”€ */
+    blockquote {
+      border-left: 3px solid var(--pico-primary) !important;
+      padding-left: 1rem;
+      color: #475569;
+      margin: 1.5rem 0;
     }
 
-    /* ── BLOCKQUOTE as pitch ── */
-    blockquote { border-left: 3px solid var(--pico-primary); }
-
-    /* ── HOW IT WORKS: numbered steps ── */
-    .section-3 ol {
+    /* â”€â”€ HOW IT WORKS: numbered steps â”€â”€ */
+    .markdown-section ol {
       counter-reset: steps;
       list-style: none;
       padding: 0;
@@ -169,7 +214,7 @@
       gap: 0.75rem;
       margin-top: 1.5rem;
     }
-    .section-3 ol li {
+    .markdown-section ol li {
       counter-increment: steps;
       display: flex;
       align-items: flex-start;
@@ -178,7 +223,7 @@
       border: 1px solid var(--pico-muted-border-color);
       border-radius: var(--pico-border-radius);
     }
-    .section-3 ol li::before {
+    .markdown-section ol li::before {
       content: counter(steps);
       flex-shrink: 0;
       width: 1.75rem;
@@ -195,7 +240,7 @@
       margin-top: 0.1rem;
     }
 
-    /* ── OPEN STANDARDS: pill tags ── */
+    /* â”€â”€ OPEN STANDARDS: pill tags â”€â”€ */
     .section-7 { text-align: center; }
     .section-7 ul {
       list-style: none;
@@ -214,9 +259,8 @@
       font-size: 0.85rem;
       color: var(--pico-primary);
     }
-    .section-7 p { max-width: none; }
 
-    /* ── DEMO SPLIT ── */
+    /* â”€â”€ DEMO SPLIT â”€â”€ */
     .demo-split {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -336,15 +380,15 @@
       table-layout: fixed;
     }
     .ui-matrix-table th, .ui-matrix-table td {
-      padding: 0.2rem 0.3rem;
+      padding: 0.2rem 0.3rem !important;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      border: 1px solid var(--pico-muted-border-color);
+      border: 1px solid var(--pico-muted-border-color) !important;
       text-align: center;
     }
     .ui-matrix-table td:first-child { text-align: left; color: var(--pico-muted-color); }
-    .ui-matrix-table th { background: var(--pico-card-sectioning-background-color); font-weight: 500; }
+    .ui-matrix-table th { background: var(--pico-card-sectioning-background-color) !important; font-weight: 500; }
     .cell-max  { background: rgba(79,130,243,0.15); color: var(--pico-primary); font-weight: 600; }
     .cell-high { background: rgba(79,130,243,0.07); color: var(--pico-primary); }
     .cell-neu  { color: var(--pico-muted-color); }
@@ -357,812 +401,74 @@
       .demo-arrow { flex-direction: row; }
       .demo-arrow-line { width: 2rem; height: 1px; }
     }
-
-    /* ── MERMAID DIAGRAM ── */
-    .mermaid {
-      max-width: 720px;
-      margin: 1.5rem auto;
-      text-align: center;
-    }
-    .mermaid svg {
-      width: 100%;
-      height: auto;
-    }
-
-    /* ── PIPELINE STEPS ── */
-    .pipeline-steps {
-      counter-reset: pstep;
-      list-style: none;
-      padding: 0;
-      display: grid;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .pipeline-step {
-      counter-increment: pstep;
-      border: 1px solid var(--pico-muted-border-color);
-      border-radius: var(--pico-border-radius);
-      padding: 1.5rem 2rem;
-    }
-    .pipeline-step::before {
-      content: counter(pstep);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      background: var(--pico-primary);
-      color: #fff;
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 50%;
-      margin-right: 0.75rem;
-      vertical-align: middle;
-    }
-    .pipeline-step h3 {
-      display: inline;
-      font-size: 1.1rem;
-      vertical-align: middle;
-    }
-    .pipeline-step p {
-      margin: 0.75rem 0 0;
-      color: var(--pico-muted-color);
-    }
-
-    /* ── PRICING CTA buttons ── */
-    .section-6 a {
-      display: inline-block;
-      margin: 1rem 0.375rem 0;
-      padding: 0.6rem 1.4rem;
-      border-radius: var(--pico-border-radius);
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .section-6 a:first-of-type {
-      background: var(--pico-primary);
-      color: #fff;
-    }
-    .section-6 a:last-of-type {
-      border: 1px solid var(--pico-muted-border-color);
-      color: var(--pico-muted-color);
-    }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 </head>
 <body>
-  <header>
-    <nav>
-      <ul><li><a class="nav-brand" href="/">_FORMAT</a></li></ul>
-      <button class="nav-toggle" aria-label="Toggle menu" onclick="document.querySelector('header nav').classList.toggle('open')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <ul class="nav-links">
-        <li><a href="#format">Format</a></li>
-        <li><a href="#business">Business</a></li>
-        <li><a href="#procedures">Procedures</a></li>
-        <li><a href="https://github.com/innV0/FORMAT">GitHub</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-<h1>_FORMAT</h1>
-<p><strong>F</strong>**** Omnipotent Readable Model Annotated Template**</p>
-<h2>One file. Your entire business — finally ready for AI.</h2>
-<p>_FORMAT reads a single structured <code>.md</code> file that holds your complete business strategy:
-segments, problems, value propositions, roadmap, finances, team — all interconnected.
-Drop it as context into any AI model or agent and get strategic answers. Commit it to Git and get a living, visual, version-controlled business model.</p>
-<p><a href="#format">Try it free →</a> <a href="#format">Read the spec →</a></p>
-<div class="template-cards">
-  <a href="#business" class="template-card">
-    <div>
-      <strong>Business Template</strong>
-      <span>70+ concepts · 13 matrices · 5 markers — model your entire business strategy in one file</span>
-    </div>
-  </a>
-  <a href="#procedures" class="template-card">
-    <div>
-      <strong>Procedures Template</strong>
-      <span>3 concepts · 1 marker — document workflows and standard operating procedures</span>
-    </div>
-  </a>
-</div>
-
-<hr>
-<div class="demo-split">
-  <div class="demo-col demo-source">
-    <div class="demo-label">your <code>.md</code> file</div>
-    <pre class="demo-code"><span class="dm-comment"># &lt;!-- block: concepts --&gt; problems</span>
-
-<p><span class="dm-bullet">*</span> <span class="dm-item">AI has no business context</span>
-  Every conversation resets.
-  Generic answers only.</p>
-<p><span class="dm-bullet">*</span> <span class="dm-item">Info scattered in 30 files</span>
-  No single source of truth
-  for strategy or AI.</p>
-<p><span class="dm-bullet">*</span> <span class="dm-item">Static business models</span>
-  Plans obsolete the moment
-  they&#39;re saved.</p>
-<p><span class="dm-comment"># &lt;!-- block: concepts --&gt; value propositions</span></p>
-<p><span class="dm-bullet"><em></span> <span class="dm-item">Instant AI context</span>
-<span class="dm-bullet"></em></span> <span class="dm-item">Version-controlled models</span>
-<span class="dm-bullet">*</span> <span class="dm-item">Automated coherence</span></pre>
-  </div>
-  <div class="demo-arrow">
-    <div class="demo-arrow-line"></div>
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>_FORMAT</span>
-  </div>
-  <div class="demo-col demo-visual">
-    <div class="demo-label">interactive visual model</div>
-    <div class="demo-ui">
-      <div class="ui-concept">
-        <div class="ui-concept-header">
-          <span class="ui-emoji">😟</span>
-          <span class="ui-name">Problems</span>
-          <span class="ui-count">3</span>
-        </div>
-        <div class="ui-elements">
-          <div class="ui-element"><span>🤖</span> AI has no business context <span class="ui-score high">●●●●●</span></div>
-          <div class="ui-element"><span>📂</span> Info scattered in 30 files <span class="ui-score high">●●●●●</span></div>
-          <div class="ui-element"><span>📄</span> Static business models <span class="ui-score high">●●●●○</span></div>
-        </div>
-      </div>
-      <div class="ui-matrix">
-        <div class="ui-matrix-label">problems × value propositions</div>
-        <table class="ui-matrix-table">
-          <thead><tr><th></th><th>AI Context</th><th>Versioned</th><th>Traceab.</th></tr></thead>
-          <tbody>
-            <tr><td>AI context gap</td><td class="cell-max">Max</td><td class="cell-max">Max</td><td class="cell-max">Max</td></tr>
-            <tr><td>Scattered info</td><td class="cell-max">Max</td><td class="cell-high">High</td><td class="cell-max">Max</td></tr>
-            <tr><td>Static models</td><td class="cell-high">High</td><td class="cell-neu">—</td><td class="cell-high">High</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div></p>
-</div>
-
-<hr>
-<h2>The AI problem nobody talks about</h2>
-<p>You use AI every day. But how much time do you spend explaining your business <em>every single time</em>?</p>
-<p>Who are your customers. What problems you solve. What your product does. How you make money.
-Over and over. In every conversation. Starting from zero.</p>
-<p>That&#39;s not an AI limitation — it&#39;s a context problem.
-<strong>Your business information is scattered across 30 different files that no AI can read coherently.</strong></p>
-<p><em>&quot;Companies don&#39;t die from lack of ideas. They die from strategic incoherence — and from AI that can&#39;t help because it doesn&#39;t know the whole picture.&quot;</em></p>
-<hr>
-<h2>One file changes everything</h2>
-<p>A _FORMAT file is a single, structured <code>.md</code> document that holds your <strong>complete business context</strong>:
-every segment, problem, value proposition, channel, metric, team member, and financial projection —
-all interconnected through relational matrices.</p>
-<p>Drop it into any AI conversation as context. Claude, GPT, Gemini — they all instantly know your entire business.
-No more generic answers. No more starting over. Strategic depth, every time.</p>
-<hr>
-<h2>How it works</h2>
-<ol>
-<li><strong>Connect</strong> your local repository to the _FORMAT editor</li>
-<li><strong>Declare</strong> your stakeholders, problems, and value propositions in plain Markdown</li>
-<li><strong>Map</strong> bidirectional relationships in matrix tables</li>
-<li><strong>Validate</strong> — AI and logic engine deliver a coherence report with scores</li>
-<li><strong>Save</strong> directly to your repo — and use the file as AI context in any conversation</li>
-</ol>
-<hr>
-<h2>Information Pipeline</h2>
-<p>How raw knowledge becomes AI-ready business context:</p>
-<div class="pipeline-steps">
-
-<div class="pipeline-step">
-<h3>Collect sources into raw/</h3>
-<p>Private documents, internet content, AI conversations, and audio recordings — in any format (Excel, PowerPoint, Word, text, PDF) — are gathered into a single <code>raw/</code> folder.</p>
-
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;📄 Private Docs&quot;] &amp; B[&quot;🌐 Web Content&quot;] &amp; C[&quot;🤖 AI Chats&quot;] &amp; D[&quot;🎙️ Audio&quot;] --&gt; R[&quot;raw/&quot;]
-</code></pre>
-</div>
-
-<div class="pipeline-step">
-<h3>Convert with traNNsform</h3>
-<p>The <code>traNNsform</code> tool reads every file in <code>raw/</code> and normalizes it into structured Markdown and CSV.</p>
-
-<pre><code class="language-mermaid">flowchart LR
-    R[&quot;raw/&quot;] --&gt; T[&quot;⚙️ traNNsform&quot;] --&gt; S[&quot;sources/\nMarkdown + CSV&quot;]
-</code></pre>
-</div>
-
-<div class="pipeline-step">
-<h3>Generate the model with _FORMAT</h3>
-<p>_FORMAT reads all files in <code>sources/</code>, applies the template, and produces a single self-contained business model file.</p>
-
-<pre><code class="language-mermaid">flowchart LR
-    S[&quot;sources/&quot;] &amp; T[&quot;🔷 template&quot;] --&gt; F[&quot;_FORMAT&quot;] --&gt; M[&quot;📄 model_template_V_0-1-0_format.md&quot;]
-</code></pre>
-</div>
-
-<div class="pipeline-step">
-<h3>Query any AI model or agent</h3>
-<p>Drop the generated file into ChatGPT, Gemini, Claude, or any AI agent — AntiGravity, Claude Code, OpenCode — as context. The AI instantly knows your entire business — no re-explaining needed.</p>
-
-<pre><code class="language-mermaid">flowchart LR
-    M[&quot;📄 model file&quot;] --&gt; G[&quot;ChatGPT&quot;] &amp; N[&quot;Gemini&quot;] &amp; O[&quot;Claude&quot;] &amp; P[&quot;AntiGravity&quot;] &amp; Q[&quot;Claude Code&quot;] &amp; R[&quot;OpenCode&quot;]
-</code></pre>
-</div>
-
-</div>
-
-<hr>
-<h2>Built for serious teams</h2>
-<h3>Startup Founders</h3>
-<p>One _FORMAT file = instant AI co-founder. Ask Claude or GPT to review your go-to-market,
-validate your pricing, or identify the weakest link in your model — with full business context.
-Plus: keep strategy and product roadmap in sync from day one with Git versioning.</p>
-<h3>Strategy Consultants</h3>
-<p>Manage 8 client models simultaneously — each as a structured file with complete business context.
-Drop any client file into an AI session and get deep analysis without explaining the business every time.
-Deliver coherence reports backed by relational matrix scoring, not gut feeling.</p>
-<h3>Product Managers</h3>
-<p>Use your _FORMAT file as AI context to ask: <em>&quot;Does this feature address a validated customer problem?&quot;</em>
-Trace every roadmap decision back to real customer pain — with matrix-level traceability.
-No more strategy-execution disconnects.</p>
-<h3>Investors</h3>
-<p>Evaluate startup business models with structural coherence scoring, not slide decks.
-Each _FORMAT file is a machine-readable, auditable view of the full business hypothesis —
-objective, reproducible, and comparable across portfolio companies.</p>
-<hr>
-<h2>Three ways to use _FORMAT</h2>
-<h3>Open Source Engine · Free</h3>
-<p>Local Markdown parser and graph renderer. No account required. Works offline.
-The entire spec is open — fork it, extend it, build on it.</p>
-<h3>_FORMAT Cloud · Team collaboration</h3>
-<p>Real-time collaborative editing, full Git history, advanced AI audits,
-repository integrations, and export to PDF and presentation formats.</p>
-<h3>Enterprise Suite · Full control</h3>
-<p>On-premise deployment, access control, regulatory audit trails,
-custom metamodels, and dedicated support.</p>
-<p><a href="#">Get started →</a> · <a href="mailto:lucas@lucascervera.com">Contact us →</a></p>
-<hr>
-<h2>Built on open standards — designed for the AI era</h2>
-<p>_FORMAT uses no proprietary formats. Every file is a valid Markdown document
-readable without any tool — by humans and AI models alike.</p>
-<ul>
-<li><strong>Markdown</strong> — human-readable, no lock-in, pasteable as AI context in any tool</li>
-<li><strong>YAML frontmatter</strong> — machine-readable schema definition for structured AI parsing</li>
-<li><strong>Git-native</strong> — diff, branch, and PR your strategy like code</li>
-<li><strong>AI-ready</strong> — designed from the ground up for LLM context injection and generation</li>
-<li><strong>Single source of truth</strong> — one file, complete business knowledge, zero context fragmentation</li>
-</ul>
-<p><a href="#format">Read the full specification →</a> · <a href="https://github.com/innV0/FORMAT">View on GitHub →</a></p>
-<hr>
-<h1><!-- block: concepts --> <a id="format"></a>_FORMAT Specification</h1>
-<p><strong>F</strong>**** Omnipotent Readable Model Annotated Template**</p>
-<h2>The format that powers it all</h2>
-<p>_FORMAT is a plain-text specification that lives in your Git repository alongside your code.
-Write your business model in Markdown. _FORMAT renders the rest.</p>
-<h3>Instant AI context — the real superpower</h3>
-<p>One file holds your complete, structured business knowledge.
-Paste it into any AI model or agent — ChatGPT, Gemini, Claude, AntiGravity, Claude Code, OpenCode — and ask real strategic questions:
-<em>&quot;Which customer segment has the weakest value proposition alignment?&quot;</em>
-<em>&quot;What&#39;s the biggest coherence gap between our roadmap and our problems?&quot;</em>
-The AI knows your entire business. It answers with precision, not generalities.</p>
-<h3>Version-controlled living models</h3>
-<p>Your strategy evolves as pull requests. Every change is tracked, diffable, and reversible.
-Strategic PRs are now a real thing.</p>
-<h3>Automated coherence validation</h3>
-<p>An AI and logic engine scores the consistency between your problems, value propositions,
-features, and metrics. You see exactly where the model breaks down — before you build the wrong thing.</p>
-<h3>Complete strategic traceability</h3>
-<p>Every dimension — team, finance, roadmap, customer problems — is connected in a
-multidimensional relational graph. No more silos between strategy and execution.</p>
-<hr>
-<h2>What happens when AI knows your whole business</h2>
-<p><strong>Without _FORMAT</strong> — every conversation resets:</p>
-<blockquote>
-<p><em>&quot;My startup helps B2B SaaS companies with onboarding... we have two customer segments... our main problem is...&quot;</em>
-Generic advice. Wasted time. Shallow answers.</p>
-</blockquote>
-<p><strong>With _FORMAT</strong> — paste the file, ask the real question:</p>
-<blockquote>
-<p><em>&quot;Based on our business model, which value proposition has the weakest coverage for the Consulting Firms segment, and what features should we prioritize?&quot;</em>
-Deep, specific, actionable. Because the AI has full context.</p>
-</blockquote>
-<hr>
-<h2>Document structure</h2>
-<p>Every _FORMAT file is a single UTF-8 document with two parts:</p>
-<p><strong>1. YAML Frontmatter</strong> — the Template schema, versioning, and metadata:</p>
-<pre><code class="language-yaml">specification_version: &quot;V_0-1-2&quot;
-specification_url: &quot;https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md&quot;
-title: &quot;My Business Model&quot;
-template:
-  name: &quot;business&quot;
-  version: &quot;V_1-0-0&quot;
-  concepts:
-    - name: &quot;problems&quot;
-      type: &quot;weight&quot;
-    - name: &quot;value propositions&quot;
-      type: &quot;weight&quot;
-  markers:
-    - name: &quot;weight&quot;
-      symbol: &quot;*&quot;
-  matrices:
-    - name: &quot;problems-value propositions matrix&quot;
-      source: &quot;problems&quot;
-      target: &quot;value propositions&quot;
-</code></pre>
-<p><strong>2. Markdown Body</strong> — concept blocks and matrices:</p>
-<pre><code class="language-markdown"># &lt;!-- block: concepts --&gt; problems
-
-* &lt;!-- block: problems --&gt; High customer churn
-  Retention below 60% after 3 months.
-
-* &lt;!-- block: problems --&gt; Weak onboarding
-  Users don&#39;t reach activation in first week.
-
-# &lt;!-- block: matrices --&gt; problems-value propositions matrix
-
-| problems \ value propositions | Better Onboarding | Retention Program |
-| :--- | :---: | :---: |
-| **High customer churn** | High | Max |
-| **Weak onboarding** | Max | - |
-</code></pre>
-<hr>
-<h2>Key concepts</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Concept</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>Template</strong></td>
-<td align="left">The schema defining allowed concepts, markers, and matrices</td>
-</tr>
-<tr>
-<td align="left"><strong>Concept</strong></td>
-<td align="left">A category of information (e.g. <code>problems</code>, <code>value propositions</code>)</td>
-</tr>
-<tr>
-<td align="left"><strong>Element</strong></td>
-<td align="left">An instance of a concept (e.g. &quot;High customer churn&quot; is an element of <code>problems</code>)</td>
-</tr>
-<tr>
-<td align="left"><strong>Marker</strong></td>
-<td align="left">An evaluative tag applied to elements (weight, completion, certainty, priority, rating)</td>
-</tr>
-<tr>
-<td align="left"><strong>Matrix</strong></td>
-<td align="left">A table expressing relationships between elements</td>
-</tr>
-<tr>
-<td align="left"><strong>Field</strong></td>
-<td align="left">Custom key-value properties on elements (age, fears, department)</td>
-</tr>
-</tbody></table>
-<hr>
-<h2>Specification versions</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Version</th>
-<th align="left">Status</th>
-<th align="left">Link</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>V_0-1-2</strong></td>
-<td align="left">Current</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md">_format.md</a></td>
-</tr>
-<tr>
-<td align="left"><strong>V_0-1-1</strong></td>
-<td align="left">Stable</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/spec/V_0-1-1/format-spec.md">format-spec.md</a></td>
-</tr>
-<tr>
-<td align="left"><strong>V_0-1-0</strong></td>
-<td align="left">Legacy</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/spec/V_0-1-0/format-spec.md">format-spec.md</a></td>
-</tr>
-</tbody></table>
-<p><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md">Read the full specification →</a></p>
-<hr>
-<h1><!-- block: concepts --> <a id="business"></a>Business Template</h1>
-<h2>Model your entire business in one file</h2>
-<p>The Business Template is the default _FORMAT template for modeling complete business strategies.
-With <strong>70+ concepts</strong>, <strong>13 relational matrices</strong>, and <strong>5 evaluation markers</strong>, it covers every dimension of a business — from market analysis to financial projections.</p>
-<h3>Who it&#39;s for</h3>
-<ul>
-<li><strong>Startup Founders</strong> — validate your go-to-market with AI that knows your whole model</li>
-<li><strong>Strategy Consultants</strong> — manage multiple client models with structural coherence scoring</li>
-<li><strong>Product Managers</strong> — trace every feature back to validated customer problems</li>
-<li><strong>Investors</strong> — evaluate business hypotheses with machine-readable, auditable models</li>
-</ul>
-<hr>
-<h2>Template structure</h2>
-<p>The Business Template organizes concepts into <strong>8 categories</strong>:</p>
-<table>
-<thead>
-<tr>
-<th align="left">Category</th>
-<th align="left">Key Concepts</th>
-<th align="left">Focus</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>Market</strong></td>
-<td align="left">Stakeholders, Segments, Profiles, Persona, Segmentation, Competition</td>
-<td align="left">Who you serve and why</td>
-</tr>
-<tr>
-<td align="left"><strong>Solutions</strong></td>
-<td align="left">Products &amp; Services, Portfolio, Components, Features, Roadmap</td>
-<td align="left">What you offer</td>
-</tr>
-<tr>
-<td align="left"><strong>Marketing</strong></td>
-<td align="left">Naming, Branding, Visual Identity, Logo, Media Plan</td>
-<td align="left">How you present</td>
-</tr>
-<tr>
-<td align="left"><strong>Communication</strong></td>
-<td align="left">Pitch, Brochure, Web, Storytelling, Presentations</td>
-<td align="left">How you communicate</td>
-</tr>
-<tr>
-<td align="left"><strong>Organization</strong></td>
-<td align="left">Business Idea, Inspiration, Opportunity, Business Status</td>
-<td align="left">Why you exist</td>
-</tr>
-<tr>
-<td align="left"><strong>Business Objectives</strong></td>
-<td align="left">Mission, Vision, Values, Goals</td>
-<td align="left">Where you&#39;re going</td>
-</tr>
-<tr>
-<td align="left"><strong>Operations</strong></td>
-<td align="left">Activities, Functions, Resources</td>
-<td align="left">How you operate</td>
-</tr>
-<tr>
-<td align="left"><strong>Finance</strong></td>
-<td align="left">Revenue, Costs, CAC, LTV, Unit Economics, Funding, Projections</td>
-<td align="left">How you make money</td>
-</tr>
-</tbody></table>
-<p>Plus <strong>Analysis</strong> (Assumptions, Risks, SWOT) and <strong>Validation</strong> (Coherence, Experiments).</p>
-<hr>
-<h2>Relational matrices</h2>
-<p>The Business Template defines <strong>13 matrices</strong> that map relationships between concepts:</p>
-<table>
-<thead>
-<tr>
-<th align="left">Matrix</th>
-<th align="left">Source → Target</th>
-<th align="left">Purpose</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Journey map</td>
-<td align="left">Journey → Emotions</td>
-<td align="left">Map emotional journey stages</td>
-</tr>
-<tr>
-<td align="left">Segmentation-Profiles</td>
-<td align="left">Segmentation → Profiles</td>
-<td align="left">Link criteria to profiles</td>
-</tr>
-<tr>
-<td align="left">Problems-Value propositions</td>
-<td align="left">Problems → Value propositions</td>
-<td align="left">Core value alignment</td>
-</tr>
-<tr>
-<td align="left">Value propositions-Messages</td>
-<td align="left">Value propositions → Messages</td>
-<td align="left">Communication strategy</td>
-</tr>
-<tr>
-<td align="left">Messages-Channels</td>
-<td align="left">Messages → Channels</td>
-<td align="left">Distribution strategy</td>
-</tr>
-<tr>
-<td align="left">Assumptions-Risks</td>
-<td align="left">Assumptions → Risks</td>
-<td align="left">Risk validation</td>
-</tr>
-<tr>
-<td align="left">Experiments-Assumptions</td>
-<td align="left">Experiments → Assumptions</td>
-<td align="left">Hypothesis testing</td>
-</tr>
-<tr>
-<td align="left">Metrics-Organizational goals</td>
-<td align="left">Metrics → Goals</td>
-<td align="left">OKR alignment</td>
-</tr>
-<tr>
-<td align="left">Features-Milestones</td>
-<td align="left">Features → Milestones</td>
-<td align="left">Product roadmap</td>
-</tr>
-<tr>
-<td align="left">Org values-Goals</td>
-<td align="left">Values → Goals</td>
-<td align="left">Culture alignment</td>
-</tr>
-<tr>
-<td align="left">Functions-Positions</td>
-<td align="left">Functions → Positions</td>
-<td align="left">Team structure</td>
-</tr>
-<tr>
-<td align="left">Activities-Resources</td>
-<td align="left">Activities → Resources</td>
-<td align="left">Operational capacity</td>
-</tr>
-<tr>
-<td align="left">Problems-Competition</td>
-<td align="left">Problems → Competition</td>
-<td align="left">Competitive landscape</td>
-</tr>
-</tbody></table>
-<hr>
-<h2>Evaluation markers</h2>
-<p>Every element can be scored with <strong>5 markers</strong>:</p>
-<table>
-<thead>
-<tr>
-<th align="left">Marker</th>
-<th align="left">Symbol</th>
-<th align="left">What it measures</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>Weight</strong></td>
-<td align="left"><code>*</code></td>
-<td align="left">Importance to the business model</td>
-</tr>
-<tr>
-<td align="left"><strong>Completion</strong></td>
-<td align="left"><code>&gt;</code></td>
-<td align="left">How finished or stable it is</td>
-</tr>
-<tr>
-<td align="left"><strong>Certainty</strong></td>
-<td align="left"><code>?</code></td>
-<td align="left">Level of validation or assumption</td>
-</tr>
-<tr>
-<td align="left"><strong>Priority</strong></td>
-<td align="left"><code>!</code></td>
-<td align="left">Urgency and action ranking</td>
-</tr>
-<tr>
-<td align="left"><strong>Rating</strong></td>
-<td align="left"><code>+</code></td>
-<td align="left">Strengths and weaknesses</td>
-</tr>
-</tbody></table>
-<hr>
-<h2>Example: problems-value propositions matrix</h2>
-<pre><code class="language-markdown">| problems \ value propositions | AI Context | Versioned | Traceability |
-| :--- | :---: | :---: | :---: |
-| **Info scattered in 30 files** | Max | High | Max |
-| **AI has no business context** | Max | Max | Max |
-| **Static business models** | High | - | High |
-</code></pre>
-<p>This matrix reveals which value propositions solve which problems — and where the gaps are.</p>
-<hr>
-<h2>Links</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Resource</th>
-<th align="left">Link</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Template spec (V_1-0-0)</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/template.md">template.md</a></td>
-</tr>
-<tr>
-<td align="left">Full documentation</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/documentation.md">documentation.md</a></td>
-</tr>
-<tr>
-<td align="left">GitHub directory</td>
-<td align="left"><a href="https://github.com/innV0/FORMAT/tree/main/DOCS/templates/business/V_1-0-0">DOCS/templates/business/V_1-0-0/</a></td>
-</tr>
-<tr>
-<td align="left">_FORMAT spec (V_0-1-2)</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md">_format.md</a></td>
-</tr>
-</tbody></table>
-<hr>
-<h1><!-- block: concepts --> <a id="procedures"></a>Procedures Template</h1>
-<h2>Document your workflows, step by step</h2>
-<p>The Procedures Template is a lightweight _FORMAT template for documenting processes, workflows, and standard operating procedures.
-It&#39;s designed for teams that need to capture <strong>how things get done</strong> — with clarity, structure, and AI-readability.</p>
-<h3>Who it&#39;s for</h3>
-<ul>
-<li><strong>Ops Teams</strong> — standardize recurring processes with clear roles and steps</li>
-<li><strong>Engineering Leads</strong> — document deployment pipelines, code review workflows, incident response</li>
-<li><strong>Compliance</strong> — create auditable procedure records with traceable steps</li>
-<li><strong>Any team</strong> — turn tribal knowledge into structured, version-controlled documentation</li>
-</ul>
-<hr>
-<h2>Template structure</h2>
-<p>The Procedures Template is intentionally simple — <strong>3 concepts, 1 marker, 0 matrices</strong>:</p>
-<table>
-<thead>
-<tr>
-<th align="left">Concept</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>Procedure Summary</strong></td>
-<td align="left"><code>text</code></td>
-<td align="left">Brief explanation of the procedure&#39;s goals and scope</td>
-</tr>
-<tr>
-<td align="left"><strong>Roles Involved</strong></td>
-<td align="left"><code>category</code></td>
-<td align="left">The actors/roles that participate in the procedure</td>
-</tr>
-<tr>
-<td align="left"><strong>Steps</strong></td>
-<td align="left"><code>steps</code></td>
-<td align="left">Ordered steps required to complete the procedure</td>
-</tr>
-</tbody></table>
-<h3>Marker</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Marker</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>Complexity</strong></td>
-<td align="left">How complex is the procedure to execute (1–5 scale)</td>
-</tr>
-</tbody></table>
-<hr>
-<h2>Example: deployment procedure</h2>
-<pre><code class="language-yaml">specification_version: &quot;V_0-1-2&quot;
-template:
-  name: &quot;procedures&quot;
-  version: &quot;V_1-0-0&quot;
-title: &quot;Production Deployment Procedure&quot;
-</code></pre>
-<pre><code class="language-markdown"># &lt;!-- block: concepts --&gt; procedure summary
-
-Standard workflow for deploying software changes to production.
-Ensures code quality, security, and traceability through a controlled release process.
-
-# &lt;!-- block: concepts --&gt; roles involved
-
-* &lt;!-- block: roles involved --&gt; Developer
-  Writes code, addresses review feedback, executes deployments.
-
-* &lt;!-- block: roles involved --&gt; Tech Lead
-  Conducts code reviews and authorizes production deployments.
-
-* &lt;!-- block: roles involved --&gt; QA Engineer
-  Validates test cases and performance thresholds.
-
-* &lt;!-- block: roles involved --&gt; Release Manager
-  Coordinates deployment schedule and communicates status.
-
-# &lt;!-- block: concepts --&gt; steps
-
-1. &lt;!-- block: steps --&gt; Code Review
-   - description: Tech Lead reviews merge request for quality and risks.
-   - duration: 2 hours
-
-2. &lt;!-- block: steps --&gt; QA Validation
-   - description: QA Engineer runs automated tests and manual validation.
-   - duration: 4 hours
-
-3. &lt;!-- block: steps --&gt; Security Scan
-   - description: Automated scan identifies vulnerabilities.
-   - duration: 1 hour
-
-4. &lt;!-- block: steps --&gt; Deployment Approval
-   - description: Release Manager reviews all gates and authorizes release.
-   - duration: 30 minutes
-
-5. &lt;!-- block: steps --&gt; Production Deploy
-   - description: Developer executes deployment, monitors rollout, verifies health.
-   - duration: 1 hour
-
-6. &lt;!-- block: steps --&gt; Post-Deploy Verification
-   - description: QA Engineer runs smoke tests in production.
-   - duration: 1 hour
-</code></pre>
-<hr>
-<h2>When to use Business vs Procedures</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Use Case</th>
-<th align="left">Template</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Modeling market strategy, value propositions, finances</td>
-<td align="left"><strong>Business</strong></td>
-</tr>
-<tr>
-<td align="left">Documenting a deployment workflow</td>
-<td align="left"><strong>Procedures</strong></td>
-</tr>
-<tr>
-<td align="left">Validating product-market fit with matrices</td>
-<td align="left"><strong>Business</strong></td>
-</tr>
-<tr>
-<td align="left">Creating an onboarding checklist</td>
-<td align="left"><strong>Procedures</strong></td>
-</tr>
-<tr>
-<td align="left">Analyzing competitive landscape</td>
-<td align="left"><strong>Business</strong></td>
-</tr>
-<tr>
-<td align="left">Standardizing code review process</td>
-<td align="left"><strong>Procedures</strong></td>
-</tr>
-</tbody></table>
-<p>Both templates use the same _FORMAT specification — they&#39;re just different schemas for different purposes.</p>
-<hr>
-<h2>Links</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Resource</th>
-<th align="left">Link</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Template spec (V_1-0-0)</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/procedures/V_1-0-0/template.md">template.md</a></td>
-</tr>
-<tr>
-<td align="left">GitHub directory</td>
-<td align="left"><a href="https://github.com/innV0/FORMAT/tree/main/DOCS/templates/procedures/V_1-0-0">DOCS/templates/procedures/V_1-0-0/</a></td>
-</tr>
-<tr>
-<td align="left">_FORMAT spec (V_0-1-2)</td>
-<td align="left"><a href="https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md">_format.md</a></td>
-</tr>
-</tbody></table>
-
-</section>
-  </main>
-
-  <footer class="container">
-    <small>
-      _FORMAT · Open-source · MIT License ·
-      <a href="https://github.com/innV0/FORMAT">GitHub</a> ·
-      <a href="mailto:lucas@lucascervera.com">Contact</a>
-    </small>
-  </footer>
+  <div id="app"></div>
+  
   <script>
-    document.querySelectorAll('code.language-mermaid').forEach(el => {
-      const div = document.createElement('div');
-      div.classList.add('mermaid');
-      div.textContent = el.textContent;
-      el.parentNode.replaceWith(div);
-    });
-    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    window.$docsify = {
+      name: 'FORMAT',
+      repo: 'https://github.com/innV0/FORMAT',
+      loadSidebar: true,
+      loadNavbar: true,
+      subMaxLevel: 3,
+      auto2top: true,
+      homepage: 'README.md',
+      
+      // Search integration
+      search: {
+        maxAge: 86400000,
+        paths: 'auto',
+        placeholder: 'Search...',
+        noData: 'No results!',
+        depth: 4
+      },
+
+      // Custom Plugins
+      plugins: [
+        // 1. Detect if homepage to hide sidebar
+        function(hook, vm) {
+          hook.beforeEach(function(html) {
+            const isHome = vm.route.path === '/';
+            document.body.classList.toggle('is-home', isHome);
+            return html;
+          });
+        },
+        // 2. Global clean footer
+        function(hook) {
+          var footer = [
+            '<hr style="border: 0; border-top: 1px solid #e2e8f0; margin-top: 3rem;"/>',
+            '<footer>',
+            '<div style="text-align: center; padding: 2rem 0; color: #64748b; font-size: 0.85rem;">',
+            'FORMAT Â· Open-source Â· MIT License Â· ',
+            '<a href="https://github.com/innV0/FORMAT" target="_blank" style="color: var(--theme-color); text-decoration: none;">GitHub</a> Â· ',
+            '<a href="mailto:lucas@lucascervera.com" style="color: var(--theme-color); text-decoration: none;">Contact</a>',
+            '</div>',
+            '</footer>'
+          ].join('');
+
+          hook.afterEach(function(html) {
+            return html + footer;
+          });
+        }
+      ]
+    }
   </script>
+  
+  <!-- Docsify Core -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- Docsify Themeable -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
+  
+  <!-- Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
+  
+  <!-- Syntax Highlighting (Prism components) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
 </body>
 </html>

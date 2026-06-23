@@ -1,8 +1,8 @@
 # FORMAT Specification
 
-*Flat, Open, Readable — Model Annotated Template*
+*Flat, Open, Readable — Model Architecture Template*
 
-**Version V_0-1-1 — Draft**
+**Version V_0-1-0 ΓÇö Draft**
 
 FORMAT is a human-readable, agent-friendly, and version-controlled format for representing business models. It is designed to be easily authored by humans, generated/analyzed by AI agents, and versioned cleanly in Git.
 
@@ -31,15 +31,15 @@ To resolve terminology ambiguity, FORMAT defines a clean, unified conceptual hie
 
 ```
                   [ BLOCK (Generic Card/Pill Unit) ]
-                                 │
-         ┌───────────────────────┴───────────────────────┐
-         ▼                                               ▼
+                                 Γöé
+         ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö┤ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+         Γû╝                                               Γû╝
 [ concept (Category) ]                        [ element (Instance) ]
-  ├── type: "text" (Single element)             ├── Can contain Fields (Key-Value)
-  └── type: list/hierarchy (N elements)         └── Can have markers (Scores)
+  Γö£ΓöÇΓöÇ type: "text" (Single element)             Γö£ΓöÇΓöÇ Can contain Fields (Key-Value)
+  ΓööΓöÇΓöÇ type: list/hierarchy (N elements)         ΓööΓöÇΓöÇ Can have markers (Scores)
 ```
 
-- **BLOCK (Bloque)**: The generic term representing any structured visual or data unit in the model. `concept` and `element` are **two kinds (variants) of BLOCK**, not children of it: the relationship is *is-a* (a type discriminator), NOT *contains-a* (a parent-child hierarchy). Conceptually, a BLOCK carries a discriminator `block_kind ∈ { concept, element }`. They share common properties:
+- **BLOCK (Bloque)**: The generic term representing any structured visual or data unit in the model. Both **concepts** and **elements** are types of blocks. They share common properties:
   - Both can be evaluated and tagged using **markers** (scores or attributes).
   - Both are represented in the UI using distinct badge/pill representations (concept badges represent types, element badges represent instances).
 - **Template (Plantilla)**: The schema defining the structure of the model. It defines the allowed **concepts**, **markers**, and **Matrix templates**. (Formerly referred to as *metamodel*).
@@ -51,7 +51,7 @@ To resolve terminology ambiguity, FORMAT defines a clean, unified conceptual hie
   - **Multi-Instance (List) elements**: For list concepts (e.g., of type `weight`), each element is represented as a bullet point.
 - **Fields (Campos)**: Custom key-value properties or attributes defined for an element (e.g., `age`, `fears` for a `persona` element).
 - **Matrix (Matriz)**: A table expressing relationships between elements.
-  - **Hierarchy Matrix (Matriz Jerárquica)**: Defines the parent-child tree linkages between different hierarchical concepts (e.g., `stakeholders` $\rightarrow$ `segments`).
+  - **Hierarchy Matrix (Matriz Jer├írquica)**: Defines the parent-child tree linkages between different hierarchical concepts (e.g., `stakeholders` $\rightarrow$ `segments`).
   - **Relational Matrix (Matriz Relacional)**: Defines N-to-N relationships between elements of concept A and concept B, with cell values managed by interactive widgets (`boolean`, `cycle`, `scale`, `set`).
   - **element-markers Matrix**: Maps elements to their numerical **marker** evaluations.
 - **marker (Marcador)**: An evaluative tag or score (e.g., `weight`, `completion`, `certainty`, `priority`) applied to elements or concepts.
@@ -65,11 +65,11 @@ To ensure maximum parsing robustness and semantic understanding across different
 | Official Term | Allowed / Legacy Aliases (AI Context) |
 | :--- | :--- |
 | **Template** | `metamodel`, `schema`, `blueprint`, `model_structure`, `plantilla`, `esquema` |
-| **concept** | `concept_type`, `block_type`, `category`, `entity_type`, `sección`, `bloque_concepto` |
-| **element** | `item`, `node`, `instance`, `record`, `concept_instance`, `nodo`, `ítem`, `registro`, `elemento` |
-| **BLOCK** | `block`, `bloque`, `card`, `pill`, `badge`, `píldora`, `tarjeta` |
+| **concept** | `concept_type`, `block_type`, `category`, `entity_type`, `secci├│n`, `bloque_concepto` |
+| **element** | `item`, `node`, `instance`, `record`, `concept_instance`, `nodo`, `├¡tem`, `registro`, `elemento` |
+| **BLOCK** | `block`, `bloque`, `card`, `pill`, `badge`, `p├¡ldora`, `tarjeta` |
 | **Matrix** | `mapping`, `grid`, `relational_grid`, `association_matrix`, `matriz`, `grilla`, `tabla_relacional` |
-| **marker** | `score`, `metric`, `rating`, `evaluation_dimension`, `marcador`, `evaluación`, `indicador` |
+| **marker** | `score`, `metric`, `rating`, `evaluation_dimension`, `marcador`, `evaluaci├│n`, `indicador` |
 
 ---
 
@@ -81,19 +81,19 @@ Every FORMAT document is a single UTF-8 file containing two main parts:
 
 ```
 path/to/model.md
-├── YAML Frontmatter Block (delimited by ---)
-│   ├── specification_version
-│   ├── title
-│   ├── last_saved
-│   └── metamodel (The Template definition)
-│       ├── concepts
-│       │   └── fields (Optional custom properties schema)
-│       ├── markers
-│       └── matrices
-└── Markdown Body
-    ├── Concept Blocks (type: text, list, hierarchy)
-    │   └── elements (with indented Fields)
-    └── Matrix Blocks (hierarchy matrices, relational matrices, element-markers)
+Γö£ΓöÇΓöÇ YAML Frontmatter Block (delimited by ---)
+Γöé   Γö£ΓöÇΓöÇ specification_version
+Γöé   Γö£ΓöÇΓöÇ title
+Γöé   Γö£ΓöÇΓöÇ last_saved
+Γöé   ΓööΓöÇΓöÇ metamodel (The Template definition)
+Γöé       Γö£ΓöÇΓöÇ concepts
+Γöé       Γöé   ΓööΓöÇΓöÇ fields (Optional custom properties schema)
+Γöé       Γö£ΓöÇΓöÇ markers
+Γöé       ΓööΓöÇΓöÇ matrices
+ΓööΓöÇΓöÇ Markdown Body
+    Γö£ΓöÇΓöÇ Concept Blocks (type: text, list, hierarchy)
+    Γöé   ΓööΓöÇΓöÇ elements (with indented Fields)
+    ΓööΓöÇΓöÇ Matrix Blocks (hierarchy matrices, relational matrices, element-markers)
 ```
 
 ---
@@ -102,32 +102,23 @@ path/to/model.md
 
 The frontmatter MUST be a valid YAML block delimited by `---` lines.
 
-#### Required compliance keys
-
-For a document to be **FORMAT-compliant**, the frontmatter MUST declare which specification it conforms to, by version AND by URL:
-
-- `specification_version` (Required): The version of the FORMAT specification this document conforms to, in SemVer rendered as `V_MAJOR-MINOR-PATCH` (see §8.2). Example: `"V_0-1-1"`.
-- `specification_url` (Required): The canonical URL where that exact specification version is published. A document without a resolvable spec URL is NOT compliant.
-
 ```yaml
 ---
-specification_version: "V_0-1-1"
-specification_url: "https://format.innv0.com/spec/v0-1-1/format-spec.md"
+specification_version: "1.0.0"
 title: "Project Ghostbusters Model"
-model_version: "V_0-1-1"
 last_saved: "2026-06-20T09:55:17.941Z"
 metamodel:
   title: "innV0 Metamodel"
   concepts:
     - name: "business summary"
       category_id: null
-      emoji: "📄"
+      emoji: "≡ƒôä"
       type: "text"
       color: "blue"
       weight: 90
     - name: "persona"
       category_id: "profiles"
-      emoji: "📄"
+      emoji: "≡ƒôä"
       type: "text"
       color: "blue"
       weight: 40
@@ -141,7 +132,7 @@ metamodel:
   markers:
     - name: "weight"
       symbol: "*"
-      emoji: "➕"
+      emoji: "Γ₧ò"
       color: "blue"
   matrices:
     - name: "problems-value propositions matrix"
@@ -250,66 +241,3 @@ Format:
 2. **Whitespace Tolerance**: Parsers must trim whitespaces from names, markers, and values.
 3. **Escaped Formatting**: Bold wrappers (`**`) and markdown links/brackets inside table headers or element names must be stripped during element extraction.
 4. **Missing Values**: Cells containing `-` are treated as null/empty associations.
-
----
-
-## 8. Compliance & Naming
-
-### 8.1 File Naming Convention
-
-A FORMAT-compliant file MUST end its name with the suffix `_FORMAT.md`.
-
-The full filename is composed as:
-
-```
-<ModelName>_<Version>_FORMAT.md
-```
-
-- `<ModelName>`: The model's name.
-- `<Version>`: The model's own version, using the versioning format defined in §8.2.
-- `_FORMAT.md`: The mandatory compliance suffix.
-
-Example: `Ghostbusters_V_0-1-1_FORMAT.md`
-
-### 8.2 Versioning Format
-
-All version strings in the FORMAT ecosystem (the specification version, the `specification_version` / `model_version` frontmatter keys, and the `<Version>` segment of the filename) use **Semantic Versioning**, rendered with a `V_` prefix and hyphen separators instead of dots:
-
-```
-V_MAJOR-MINOR-PATCH
-```
-
-Example: SemVer `0.1.1` is rendered as `V_0-1-1`.
-
-### 8.3 Compliance Checklist
-
-A document is FORMAT-compliant only if ALL of the following hold:
-1. Filename matches `<ModelName>_<Version>_FORMAT.md` (§8.1).
-2. Frontmatter declares `specification_version` in `V_MAJOR-MINOR-PATCH` form (§4, §8.2).
-3. Frontmatter declares a resolvable `specification_url` pointing to that exact spec version (§4).
-
----
-
-## 9. Metacircularity (Self-Description)
-
-FORMAT is **metacircular**: the specification can describe itself in its own format. The vocabulary FORMAT uses to model a domain — `BLOCK`, `concept`, `element`, `marker`, `Matrix`, `Field` — is itself a small relational model, and therefore expressible as a FORMAT document.
-
-This yields a self-hosting test analogous to a compiler compiling its own source: if FORMAT can faithfully represent its own metamodel, its expressiveness for relational ontologies is validated.
-
-### 9.1 Scope of Self-Description
-
-Only the **ontological layer** of this specification is self-describable:
-- **Self-describable (§2–§4):** the entities and their relationships — the metamodel itself.
-- **NOT self-describable (§5–§7):** the procedural grammar and parsing rules. These are sequential, conditional instructions, not a network of entities, and MUST remain narrative Markdown. Forcing them into FORMAT would defeat the readability goal of §1.
-
-### 9.2 Mapping the Metamodel onto FORMAT
-
-When FORMAT describes itself, its own primitives map as concepts and relationships:
-
-- `BLOCK` is a single concept carrying a discriminator field `block_kind ∈ { concept, element }`. The concept/element distinction is a **kind discriminator (is-a)**, NOT a hierarchy matrix (contains-a).
-- `concept → element` (a concept has many element instances) is a **hierarchy matrix**.
-- `element → Field` (an element declares custom fields) is a **hierarchy matrix**.
-- `BLOCK → marker` (blocks are evaluated by markers) is a **relational matrix** (N-to-N).
-- `Matrix` links a source `concept` to a target `concept` — a **relational matrix** over concepts.
-
-A self-describing document is itself subject to §8: it is named e.g. `FORMAT_V_0-1-1_FORMAT.md` and declares its own `specification_version` and `specification_url`.

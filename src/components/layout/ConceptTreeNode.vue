@@ -16,7 +16,6 @@
       <!-- Spacer for items without children to align icons -->
       <span v-else class="w-[18px] shrink-0"></span>
 
-      <!-- Uniform BlockPill representing the Concept -->
       <BlockInfo
         kind="concept"
         :block-id="conceptBlockId"

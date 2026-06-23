@@ -147,6 +147,16 @@
                   <option value="">-</option>
                   <option v-for="opt in documentStore.getSetOptionsList(activeMatrix.params)" :key="opt" :value="opt">{{ opt }}</option>
                 </select>
+
+                <!-- 5. Widget Free Text -->
+                <input
+                  v-else-if="activeMatrix.widgetType === 'text'"
+                  type="text"
+                  :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
+                  @input="setVal(row, col, ($event.target as HTMLInputElement).value || '-')"
+                  placeholder="-"
+                  class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                >
               </td>
             </tr>
             <tr v-if="!rows.length">

@@ -13,13 +13,6 @@ export interface BlockVisualsOptions {
   color?: MaybeRef<string | undefined>;
   icon?: MaybeRef<string | undefined>;
   typeName?: MaybeRef<ConceptType | undefined>;
-  /**
-   * Overrides which icon a pill shows, independent of `kind`:
-   * - `'type'` → the abstract concept-TYPE icon (text/category/weight/…).
-   * - `'own'`  → the concept's/instance's own icon.
-   * When omitted, defaults to the kind-based behavior (concept → type, instance → own).
-   */
-  iconMode?: MaybeRef<'type' | 'own' | undefined>;
 }
 
 export interface BlockVisuals {
@@ -63,12 +56,9 @@ export function useBlockVisuals(opts: BlockVisualsOptions): BlockVisuals {
 
   const palette = computed<ColorPalette>(() => getColorClasses(resolvedColor.value));
 
-  const iconToShow = computed<'type' | 'icon'>(() => {
-    const mode = toValue(opts.iconMode);
-    if (mode === 'type') return 'type';
-    if (mode === 'own') return 'icon';
-    return toValue(opts.kind) === 'concept' ? 'type' : 'icon';
-  });
+  // Both concepts and instances show the concept's own icon. The abstract
+  // type icon is only a fallback (handled by consumers when no own icon exists).
+  const iconToShow = computed<'type' | 'icon'>(() => 'icon');
 
   const containerClasses = computed<string[]>(() => {
     const p = palette.value;
