@@ -53,6 +53,9 @@ Cualquier tipo de celda puede estar en estado de propuesta de IA. Visualmente se
 *   **REQ-8**: Las sugerencias propuestas DEBEN ofrecer acciones de Aceptar y Rechazar inline y en el panel lateral.
 *   **REQ-9**: Al hacer clic en Aceptar, DEBE consolidarse el valor sugerido en el modelo de datos (`matrixValues`) y limpiarse el estado de propuesta.
 *   **REQ-10**: Al hacer clic en Rechazar, DEBE descartarse la sugerencia conservando el valor previo del modelo.
+*   **REQ-11**: Las cabeceras de filas y columnas de las matrices que hacen referencia a otros bloques NO DEBEN estar en negrita (`**`).
+*   **REQ-12**: Las celdas con widgets de tipo `cycle` siempre DEBEN tener de forma obligatoria un valor inicial y alternativo de vacío (`'-'`).
+*   **REQ-13**: La definición de matriz puede admitir parámetros opcionales `min_color` y `max_color` para mapear de forma visual un degradado o escala de colores según la escala del ciclo.
 
 ---
 

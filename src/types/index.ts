@@ -26,6 +26,8 @@ export interface MetamatrixRow {
   target: string;
   widgetType: 'boolean' | 'cycle' | 'scale' | 'set' | 'text';
   params: string;
+  min_color?: string;
+  max_color?: string;
 }
 
 // A directed concept→concept edge within a lens (parent contains/precedes child).
@@ -101,4 +103,23 @@ export interface EvaluatorScore {
 export interface AnalysisScores {
   [keyName: string]: EvaluatorScore[];
 }
+
+export interface LensEdge {
+  parent: string;
+  child: string;
+}
+
+export interface Lens {
+  id: string;
+  name: string;
+  icon: string;
+  edges: LensEdge[];
+}
+
+export interface LensNeighborhood {
+  lens: Lens;
+  parents: string[];
+  children: string[];
+}
+
 

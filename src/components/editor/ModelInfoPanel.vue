@@ -256,7 +256,7 @@ template:
   version: "V_1-0-0"
   path: "./innV0_master_data.json"
 title: "${filename.replace('.md', '')}"
-format_version: "V_0-1-2"
+specification_version: "V_0-1-2"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
 last_saved: "${new Date().toISOString()}"
 ---

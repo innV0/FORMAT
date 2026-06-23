@@ -1,6 +1,6 @@
 @echo off
 echo ===================================================
-echo   Iniciando Servidor de Desarrollo para FORMAT
+echo   Iniciando Servidor de Desarrollo para _FORMAT
 echo ===================================================
 echo.
 

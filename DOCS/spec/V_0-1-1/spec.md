@@ -1,6 +1,6 @@
-﻿# FORMAT Specification
+# FORMAT Specification
 
-*Flat, Open, Readable ΓÇö Model Architecture Template*
+*Flat, Open, Readable — Model Architecture Template*
 
 **Version V_0-1-1 ΓÇö Draft**
 

@@ -349,20 +349,20 @@ Strategic definition for Misc.
 
 | Stakeholders \\ Segments | Distressed Homeowners | Hotel Managers | City Regulators |
 | :--- | :---: | :---: | :---: |
-| **B2C Clients** | X | - | - |
-| **B2B Commercial** | - | X | - |
-| **Government** | - | - | X |
+| B2C Clients | X | - | - |
+| B2B Commercial | - | X | - |
+| Government | - | - | X |
 
 # Item-Markers Matrix
 
 | Item \\ Marker | weight | certainty | priority | rating |
 | :--- | :---: | :---: | :---: | :---: |
-| **B2C Clients** | 4 | 5 | 5 | 4 |
-| **B2B Commercial** | 5 | 4 | 5 | 5 |
-| **Government** | 3 | 3 | 2 | -1 |
-| **Distressed Homeowners** | 3 | 5 | 4 | 3 |
-| **Hotel Managers** | 5 | 4 | 5 | 5 |
-| **City Regulators** | 2 | 3 | 1 | -3 |
+| B2C Clients | 4 | 5 | 5 | 4 |
+| B2B Commercial | 5 | 4 | 5 | 5 |
+| Government | 3 | 3 | 2 | -1 |
+| Distressed Homeowners | 3 | 5 | 4 | 3 |
+| Hotel Managers | 5 | 4 | 5 | 5 |
+| City Regulators | 2 | 3 | 1 | -3 |
 
 # Metamatrix
 
@@ -375,14 +375,14 @@ Strategic definition for Misc.
 
 | Profiles \\ Channels | TV Commercials | Print Yellow Pages | Direct Sales Outbound |
 | :--- | :---: | :---: | :---: |
-| **Distressed Homeowners** | Critical | High | Neutral |
-| **Hotel Managers** | High | Neutral | Critical |
-| **City Regulators** | Neutral | Neutral | High |
+| Distressed Homeowners | Critical | High | Neutral |
+| Hotel Managers | High | Neutral | Critical |
+| City Regulators | Neutral | Neutral | High |
 
 # Problems-Value propositions Matrix
 
 | Problems \\ Value propositions | Instant Spectral Capture | Property Damage Mitigation | EPA Regulatory Compliance |
 | :--- | :---: | :---: | :---: |
-| **Spectral infestation** | 5 | 3 | 1 |
-| **Fear of property damage** | 4 | 5 | 1 |
-| **Environmental complaints** | 1 | 2 | 5 |`;
+| Spectral infestation | 5 | 3 | 1 |
+| Fear of property damage | 4 | 5 | 1 |
+| Environmental complaints | 1 | 2 | 5 |`;

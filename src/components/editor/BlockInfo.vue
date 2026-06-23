@@ -117,14 +117,26 @@ const triggerEl = ref<HTMLElement | null>(null);
 const visible = ref(false);
 const coords = ref({ top: 0, left: 0 });
 let hideTimer: ReturnType<typeof setTimeout> | null = null;
+let showTimer: ReturnType<typeof setTimeout> | null = null;
 
 const showPopup = () => {
   cancelHide();
-  const trigger = triggerEl.value?.firstElementChild as HTMLElement | null;
-  const rect = (trigger ?? triggerEl.value)?.getBoundingClientRect();
-  if (!rect) return;
-  coords.value = { left: rect.left, top: rect.bottom + 6 };
-  visible.value = true;
+  if (showTimer) return;
+  showTimer = setTimeout(() => {
+    showTimer = null;
+    const trigger = triggerEl.value?.firstElementChild as HTMLElement | null;
+    const rect = (trigger ?? triggerEl.value)?.getBoundingClientRect();
+    if (!rect) return;
+    coords.value = { left: rect.left, top: rect.bottom + 6 };
+    visible.value = true;
+  }, 400);
+};
+
+const cancelShow = () => {
+  if (showTimer) {
+    clearTimeout(showTimer);
+    showTimer = null;
+  }
 };
 
 const cancelHide = () => {
@@ -135,11 +147,12 @@ const cancelHide = () => {
 };
 
 const scheduleHide = () => {
+  cancelShow();
   cancelHide();
   hideTimer = setTimeout(() => { visible.value = false; }, 120);
 };
 
-onBeforeUnmount(cancelHide);
+onBeforeUnmount(() => { cancelShow(); cancelHide(); });
 
 const popupStyle = computed(() => ({
   top: `${coords.value.top}px`,

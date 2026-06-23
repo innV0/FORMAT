@@ -119,11 +119,11 @@
                   v-else-if="activeMatrix.widgetType === 'cycle'"
                   @click="documentStore.rotateMatrixCellCycle(activeMatrix.name, row, col, activeMatrix.params)"
                   :class="[
-                    documentStore.getCycleBgColor(getVal(row, col)),
+                    documentStore.getCycleBgColor(getVal(row, col), activeMatrix.min_color, activeMatrix.max_color, activeMatrix.params),
                     'px-2 py-1 rounded border text-[10px] font-bold w-full transition-all cursor-pointer'
                   ]"
                 >
-                  {{ getVal(row, col) || 'Neutral' }}
+                  {{ getVal(row, col) === '-' ? '' : getVal(row, col) }}
                 </button>
 
                 <!-- 3. Widget Rating Scale -->
@@ -254,7 +254,7 @@ const copyMatrixMarkdown = () => {
       const val = getVal(row, col);
       return val !== undefined ? val : '-';
     });
-    md += `| **${row}** | ` + colsVal.join(' | ') + ' |\n';
+    md += `| ${row} | ` + colsVal.join(' | ') + ' |\n';
   });
 
   navigator.clipboard.writeText(md);

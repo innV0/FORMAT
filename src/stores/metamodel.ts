@@ -261,7 +261,6 @@ export const useMetamodelStore = defineStore('metamodel', () => {
       ]
     };
   };
-
   return {
     metamodelSource,
     concepts,

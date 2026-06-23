@@ -108,8 +108,8 @@
       <div v-else>
         <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Name</label>
         <input
-          v-model="block.name"
-          @input="onInput"
+          :value="block.name"
+          @input="onNameInput"
           class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
           placeholder="Enter block name"
         >
@@ -209,6 +209,10 @@
             class="prose prose-slate max-w-none text-xs text-slate-600 leading-relaxed break-words"
             v-html="renderedDescription"
           ></div>
+          <ConceptRelationshipGraph
+            :concept-name="conceptName"
+            :concept-color="conceptColor"
+          />
         </template>
       </div>
     </div>
@@ -220,6 +224,7 @@ import { computed } from 'vue';
 import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2, PlusCircle } from 'lucide-vue-next';
 import BlockPill from './BlockPill.vue';
 import MarkerTooltip from './MarkerTooltip.vue';
+import ConceptRelationshipGraph from './ConceptRelationshipGraph.vue';
 import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { renderInlineMarkdown } from '../../utils/renderMarkdown';
@@ -312,6 +317,23 @@ const hasVisibleFields = computed(() => visibleFields.value.length > 0);
 
 const onInput = () => {
   documentStore.triggerUnsavedChanges();
+  emit('change');
+};
+
+const onNameInput = (event: Event) => {
+  const newName = (event.target as HTMLInputElement).value;
+  const oldName = props.block.name;
+  props.block.name = newName;
+
+  // Determine rename context from component props
+  const context: 'tree-node' | 'list-item' | 'concept' =
+    props.kind === 'concept'
+      ? 'concept'
+      : props.isList
+        ? 'list-item'
+        : 'tree-node';
+
+  documentStore.renameBlock(oldName, newName, context);
   emit('change');
 };
 

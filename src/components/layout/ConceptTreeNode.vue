@@ -2,13 +2,13 @@
   <div class="space-y-1">
     <div class="flex items-center gap-1.5 w-full">
       <!-- Collapse toggle button on the left (outside the pill) -->
-      <button 
-        v-if="node.children && node.children.length"
+      <button
+        v-if="hasChildren"
         @click.stop="isCollapsed = !isCollapsed"
         class="p-0.5 hover:bg-slate-100 rounded text-slate-500 transition-colors flex items-center justify-center cursor-pointer shrink-0"
         aria-label="Toggle node collapse"
       >
-        <ChevronDown 
+        <ChevronDown
           class="transition-transform duration-200 w-3 h-3 inline-block"
           :class="{ '-rotate-90': isCollapsed }"
         />
@@ -16,52 +16,88 @@
       <!-- Spacer for items without children to align icons -->
       <span v-else class="w-[18px] shrink-0"></span>
 
-      <!-- Uniform BlockPill representing the Concept -->
-      <BlockPill
+      <BlockInfo
         kind="concept"
+        :block-id="conceptBlockId"
         :concept-type="node.name"
-        :type-name="node.type || undefined"
         :name="node.name"
-        :icon="node.icon"
-        :selected="activeName === node.name"
-        :interactive="true"
-        @click="emitSelect(node.name)"
+        :show-markers="false"
         class="flex-1"
-      />
-      <!-- Hierarchy badge -->
-      <span
-        v-if="isHierarchyConcept"
-        class="shrink-0 flex items-center justify-center w-4 h-4 rounded text-indigo-400 opacity-60"
-        title="Has hierarchy"
       >
-        <GitBranch class="w-3 h-3" />
-      </span>
+        <BlockPill
+          kind="concept"
+          icon-mode="own"
+          :concept-type="node.name"
+          :type-name="node.type || undefined"
+          :name="node.name"
+          :icon="node.icon"
+          :selected="activeName === node.name"
+          :interactive="true"
+          full-width
+          @click="emitSelect(node.name)"
+        />
+      </BlockInfo>
     </div>
 
-    <!-- Recursive children rendering -->
-    <div 
-      v-if="node.children && node.children.length" 
+    <div
+      v-if="hasChildren"
       v-show="!isCollapsed"
       class="pl-4 border-l border-border ml-3 space-y-1"
     >
-      <ConceptTreeNode 
-        v-for="child in node.children" 
-        :key="child.name" 
-        :node="child" 
+      <!-- Recursive concept taxonomy children -->
+      <ConceptTreeNode
+        v-for="child in node.children"
+        :key="child.name"
+        :node="child"
         :active-name="activeName"
         :expanded-generation="expandedGeneration"
+        :elements-map="elementsMap"
+        :selected-node-id="selectedNodeId"
         @select="emitSelect"
       />
+
+      <!-- Element instances of this concept -->
+      <div
+        v-for="el in elementNodes"
+        :key="el.id"
+        class="flex items-center gap-1.5 w-full"
+      >
+        <span class="w-[18px] shrink-0"></span>
+        <BlockInfo
+          kind="instance"
+          :block-id="el.id"
+          :concept-type="node.name"
+          :name="el.name || '(Empty)'"
+          :description="el.description"
+          :fields="el.fields"
+          class="flex-1"
+        >
+          <BlockPill
+            kind="instance"
+            icon-mode="own"
+            :block-id="el.id"
+            :concept-type="node.name"
+            :name="el.name || '(Empty)'"
+            :description="el.description"
+            :fields="el.fields"
+            :selected="selectedNodeId === el.id"
+            :interactive="true"
+            full-width
+            @click="selectElement(el)"
+          />
+        </BlockInfo>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import { ChevronDown, GitBranch } from 'lucide-vue-next';
-import { Concept } from '../../types';
-import { useMetamodelStore } from '../../stores/metamodel';
+import { ChevronDown } from 'lucide-vue-next';
+import { Concept, TreeNode } from '../../types';
+import { useDocumentStore } from '../../stores/document';
 import BlockPill from '../editor/BlockPill.vue';
+import BlockInfo from '../editor/BlockInfo.vue';
 
 interface ConceptNode extends Concept {
   children?: ConceptNode[];
@@ -71,28 +107,39 @@ const props = defineProps<{
   node: ConceptNode;
   activeName: string;
   expandedGeneration?: number;
+  elementsMap?: Record<string, TreeNode[]>;
+  selectedNodeId?: string;
 }>();
 
 const emit = defineEmits<{
   (e: 'select', name: string): void;
 }>();
 
-const metamodelStore = useMetamodelStore();
+const documentStore = useDocumentStore();
 const isCollapsed = ref(false);
 
-const isHierarchyConcept = computed(() =>
-  metamodelStore.hierarchyConcepts.includes(props.node.name)
+const conceptBlockId = computed(() =>
+  `concept:${props.node.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`
 );
 
-// Watch the global generation counter to expand/collapse all
+const elementNodes = computed(() => props.elementsMap?.[props.node.name] ?? []);
+
+const hasChildren = computed(() =>
+  (props.node.children && props.node.children.length > 0) || elementNodes.value.length > 0
+);
+
 watch(() => props.expandedGeneration, (newVal) => {
   if (newVal !== undefined) {
-    // Negative generation values represent "collapse all"
     isCollapsed.value = newVal < 0;
   }
 }, { immediate: true });
 
 const emitSelect = (name: string) => {
   emit('select', name);
+};
+
+const selectElement = (el: TreeNode) => {
+  documentStore.selectConcept(props.node.name);
+  documentStore.selectTreeNode(el, props.node.name);
 };
 </script>
