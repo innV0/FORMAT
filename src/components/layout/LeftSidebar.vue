@@ -45,9 +45,9 @@
 
           <div class="space-y-1.5">
             <ConceptTreeNode
-              v-for="concept in metamodelStore.concepts"
-              :key="concept.name"
-              :node="concept"
+              v-for="node in conceptTree"
+              :key="node.name"
+              :node="node"
               :active-name="documentStore.activeConceptName"
               @select="openConcept"
             />
@@ -199,7 +199,7 @@ import { useDocumentStore } from '../../stores/document';
 import ConceptTreeNode from './ConceptTreeNode.vue';
 import ConceptLensPanel from '../editor/ConceptLensPanel.vue';
 import TreeNodeItem from '../editor/TreeNodeItem.vue';
-import IconRenderer from '../editor/IconRenderer.vue';
+import { Concept } from '../../types';
 import { useResizablePanel } from '../../composables/useResizablePanel';
 
 const { width, startResize } = useResizablePanel({
@@ -219,6 +219,36 @@ const slideDirection = ref<'slide-right' | 'slide-left'>('slide-right');
 
 // Concepts tab sub-state: flat list vs. lens neighborhoods for the selected concept.
 const conceptView = ref<'list' | 'lens'>('list');
+
+interface ConceptNode extends Concept {
+  children: ConceptNode[];
+}
+
+const conceptTree = computed((): ConceptNode[] => {
+  const edges = metamodelStore.taxonomyEdges;
+  const allConcepts = metamodelStore.concepts;
+
+  if (edges.length === 0) {
+    return allConcepts.map(c => ({ ...c, children: [] }));
+  }
+
+  const nodeMap: Record<string, ConceptNode> = {};
+  allConcepts.forEach(c => {
+    nodeMap[c.name] = { ...c, children: [] };
+  });
+
+  const childNames = new Set<string>();
+  edges.forEach(e => {
+    if (nodeMap[e.parent] && nodeMap[e.child]) {
+      nodeMap[e.parent].children.push(nodeMap[e.child]);
+      childNames.add(e.child);
+    }
+  });
+
+  return allConcepts
+    .filter(c => !childNames.has(c.name))
+    .map(c => nodeMap[c.name]);
+});
 
 const openConcept = (name: string) => {
   documentStore.selectConcept(name);

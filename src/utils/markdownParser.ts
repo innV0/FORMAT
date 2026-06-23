@@ -176,7 +176,6 @@ export function parseNodeInstances(text: string): ParsedInstance[] {
   
   let currentInstance: ParsedInstance | null = null;
   let descriptionLines: string[] = [];
-  let parsingFields = false;
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -199,7 +198,6 @@ export function parseNodeInstances(text: string): ParsedInstance[] {
       const name = rawName.replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim();
       
       currentInstance = { type, name, description: '', fields: {} };
-      parsingFields = true;
     } else {
       if (trimmed.startsWith('#') || trimmed.includes('<!-- block:')) {
         if (currentInstance) {
@@ -208,23 +206,23 @@ export function parseNodeInstances(text: string): ParsedInstance[] {
           currentInstance = null;
           descriptionLines = [];
         }
-        parsingFields = false;
       } else {
         if (currentInstance) {
-          if (parsingFields) {
-            if (trimmed === '') {
-              // skip blank lines during fields parsing
-            } else {
-              const fieldMatch = line.match(/^\s*[-*]\s*([a-zA-Z0-9_-]+)\s*:\s*(.*)$/);
-              if (fieldMatch) {
-                const key = fieldMatch[1].trim();
-                const value = fieldMatch[2].trim();
-                currentInstance.fields = currentInstance.fields || {};
-                currentInstance.fields[key] = parseYamlValue(value);
-              } else {
-                parsingFields = false;
-                descriptionLines.push(line);
+          if (trimmed.startsWith('```yaml')) {
+            let yamlContent = '';
+            i++; // skip the ```yaml line
+            while (i < lines.length) {
+              const nextLine = lines[i];
+              const nextTrimmed = nextLine.trim();
+              if (nextTrimmed.startsWith('```')) {
+                break;
               }
+              yamlContent += nextLine + '\n';
+              i++;
+            }
+            const parsedFields = parseYaml(yamlContent);
+            if (parsedFields && typeof parsedFields === 'object') {
+              currentInstance.fields = { ...currentInstance.fields, ...parsedFields };
             }
           } else {
             descriptionLines.push(line);
@@ -347,9 +345,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     if (frontmatter.title) {
       parsed.title = frontmatter.title;
     }
-    if (frontmatter.format_version) {
-      parsed.formatVersion = String(frontmatter.format_version);
-    } else if (frontmatter.specification_version) {
+    if (frontmatter.specification_version) {
       parsed.formatVersion = String(frontmatter.specification_version);
     }
     if (frontmatter.model_version) {
@@ -374,8 +370,8 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
   const nodeMarkers: NodeMarkers = parsed.nodeMarkers;
   const parsedTree: TreeNode[] = parsed.modelTree;
 
-  // Pre-pass: scan sections for the concept-taxonomy hierarchy matrix so we can
-  // use its edges when deriving the instance Chain (hierarchyConcepts).
+  // Pre-pass: scan sections for the concept-taxonomy hierarchy matrix or the reserved 'index' block
+  // so we can use its edges when deriving the instance Chain (hierarchyConcepts).
   const cleanSectionTitle = (t: string): string => {
     const conceptMatch = t.match(/<!--\s*block:\s*concepts\s*-->\s*(.*)/i);
     if (conceptMatch) return conceptMatch[1].trim();
@@ -384,7 +380,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     return t;
   };
 
-  // Normalize a raw name from a taxonomy matrix to the canonical concept name
+  // Normalize a raw name from a taxonomy matrix or index list to the canonical concept name
   // (case-insensitive match against the concept list). Falls back to the raw name
   // as-is when no concept matches — preserves edges for category nodes too.
   const normalizeTaxonomyName = (rawName: string): string => {
@@ -398,6 +394,31 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     const titleText = lines[0].trim();
     if (!titleText) continue;
     const secName = cleanSectionTitle(titleText).toLowerCase();
+    if (secName === 'index') {
+      const body = lines.slice(1).join('\n');
+      const edges: LensEdge[] = [];
+      const stack: Array<{ name: string; indent: number }> = [];
+      for (const line of body.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        const match = line.match(/^([ \t]*)(?:[-*]\s+)?\[\[([^\]]+)\]\]/);
+        if (!match) continue;
+        const indent = match[1].length;
+        const rawName = match[2].trim();
+        const name = normalizeTaxonomyName(rawName);
+        while (stack.length > 0 && stack[stack.length - 1].indent >= indent) {
+          stack.pop();
+        }
+        if (stack.length > 0) {
+          edges.push({ parent: stack[stack.length - 1].name, child: name });
+        }
+        stack.push({ name, indent });
+      }
+      if (edges.length > 0) {
+        parsed.taxonomyEdges = edges;
+      }
+      break;
+    }
     if (secName === 'concept-taxonomy hierarchy matrix') {
       const body = lines.slice(1).join('\n').trim();
       const table = parseMarkdownTable(body);
@@ -533,30 +554,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     const name = cleaned.name;
     const nameLower = name.toLowerCase();
     
-    if (nameLower === 'concept-taxonomy hierarchy matrix') {
-      // Parse taxonomy edges from sparse X-table (parent→children).
-      // Re-use the pre-pass result if already populated to avoid double-parsing.
-      if (!parsed.taxonomyEdges) {
-        const table = parseMarkdownTable(body);
-        const edges: LensEdge[] = [];
-        table.forEach(row => {
-          const firstKey = Object.keys(row)[0] || '';
-          const rawParent = (row[firstKey] || '').replace(/\*\*|\*|__/g, '').trim();
-          const parentName = normalizeTaxonomyName(rawParent);
-          if (!parentName) return;
-          Object.entries(row).forEach(([colKey, val]) => {
-            const rawCol = colKey.replace(/\*\*|\*|__/g, '').trim();
-            if (rawCol.toLowerCase() !== firstKey.toLowerCase() && val === 'X') {
-              edges.push({ parent: parentName, child: normalizeTaxonomyName(rawCol) });
-            }
-          });
-        });
-        if (edges.length > 0) {
-          parsed.taxonomyEdges = edges;
-        }
-      }
-    }
-    else if (nameLower === 'metamatrix') {
+    if (nameLower === 'metamatrix') {
       parseMarkdownTable(body).forEach(row => {
         const matrixName = row['Matrix Name'] || row['Nombre de la matriz'] || '';
         if (matrixName && !metamatrix.some(m => m.name.toLowerCase() === matrixName.toLowerCase())) {
@@ -693,6 +691,9 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
           }
           (parsed as any).analysisScores[keyName].push(scoreRecord);
         });
+      }
+      else if (nameLower === 'index') {
+        // Reserved index block, already processed in pre-pass
       }
       else {
         const matchingConcept = conceptsList.find(c => c.name.toLowerCase() === nameLower);
@@ -941,6 +942,51 @@ last_saved: "${lastSaved}"
 
 `;
   }
+
+  const taxEdgesToSerialize = params.taxonomyEdges || [];
+  if (taxEdgesToSerialize.length > 0) {
+    const parentToChildren = new Map<string, string[]>();
+    const childrenSet = new Set<string>();
+    const allNodes = new Set<string>();
+
+    taxEdgesToSerialize.forEach(e => {
+      allNodes.add(e.parent);
+      allNodes.add(e.child);
+      childrenSet.add(e.child);
+      if (!parentToChildren.has(e.parent)) {
+        parentToChildren.set(e.parent, []);
+      }
+      parentToChildren.get(e.parent)!.push(e.child);
+    });
+
+    const roots = Array.from(allNodes).filter(n => !childrenSet.has(n));
+
+    const sortNodes = (nodes: string[]): string[] => {
+      return [...nodes].sort((a, b) => {
+        const idxA = params.concepts.findIndex(c => c.name.toLowerCase() === a.toLowerCase());
+        const idxB = params.concepts.findIndex(c => c.name.toLowerCase() === b.toLowerCase());
+        if (idxA === -1 && idxB === -1) return a.localeCompare(b);
+        if (idxA === -1) return 1;
+        if (idxB === -1) return -1;
+        return idxA - idxB;
+      });
+    };
+
+    const sortedRoots = sortNodes(roots);
+    let indexMd = `# <!-- block: concepts --> index\n\n`;
+
+    const printNode = (nodeName: string, depth: number) => {
+      const spaces = '  '.repeat(depth);
+      indexMd += `${spaces}* [[${nodeName}]]\n`;
+      const children = parentToChildren.get(nodeName) || [];
+      const sortedChildren = sortNodes(children);
+      sortedChildren.forEach(child => printNode(child, depth + 1));
+    };
+
+    sortedRoots.forEach(root => printNode(root, 0));
+    md += indexMd.trim() + '\n\n';
+  }
+
   const updatedModelTextData = { ...params.modelTextData };
   const cleanName = (n: string) => n.replace(/\*\*|\*|__/g, '').trim();
 
@@ -1042,12 +1088,18 @@ last_saved: "${lastSaved}"
         text += `* <!-- block: ${conceptLower} --> ${node.name}\n`;
         let hasFields = false;
         if (node.fields && Object.keys(node.fields).length > 0) {
+          const activeFields: Record<string, any> = {};
           Object.entries(node.fields).forEach(([k, v]) => {
             if (v !== undefined && v !== null && v !== '') {
-              text += `  - ${k}: ${stringifyYaml(v, 0)}\n`;
-              hasFields = true;
+              activeFields[k] = v;
             }
           });
+          if (Object.keys(activeFields).length > 0) {
+            text += '  ```yaml\n';
+            text += stringifyYaml(activeFields, 2) + '\n';
+            text += '  ```\n';
+            hasFields = true;
+          }
         }
         if (node.description) {
           if (hasFields) {
@@ -1091,27 +1143,7 @@ last_saved: "${lastSaved}"
     }
   });
 
-  // Emit concept-taxonomy hierarchy matrix (first-class taxonomy storage)
-  const taxEdgesToSerialize = params.taxonomyEdges || [];
-  if (taxEdgesToSerialize.length > 0) {
-    // Collect unique parents (rows) and children (columns)
-    const taxParents = Array.from(new Set(taxEdgesToSerialize.map(e => e.parent)));
-    const taxChildren = Array.from(new Set(taxEdgesToSerialize.map(e => e.child)));
-    if (isFlatFormat) {
-      md += `# <!-- block: matrices --> concept-taxonomy hierarchy matrix\n\n`;
-    } else {
-      md += `# concept-taxonomy hierarchy matrix\n\n`;
-    }
-    md += `| concept \\ taxonomy | ${taxChildren.join(' | ')} |\n`;
-    md += `| :--- | ${taxChildren.map(() => ':---:').join(' | ')} |\n`;
-    taxParents.forEach(parent => {
-      const row = taxChildren.map(child =>
-        taxEdgesToSerialize.some(e => e.parent === parent && e.child === child) ? 'X' : '-'
-      );
-      md += `| **${parent}** | ${row.join(' | ')} |\n`;
-    });
-    md += '\n';
-  }
+
 
   for (let i = 0; i < hierarchyConcepts.length - 1; i++) {
     const source = hierarchyConcepts[i];

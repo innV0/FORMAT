@@ -1,628 +1,458 @@
 ---
-specification_version: "V_0-1-2"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md"
-title: "business Template — V_1-0-0"
+specification_version: "V_0-1-3"
 model_version: "V_1-0-0"
-last_saved: "2026-06-23T00:00:00.000Z"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md"
 template:
   name: "business"
   version: "V_1-0-0"
-  title: "innV0 Business Model Template"
+  title: "FORMAT Template"
+  last_updated: "2026-06-23T21:10:29.534Z"
   concepts:
     - name: "Business summary"
       icon: "file-text"
       type: "text"
       color: "blue"
       weight: 90
-
     - name: "Market"
       icon: "store"
       type: "category"
       color: "blue"
       weight: 90
-
     - name: "Stakeholders"
       icon: "users"
       type: "weight"
       color: "blue"
       weight: 80
-      category_id: "Market"
-
     - name: "Segments"
       icon: "pie-chart"
       type: "weight"
       color: "blue"
       weight: 70
-      category_id: "Market"
-
     - name: "Profiles"
       icon: "user"
       type: "weight"
       color: "blue"
       weight: 80
-      category_id: "Segments"
-
     - name: "Persona"
       icon: "user-round"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Profiles"
-
     - name: "Segmentation"
       icon: "split"
       type: "weight"
       color: "blue"
       weight: 60
-      category_id: "Segments"
-
     - name: "Market trends"
       icon: "trending-up"
       type: "weight"
       color: "blue"
       weight: 20
-      category_id: "Segments"
-
     - name: "Market size"
       icon: "ruler"
       type: "text"
       color: "blue"
       weight: 50
-      category_id: "Segments"
-
     - name: "Competition"
       icon: "swords"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Segments"
-
     - name: "Roles"
       icon: "user-cog"
       type: "weight"
       color: "blue"
       weight: 30
-      category_id: "Segments"
-
     - name: "Problems"
       icon: "circle-alert"
       type: "weight"
       color: "blue"
       weight: 85
-      category_id: "Segments"
-
     - name: "Value propositions"
       icon: "gem"
       type: "weight"
       color: "blue"
       weight: 70
-      category_id: "Segments"
-
     - name: "Messages"
       icon: "message-square"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Segments"
-
     - name: "Channels"
       icon: "share-2"
       type: "weight"
       color: "blue"
       weight: 70
-      category_id: "Segments"
-
     - name: "Relationships"
       icon: "handshake"
       type: "text"
       color: "blue"
       weight: 50
-      category_id: "Segments"
-
     - name: "Perceptions"
       icon: "eye"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Segments"
-
     - name: "Emotions"
       icon: "heart"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Segments"
-
     - name: "Behaviors"
       icon: "activity"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Segments"
-
     - name: "Journey"
       icon: "route"
       type: "steps"
       color: "blue"
       weight: 40
-      category_id: "Segments"
-
     - name: "Solutions"
       icon: "lightbulb"
       type: "category"
       color: "blue"
       weight: 90
-
     - name: "Products and services"
       icon: "package"
       type: "weight"
       color: "blue"
       weight: 80
-      category_id: "Solutions"
-
     - name: "Portfolio"
       icon: "briefcase"
       type: "text"
       color: "blue"
       weight: 80
-      category_id: "Products and services"
-
     - name: "Components"
       icon: "puzzle"
       type: "weight"
       color: "blue"
       weight: 20
-      category_id: "Products and services"
-
     - name: "Features"
       icon: "sparkles"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Products and services"
-
     - name: "Roadmap"
       icon: "map"
       type: "steps"
       color: "blue"
       weight: 20
-      category_id: "Products and services"
-
     - name: "Pricing"
       icon: "tag"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Products and services"
-
     - name: "Offerings"
       icon: "shopping-bag"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Products and services"
-
     - name: "Brochure"
       icon: "book-open"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Products and services"
-
     - name: "Marketing"
       icon: "megaphone"
       type: "category"
       color: "blue"
       weight: 60
-      category_id: "Solutions"
-
     - name: "Naming"
       icon: "type"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Marketing"
-
     - name: "Branding"
       icon: "palette"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Marketing"
-
     - name: "Visual identity"
       icon: "image"
       type: "text"
       color: "blue"
       weight: 10
-      category_id: "Marketing"
-
     - name: "Logo"
       icon: "shapes"
       type: "text"
       color: "blue"
       weight: 10
-      category_id: "Marketing"
-
     - name: "Media plan"
       icon: "newspaper"
       type: "text"
       color: "blue"
       weight: 10
-      category_id: "Marketing"
-
     - name: "Communication"
       icon: "message-circle"
       type: "category"
       color: "blue"
       weight: 50
-      category_id: "Solutions"
-
     - name: "Pitch"
       icon: "presentation"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Communication"
-
     - name: "Web"
       icon: "globe"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Communication"
-
     - name: "Storytelling"
       icon: "feather"
       type: "text"
       color: "blue"
       weight: 20
-      category_id: "Communication"
-
     - name: "Presentations"
       icon: "monitor-play"
       type: "text"
       color: "blue"
       weight: 35
-      category_id: "Communication"
-
     - name: "Organization"
       icon: "building-2"
       type: "category"
       color: "blue"
       weight: 60
-
     - name: "Business idea"
       icon: "lightbulb"
       type: "category"
       color: "blue"
       weight: 60
-      category_id: "Organization"
-
     - name: "Inspiration"
       icon: "sparkles"
       type: "weight"
       color: "blue"
       weight: 30
-      category_id: "Business idea"
-
     - name: "Opportunity"
       icon: "door-open"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Business idea"
-
     - name: "Business status"
       icon: "heart-pulse"
       type: "text"
       color: "blue"
       weight: 70
-      category_id: "Business idea"
-
     - name: "Challenges"
       icon: "mountain"
       type: "weight"
       color: "blue"
       weight: 20
-      category_id: "Business idea"
-
     - name: "Business objectives"
       icon: "target"
       type: "category"
       color: "blue"
       weight: 70
-      category_id: "Organization"
-
     - name: "Mission"
       icon: "target"
       type: "text"
       color: "blue"
       weight: 50
-      category_id: "Business objectives"
-
     - name: "Vision"
       icon: "telescope"
       type: "text"
       color: "blue"
       weight: 40
-      category_id: "Business objectives"
-
     - name: "Organizational values"
       icon: "compass"
       type: "weight"
       color: "blue"
       weight: 35
-      category_id: "Business objectives"
-
     - name: "Organizational goals"
       icon: "flag"
       type: "weight"
       color: "blue"
       weight: 60
-      category_id: "Business objectives"
-
     - name: "Operations"
       icon: "settings"
       type: "category"
       color: "blue"
       weight: 50
-      category_id: "Organization"
-
     - name: "Activities"
       icon: "list-checks"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Operations"
-
     - name: "Functions"
       icon: "workflow"
       type: "weight"
       color: "blue"
       weight: 30
-      category_id: "Operations"
-
     - name: "Resources"
       icon: "boxes"
       type: "weight"
       color: "blue"
       weight: 30
-      category_id: "Operations"
-
     - name: "Team"
       icon: "users-round"
       type: "category"
       color: "blue"
       weight: 70
-      category_id: "Organization"
-
     - name: "Goals"
       icon: "goal"
       type: "weight"
       color: "blue"
       weight: 30
-      category_id: "Team"
-
     - name: "Skills"
       icon: "award"
       type: "weight"
       color: "blue"
       weight: 30
-      category_id: "Team"
-
     - name: "Contributions"
       icon: "gift"
       type: "weight"
       color: "blue"
       weight: 10
-      category_id: "Team"
-
     - name: "Compensations"
       icon: "hand-coins"
       type: "weight"
       color: "blue"
       weight: 10
-      category_id: "Team"
-
     - name: "Positions"
       icon: "contact"
       type: "weight"
       color: "blue"
       weight: 20
-      category_id: "Team"
-
     - name: "Project plan"
       icon: "calendar-range"
       type: "category"
       color: "blue"
       weight: 30
-      category_id: "Organization"
-
     - name: "Phases"
       icon: "layers"
       type: "steps"
       color: "blue"
       weight: 20
-      category_id: "Project plan"
-
     - name: "Milestones"
       icon: "milestone"
       type: "sequence"
       color: "blue"
       weight: 10
-      category_id: "Project plan"
-
     - name: "Metrics"
       icon: "gauge"
       type: "weight"
       color: "blue"
       weight: 50
-      category_id: "Organization"
-
     - name: "Finance"
       icon: "banknote"
       type: "category"
       color: "blue"
       weight: 70
-      category_id: "Organization"
-
     - name: "Revenue"
       icon: "coins"
       type: "weight"
       color: "blue"
       weight: 65
-      category_id: "Finance"
-
     - name: "Life Time Value"
       icon: "repeat"
       type: "text"
       color: "blue"
       weight: 35
-      category_id: "Finance"
-
     - name: "Costs"
       icon: "receipt"
       type: "weight"
       color: "blue"
       weight: 50
-      category_id: "Finance"
-
     - name: "Customer Aquisition Cost"
       icon: "user-plus"
       type: "text"
       color: "blue"
       weight: 35
-      category_id: "Finance"
-
     - name: "Unit economics"
       icon: "calculator"
       type: "text"
       color: "blue"
       weight: 25
-      category_id: "Finance"
-
     - name: "Funding sources"
       icon: "landmark"
       type: "weight"
       color: "blue"
       weight: 25
-      category_id: "Finance"
-
     - name: "Shareholders"
       icon: "pie-chart"
       type: "weight"
       color: "blue"
       weight: 20
-      category_id: "Finance"
-
     - name: "Projections"
       icon: "line-chart"
       type: "weight"
       color: "blue"
       weight: 20
-      category_id: "Finance"
-
     - name: "Legal"
       icon: "scale"
       type: "category"
       color: "blue"
       weight: 40
-      category_id: "Organization"
-
     - name: "Legal issues"
       icon: "gavel"
       type: "weight"
       color: "blue"
       weight: 40
-      category_id: "Legal"
-
     - name: "Contracts"
       icon: "scroll-text"
       type: "weight"
       color: "blue"
       weight: 10
-      category_id: "Legal"
-
     - name: "Matrices"
       icon: "grid-3x3"
       type: "weight"
       color: null
       weight: 40
-
     - name: "Analysis"
       icon: "microscope"
       type: "category"
       color: "red"
       weight: 80
-
     - name: "Assumptions"
       icon: "circle-help"
       type: "weight"
       color: "red"
       weight: 50
-      category_id: "Analysis"
-
     - name: "Risks"
       icon: "shield-alert"
       type: "weight"
       color: "red"
       weight: 90
-      category_id: "Analysis"
-
     - name: "Suggestions"
       icon: "messages-square"
       type: "weight"
       color: "red"
       weight: 30
-      category_id: "Analysis"
-
     - name: "Unfair advantage"
       icon: "zap"
       type: "text"
       color: "blue"
       weight: 30
-      category_id: "Analysis"
-
     - name: "SWOT"
       icon: "layout-grid"
       type: "text"
       color: "red"
       weight: 10
-      category_id: "Analysis"
-
     - name: "Keys"
       icon: "key-round"
       type: "weight"
       color: "red"
       weight: 50
-
     - name: "Validation"
       icon: "clipboard-check"
       type: "category"
       color: "green"
       weight: 90
-
     - name: "Coherence"
       icon: "link"
       type: "weight"
       color: "green"
       weight: 25
-      category_id: "Validation"
-
     - name: "Experiments"
       icon: "flask-conical"
       type: "weight"
       color: "green"
       weight: 40
-      category_id: "Validation"
-
     - name: "Misc"
       icon: "ellipsis"
       type: "text"
       color: "grey"
       weight: 10
-
   markers:
     - name: "weight"
       symbol: "*"
@@ -644,7 +474,6 @@ template:
       symbol: "+"
       icon: "star"
       color: "green"
-
   matrices:
     - name: "Journey map"
       source: "Journey"
@@ -701,32 +530,163 @@ template:
     - name: "item-markers matrix"
       source: "elements"
       target: "markers"
+title: "business"
+last_saved: "2026-06-23T21:10:29.534Z"
 ---
+
+# <!-- block: concepts --> index
+
+* [[Market]]
+  * [[Stakeholders]]
+  * [[Segments]]
+    * [[Profiles]]
+      * [[Persona]]
+    * [[Segmentation]]
+    * [[Market trends]]
+    * [[Market size]]
+    * [[Competition]]
+    * [[Roles]]
+    * [[Problems]]
+    * [[Value propositions]]
+    * [[Messages]]
+    * [[Channels]]
+    * [[Relationships]]
+    * [[Perceptions]]
+    * [[Emotions]]
+    * [[Behaviors]]
+    * [[Journey]]
+* [[Solutions]]
+  * [[Portfolio]]
+  * [[Naming]]
+  * [[Branding]]
+  * [[Visual identity]]
+  * [[Logo]]
+  * [[Media plan]]
+  * [[Pitch]]
+  * [[Web]]
+  * [[Storytelling]]
+  * [[Presentations]]
+* [[Products and services]]
+  * [[Portfolio]]
+  * [[Components]]
+  * [[Features]]
+  * [[Roadmap]]
+  * [[Pricing]]
+  * [[Offerings]]
+  * [[Brochure]]
+* [[Marketing]]
+  * [[Naming]]
+  * [[Branding]]
+  * [[Visual identity]]
+  * [[Logo]]
+  * [[Media plan]]
+* [[Communication]]
+  * [[Pitch]]
+  * [[Web]]
+  * [[Storytelling]]
+  * [[Presentations]]
+* [[Organization]]
+  * [[Inspiration]]
+  * [[Opportunity]]
+  * [[Business status]]
+  * [[Challenges]]
+  * [[Mission]]
+  * [[Vision]]
+  * [[Organizational values]]
+  * [[Organizational goals]]
+  * [[Activities]]
+  * [[Functions]]
+  * [[Resources]]
+  * [[Goals]]
+  * [[Skills]]
+  * [[Contributions]]
+  * [[Compensations]]
+  * [[Positions]]
+  * [[Phases]]
+  * [[Milestones]]
+  * [[Metrics]]
+  * [[Revenue]]
+  * [[Life Time Value]]
+  * [[Costs]]
+  * [[Customer Aquisition Cost]]
+  * [[Unit economics]]
+  * [[Funding sources]]
+  * [[Shareholders]]
+  * [[Projections]]
+  * [[Legal issues]]
+  * [[Contracts]]
+  * [[Assumptions]]
+  * [[Risks]]
+  * [[Suggestions]]
+  * [[Unfair advantage]]
+  * [[SWOT]]
+  * [[Coherence]]
+  * [[Experiments]]
+* [[Business idea]]
+  * [[Inspiration]]
+  * [[Opportunity]]
+  * [[Business status]]
+  * [[Challenges]]
+* [[Business objectives]]
+  * [[Mission]]
+  * [[Vision]]
+  * [[Organizational values]]
+  * [[Organizational goals]]
+* [[Operations]]
+  * [[Activities]]
+  * [[Functions]]
+  * [[Resources]]
+* [[Team]]
+  * [[Goals]]
+  * [[Skills]]
+  * [[Contributions]]
+  * [[Compensations]]
+  * [[Positions]]
+* [[Project plan]]
+  * [[Phases]]
+  * [[Milestones]]
+* [[Finance]]
+  * [[Revenue]]
+  * [[Life Time Value]]
+  * [[Costs]]
+  * [[Customer Aquisition Cost]]
+  * [[Unit economics]]
+  * [[Funding sources]]
+  * [[Shareholders]]
+  * [[Projections]]
+* [[Legal]]
+  * [[Legal issues]]
+  * [[Contracts]]
+* [[Analysis]]
+  * [[Assumptions]]
+  * [[Risks]]
+  * [[Suggestions]]
+  * [[Unfair advantage]]
+  * [[SWOT]]
+* [[Validation]]
+  * [[Coherence]]
+  * [[Experiments]]
 
 # <!-- block: concepts --> Business summary
 
 Brief description of your business — how it creates value, for whom, and the logic behind how it generates revenue.
 
-# <!-- block: concepts --> Market
+# <!-- block: concepts --> stakeholders
 
-# <!-- block: concepts --> Stakeholders
-
-* <!-- block: Stakeholders --> Stakeholder name
+* <!-- block: stakeholders --> Stakeholder name
 Description of this stakeholder and their role in the business.
 
-# <!-- block: concepts --> Segments
+# <!-- block: concepts --> segments
 
-* <!-- block: Segments --> Segment name
+* <!-- block: segments --> Segment name
 Description of this customer segment.
 
-# <!-- block: concepts --> Profiles
+# <!-- block: concepts --> profiles
 
-* <!-- block: Profiles --> Profile name
+* <!-- block: profiles --> Profile name
 Description of this customer profile.
 
-# <!-- block: concepts --> Persona
-
-Detailed narrative description of a specific customer archetype — demographics, motivations, fears, and daily context.
+# <!-- block: concepts --> persona
 
 # <!-- block: concepts --> Segmentation
 
@@ -798,8 +758,6 @@ Observable customer behavior relevant to the business model.
 * Step 3: Purchase
 * Step 4: Retention
 
-# <!-- block: concepts --> Solutions
-
 # <!-- block: concepts --> Products and services
 
 * <!-- block: Products and services --> Product or service name
@@ -838,8 +796,6 @@ Description of this specific packaged offering.
 
 Content and structure of the main sales or marketing brochure.
 
-# <!-- block: concepts --> Marketing
-
 # <!-- block: concepts --> Naming
 
 Brand name rationale, naming conventions, and naming system across products and sub-brands.
@@ -860,8 +816,6 @@ Logo description, usage rules, and variants.
 
 Media channels, budget allocation, timing, and expected reach.
 
-# <!-- block: concepts --> Communication
-
 # <!-- block: concepts --> Pitch
 
 Core pitch narrative — problem, solution, traction, and ask.
@@ -877,10 +831,6 @@ Brand story — origin, mission, and narrative arc used across communication mat
 # <!-- block: concepts --> Presentations
 
 Key presentations — target audiences, objectives, and structure.
-
-# <!-- block: concepts --> Organization
-
-# <!-- block: concepts --> Business idea
 
 # <!-- block: concepts --> Inspiration
 
@@ -901,8 +851,6 @@ Current stage of the business — ideation, validation, early traction, growth, 
 * <!-- block: Challenges --> Challenge name
 Description of this challenge and its impact on the business.
 
-# <!-- block: concepts --> Business objectives
-
 # <!-- block: concepts --> Mission
 
 One or two sentences describing why the business exists and who it serves.
@@ -921,8 +869,6 @@ Description of this organizational value and how it manifests in practice.
 * <!-- block: Organizational goals --> Goal name
 Description of this goal, its target, and the timeframe.
 
-# <!-- block: concepts --> Operations
-
 # <!-- block: concepts --> Activities
 
 * <!-- block: Activities --> Activity name
@@ -937,8 +883,6 @@ Description of this operational function and the team responsible.
 
 * <!-- block: Resources --> Resource name
 Description of this key resource and how it is acquired or maintained.
-
-# <!-- block: concepts --> Team
 
 # <!-- block: concepts --> Goals
 
@@ -965,8 +909,6 @@ Compensation structure — salary, equity, bonuses, or benefits.
 * <!-- block: Positions --> Position name
 Description of this position, its responsibilities, and reporting line.
 
-# <!-- block: concepts --> Project plan
-
 # <!-- block: concepts --> Phases
 
 * Phase 1: Foundation
@@ -983,8 +925,6 @@ Description of this position, its responsibilities, and reporting line.
 
 * <!-- block: Metrics --> Metric name
 Definition of this metric, how it is measured, and the target value.
-
-# <!-- block: concepts --> Finance
 
 # <!-- block: concepts --> Revenue
 
@@ -1023,8 +963,6 @@ Shareholder details — ownership percentage and role in the company.
 * <!-- block: Projections --> Projection name
 Financial projection — period, key assumptions, and expected outcome.
 
-# <!-- block: concepts --> Legal
-
 # <!-- block: concepts --> Legal issues
 
 * <!-- block: Legal issues --> Legal issue name
@@ -1039,8 +977,6 @@ Description of this contract — parties involved, scope, and status.
 
 * <!-- block: Matrices --> Matrix name
 Description of this relational matrix and what it expresses.
-
-# <!-- block: concepts --> Analysis
 
 # <!-- block: concepts --> Assumptions
 
@@ -1070,8 +1006,6 @@ Strengths, Weaknesses, Opportunities, and Threats summary.
 * <!-- block: Keys --> Key name
 A critical insight or dependency that the entire business model rests on.
 
-# <!-- block: concepts --> Validation
-
 # <!-- block: concepts --> Coherence
 
 * <!-- block: Coherence --> Coherence check name
@@ -1088,80 +1022,121 @@ Free-form notes, context, or content that does not fit any other concept.
 
 <!-- block: matrices -->
 
-# <!-- block: matrices --> Journey map
+# <!-- block: matrices --> stakeholders-segments hierarchy matrix
 
-| Journey \ Emotions | Emotion A | Emotion B |
-| :--- | :---: | :---: |
-| Step 1: Awareness | High | - |
-| Step 2: Consideration | - | Neutral |
+| Stakeholders \ Segments | Segment name |
+| :--- | :---: |
+| Stakeholder name | X |
 
-# <!-- block: matrices --> Segmentation-Profiles Matrix
+# <!-- block: matrices --> segments-profiles hierarchy matrix
+
+| Segments \ Profiles | Profile name |
+| :--- | :---: |
+| Segment name | X |
+
+# <!-- block: matrices --> item-markers matrix
+
+| Item \ Marker | weight | completion | certainty | priority | rating |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Stakeholder name | - | - | - | - | - |
+| Segment name | - | - | - | - | - |
+| Profile name | - | - | - | - | - |
+
+# <!-- block: matrices --> metamatrix
+
+| Matrix Name | Source | Target | Widget Type | Widget Parameters |
+| :--- | :--- | :--- | :--- | :--- |
+| Journey map | Journey | Emotions | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Segmentation-Profiles Matrix | Segmentation | Profiles | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Problems-Value propositions Matrix | Problems | Value propositions | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Value propositions-Messages Matrix | Value propositions | Messages | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Messages-Channels Matrix | Messages | Channels | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Assumptions-Risks Matrix | Assumptions | Risks | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Experiments-Assumptions Matrix | Experiments | Assumptions | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Metrics-Organizational goals Matrix | Metrics | Organizational goals | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Features-Milestones Matrix | Features | Milestones | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Organizational values-Organizational goals Matrix | Organizational values | Organizational goals | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Functions-Positions Matrix | Functions | Positions | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Activities-Resources Matrix | Activities | Resources | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| Problems-Competition Matrix | Problems | Competition | cycle | Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min |
+| item-markers matrix | elements | markers | cycle | - |
+
+# <!-- block: matrices --> journey map
+
+| Journey \ Emotions | Emotion name |
+| :--- | :---: |
+| Step 1 | - |
+| Step 2 | - |
+| Step 3 | - |
+| Step 4 | - |
+
+# <!-- block: matrices --> segmentation-profiles matrix
 
 | Segmentation \ Profiles | Profile name |
 | :--- | :---: |
 | Segmentation criterion | Max |
 
-# <!-- block: matrices --> Problems-Value propositions Matrix
+# <!-- block: matrices --> problems-value propositions matrix
 
 | Problems \ Value propositions | Value proposition name |
 | :--- | :---: |
 | Problem name | Max |
 
-# <!-- block: matrices --> Value propositions-Messages Matrix
+# <!-- block: matrices --> value propositions-messages matrix
 
 | Value propositions \ Messages | Message name |
 | :--- | :---: |
 | Value proposition name | Max |
 
-# <!-- block: matrices --> Messages-Channels Matrix
+# <!-- block: matrices --> messages-channels matrix
 
 | Messages \ Channels | Channel name |
 | :--- | :---: |
 | Message name | Max |
 
-# <!-- block: matrices --> Assumptions-Risks Matrix
+# <!-- block: matrices --> assumptions-risks matrix
 
 | Assumptions \ Risks | Risk name |
 | :--- | :---: |
 | Assumption name | Max |
 
-# <!-- block: matrices --> Experiments-Assumptions Matrix
+# <!-- block: matrices --> experiments-assumptions matrix
 
 | Experiments \ Assumptions | Assumption name |
 | :--- | :---: |
 | Experiment name | Max |
 
-# <!-- block: matrices --> Metrics-Organizational goals Matrix
+# <!-- block: matrices --> metrics-organizational goals matrix
 
 | Metrics \ Organizational goals | Goal name |
 | :--- | :---: |
 | Metric name | Max |
 
-# <!-- block: matrices --> Features-Milestones Matrix
+# <!-- block: matrices --> features-milestones matrix
 
-| Features \ Milestones | Milestone |
-| :--- | :---: |
-| Feature name | Max |
+| Features \ Milestones | 2026-Q1 | 2026-Q2 | 2026-Q3 |
+| :--- | :---: | :---: | :---: |
+| Feature name | - | - | - |
 
-# <!-- block: matrices --> Organizational values-Organizational goals Matrix
+# <!-- block: matrices --> organizational values-organizational goals matrix
 
 | Organizational values \ Organizational goals | Goal name |
 | :--- | :---: |
 | Value name | Max |
 
-# <!-- block: matrices --> Functions-Positions Matrix
+# <!-- block: matrices --> functions-positions matrix
 
 | Functions \ Positions | Position name |
 | :--- | :---: |
 | Function name | Max |
 
-# <!-- block: matrices --> Activities-Resources Matrix
+# <!-- block: matrices --> activities-resources matrix
 
 | Activities \ Resources | Resource name |
 | :--- | :---: |
 | Activity name | Max |
 
-# <!-- block: matrices --> Problems-Competition Matrix
+# <!-- block: matrices --> problems-competition matrix
 
 | Problems \ Competition | Competitor name |
 | :--- | :---: |
@@ -1169,6 +1144,5 @@ Free-form notes, context, or content that does not fit any other concept.
 
 # <!-- block: matrices --> item-markers matrix
 
-| Item \ Marker | weight | completion | certainty | priority | rating |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| Element name | - | - | - | - | - |
+| elements \ markers |  |
+| :--- |  |

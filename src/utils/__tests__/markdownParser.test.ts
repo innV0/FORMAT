@@ -754,10 +754,12 @@ last_saved: "2026-06-19T17:48:57.479Z"
 # <!-- block: concepts --> stakeholders
 
 * <!-- block: stakeholders --> B2C Clients
-  - importance: "high"
-  - verified: true
-  - score: 10
-  - status: "Active"
+  \`\`\`yaml
+  importance: "high"
+  verified: true
+  score: 10
+  status: "Active"
+  \`\`\`
 
 Description of B2C Clients line 1.
 Description of B2C Clients line 2.
@@ -864,6 +866,57 @@ describe('concept-block marker persistence', () => {
     const parsed = parseMarkdownModel(serialized, []);
     expect(parsed.nodeMarkers['concept:single-text-block']).toBeDefined();
     expect(parsed.nodeMarkers['concept:single-text-block'].weight).toBe(2);
+  });
+});
+
+describe('Index block taxonomy parsing and serialization', () => {
+  it('correctly parses the index block list into taxonomyEdges', () => {
+    const markdown = `---
+template:
+  name: "business"
+  version: "V_1-0-0"
+title: "Taxonomy Test"
+---
+
+# <!-- block: concepts --> index
+
+* [[Market]]
+  * [[Stakeholders]]
+    * [[Segments]]
+  * [[Value Propositions]]
+    * [[Offerings]]
+`;
+    const parsed = parseMarkdownModel(markdown, mockConcepts);
+    expect(parsed.taxonomyEdges).toBeDefined();
+    expect(parsed.taxonomyEdges).toEqual([
+      { parent: 'Market', child: 'Stakeholders' },
+      { parent: 'Stakeholders', child: 'Segments' },
+      { parent: 'Market', child: 'Value propositions' },
+      { parent: 'Value propositions', child: 'Offerings' }
+    ]);
+  });
+
+  it('correctly serializes taxonomyEdges to an index block at the start of the body', () => {
+    const serialized = generateMarkdownFileContent({
+      activeFileName: 'Taxonomy Test.md',
+      modelTextData: {},
+      modelTree: [],
+      nodeMarkers: {},
+      markers: mockMarkers,
+      metamatrix: [],
+      matrixValues: {},
+      concepts: mockConcepts,
+      taxonomyEdges: [
+        { parent: 'Market', child: 'Stakeholders' },
+        { parent: 'Stakeholders', child: 'Segments' },
+        { parent: 'Market', child: 'Value propositions' },
+        { parent: 'Value propositions', child: 'Offerings' }
+      ],
+      getMatrixRowsList: () => [],
+      getMatrixColsList: () => []
+    });
+
+    expect(serialized).toContain(`# <!-- block: concepts --> index\n\n* [[Market]]\n  * [[Stakeholders]]\n    * [[Segments]]\n  * [[Value propositions]]\n    * [[Offerings]]`);
   });
 });
 

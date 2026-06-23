@@ -17,4 +17,5 @@
     * [Definition](templates/procedures/V_1-0-0/template.md)
 
 * **App Reference**
+  * [User Guide](app/user_guide.md)
   * [App Spec](app/app_spec.md)
