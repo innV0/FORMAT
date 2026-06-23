@@ -339,11 +339,11 @@ template:
 
 | Version | Status | Link |
 | :--- | :--- | :--- |
-| **V_0-1-2** | Current | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md) |
+| **V_0-1-2** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md) |
 | **V_0-1-1** | Stable | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/spec/V_0-1-1/format-spec.md) |
 | **V_0-1-0** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/spec/V_0-1-0/format-spec.md) |
 
-[Read the full specification →](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md)
+[Read the full specification →](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md)
 
 ---
 
@@ -439,7 +439,7 @@ This matrix reveals which value propositions solve which problems — and where 
 | Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/template.md) |
 | Full documentation | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/documentation.md) |
 | GitHub directory | [DOCS/templates/business/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/DOCS/templates/business/V_1-0-0) |
-| _FORMAT spec (V_0-1-2) | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md) |
+| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md) |
 
 ---
 
@@ -557,4 +557,4 @@ Both templates use the same _FORMAT specification — they're just different sch
 | :--- | :--- |
 | Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/procedures/V_1-0-0/template.md) |
 | GitHub directory | [DOCS/templates/procedures/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/DOCS/templates/procedures/V_1-0-0) |
-| _FORMAT spec (V_0-1-2) | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md) |
+| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md) |
