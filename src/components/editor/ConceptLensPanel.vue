@@ -1,0 +1,146 @@
+<template>
+  <div class="space-y-2">
+    <div
+      v-if="!neighborhoods.length"
+      class="text-muted-foreground text-xs italic text-center p-4"
+    >
+      This concept is not part of any lens.
+    </div>
+
+    <div
+      v-for="n in neighborhoods"
+      :key="n.lens.id"
+      class="rounded-lg border border-border bg-background/60 p-2.5 space-y-1.5"
+    >
+      <!-- Lens header -->
+      <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+        <IconRenderer :icon="n.lens.icon" custom-class="w-3 h-3 text-indigo-500" />
+        <span>{{ n.lens.name }}</span>
+      </div>
+
+      <!-- Stacked tiers: parents ▲ / active ● / children ▼ -->
+      <!-- Parent tier -->
+      <div v-if="n.parents.length" class="lens-tier">
+        <span class="lens-tier__label">Parent</span>
+        <div class="flex items-center flex-wrap gap-1">
+          <button
+            v-for="p in n.parents"
+            :key="'p-' + p"
+            class="lens-chip"
+            @click="$emit('select', p)"
+          >
+            <IconRenderer :icon="iconFor(p)" custom-class="w-3 h-3 shrink-0 text-muted-foreground" />
+            <span class="truncate">{{ p }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Connector -->
+      <div v-if="n.parents.length" class="lens-connector"></div>
+
+      <!-- Active tier -->
+      <div class="lens-tier">
+        <span class="lens-tier__label lens-tier__label--active">Active</span>
+        <span class="lens-chip lens-chip--active">
+          <IconRenderer :icon="iconFor(conceptName)" custom-class="w-3 h-3 shrink-0 text-indigo-600" />
+          <span class="truncate">{{ conceptName }}</span>
+        </span>
+      </div>
+
+      <!-- Connector -->
+      <div v-if="n.children.length" class="lens-connector"></div>
+
+      <!-- Children tier -->
+      <div v-if="n.children.length" class="lens-tier">
+        <span class="lens-tier__label">Children</span>
+        <div class="flex items-center flex-wrap gap-1">
+          <button
+            v-for="c in n.children"
+            :key="'c-' + c"
+            class="lens-chip"
+            @click="$emit('select', c)"
+          >
+            <IconRenderer :icon="iconFor(c)" custom-class="w-3 h-3 shrink-0 text-muted-foreground" />
+            <span class="truncate">{{ c }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useMetamodelStore } from '../../stores/metamodel';
+import IconRenderer from './IconRenderer.vue';
+
+const props = defineProps<{
+  conceptName: string;
+}>();
+
+defineEmits<{
+  (e: 'select', name: string): void;
+}>();
+
+const metamodelStore = useMetamodelStore();
+
+const neighborhoods = computed(() => metamodelStore.getConceptLenses(props.conceptName));
+
+const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon || '';
+</script>
+
+<style scoped>
+/* ── Tiers: each level (parent / active / children) is its own row ──── */
+.lens-tier {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.lens-tier__label {
+  flex-shrink: 0;
+  width: 3.5rem;
+  padding-top: 0.1875rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+.lens-tier__label--active {
+  color: rgb(79 70 229);
+}
+
+/* Vertical connector linking the tiers, aligned under the labels */
+.lens-connector {
+  width: 1px;
+  height: 0.5rem;
+  margin-left: 1.5rem;
+  background: var(--border);
+}
+
+.lens-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 11rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.lens-chip:hover {
+  background: var(--accent);
+}
+.lens-chip--active {
+  cursor: default;
+  font-weight: 600;
+  border-color: rgb(165 180 252);
+  background: rgb(238 242 255);
+  color: rgb(67 56 202);
+}
+</style>

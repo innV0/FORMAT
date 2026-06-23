@@ -19,7 +19,6 @@
       <!-- Uniform BlockPill representing the Concept -->
       <BlockPill
         kind="concept"
-        icon-mode="own"
         :concept-type="node.name"
         :type-name="node.type || undefined"
         :name="node.name"

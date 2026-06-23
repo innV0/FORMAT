@@ -14,6 +14,27 @@ Every model file consists of two main parts:
 
 The frontmatter begins and ends with `---`. String values must be enclosed in double quotes.
 
+### 2.1 Key Naming Rules
+
+YAML keys (field names) MUST be safe plain scalars so the file parses correctly in
+standard YAML parsers (Obsidian, `js-yaml`, etc.) and stays interoperable with the
+Open Knowledge Format (OKF) reserved fields, which are all lowercase identifiers.
+
+A key MUST:
+- contain only ASCII letters, digits, and underscores (`[a-z0-9_]`), lowercase by convention;
+- start with a letter;
+- NOT contain spaces, quotes, colons, `#`, backslashes, or any YAML indicator
+  character (`: { } [ ] , & * ? | - < > = ! % @ \``).
+
+This applies to all schema keys and, critically, to user-defined instance `fields`
+keys, which are the only keys not drawn from the fixed schema. Producers MUST
+sanitize or reject field names that violate these rules before serialization.
+
+> Compatibility note: OKF reserves the flat top-level fields `type`, `title`,
+> `description`, `resource`, `tags`, and `timestamp`. FORMAT nests its schema under
+> `metamodel:` and treats the matrix layer as a producer-specific extension, which
+> OKF explicitly permits ("everything else is left to the producer").
+
 ```yaml
 ---
 metamodel:

@@ -1,17 +1,17 @@
 ---
-title: FORMAT — Business Strategy as Code
-description: One structured Markdown file gives any AI model instant, complete context of your entire business — and transforms into a visual, AI-validated, version-controlled strategy model.
-og_image: https://innv0.github.io/FORMAT/og.png
+title: FORMAT â€” Business Strategy as Code
+description: One structured Markdown file gives any AI model instant, complete context of your entire business â€” and transforms into a visual, AI-validated, version-controlled strategy model.
+og_image: https://format.github.io/FORMAT/og.png
 ---
 
 # FORMAT
-## One file. Your entire business — finally ready for AI.
+## One file. Your entire business â€” finally ready for AI.
 
 FORMAT reads a single structured `.md` file that holds your complete business strategy:
-segments, problems, value propositions, roadmap, finances, team — all interconnected.
+segments, problems, value propositions, roadmap, finances, team â€” all interconnected.
 Drop it as context into any AI model and get strategic answers. Commit it to Git and get a living, visual, version-controlled business model.
 
-[Try it free →](#get-started) [Read the spec →](../docs/V_0-1-1/format-spec.md)
+[Try it free â†’](#get-started) [Read the spec â†’](#/V_0-1-2/format-spec)
 
 ---
 
@@ -48,24 +48,24 @@ Drop it as context into any AI model and get strategic answers. Commit it to Git
     <div class="demo-ui">
       <div class="ui-concept">
         <div class="ui-concept-header">
-          <span class="ui-emoji">😟</span>
+          <span class="ui-emoji">ðŸ˜Ÿ</span>
           <span class="ui-name">Problems</span>
           <span class="ui-count">3</span>
         </div>
         <div class="ui-elements">
-          <div class="ui-element"><span>🤖</span> AI has no business context <span class="ui-score high">●●●●●</span></div>
-          <div class="ui-element"><span>📂</span> Info scattered in 30 files <span class="ui-score high">●●●●●</span></div>
-          <div class="ui-element"><span>📄</span> Static business models <span class="ui-score high">●●●●○</span></div>
+          <div class="ui-element"><span>ðŸ¤–</span> AI has no business context <span class="ui-score high">â—â—â—â—â—</span></div>
+          <div class="ui-element"><span>ðŸ“‚</span> Info scattered in 30 files <span class="ui-score high">â—â—â—â—â—</span></div>
+          <div class="ui-element"><span>ðŸ“„</span> Static business models <span class="ui-score high">â—â—â—â—â—‹</span></div>
         </div>
       </div>
       <div class="ui-matrix">
-        <div class="ui-matrix-label">problems × value propositions</div>
+        <div class="ui-matrix-label">problems Ã— value propositions</div>
         <table class="ui-matrix-table">
           <thead><tr><th></th><th>AI Context</th><th>Versioned</th><th>Traceab.</th></tr></thead>
           <tbody>
             <tr><td>AI context gap</td><td class="cell-max">Max</td><td class="cell-max">Max</td><td class="cell-max">Max</td></tr>
             <tr><td>Scattered info</td><td class="cell-max">Max</td><td class="cell-high">High</td><td class="cell-max">Max</td></tr>
-            <tr><td>Static models</td><td class="cell-high">High</td><td class="cell-neu">—</td><td class="cell-high">High</td></tr>
+            <tr><td>Static models</td><td class="cell-high">High</td><td class="cell-neu">â€”</td><td class="cell-high">High</td></tr>
           </tbody>
         </table>
       </div>
@@ -82,20 +82,20 @@ You use AI every day. But how much time do you spend explaining your business *e
 Who are your customers. What problems you solve. What your product does. How you make money.
 Over and over. In every conversation. Starting from zero.
 
-That's not an AI limitation — it's a context problem.
+That's not an AI limitation â€” it's a context problem.
 **Your business information is scattered across 30 different files that no AI can read coherently.**
 
-*"Companies don't die from lack of ideas. They die from strategic incoherence — and from AI that can't help because it doesn't know the whole picture."*
+*"Companies don't die from lack of ideas. They die from strategic incoherence â€” and from AI that can't help because it doesn't know the whole picture."*
 
 ---
 
 ## One file changes everything
 
 A FORMAT file is a single, structured `.md` document that holds your **complete business context**:
-every segment, problem, value proposition, channel, metric, team member, and financial projection —
+every segment, problem, value proposition, channel, metric, team member, and financial projection â€”
 all interconnected through relational matrices.
 
-Drop it into any AI conversation as context. Claude, GPT, Gemini — they all instantly know your entire business.
+Drop it into any AI conversation as context. Claude, GPT, Gemini â€” they all instantly know your entire business.
 No more generic answers. No more starting over. Strategic depth, every time.
 
 ---
@@ -105,7 +105,7 @@ No more generic answers. No more starting over. Strategic depth, every time.
 FORMAT is a plain-text specification that lives in your Git repository alongside your code.
 Write your business model in Markdown. FORMAT renders the rest.
 
-### Instant AI context — the real superpower
+### Instant AI context â€” the real superpower
 One file holds your complete, structured business knowledge.
 Paste it into any AI model and ask real strategic questions:
 *"Which customer segment has the weakest value proposition alignment?"*
@@ -118,21 +118,21 @@ Strategic PRs are now a real thing.
 
 ### Automated coherence validation
 An AI and logic engine scores the consistency between your problems, value propositions,
-features, and metrics. You see exactly where the model breaks down — before you build the wrong thing.
+features, and metrics. You see exactly where the model breaks down â€” before you build the wrong thing.
 
 ### Complete strategic traceability
-Every dimension — team, finance, roadmap, customer problems — is connected in a
+Every dimension â€” team, finance, roadmap, customer problems â€” is connected in a
 multidimensional relational graph. No more silos between strategy and execution.
 
 ---
 
 ## What happens when AI knows your whole business
 
-**Without FORMAT** — every conversation resets:
+**Without FORMAT** â€” every conversation resets:
 > *"My startup helps B2B SaaS companies with onboarding... we have two customer segments... our main problem is..."*
 > Generic advice. Wasted time. Shallow answers.
 
-**With FORMAT** — paste the file, ask the real question:
+**With FORMAT** â€” paste the file, ask the real question:
 > *"Based on our business model, which value proposition has the weakest coverage for the Consulting Firms segment, and what features should we prioritize?"*
 > Deep, specific, actionable. Because the AI has full context.
 
@@ -143,8 +143,8 @@ multidimensional relational graph. No more silos between strategy and execution.
 1. **Connect** your local repository to the FORMAT editor
 2. **Declare** your stakeholders, problems, and value propositions in plain Markdown
 3. **Map** bidirectional relationships in matrix tables
-4. **Validate** — AI and logic engine deliver a coherence report with scores
-5. **Save** directly to your repo — and use the file as AI context in any conversation
+4. **Validate** â€” AI and logic engine deliver a coherence report with scores
+5. **Save** directly to your repo â€” and use the file as AI context in any conversation
 
 ---
 
@@ -152,53 +152,53 @@ multidimensional relational graph. No more silos between strategy and execution.
 
 ### Startup Founders
 One FORMAT file = instant AI co-founder. Ask Claude or GPT to review your go-to-market,
-validate your pricing, or identify the weakest link in your model — with full business context.
+validate your pricing, or identify the weakest link in your model â€” with full business context.
 Plus: keep strategy and product roadmap in sync from day one with Git versioning.
 
 ### Strategy Consultants
-Manage 8 client models simultaneously — each as a structured file with complete business context.
+Manage 8 client models simultaneously â€” each as a structured file with complete business context.
 Drop any client file into an AI session and get deep analysis without explaining the business every time.
 Deliver coherence reports backed by relational matrix scoring, not gut feeling.
 
 ### Product Managers
 Use your FORMAT file as AI context to ask: *"Does this feature address a validated customer problem?"*
-Trace every roadmap decision back to real customer pain — with matrix-level traceability.
+Trace every roadmap decision back to real customer pain â€” with matrix-level traceability.
 No more strategy-execution disconnects.
 
 ### Investors
 Evaluate startup business models with structural coherence scoring, not slide decks.
-Each FORMAT file is a machine-readable, auditable view of the full business hypothesis —
+Each FORMAT file is a machine-readable, auditable view of the full business hypothesis â€”
 objective, reproducible, and comparable across portfolio companies.
 
 ---
 
 ## Three ways to use FORMAT
 
-### Open Source Engine · Free
+### Open Source Engine Â· Free
 Local Markdown parser and graph renderer. No account required. Works offline.
-The entire spec is open — fork it, extend it, build on it.
+The entire spec is open â€” fork it, extend it, build on it.
 
-### FORMAT Cloud · Team collaboration
+### FORMAT Cloud Â· Team collaboration
 Real-time collaborative editing, full Git history, advanced AI audits,
 repository integrations, and export to PDF and presentation formats.
 
-### Enterprise Suite · Full control
+### Enterprise Suite Â· Full control
 On-premise deployment, access control, regulatory audit trails,
-custom metamodels, and dedicated support.
+custom FORMAT templates, and dedicated support.
 
-[Get started →](#) · [Contact us →](mailto:lucas@lucascervera.com)
+[Get started â†’](#) Â· [Contact us â†’](mailto:lucas@lucascervera.com)
 
 ---
 
-## Built on open standards — designed for the AI era
+## Built on open standards â€” designed for the AI era
 
 FORMAT uses no proprietary formats. Every file is a valid Markdown document
-readable without any tool — by humans and AI models alike.
+readable without any tool â€” by humans and AI models alike.
 
-- **Markdown** — human-readable, no lock-in, pasteable as AI context in any tool
-- **YAML frontmatter** — machine-readable schema definition for structured AI parsing
-- **Git-native** — diff, branch, and PR your strategy like code
-- **AI-ready** — designed from the ground up for LLM context injection and generation
-- **Single source of truth** — one file, complete business knowledge, zero context fragmentation
+- **Markdown** â€” human-readable, no lock-in, pasteable as AI context in any tool
+- **YAML frontmatter** â€” machine-readable schema definition for structured AI parsing
+- **Git-native** â€” diff, branch, and PR your strategy like code
+- **AI-ready** â€” designed from the ground up for LLM context injection and generation
+- **Single source of truth** â€” one file, complete business knowledge, zero context fragmentation
 
-[Read the full specification →](../docs/V_0-1-1/format-spec.md) · [View on GitHub →](https://github.com/innV0/FORMAT)
+[Read the full specification â†’](#/V_0-1-2/format-spec) Â· [View on GitHub â†’](https://github.com/innV0/FORMAT)

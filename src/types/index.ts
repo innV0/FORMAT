@@ -1,8 +1,7 @@
 export interface Concept {
   name: string;
-  category_id: string | null;
   icon: string;
-  type: 'text' | 'category' | 'weight' | 'steps' | 'sequence' | null;
+  type: 'text' | 'list' | 'category' | 'weight' | 'steps' | 'sequence' | null;
   description: string | null;
   summary?: string | null;
   color?: string | null;
@@ -25,8 +24,30 @@ export interface MetamatrixRow {
   name: string;
   source: string;
   target: string;
-  widgetType: 'boolean' | 'cycle' | 'scale' | 'set';
+  widgetType: 'boolean' | 'cycle' | 'scale' | 'set' | 'text';
   params: string;
+}
+
+// A directed concept→concept edge within a lens (parent contains/precedes child).
+export interface LensEdge {
+  parent: string; // concept name
+  child: string;  // concept name
+}
+
+// A lens is a named projection of the concepts, backed by a hierarchy matrix.
+// Concepts have no intrinsic hierarchy; each lens is one view over them.
+export interface Lens {
+  id: string;
+  name: string;
+  icon: string;
+  edges: LensEdge[];
+}
+
+// The local neighborhood of a concept within a single lens.
+export interface LensNeighborhood {
+  lens: Lens;
+  parents: string[];
+  children: string[];
 }
 
 export interface TreeNode {

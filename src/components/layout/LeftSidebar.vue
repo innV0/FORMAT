@@ -1,5 +1,14 @@
 <template>
-  <aside class="w-96 border-r border-border bg-muted/40 flex flex-col justify-between overflow-y-auto shrink-0">
+  <aside
+    class="relative border-r border-border bg-muted/40 flex flex-col justify-between overflow-y-auto shrink-0 scrollbar-discreet"
+    :style="{ width: width + 'px' }"
+  >
+    <!-- Resize handle (right edge) -->
+    <div
+      @pointerdown="startResize"
+      class="absolute top-0 right-0 z-30 h-full w-1.5 cursor-col-resize hover:bg-primary/30 active:bg-primary/50 transition-colors"
+      title="Drag to resize"
+    ></div>
     <div class="px-4 py-4 space-y-4">
       <!-- Navigation & Hierarchy Tabs -->
       <div class="space-y-3">
@@ -17,7 +26,7 @@
             :class="sidebarTab === 'hierarchy' ? 'bg-background text-foreground font-semibold shadow-xs' : 'text-muted-foreground hover:text-foreground'"
             class="flex-1 py-1.5 text-center text-xs rounded-md cursor-pointer transition-all border border-transparent"
           >
-            Hierarchy
+            Elements
           </button>
         </div>
 
@@ -27,39 +36,52 @@
 
         <!-- Tab 1: Concepts -->
         <div v-if="sidebarTab === 'concepts'" key="concepts" class="space-y-3">
+
+          <!-- List state: flat concept list (mirrors the Markdown body) -->
+          <template v-if="conceptView === 'list'">
           <div class="flex items-center justify-between px-2">
             <h2 class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Business Model</h2>
-            <div class="flex items-center gap-2">
-              <button 
-                @click="expandAll" 
-                class="p-1 hover:bg-accent rounded text-[11px] text-muted-foreground hover:text-primary cursor-pointer transition-colors flex items-center justify-center"
-                title="Expand All"
-              >
-                <ChevronsDown class="w-3.5 h-3.5" />
-              </button>
-              <button 
-                @click="collapseAll" 
-                class="p-1 hover:bg-accent rounded text-[11px] text-muted-foreground hover:text-primary cursor-pointer transition-colors flex items-center justify-center"
-                title="Collapse All"
-              >
-                <ChevronsUp class="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-          
-          <div class="space-y-1.5">
-            <ConceptTreeNode 
-              v-for="node in conceptTree" 
-              :key="node.name" 
-              :node="node" 
-              :active-name="documentStore.activeConceptName"
-              :expanded-generation="expandedGeneration"
-              @select="documentStore.selectConcept"
-            />
           </div>
 
+          <div class="space-y-1.5">
+            <ConceptTreeNode
+              v-for="concept in metamodelStore.concepts"
+              :key="concept.name"
+              :node="concept"
+              :active-name="documentStore.activeConceptName"
+              @select="openConcept"
+            />
+          </div>
+          </template>
+
+          <!-- Lens state: stacked neighborhoods for the selected concept -->
+          <template v-else>
+          <div class="hierarchy-anchor flex items-center gap-2 px-2 py-1.5 bg-indigo-50 border border-indigo-100 rounded-lg">
+            <button
+              @click="closeLens"
+              class="shrink-0 p-1 rounded hover:bg-indigo-100 text-indigo-400 hover:text-indigo-600 transition-colors cursor-pointer"
+              title="Back to Concepts"
+            >
+              <ArrowLeft class="w-3.5 h-3.5" />
+            </button>
+            <span v-if="activeHierarchyConcept" class="flex items-center gap-1.5 min-w-0">
+              <IconRenderer
+                v-if="activeHierarchyConcept.icon"
+                :icon="activeHierarchyConcept.icon"
+                custom-class="w-3.5 h-3.5 text-indigo-600 shrink-0"
+              />
+              <span class="text-xs font-semibold text-indigo-700 truncate">{{ activeHierarchyConcept.name }}</span>
+            </span>
+          </div>
+
+          <ConceptLensPanel
+            :concept-name="documentStore.activeConceptName"
+            @select="openConcept"
+          />
+          </template>
+
           <!-- Metamatrix and Matrix views -->
-          <div class="space-y-1 mt-4">
+          <div v-if="conceptView === 'list'" class="space-y-1 mt-4">
             <div class="px-2 py-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider bg-muted/60 rounded-sm">
               Relations & Setup
             </div>
@@ -114,7 +136,7 @@
           <!-- Header and tree reveal after anchor settles -->
           <div class="hierarchy-body">
           <div class="flex items-center justify-between px-2">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Hierarchy</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Elements</h2>
             <div class="flex items-center gap-2">
               <button
                 @click="expandAllHierarchy"
@@ -133,7 +155,7 @@
             </div>
           </div>
 
-          <div class="space-y-1.5 max-h-[500px] overflow-y-auto pr-1">
+          <div class="space-y-1.5 max-h-[500px] overflow-y-auto pr-1 scrollbar-discreet">
             <TreeNodeItem
               v-for="node in documentStore.modelTree"
               :key="node.id"
@@ -169,14 +191,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { ChevronsDown, ChevronsUp, Settings, BarChart2, TrendingUp, ArrowLeft } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import ConceptTreeNode from './ConceptTreeNode.vue';
+import ConceptLensPanel from '../editor/ConceptLensPanel.vue';
 import TreeNodeItem from '../editor/TreeNodeItem.vue';
 import IconRenderer from '../editor/IconRenderer.vue';
+import { useResizablePanel } from '../../composables/useResizablePanel';
+
+const { width, startResize } = useResizablePanel({
+  storageKey: 'format.leftSidebarWidth',
+  defaultWidth: 384, // matches the previous w-96
+  minWidth: 240,
+  maxWidth: 640,
+  side: 'right',
+});
 
 const workspaceStore = useWorkspaceStore();
 const metamodelStore = useMetamodelStore();
@@ -185,16 +217,19 @@ const documentStore = useDocumentStore();
 const sidebarTab = ref<'concepts' | 'hierarchy'>('concepts');
 const slideDirection = ref<'slide-right' | 'slide-left'>('slide-right');
 
-const expandedGeneration = ref(0);
+// Concepts tab sub-state: flat list vs. lens neighborhoods for the selected concept.
+const conceptView = ref<'list' | 'lens'>('list');
+
+const openConcept = (name: string) => {
+  documentStore.selectConcept(name);
+  conceptView.value = 'lens';
+};
+
+const closeLens = () => {
+  conceptView.value = 'list';
+};
+
 const expandedGenerationHierarchy = ref(0);
-
-const expandAll = () => {
-  expandedGeneration.value = Math.max(0, expandedGeneration.value) + 1;
-};
-
-const collapseAll = () => {
-  expandedGeneration.value = Math.min(-1, expandedGeneration.value) - 1;
-};
 
 const expandAllHierarchy = () => {
   expandedGenerationHierarchy.value = Math.max(0, expandedGenerationHierarchy.value) + 1;
@@ -224,36 +259,6 @@ const switchTab = (tab: 'concepts' | 'hierarchy') => {
   sidebarTab.value = tab;
 };
 
-// Watch active concept to auto-switch tabs
-watch(() => documentStore.activeConceptName, (newConcept) => {
-  if (metamodelStore.hierarchyConcepts.includes(newConcept)) {
-    slideDirection.value = 'slide-right';
-    sidebarTab.value = 'hierarchy';
-  } else if (sidebarTab.value === 'hierarchy') {
-    // don't force switch away when user is browsing hierarchy manually
-  }
-}, { immediate: true });
-
-const conceptTree = computed(() => {
-  const nodes: Record<string, any> = {};
-  metamodelStore.concepts.forEach(c => {
-    nodes[c.name] = {
-      ...c,
-      children: []
-    };
-  });
-
-  const roots: any[] = [];
-  metamodelStore.concepts.forEach(c => {
-    const node = nodes[c.name];
-    if (c.category_id && nodes[c.category_id]) {
-      nodes[c.category_id].children.push(node);
-    } else {
-      roots.push(node);
-    }
-  });
-  return roots;
-});
 </script>
 
 <style scoped>

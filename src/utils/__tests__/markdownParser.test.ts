@@ -1,84 +1,84 @@
-import { describe, it, expect } from 'vitest';
+﻿import { describe, it, expect } from 'vitest';
 import { parseMarkdownModel, generateMarkdownFileContent } from '../markdownParser';
 import { Concept, Marker } from '../../types';
 
 // Minimal mock concepts list matching Ghostbusters file structure
 const mockConcepts: Concept[] = [
-  { name: 'Business summary', category_id: null, icon: 'file-text', type: 'text', description: '' },
-  { name: 'Stakeholders', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Segments', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Profiles', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Persona', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Segmentation', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Market trends', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Market size', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Competition', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Roles', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Problems', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Value propositions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Messages', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Channels', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Relationships', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Perceptions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Emotions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Behaviors', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Journey', category_id: null, icon: 'users', type: 'steps', description: '' },
-  { name: 'Products and services', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Portfolio', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Components', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Features', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Roadmap', category_id: null, icon: 'users', type: 'steps', description: '' },
-  { name: 'Pricing', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Offerings', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Naming', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Branding', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Visual identity', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Logo', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Media plan', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Pitch', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Brochure', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Web', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Storytelling', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Presentations', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Inspiration', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Opportunity', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Business status', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Challenges', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Mission', category_id: null, icon: 'target', type: 'text', description: '' },
-  { name: 'Vision', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Organizational values', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Organizational goals', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Activities', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Functions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Resources', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Goals', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Skills', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Contributions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Compensations', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Positions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Phases', category_id: null, icon: 'users', type: 'steps', description: '' },
-  { name: 'Milestones', category_id: null, icon: 'users', type: 'sequence', description: '' },
-  { name: 'Metrics', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Revenue', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Life Time Value', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Costs', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Customer Aquisition Cost', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Unit economics', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Funding sources', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Shareholders', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Projections', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Legal issues', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Contracts', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Matrices', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Assumptions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Risks', category_id: null, icon: 'key', type: 'weight', description: '' },
-  { name: 'Suggestions', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Unfair advantage', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'SWOT', category_id: null, icon: 'users', type: 'text', description: '' },
-  { name: 'Keys', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Coherence', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Experiments', category_id: null, icon: 'users', type: 'weight', description: '' },
-  { name: 'Misc', category_id: null, icon: 'users', type: 'text', description: '' }
+  { name: 'Business summary', icon: 'file-text', type: 'text', description: '' },
+  { name: 'Stakeholders', icon: 'users', type: 'weight', description: '' },
+  { name: 'Segments', icon: 'users', type: 'weight', description: '' },
+  { name: 'Profiles', icon: 'users', type: 'weight', description: '' },
+  { name: 'Persona', icon: 'users', type: 'text', description: '' },
+  { name: 'Segmentation', icon: 'users', type: 'weight', description: '' },
+  { name: 'Market trends', icon: 'users', type: 'weight', description: '' },
+  { name: 'Market size', icon: 'users', type: 'text', description: '' },
+  { name: 'Competition', icon: 'users', type: 'weight', description: '' },
+  { name: 'Roles', icon: 'users', type: 'weight', description: '' },
+  { name: 'Problems', icon: 'users', type: 'weight', description: '' },
+  { name: 'Value propositions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Messages', icon: 'users', type: 'weight', description: '' },
+  { name: 'Channels', icon: 'users', type: 'weight', description: '' },
+  { name: 'Relationships', icon: 'users', type: 'text', description: '' },
+  { name: 'Perceptions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Emotions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Behaviors', icon: 'users', type: 'weight', description: '' },
+  { name: 'Journey', icon: 'users', type: 'steps', description: '' },
+  { name: 'Products and services', icon: 'users', type: 'weight', description: '' },
+  { name: 'Portfolio', icon: 'users', type: 'text', description: '' },
+  { name: 'Components', icon: 'users', type: 'weight', description: '' },
+  { name: 'Features', icon: 'users', type: 'weight', description: '' },
+  { name: 'Roadmap', icon: 'users', type: 'steps', description: '' },
+  { name: 'Pricing', icon: 'users', type: 'text', description: '' },
+  { name: 'Offerings', icon: 'users', type: 'weight', description: '' },
+  { name: 'Naming', icon: 'users', type: 'text', description: '' },
+  { name: 'Branding', icon: 'users', type: 'text', description: '' },
+  { name: 'Visual identity', icon: 'users', type: 'text', description: '' },
+  { name: 'Logo', icon: 'users', type: 'text', description: '' },
+  { name: 'Media plan', icon: 'users', type: 'text', description: '' },
+  { name: 'Pitch', icon: 'users', type: 'text', description: '' },
+  { name: 'Brochure', icon: 'users', type: 'text', description: '' },
+  { name: 'Web', icon: 'users', type: 'text', description: '' },
+  { name: 'Storytelling', icon: 'users', type: 'text', description: '' },
+  { name: 'Presentations', icon: 'users', type: 'text', description: '' },
+  { name: 'Inspiration', icon: 'users', type: 'weight', description: '' },
+  { name: 'Opportunity', icon: 'users', type: 'weight', description: '' },
+  { name: 'Business status', icon: 'users', type: 'text', description: '' },
+  { name: 'Challenges', icon: 'users', type: 'weight', description: '' },
+  { name: 'Mission', icon: 'target', type: 'text', description: '' },
+  { name: 'Vision', icon: 'users', type: 'text', description: '' },
+  { name: 'Organizational values', icon: 'users', type: 'weight', description: '' },
+  { name: 'Organizational goals', icon: 'users', type: 'weight', description: '' },
+  { name: 'Activities', icon: 'users', type: 'weight', description: '' },
+  { name: 'Functions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Resources', icon: 'users', type: 'weight', description: '' },
+  { name: 'Goals', icon: 'users', type: 'weight', description: '' },
+  { name: 'Skills', icon: 'users', type: 'weight', description: '' },
+  { name: 'Contributions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Compensations', icon: 'users', type: 'weight', description: '' },
+  { name: 'Positions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Phases', icon: 'users', type: 'steps', description: '' },
+  { name: 'Milestones', icon: 'users', type: 'sequence', description: '' },
+  { name: 'Metrics', icon: 'users', type: 'weight', description: '' },
+  { name: 'Revenue', icon: 'users', type: 'weight', description: '' },
+  { name: 'Life Time Value', icon: 'users', type: 'text', description: '' },
+  { name: 'Costs', icon: 'users', type: 'weight', description: '' },
+  { name: 'Customer Aquisition Cost', icon: 'users', type: 'text', description: '' },
+  { name: 'Unit economics', icon: 'users', type: 'text', description: '' },
+  { name: 'Funding sources', icon: 'users', type: 'weight', description: '' },
+  { name: 'Shareholders', icon: 'users', type: 'weight', description: '' },
+  { name: 'Projections', icon: 'users', type: 'weight', description: '' },
+  { name: 'Legal issues', icon: 'users', type: 'weight', description: '' },
+  { name: 'Contracts', icon: 'users', type: 'weight', description: '' },
+  { name: 'Matrices', icon: 'users', type: 'weight', description: '' },
+  { name: 'Assumptions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Risks', icon: 'key', type: 'weight', description: '' },
+  { name: 'Suggestions', icon: 'users', type: 'weight', description: '' },
+  { name: 'Unfair advantage', icon: 'users', type: 'text', description: '' },
+  { name: 'SWOT', icon: 'users', type: 'text', description: '' },
+  { name: 'Keys', icon: 'users', type: 'weight', description: '' },
+  { name: 'Coherence', icon: 'users', type: 'weight', description: '' },
+  { name: 'Experiments', icon: 'users', type: 'weight', description: '' },
+  { name: 'Misc', icon: 'users', type: 'text', description: '' }
 ];
 
 const mockMarkers: Marker[] = [
@@ -90,7 +90,10 @@ const mockMarkers: Marker[] = [
 
 describe('Markdown Parser Parity Tests', () => {
   const sampleMarkdown = `---
-metamodel: "../../innV0_master_data.json"
+template:
+  name: "business"
+  version: "V_1-0-0"
+  path: "../../innV0_master_data.json"
 title: "Ghostbusters Complete Model"
 last_saved: "2026-06-18T16:25:14.814Z"
 ---
@@ -463,8 +466,10 @@ Strategic definition for Misc.
 
   it('should parse and serialize flat self-containing template format with lowercase comments', () => {
     const flatMarkdown = `---
-metamodel:
-  title: "innV0 Metamodel"
+template:
+  name: "business"
+  version: "V_1-0-0"
+  title: "FORMAT Template"
   last_updated: "2026-06-19T17:48:57.477Z"
   concepts:
     - name: "business summary"
@@ -538,7 +543,7 @@ Description of Hotel Managers.
     
     // Check YAML parsed metamodel correctly
     expect(parsed.metamodel).toBeDefined();
-    expect(parsed.metamodel?.title).toBe('innV0 Metamodel');
+    expect(parsed.metamodel?.title).toBe('FORMAT Template');
     expect(parsed.metamodel?.concepts?.length).toBe(3);
     expect(parsed.metamodel?.markers?.length).toBe(1);
     
@@ -608,16 +613,16 @@ Description of Hotel Managers.
     const markers = parsedTemplate.metamodel?.markers || [];
     const metamatrix = parsedTemplate.metamatrix;
     
-    const oldFilePath = path.resolve(__dirname, '../../../Samples/Ghostbusters/Ghostbusters_V_1-0-0_FORMAT.md');
+    const oldFilePath = path.resolve(__dirname, '../../../samples/Ghostbusters/Ghostbusters_BM_V_0-1-2_FORMAT.md');
     const oldContent = fs.readFileSync(oldFilePath, 'utf8');
     
     const parsed = parseMarkdownModel(oldContent, concepts, metamatrix);
     
     const serialized = generateMarkdownFileContent({
       activeFileName: 'ghostbusters_model.md',
-      specificationVersion: parsedTemplate.specificationVersion || 'V_0-1-1',
-      specificationUrl: parsedTemplate.specificationUrl || 'https://format.innv0.com/spec/v0-1-1/format-spec.md',
-      documentationLocation: parsedTemplate.documentationLocation || 'docs/V_0-1-1/',
+      formatVersion: parsedTemplate.formatVersion || 'V_0-1-2',
+      specificationUrl: parsedTemplate.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md',
+      documentationLocation: parsedTemplate.documentationLocation || 'docs/spec/V_0-1-2/',
       modelTextData: parsed.modelTextData,
       modelTree: parsed.modelTree,
       nodeMarkers: parsed.nodeMarkers,
@@ -711,8 +716,10 @@ Description of Hotel Managers.
 
   it('parses and serializes block parameters/fields correctly', () => {
     const markdownWithFields = `---
-metamodel:
-  title: "innV0 Metamodel"
+template:
+  name: "business"
+  version: "V_1-0-0"
+  title: "FORMAT Template"
   last_updated: "2026-06-19T17:48:57.477Z"
   concepts:
     - name: "stakeholders"
@@ -840,7 +847,7 @@ describe('concept-block marker persistence', () => {
     const serialized = generateMarkdownFileContent({
       activeFileName: 'Concept Marker Test.md',
       modelTextData: { 'single text block': '# <!-- block: concepts --> single text block\n\nSome body.' },
-      modelTree: [], // no tree nodes — the only marker lives on a concept block
+      modelTree: [], // no tree nodes â€” the only marker lives on a concept block
       nodeMarkers,
       markers,
       metamatrix: [],

@@ -101,13 +101,13 @@
         <div class="border-b border-border pb-3">
           <h3 class="text-sm font-semibold text-foreground flex items-center gap-2">
             <Settings class="w-4 h-4 text-primary" />
-            Metamodel Settings
+            FORMAT Template Settings
           </h3>
         </div>
 
         <div class="space-y-3.5 text-xs">
           <div class="flex flex-col gap-1 p-2.5 rounded-md bg-muted/30 border border-border/50">
-            <span class="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Source Metamodel File</span>
+            <span class="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Source FORMAT Template File</span>
             <strong class="text-foreground truncate font-mono text-[11px]">{{ metamodelStore.metamodelSource }}</strong>
           </div>
 
@@ -124,8 +124,16 @@
 
           <div class="pt-2 divide-y divide-border/60">
             <div class="flex justify-between py-2">
-              <span class="text-muted-foreground">Specification Version:</span>
-              <span class="font-medium text-foreground">{{ documentStore.specificationVersion }}</span>
+              <span class="text-muted-foreground">Format Version:</span>
+              <span class="font-medium text-foreground">{{ documentStore.formatVersion }}</span>
+            </div>
+            <div class="flex justify-between py-2" v-if="documentStore.templateName">
+              <span class="text-muted-foreground">Template Name:</span>
+              <span class="font-medium text-foreground font-mono">{{ documentStore.templateName }}</span>
+            </div>
+            <div class="flex justify-between py-2" v-if="documentStore.templateVersion">
+              <span class="text-muted-foreground">Template Version:</span>
+              <span class="font-medium text-foreground font-mono">{{ documentStore.templateVersion }}</span>
             </div>
             <div class="flex justify-between py-2">
               <span class="text-muted-foreground">Documentation Directory:</span>
@@ -243,10 +251,13 @@ const handleCreateFile = async () => {
   if (!filename.endsWith('.md')) filename += '.md';
   
   const defaultText = `---
-metamodel: "./innV0_master_data.json"
+template:
+  name: "business"
+  version: "V_1-0-0"
+  path: "./innV0_master_data.json"
 title: "${filename.replace('.md', '')}"
-specification_version: "V_0-1-1"
-specification_url: "https://format.innv0.com/spec/v0-1-1/format-spec.md"
+format_version: "V_0-1-2"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
 last_saved: "${new Date().toISOString()}"
 ---
 
