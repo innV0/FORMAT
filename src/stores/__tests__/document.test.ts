@@ -223,5 +223,26 @@ describe('Document Store', () => {
       expect(store.matrixValues['Mat||NewRow||Col']).toBe('X');
       expect(store.matrixValues['InvalidKey']).toBe('Y');
     });
+
+    it('should update wiki-links inside modelTextData and modelTree node descriptions on rename', () => {
+      const store = useDocumentStore();
+      store.modelTextData = {
+        'Problems': 'We have a problem with [[OldName]] and [[OtherName]].',
+      };
+      store.modelTree = [
+        {
+          id: '1',
+          name: 'SomeNode',
+          type: 'Stakeholders',
+          description: 'This is a description of [[OldName]].',
+          children: []
+        }
+      ];
+
+      store.renameBlock('OldName', 'NewName', 'tree-node');
+
+      expect(store.modelTextData['Problems']).toBe('We have a problem with [[NewName]] and [[OtherName]].');
+      expect(store.modelTree[0].description).toBe('This is a description of [[NewName]].');
+    });
   });
 });

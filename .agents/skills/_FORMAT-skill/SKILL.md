@@ -1,5 +1,5 @@
 ---
-name: FORMAT-skill
+name: _FORMAT-skill
 description: "Use when creating, editing, or validating business models and specifications in the FORMAT format (Business and Procedures templates)."
 ---
 
@@ -13,7 +13,8 @@ All historical and current specifications are immutable. The canonical specifica
 
 - **V_0-1-0**: [format-spec.md (v0.1.0)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/spec/V_0-1-0/format-spec.md)
 - **V_0-1-1**: [format-spec.md (v0.1.1)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/spec/V_0-1-1/format-spec.md)
-- **V_0-1-2** (Current): [format-spec.md (v0.1.2)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/format-spec.md)
+- **V_0-1-2** (Previous): [format-spec.md (v0.1.2)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/format-spec.md)
+- **V_0-1-3** (Current): [_format.md (v0.1.3)](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md)
 
 ## Reference Directory
 
@@ -54,8 +55,8 @@ All FORMAT-compliant files use the `.md` extension and follow a specific naming 
 ## 1. Reference Locations (On-Demand Loading)
 To keep this skill lightweight and maintain a single source of truth, do not duplicate specification files locally in the skill. Instead, when validation or generation is requested, use your web-reading tools (e.g., `read_url_content`) to load the following canonical sources on-demand:
 
-* **Official _FORMAT Specification (V_0-1-2):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md`
+* **Official _FORMAT Specification (V_0-1-3):**
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md`
 * **Business Template (V_1-0-0):**
   `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md`
 * **Procedures Template (V_1-0-0):**
@@ -72,11 +73,11 @@ There are currently two official templates:
 Every compliant file must start with a YAML block containing:
 ```yaml
 ---
-specification_version: "V_0-1-2"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
+specification_version: "V_0-1-3"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md"
 title: "Document Title"
 model_version: "V_x-y-z"
-documentation_location: "docs/spec/V_0-1-2/"
+documentation_location: "docs/spec/V_0-1-3/"
 template:
   name: "business" # or "procedures"
   version: "V_1-0-0"
@@ -93,6 +94,17 @@ template:
 - **Element/Instance Lists:** Instantiable concepts use list items prefixed by:
   `* <!-- block: concept name --> Element Name`
 - **Matrices Section:** Appears under `<!-- block: matrices -->` containing Markdown tables representing relationships or item-markers.
+
+### 3.3 Element Fields (V_0-1-3)
+
+Element fields are expressed as fenced YAML blocks (` ```yaml `) immediately after the element line. This replaces the old dash-list syntax.
+
+```markdown
+* <!-- block: roles --> Alice
+  ```yaml
+  scope: internal
+  ```
+```
 
 ## 4. Operational Instructions for the Agent
 * **When Asked to Generate a Model:** Fetch the correct template raw file using the URLs in Section 1, parse the concepts, and prompt the user step-by-step or auto-generate the file content adhering strictly to the naming and layout conventions.

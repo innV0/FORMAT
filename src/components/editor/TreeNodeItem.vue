@@ -18,30 +18,21 @@
       <span v-else class="w-4.5 shrink-0"></span>
 
       <!-- Pill identity + Info popup on hover -->
-      <BlockInfo
+      <BlockPill
         kind="instance"
         :block-id="node.id"
         :concept-type="currentConcept"
         :name="node.name || '(Empty)'"
         :description="node.description"
         :fields="node.fields"
+        :instance-count="node.children?.length ?? 0"
+        :selected="documentStore.selectedNode?.id === node.id"
         :show-markers="conceptType === 'weight'"
+        :interactive="true"
+        full-width
         class="flex-1 min-w-0"
-      >
-        <BlockPill
-          kind="instance"
-          :block-id="node.id"
-          :concept-type="currentConcept"
-          :name="node.name || '(Empty)'"
-          :description="node.description"
-          :fields="node.fields"
-          :instance-count="node.children?.length ?? 0"
-          :selected="documentStore.selectedNode?.id === node.id"
-          :interactive="true"
-          full-width
-          @click="documentStore.selectTreeNode(node, currentConcept)"
-        />
-      </BlockInfo>
+        @click="documentStore.selectTreeNode(node, currentConcept)"
+      />
     </div>
 
     <!-- Recursive children -->
@@ -69,7 +60,6 @@ import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import TreeNodeItem from './TreeNodeItem.vue';
 import BlockPill from './BlockPill.vue';
-import BlockInfo from './BlockInfo.vue';
 import { ChevronDown } from 'lucide-vue-next';
 
 const props = defineProps<{

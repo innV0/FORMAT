@@ -23,12 +23,12 @@ export const useDocumentStore = defineStore('document', () => {
   const matrixValues = ref<MatrixValues>({});
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
-  const formatVersion = ref<string>('V_0-1-2');
+  const formatVersion = ref<string>('V_0-1-3');
   const modelVersion = ref<string>('V_0-1-0');
   const templateName = ref<string>('business');
   const templateVersion = ref<string>('V_1-0-0');
-  const specificationUrl = ref<string>('https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md');
-  const documentationLocation = ref<string>('docs/spec/V_0-1-2/');
+  const specificationUrl = ref<string>('https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md');
+  const documentationLocation = ref<string>('');
   const analysisScores = ref<AnalysisScores>({});
 
   const loadDocument = (markdownContent: string) => {
@@ -51,15 +51,15 @@ export const useDocumentStore = defineStore('document', () => {
     metamodelPath.value = parsed.metamodelPath;
     templateName.value = parsed.templateName || 'business';
     templateVersion.value = parsed.templateVersion || 'V_1-0-0';
-    formatVersion.value = parsed.formatVersion || 'V_0-1-2';
+    formatVersion.value = parsed.formatVersion || 'V_0-1-3';
     // Model version: prefer frontmatter, then the version segment of a
     // compliant file name (§8.1), then a sensible default.
     const parsedName = parseFormatFilename(workspaceStore.activeFileName || '');
     modelVersion.value =
       parsed.modelVersion ||
       (parsedName ? formatVersionString(parsedName.version) : 'V_0-1-0');
-    specificationUrl.value = parsed.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md';
-    documentationLocation.value = parsed.documentationLocation || 'docs/spec/V_0-1-2/';
+    specificationUrl.value = parsed.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md';
+    documentationLocation.value = parsed.documentationLocation || '';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
     nodeMarkers.value = parsed.nodeMarkers;
@@ -186,6 +186,32 @@ export const useDocumentStore = defineStore('document', () => {
         delete nodeMarkers.value[oldKey];
       }
     }
+
+    // ── 6. Wiki-links replacement in all descriptions and text data ────
+    const escapedOldName = oldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const wikiLinkRegex = new RegExp(`\\[\\[${escapedOldName}\\]\\]`, 'g');
+
+    // Update in modelTextData
+    for (const [textKey, textVal] of Object.entries(modelTextData.value)) {
+      if (wikiLinkRegex.test(textVal)) {
+        wikiLinkRegex.lastIndex = 0;
+        modelTextData.value[textKey] = textVal.replace(wikiLinkRegex, `[[${newName}]]`);
+      }
+    }
+
+    // Update in modelTree node descriptions recursively
+    const updateTreeNodesWikiLinks = (nodes: TreeNode[]) => {
+      nodes.forEach(n => {
+        if (n.description && wikiLinkRegex.test(n.description)) {
+          wikiLinkRegex.lastIndex = 0;
+          n.description = n.description.replace(wikiLinkRegex, `[[${newName}]]`);
+        }
+        if (n.children && n.children.length > 0) {
+          updateTreeNodesWikiLinks(n.children);
+        }
+      });
+    };
+    updateTreeNodesWikiLinks(modelTree.value);
 
     triggerUnsavedChanges();
   };
@@ -699,34 +725,26 @@ export const useDocumentStore = defineStore('document', () => {
   const loadDocumentation = async () => {
     try {
       let content = '';
-      const docPath = `${documentationLocation.value}metamodel_documentation.md`;
-      
+      const name = templateName.value || 'business';
+      const version = templateVersion.value || 'V_1-0-0';
+      const docPath = `DOCS/templates/${name}/${version}/documentation.md`;
+
       // 1. Try reading from workspace if directory handle is present
       if (workspaceStore.dirHandle) {
         try {
           content = await workspaceStore.readWorkspaceFile(docPath);
         } catch (err) {
-          console.warn(`Could not read documentation from workspace at ${docPath}, falling back to fetch`, err);
+          console.warn(`Could not read documentation from workspace at ${docPath}`, err);
         }
       }
-      
-      // 2. If content is still empty, try fetching from server
+
+      // 2. Try fetching from dev server (Vite serves project root files in dev)
       if (!content) {
-        const fetchUrls = [
-          `/${docPath}`,
-          `/docs/V_0-1-2/metamodel_documentation.md`,
-          `/Samples/metamodel_documentation.md`
-        ];
-        for (const url of fetchUrls) {
-          try {
-            const resp = await fetch(url);
-            if (resp.ok) {
-              content = await resp.text();
-              break;
-            }
-          } catch (e) {
-            // Ignore and try next URL
-          }
+        try {
+          const resp = await fetch(`/${docPath}`);
+          if (resp.ok) content = await resp.text();
+        } catch (e) {
+          // not available via fetch
         }
       }
       

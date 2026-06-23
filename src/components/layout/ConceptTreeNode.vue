@@ -16,27 +16,20 @@
       <!-- Spacer for items without children to align icons -->
       <span v-else class="w-[18px] shrink-0"></span>
 
-      <BlockInfo
+      <BlockPill
         kind="concept"
+        icon-mode="own"
         :block-id="conceptBlockId"
         :concept-type="node.name"
+        :type-name="node.type || undefined"
         :name="node.name"
-        :show-markers="false"
+        :icon="node.icon"
+        :selected="activeName === node.name"
+        :interactive="true"
+        full-width
         class="flex-1"
-      >
-        <BlockPill
-          kind="concept"
-          icon-mode="own"
-          :concept-type="node.name"
-          :type-name="node.type || undefined"
-          :name="node.name"
-          :icon="node.icon"
-          :selected="activeName === node.name"
-          :interactive="true"
-          full-width
-          @click="emitSelect(node.name)"
-        />
-      </BlockInfo>
+        @click="emitSelect(node.name)"
+      />
     </div>
 
     <div
@@ -63,29 +56,20 @@
         class="flex items-center gap-1.5 w-full"
       >
         <span class="w-[18px] shrink-0"></span>
-        <BlockInfo
+        <BlockPill
           kind="instance"
+          icon-mode="own"
           :block-id="el.id"
           :concept-type="node.name"
           :name="el.name || '(Empty)'"
           :description="el.description"
           :fields="el.fields"
+          :selected="selectedNodeId === el.id"
+          :interactive="true"
+          full-width
           class="flex-1"
-        >
-          <BlockPill
-            kind="instance"
-            icon-mode="own"
-            :block-id="el.id"
-            :concept-type="node.name"
-            :name="el.name || '(Empty)'"
-            :description="el.description"
-            :fields="el.fields"
-            :selected="selectedNodeId === el.id"
-            :interactive="true"
-            full-width
-            @click="selectElement(el)"
-          />
-        </BlockInfo>
+          @click="selectElement(el)"
+        />
       </div>
     </div>
   </div>
@@ -97,7 +81,6 @@ import { ChevronDown } from 'lucide-vue-next';
 import { Concept, TreeNode } from '../../types';
 import { useDocumentStore } from '../../stores/document';
 import BlockPill from '../editor/BlockPill.vue';
-import BlockInfo from '../editor/BlockInfo.vue';
 
 interface ConceptNode extends Concept {
   children?: ConceptNode[];
