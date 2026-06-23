@@ -1,5 +1,14 @@
 <template>
-  <aside class="w-96 border-r border-border bg-muted/40 flex flex-col justify-between overflow-y-auto shrink-0">
+  <aside
+    class="relative border-r border-border bg-muted/40 flex flex-col justify-between overflow-y-auto shrink-0 scrollbar-discreet"
+    :style="{ width: width + 'px' }"
+  >
+    <!-- Resize handle (right edge) -->
+    <div
+      @pointerdown="startResize"
+      class="absolute top-0 right-0 z-30 h-full w-1.5 cursor-col-resize hover:bg-primary/30 active:bg-primary/50 transition-colors"
+      title="Drag to resize"
+    ></div>
     <div class="px-4 py-4 space-y-4">
       <!-- Navigation & Hierarchy Tabs -->
       <div class="space-y-3">
@@ -146,7 +155,7 @@
             </div>
           </div>
 
-          <div class="space-y-1.5 max-h-[500px] overflow-y-auto pr-1">
+          <div class="space-y-1.5 max-h-[500px] overflow-y-auto pr-1 scrollbar-discreet">
             <TreeNodeItem
               v-for="node in documentStore.modelTree"
               :key="node.id"
@@ -191,6 +200,15 @@ import ConceptTreeNode from './ConceptTreeNode.vue';
 import ConceptLensPanel from '../editor/ConceptLensPanel.vue';
 import TreeNodeItem from '../editor/TreeNodeItem.vue';
 import IconRenderer from '../editor/IconRenderer.vue';
+import { useResizablePanel } from '../../composables/useResizablePanel';
+
+const { width, startResize } = useResizablePanel({
+  storageKey: 'format.leftSidebarWidth',
+  defaultWidth: 384, // matches the previous w-96
+  minWidth: 240,
+  maxWidth: 640,
+  side: 'right',
+});
 
 const workspaceStore = useWorkspaceStore();
 const metamodelStore = useMetamodelStore();

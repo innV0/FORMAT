@@ -11,7 +11,6 @@
     "concepts": [
       {
         "name": "Business summary",
-        "category_id": null,
         "icon": "file-text",
         "summary": "Brief description of your business, how it creates value for whom, and the logic behind how it generates revenue.",
         "description": "The Business summary is a brief yet powerful introduction to a business plan. It serves as the first impression for readers, often being the deciding factor in whether they continue to explore the rest of the document. This section provides a clear snapshot of the business, its purpose, and its unique value.\n\nIn just a few paragraphs, the Business summary outlines what the business does, the market opportunity it addresses, and how it plans to succeed. It highlights the problem the business solves, the target market it serves, and the unique value proposition that sets it apart from competitors. Additionally, it provides a glimpse into the business model, explaining how revenue is generated and sustained over time.\n\nThe current status of the business is also touched upon, whether it's still in the idea stage, already operational, or experiencing growth. Any significant milestones or achievements are briefly mentioned to build credibility and confidence.\n\nOverall, the Business summary is designed to be engaging, easy to understand, and compelling enough to make readers want to dive deeper into the details of the business plan.\n",
@@ -25,7 +24,6 @@
       },
       {
         "name": "Market",
-        "category_id": null,
         "icon": "store",
         "summary": null,
         "description": null,
@@ -39,7 +37,6 @@
       },
       {
         "name": "Stakeholders",
-        "category_id": "Market",
         "icon": "users",
         "summary": "A stakeholder in business is any individual or group with an interest in or influence over a company's activities, decisions, and goals, with the primary stakeholder always being the customer.",
         "description": "a stakeholder in the context of business and business modeling refers to any person, group, or entity that has an interest in or can be affected by the activities, decisions, and objectives of a company. Stakeholders can be internal or external to the organization, and their degree of influence varies according to their relationship and role in the business.\n\nCommon types of stakeholders in business modeling include:\n\nExternal Stakeholders:\n   - Customers: Users or buyers of the product or service, whose satisfaction and loyalty are fundamental to the business.\n   - Suppliers: Companies or individuals who provide materials, goods, or services to the business, affecting the supply chain.\n   - Investors: Entities or individuals who provide funding and expect returns on their investments.\n   - Community and Society in General: The company may have an impact on the local community or society, be it environmental, economic, or social.\n   - Government and Regulatory Entities: Establish and monitor compliance with laws and regulations applicable to the business's activities.\n\nInternal Stakeholders:\n   - Owners and Shareholders: Individuals who hold a stake in the company and are interested in its profitability and growth.\n   - Employees and Management: People working directly within the company whose motivation, security, and professional development are impacted by business decisions.\n\nWhen designing or modeling a business, it's crucial to identify stakeholders and understand their needs, expectations, and influence. Each stakeholder group can impact the development of the company's strategy and results. In models like the Business Model Canvas, stakeholders are considered in elements such as key partners (suppliers and strategic allies) and customer segments.\n\nStakeholder management involves analyzing the level of interest and influence of each stakeholder and developing strategies to align the business objectives with their expectations, ensuring that the interactions and mutual impact are positive.\n",
@@ -53,7 +50,6 @@
       },
       {
         "name": "Segments",
-        "category_id": "Market",
         "icon": "pie-chart",
         "summary": "A segment list refers to a categorized compilation of target customer groups based on shared characteristics or needs.",
         "description": "\"Segments\" refers to the categorization of a company's customers into distinct subsets with common needs, characteristics, or behaviors. These segments can be defined based on various factors (segmentation criteria) such as demographic, geographic, psychographic, and behavioral traits. \n\nSegments are a crucial component of business design as it helps businesses to better understand their target customers, tailor their products or services to meet specific customer needs, and develop targeted marketing strategies. It enables businesses to focus their resources on the most profitable segments, thereby maximizing their return on investment.\n\nFor example, a clothing retailer may segment its market based on age groups, fashion preferences, and income levels. Each segment will have different needs and preferences, and therefore, will require different products and marketing approaches. The retailer may offer trendy and affordable clothing for the younger segment, high-end designer wear for the affluent segment, and tagic and comfortable clothing for the older segment. \n\nBy understanding the unique needs and preferences of each segment, the retailer can design products that resonate with its target customers, create marketing messages that appeal to them, and deliver a shopping experience that meets their expectations. \n\nIn essence, a segment list is a powerful tool that enables businesses to create value for their customers, differentiate themselves from their competitors, and achieve sustainable growth. It is the foundation of customer-centric business design and a key driver of business success.",
@@ -67,7 +63,6 @@
       },
       {
         "name": "Profiles",
-        "category_id": "Segments",
         "icon": "user",
         "summary": "A definition of who our client is narrowing down the segmentation criteria to specific values.",
         "description": "\"Profiles\" refers to the detailed description and analysis of specific of a customer segment. This concept is essential in a business model as it provides a comprehensive understanding of customres, enabling companies to make informed decisions and devise effective strategies.A customer profile involves a detailed description of a company's target customers, including their needs, preferences, behaviors, and characteristics. For example, a company might create a profile for a segment of customers who are young, tech-savvy, and value sustainability. This allows the company to tailor its products, services, or marketing messages to meet the specific needs and preferences of these customers.\n\nFor instance, a company might create a profile for a segment of customers who are environmentally conscious and prefer eco-friendly products. The company might also create a profile for a competitor who is known for its sustainable practices and popular among these customers. Based on these profiles, the company might decide to develop and market a new line of eco-friendly products to meet the needs of these customers and compete effectively with this competitor. This would demonstrate the company's ability to leverage its understanding of Profile to drive its business model and create value.",
@@ -81,13 +76,12 @@
       },
       {
         "name": "Persona",
-        "category_id": "Profiles",
         "icon": "user-round",
         "summary": "Client archetype with many details about their circumstances that helps us understand and connect with our clients. It also serves to communicate to whom we are addressing.",
         "description": "\"Persona\" in business modeling refers to the creation and understanding of fictional characters who represent the different user types that might use a company's products or services. These personas are based on user research and include details such as demographics, behavior patterns, motivations, and goals. They are used to help businesses understand and cater to the needs of their target audience.\n\nIn the \"Persona\" model, businesses use various tools and techniques to gather and analyze information about their potential users. This could involve conducting surveys, interviews, and focus groups, as well as analyzing market research and user data. The goal is to create detailed and realistic personas that accurately represent the different types of users that a business is targeting.\n\nFor example, a fitness app might create personas for different types of users, such as a busy professional who wants quick workouts, a fitness enthusiast who wants advanced routines, and a beginner who needs guidance and motivation. These personas would include details about their fitness goals, their lifestyle, their preferences for workout types and times, and their challenges and pain points. This information could then be used to design a product that meets the needs of these different users, and to create marketing messages that resonate with them.\n\nAlternatively, a B2B software company might create personas for different roles within a company, such as a CEO who is concerned with overall business performance, a manager who needs to track team productivity, and an individual contributor who needs to manage their tasks and time. These personas would include details about their job responsibilities, their challenges and pain points, and their goals and motivations. This information could then be used to design a product that solves their specific problems and meets their needs, and to create marketing messages that speak to their unique concerns and goals.\n\nThe \"Persona\" concept in business modeling is crucial because it helps businesses to understand and empathize with their users, and to design products and services that meet their needs. This can lead to increased user satisfaction, loyalty, and ultimately, business success.",
         "methodologies": "**Empathy Map**\nAn Empathy Map is a tool that helps businesses gain insight into their customers. It is divided into sections that represent what the customer Says, Thinks, Does, and Feels. This tool can be used to create a detailed profile of a customer persona, including their needs, motivations, and challenges.\n\n**Customer Persona Canvas**\nThis tool is specifically designed to create detailed customer personas. It includes sections for demographic information, goals and tasks, motivations, and pain points. By filling out the canvas, businesses can create a comprehensive profile of their target customers.\n\n**Value Proposition Canvas**\nDeveloped by Alexander Osterwalder, the Value Proposition Canvas is a tool that helps businesses understand how their products or services can meet the needs of their customers. One half of the canvas is dedicated to the customer profile, which includes the customer's jobs, pains, and gains.\n\n**Jobs To Be Done Framework**\nThis framework is used to understand the 'job' that a customer hires a product or service to do. By understanding this 'job', businesses can create a detailed profile of their customers, including their needs, motivations, and the context in which they use the product or service.\n\n**Experience Map**\nAn Experience Map is a visual representation of a customer's journey with a product or service. It includes all the touchpoints a customer has with the business, and can be used to create a detailed profile of the customer, including their needs, motivations, and challenges at each touchpoint.\n\n**SWOT Analysis**\nWhile SWOT Analysis is a more general tool, it can be used to understand the strengths, weaknesses, opportunities, and threats related to a specific customer persona. This can help businesses understand how to better meet the needs of their customers and identify potential challenges or opportunities.\n\n**PESTEL Analysis**\nBy analyzing Political, Economic, Social, Technological, Ecological, and Legal factors, companies can understand how these external factors affect their customer personas. For example, technological advancements can change the needs and behaviors of customers, which would need to be reflected in their profiles.",
         "prompts": "`Create a detailed persona for [segment name], including demographics, motivations, and goals.`\n`Describe this persona’s daily routines and decision-making process when evaluating solutions.`\n`Identify their top 3 pain points and aspirations.`\n`Explain how this persona perceives value and trust in our industry.`\n`List potential objections this persona may raise during purchase discussions.`",
-        "type": "text",
+        "type": "list",
         "mode": "advanced",
         "color": "blue",
         "weight": 40,
@@ -95,7 +89,6 @@
       },
       {
         "name": "Segmentation",
-        "category_id": "Segments",
         "icon": "split",
         "summary": "Segmentation criteria are the variables or characteristics used to divide a market into smaller, more homogeneous groups, known as segments..\nThe process of dividing a market into distinct groups of customers with similar needs or characteristics by assigning specific values or value ranges to the segment's segmentation criteria.",
         "description": "\"segment\" or \"segmentation criteria\" refers to the process of dividing a company's market into distinct groups of buyers who might require separate products or marketing mixes. These groups, or segments, are defined by shared characteristics such as demographics, behaviors, needs, or preferences. The purpose of segmentation is to allow a company to better tailor its products, services, and marketing efforts to meet the specific needs of different customer groups.\n\nSegmentation criteria can be based on a wide range of factors, including age, gender, income, location, lifestyle, buying behavior, and more. The chosen criteria should be relevant to the product or service being offered, and should effectively differentiate different groups of customers.\n\nFor example, a clothing retailer might segment its market based on age and gender, offering different product lines for men, women, and children. Within these broad segments, the retailer might further segment based on factors like fashion style or price sensitivity, offering different ranges for customers who prefer tagic versus trendy styles, or budget versus premium pricing.\n\nIn essence, \"segment\" or \"segmentation criteria\" in business modeling is about understanding and categorizing the diverse needs and preferences of a company's customer base. This allows the company to more effectively target its offerings and marketing efforts, improving customer satisfaction and business performance. It is a critical element in business design, shaping the development of a company's products, services, and marketing strategies.",
@@ -109,7 +102,6 @@
       },
       {
         "name": "Market trends",
-        "category_id": "Segments",
         "icon": "trending-up",
         "summary": "The identification and analysis of specific customer groups and their evolving needs and preferences within a business model.",
         "description": "\"Market Trends\" refers to the identification and analysis of specific portions of a market (segments) and the prevailing patterns of change (trends) within these segments. This concept is crucial in a business model as it helps companies understand their target customers, competitors, and market dynamics, and formulate effective strategies.\n\nMarket Trends typically encompass the following aspects:\n\n- Demand Trends: These relate to the patterns of change in customer demand for a product or service. For example, a company might analyze trends in customer needs, preferences, or buying behaviors. This helps the company anticipate changes in demand and adjust its offerings or strategies accordingly.\n\n- Supply Trends: These pertain to the patterns of change in the supply of a product or service. For instance, a company might examine trends in production costs, technological advancements, or regulatory changes. This allows the company to foresee changes in supply and modify its operations or strategies as needed.\n\n- Competitive Trends: These involve the patterns of change in the competitive environment. For example, a company might track trends in competitor activities, market shares, or entry/exit of competitors. This enables the company to predict competitive shifts and adapt its competitive strategies accordingly.\n\nFor instance, a company might identify a segment of health-conscious consumers who prefer organic products and notice a trend of increasing demand for organic food. Based on this, the company might decide to launch a new line of organic products to target this segment and capitalize on this trend. This would demonstrate the company's ability to leverage its understanding of Market Trends to drive its business model and create value.",
@@ -123,7 +115,6 @@
       },
       {
         "name": "Market size",
-        "category_id": "Segments",
         "icon": "ruler",
         "summary": "Size of a market is the amount of money that is involved in transactions between suppliers and customers",
         "description": "\"market size\" refers to the identification and quantification of a specific group of potential customers (segment) within a market that a company aims to reach with its products or services. This segment is typically defined by certain characteristics (segmentation criteria) such as age, income, geography, or behavior, which the company believes will make these customers more likely to purchase its offerings.\n\nThe market size, on the other hand, is the total number of potential customers or the total revenue potential within the identified segment. It provides an estimate of the maximum potential that a business can hope to achieve if it were to capture the entire market segment.\n\nFor example, a company that produces organic baby food might identify its market segment as health-conscious parents of infants and toddlers. The market size would then be determined by the total number of such parents, or alternatively, the total amount they spend on baby food annually.\n\n\"market size\" is crucial in business modeling as it helps a company to focus its resources on the most promising customers, tailor its offerings to meet their specific needs, and estimate the potential revenue it can generate. It is a fundamental aspect of business design, shaping the company's marketing strategy, product development, and overall business strategy. It influences how the company positions itself in the market, competes with other businesses, and achieves its financial goals.",
@@ -137,7 +128,6 @@
       },
       {
         "name": "Competition",
-        "category_id": "Segments",
         "icon": "swords",
         "summary": "Entities or organizations or people who are trying to solve the same problems for the same clients.",
         "description": "\"Competition\" in business modeling refers to the analysis and understanding of other businesses that offer similar products or services in the same market. This involves identifying who these competitors are, understanding their strategies, strengths, and weaknesses, and determining how they could potentially impact your business.\n\nIn the \"Competition\" model, businesses use various tools and techniques to gather and analyze information about their competitors. This could involve conducting market research, analyzing competitors' marketing strategies, assessing their product offerings, and monitoring their pricing strategies. The goal is to gain a comprehensive understanding of the competitive landscape and to identify opportunities and threats.\n\nFor example, a new restaurant might analyze the competition in its local area to understand what types of cuisine are already being offered, what price points are common, and what unique selling propositions other restaurants are promoting. This information could then be used to develop a unique and competitive business model that fills a gap in the market.\n\nAlternatively, a tech startup might analyze the competition in its industry to understand the key features and benefits of competing products, the marketing strategies being used, and the overall market share of different competitors. This information could then be used to develop a product that offers unique features or benefits, or to create a marketing strategy that differentiates the startup from its competitors.\n\nThe \"Competition\" concept in business modeling is crucial because it helps businesses to understand the competitive landscape and to develop strategies that will allow them to compete effectively. This can lead to increased market share, customer loyalty, and ultimately, business success.",
@@ -151,7 +141,6 @@
       },
       {
         "name": "Roles",
-        "category_id": "Segments",
         "icon": "user-cog",
         "summary": "Roles involved in the purchasing decision of our product or service by the customers. For example, it can be the financial director, the technical director, a member of the core family, etcetera.",
         "description": "\"roles\" refers to the categorization of different groups within a business model based on their specific roles or functions. This concept is crucial in understanding the dynamics of a business and how different segments interact with each other and contribute to the overall functioning of the business.\n\n- Segment: This refers to the different divisions or departments within a business. Each segment has its own unique identity and role within the organization. For example, in a manufacturing company, segments could include production, marketing, sales, and customer service. Each of these segments has a specific role and contributes to the overall success of the business in different ways.\n\n- Roles: Within each segment, individuals or groups are assigned specific roles based on their skills, expertise, and the needs of the business. These roles define the responsibilities and tasks that each individual or group is expected to perform. For example, in the marketing segment, roles could include market research, advertising, public relations, and digital marketing.\n\nroles is essential in business design as it helps in organizing the business structure, defining responsibilities, and ensuring that all necessary functions are covered. It also aids in identifying potential gaps or overlaps in roles, which can then be addressed to improve efficiency and effectiveness.\n\nFor example, a business may identify that the role of digital marketing is not being adequately covered within the marketing segment. This could lead to the creation of a new role or the expansion of an existing role to ensure that this function is effectively managed.\n\nIn essence, roles is a fundamental aspect of business modeling, providing a clear structure and direction for the organization and contributing to its overall success and sustainability.",
@@ -165,7 +154,6 @@
       },
       {
         "name": "Problems",
-        "category_id": "Segments",
         "icon": "circle-alert",
         "summary": "Problems, needs or desires that our stakeholders have and are relevant to my business.",
         "description": "\"Problems\" in business modeling refers to problems that your target customer faces in relation to your product or service. Focus on issues that are significant and frequent enough to motivate potential customers to seek a solution. These problems should be specific, actionable, and directly tied to the value your product aims to deliver. Avoid generic statements, and instead, use clear, concise descriptions based on customer research or insights.  The aim is to create a comprehensive understanding of each profile, which can then be used to tailor products, services, and marketing efforts to achieve the set goals.\n\nThe \"Problems\" section is where you clearly define the key challenges, pain points, or needs of your target customers. It focuses on identifying the top three problems they face and understanding their current solutions or workarounds. This section sets the foundation for designing a solution that effectively addresses these issues. List the most significant problems or frustrations your target customers face. These should be specific and relevant to the audience you're focusing on. Identify how customers are currently solving these problems. This could include competitor products, manual processes, or makeshift solutions. Highlight inefficiencies or limitations in these existing alternatives to showcase the opportunity for your solution.\n\nGather insights from customer interviews, surveys, or research to ensure the problems are real and significant. Avoid assumptions and validate the issues with actual data from your target audience. Ensure the problems are tied to a specific customer segment. This focus helps tailor your solution and business model to their unique needs. By thoroughly understanding and defining the problems in this section, you establish the basis for your Unique Value Proposition and Solution sections. Solving a well-identified problem is the key to building a product or service that resonates with your customers and succeeds in the market.",
@@ -179,7 +167,6 @@
       },
       {
         "name": "Value propositions",
-        "category_id": "Segments",
         "icon": "gem",
         "summary": "The reason that will convince this profile to take the action we want them to take, such as buying a product.",
         "description": "\"value proposition\" refers to the unique combination of products or services that a company offers to solve the problems or meet the specific needs of a particular customer profile. It is the unique value that a company promises to deliver to its customers, and the reason why customers should choose this company over its competitors. \n\nThe value proposition is a critical component of business design as it defines the company's competitive advantage, shapes its business strategy, and drives its business operations. It is the foundation of a company's relationship with its customers and the key to its market success.\n\nFor instance, a software company may offer a unique value proposition to its business customers by providing innovative, reliable, and user-friendly software solutions that help businesses improve their productivity, reduce their costs, and grow their revenues. The company may also offer superior customer service, technical support, and training to ensure that its customers can fully utilize its software and achieve their business goals.\n\nThe software company's value proposition is not just about its software. It is about the total value that the company delivers to its customers, including the the benefits that its software brings to its customers, quality of its software, and the support that the company provides to its customers. It is about how the company solves its customers' problems, meets their needs, and creates value for them.\n\nIn essence, the value proposition is a strategic tool that enables businesses to differentiate themselves from their competitors, attract and retain their customers, and achieve their business goals. It is the heart of business design and a key driver of business success.",
@@ -193,7 +180,6 @@
       },
       {
         "name": "Messages",
-        "category_id": "Segments",
         "icon": "message-square",
         "summary": "Messages that we want to communicate to... that they carry out a specific action.",
         "description": "\"messages\" refers to the strategic communication that a company wants to convey to a specific group of customers, users, or stakeholders based on their individual profiles. This concept is about crafting and delivering messages that resonate with the target audience and prompt them to take a specific action.\n\nThe \"messages\" concept involves understanding the target audience's needs, preferences, and motivations, and then creating messages that address these factors. These messages could be about a product's features, benefits, or value proposition, or about the company's mission, vision, or values. The goal is to communicate in a way that is meaningful and compelling to the target audience, and that encourages them to engage with the company, purchase a product, subscribe to a service, or support a cause.\n\nFor instance, a fitness center might have a messages model that includes messages about the health benefits of regular exercise, the variety of tags and equipment available, the qualifications of their trainers, and the supportive and fun community at the center. These messages are designed to appeal to people who value health and fitness, enjoy variety in their workouts, prefer professional guidance, and appreciate a community atmosphere.\n\n\"messages\" is vital in business modeling as it helps to shape the company's communication strategy. By tailoring their messages to the target audience's profile, companies can increase the effectiveness of their communication, enhance their relationship with customers, and drive desired actions. This can lead to increased customer engagement, improved brand perception, and higher conversion rates.",
@@ -207,7 +193,6 @@
       },
       {
         "name": "Channels",
-        "category_id": "Segments",
         "icon": "share-2",
         "summary": "Means through which we interact with our clients throughout the customer journey. Channels represent the means through which a company delivers its value proposition to its customers.",
         "description": "Channels are the pathways through which a company communicates and delivers its value proposition to customers. They encompass everything from how customers first hear about a product to how it is delivered to them and supported afterward. Channels ensure that the value created by a business reaches its intended audience in a way that is efficient, effective, and aligned with customer expectations.\n\nThink of channels as the customer journey: first, they discover your product or service (awareness). This could happen through an engaging social media ad, word of mouth, or a well-placed banner on a website. Next comes evaluation—customers need a way to understand whether your product meets their needs. This might involve offering free trials, showcasing customer reviews, or creating informative product videos.\n\nWhen the customer is ready to buy, the purchase phase is where your sales channels come into play. They might buy directly from your website, visit a physical store, or order through a third-party retailer. Once the purchase is made, delivery channels take over to ensure the product reaches the customer, whether through home delivery, digital downloads, or pickup options. Finally, post-sale support keeps the relationship alive, with loyalty programs, customer service, or satisfaction surveys helping to build trust and encourage repeat business.\n\nCompanies often use a mix of direct channels, like their own stores or websites, and indirect channels, like retail partners or third-party platforms, to reach customers. The choice of channels depends on the type of product, the target audience, and the business model. For example, a clothing brand might combine Instagram ads to raise awareness, an e-commerce site for purchases, and home delivery to complete the journey, supported by a loyalty program to keep customers coming back.\n\nIn short, channels are the bridges that connect your business to your customers. They play a critical role in shaping the customer experience, ensuring that your value proposition reaches its audience in the best possible way.",
@@ -221,7 +206,6 @@
       },
       {
         "name": "Relationships",
-        "category_id": "Segments",
         "icon": "handshake",
         "summary": "Relationship that we maintain with our stakeholders, which can be personal, automated, self-service, etc.",
         "description": "\"relationship\" in business modeling refers to the identification and characterization of the relationships a company maintains with its stakeholders, which can be personal, automated, self-service, among others. These relationships are established and managed based on the specific profile or identity of each stakeholder.\n\nThe profile of a stakeholder can be defined by various factors such as their role, interests, influence, and interaction with the company. The relationship, on the other hand, refers to the nature and extent of the company's engagement with the stakeholder. This can range from personal interactions, such as face-to-face meetings or phone calls, to automated interactions, such as email newsletters or mobile app notifications. Self-service interactions, such as using a website or app to make purchases or access services, are also part of this concept.\n\nFor example, a company might identify a profile of customers who prefer online shopping. The relationship with this profile could be largely automated, with the company using email marketing, personalized product recommendations, and a user-friendly e-commerce platform to engage with these customers. The goal would be to enhance the online shopping experience, increase customer satisfaction, and ultimately, boost online sales.\n\nIn essence, \"relationship\" in business modeling is about understanding who a company's stakeholders are, how they prefer to interact with the company, and managing these relationships effectively to meet both the stakeholders' needs and the company's objectives. This is a crucial aspect of business design, as it informs the development of a company's customer engagement strategies, communication channels, and service delivery methods.",
@@ -235,7 +219,6 @@
       },
       {
         "name": "Perceptions",
-        "category_id": "Segments",
         "icon": "eye",
         "summary": "Signals that our stakeholders receive... that generate some kind of emotion for them",
         "description": "\"perceptions\" refers to the understanding and interpretation of a specific group of customers, users, or stakeholders based on their individual profiles. This concept goes beyond the mere collection of demographic or psychographic characteristics, and delves into how these individuals perceive a product, service, or the company itself.\n\nThe \"perceptions\" concept involves gathering and analyzing data on how the target audience perceives the value, quality, and relevance of a product or service. It also includes their perceptions of the company's brand, reputation, and customer service. This information is often collected through surveys, interviews, focus groups, social media monitoring, and other forms of market research.\n\nFor example, a company that sells eco-friendly products might have a perceptions model that includes perceptions about the importance of sustainability, the perceived value and quality of eco-friendly products, attitudes towards the company's environmental initiatives, and beliefs about the company's commitment to sustainability.\n\n\"perceptions\" is crucial in business modeling as it provides insights into the target audience's mindset, which can guide the development of products, services, and marketing strategies. By understanding their customers' perceptions, companies can address any misconceptions, align their offerings with customer expectations, and build a strong, positive brand image. This can enhance customer satisfaction, loyalty, and ultimately, business performance.",
@@ -249,7 +232,6 @@
       },
       {
         "name": "Emotions",
-        "category_id": "Segments",
         "icon": "heart",
         "summary": "Emotions that our stakeholders feel and that are relevant to empathize with them and be able to design a value proposition that resonates with them.",
         "description": "\"Emotions\" in business modeling refers to the emotional aspects that influence the behaviors and decisions of customers, employees, and other stakeholders. This concept is crucial in a business model as it helps companies understand and manage these emotional aspects to enhance their relationships with these stakeholders, improve their experiences, and ultimately, drive their business success.\n\nEmotions in business modeling typically involve the following aspects:\n\n- Customer Emotions: This involves understanding and managing the emotions that influence customers' behaviors and decisions, such as their purchases, loyalty, and advocacy. For example, a company might identify that its customers feel frustrated with its complicated purchasing process. The company might then simplify this process to alleviate this frustration, enhance their purchasing experience, and increase their satisfaction and loyalty.\n\n- Employee Emotions: This involves recognizing and addressing the emotions that affect employees' performance, engagement, and retention. For instance, a company might discover that its employees feel stressed due to heavy workloads. The company might then reduce these workloads or provide stress management support to alleviate this stress, boost their morale and productivity, and retain their talent.\n\n- Stakeholder Emotions: This involves acknowledging and responding to the emotions that impact stakeholders' perceptions, support, and interactions. For example, a company might realize that its shareholders feel anxious about its financial stability. The company might then communicate its financial performance and plans more transparently to alleviate this anxiety, build their trust, and secure their support.\n\nFor instance, a company might identify that its customers feel delighted when they receive personalized services. The company might then implement a customer relationship management system to provide more personalized services, enhance their customer experience, and increase their satisfaction and loyalty. This would demonstrate the company's ability to leverage its understanding of \"Emotions\" to drive its business model and create value.",
@@ -263,7 +245,6 @@
       },
       {
         "name": "Behaviors",
-        "category_id": "Segments",
         "icon": "activity",
         "summary": "Behaviors refers to what customers express (say) and their observable actions (do) during their experience with a product or service, both the verbal feedback provided by customers—such as comments, quotes, and reviews—and their actual behaviors or interactions.",
         "description": "\"Emotions\" in business modeling refers to the emotional aspects that influence the behaviors and decisions of customers, employees, and other stakeholders. This concept is crucial in a business model as it helps companies understand and manage these emotional aspects to enhance their relationships with these stakeholders, improve their experiences, and ultimately, drive their business success.\n\nEmotions in business modeling typically involve the following aspects:\n\n- Customer Emotions: This involves understanding and managing the emotions that influence customers' behaviors and decisions, such as their purchases, loyalty, and advocacy. For example, a company might identify that its customers feel frustrated with its complicated purchasing process. The company might then simplify this process to alleviate this frustration, enhance their purchasing experience, and increase their satisfaction and loyalty.\n\n- Employee Emotions: This involves recognizing and addressing the emotions that affect employees' performance, engagement, and retention. For instance, a company might discover that its employees feel stressed due to heavy workloads. The company might then reduce these workloads or provide stress management support to alleviate this stress, boost their morale and productivity, and retain their talent.\n\n- Stakeholder Emotions: This involves acknowledging and responding to the emotions that impact stakeholders' perceptions, support, and interactions. For example, a company might realize that its shareholders feel anxious about its financial stability. The company might then communicate its financial performance and plans more transparently to alleviate this anxiety, build their trust, and secure their support.\n\nFor instance, a company might identify that its customers feel delighted when they receive personalized services. The company might then implement a customer relationship management system to provide more personalized services, enhance their customer experience, and increase their satisfaction and loyalty. This would demonstrate the company's ability to leverage its understanding of \"Emotions\" to drive its business model and create value.",
@@ -277,7 +258,6 @@
       },
       {
         "name": "Journey",
-        "category_id": "Segments",
         "icon": "route",
         "summary": "The Stateholder's journey is a sequence formed by the different stages that a stakeholder goes through in their relationship with my business.",
         "description": "\"Journey\" in business modeling refers to the sequential stages that a stakeholder experiences in their interaction with a business. This journey can be visualized as a roadmap or timeline, detailing each touchpoint between the stakeholder and the business, from initial awareness or discovery, through engagement and transaction, to post-purchase support and advocacy.\n\nIn this model, businesses map out the journey of their stakeholders (which could be customers, employees, partners, or investors) to understand their needs, motivations, and pain points at each stage. This journey mapping process involves research, observation, and data analysis, and aims to provide a holistic view of the stakeholder's experience.\n\nFor example, a customer's journey with an e-commerce business might start with discovering the business through a social media ad, then visiting the website, browsing products, making a purchase, receiving the product, and finally writing a review or recommending the business to a friend. At each stage, the business can identify opportunities to enhance the customer's experience, such as by improving website navigation, offering personalized product recommendations, or providing exceptional customer service.\n\nThe \"Journey\" concept in business modeling is essential because it helps businesses to understand and improve the experiences of their stakeholders. By mapping out these journeys, businesses can identify opportunities to enhance stakeholder satisfaction and loyalty, improve processes, and ultimately drive business growth and success.",
@@ -291,7 +271,6 @@
       },
       {
         "name": "Solutions",
-        "category_id": null,
         "icon": "lightbulb",
         "summary": null,
         "description": null,
@@ -305,7 +284,6 @@
       },
       {
         "name": "Products and services",
-        "category_id": "Solutions",
         "icon": "package",
         "summary": "the products, services, or processes that a business offers to address the needs or problems of its customers.",
         "description": "\"Solutions\" in business modeling refers to the array of products, services, or processes that a business offers to address the needs or problems of its customers. This concept is crucial as it directly relates to the value proposition of a business, which is the unique mix of products and services that a business offers to meet its customers' needs and differentiate itself from its competitors.\n\nHere are the key aspects of \"Solution List\" in business modeling:\n\n- Products: These are the tangible goods that a business offers to its customers. The products should be designed and developed to meet the specific needs or solve the particular problems of the customers. For example, a technology company might offer a range of software products to help businesses improve their productivity and efficiency.\n- Services: These are the intangible offerings that a business provides to its customers. The services should be tailored to address the unique challenges or requirements of the customers. For example, a consulting firm might offer a variety of advisory services to help businesses navigate complex market dynamics and make informed decisions.\n- Processes: These are the methods or procedures that a business uses to deliver its products or services to its customers. The processes should be optimized to ensure the efficient and effective delivery of the products or services. For example, a logistics company might have a streamlined distribution process to ensure the timely and safe delivery of goods to its customers.\n\nBy carefully crafting its \"Solutions\", a business can ensure that it is effectively addressing the needs or problems of its customers, thereby enhancing its value proposition, customer satisfaction, and competitive advantage. For instance, a healthcare company might identify that its customers need more accessible and affordable healthcare services. The company might then develop a telehealth service that allows customers to consult with healthcare professionals remotely, thereby addressing the customers' needs and differentiating the company from its competitors. This would demonstrate the company's ability to leverage its \"Solution List\" to drive its business model and create value.",
@@ -319,7 +297,6 @@
       },
       {
         "name": "Portfolio",
-        "category_id": "Products and services",
         "icon": "briefcase",
         "summary": null,
         "description": null,
@@ -333,7 +310,6 @@
       },
       {
         "name": "Components",
-        "category_id": "Products and services",
         "icon": "puzzle",
         "summary": "Technologies and components that are part of the final solution, that is, the product or service offered to the customer to solve their problem. For example, the programming language used, the cloud platform used, or the parts that are part of the... in the case of being a physical product.",
         "description": "\"components\" in business modeling refers to the various technologies and components that make up the final product or service that a company offers to its customers. These components are the building blocks that work together to solve a customer's problem or meet their needs.\n\nThe \"solution\" part of the concept refers to the unique identifier of the final product or service. This could be a specific model of a product, a version of a software, or a type of service. The solution is what the customer interacts with and what ultimately delivers the value that the customer is seeking.\n\nThe \"components\" part of the concept refers to the different technologies and parts that make up the solution. For example, in the case of a software product, the components could include the programming language used, the cloud platform on which it's hosted, the database system used, and so on. In the case of a physical product, the components could be the different parts that make up the product.\n\nEach component plays a crucial role in the functionality and performance of the solution. Therefore, it's important to carefully select and manage these components to ensure that they work together effectively to deliver a high-quality solution.\n\nIn essence, \"components\" in business modeling is about understanding and managing the building blocks of a product or service. It provides a framework for designing and optimizing the solution, and helps the company to make informed decisions about the technologies and components to use. This is a key aspect of business design, as it directly impacts the quality of the product or service and the value it delivers to customers.",
@@ -347,7 +323,6 @@
       },
       {
         "name": "Features",
-        "category_id": "Products and services",
         "icon": "sparkles",
         "summary": "the unique characteristics and functionalities of a product or service that addresses the needs of a specific customer segment within a business model.",
         "description": "\"features\" refers to the unique characteristics and functionalities of a product or service that are designed to meet the needs of a specific customer segment within a business model. This concept is about understanding the specific needs and preferences of different customer segments, and then designing and developing products or services with features that address these needs.\n\nThe \"features\" concept involves conducting market research to understand the needs and preferences of the target customer groups, and then using this information to design and develop products or services with features that meet these needs. These features could include different functionalities, performance characteristics, design elements, or other attributes, depending on the needs of the target customer group.\n\nFor example, a smartphone manufacturer might have a features model that includes high-end smartphones with advanced features for tech-savvy customers, mid-range smartphones with balanced features for general users, and budget smartphones with basic features for price-sensitive customers. These product features are designed to cater to the different needs and preferences of these customer groups.\n\n\"features\" is crucial in business modeling as it helps to shape the company's product or service design strategy. By tailoring their product or service features to the needs of the target customer groups, companies can increase the value of their offerings, enhance their competitive advantage, and drive revenue growth. This can lead to increased customer satisfaction, improved market share, and higher business performance.",
@@ -361,7 +336,6 @@
       },
       {
         "name": "Roadmap",
-        "category_id": "Products and services",
         "icon": "map",
         "summary": "plan that outlines the steps and strategies needed to implement a business model solution.",
         "description": "\"Roadmap\" in business modeling is a strategic plan that outlines the steps and strategies needed to implement a business model solution. This roadmap serves as a guide for businesses to navigate their way from their current state to their desired future state. It is a critical tool for managing change, driving alignment, and facilitating decision-making within a business.\n\nHere are the key aspects of \"Roadmap\" in business modeling:\n\n- Vision: This is the desired future state of the business. The vision should be clear, compelling, and aligned with the business's strategic objectives. For example, a retail business might envision becoming the leading provider of sustainable fashion in its market.\n\n- Steps: These are the specific actions that the business needs to take to move from its current state to its desired future state. The steps should be practical, measurable, and aligned with the business's resources and capabilities. For example, the retail business might need to source sustainable materials, design eco-friendly products, and develop green manufacturing processes.\n\n- Strategies: These are the approaches that the business will use to execute the steps. The strategies should be effective, flexible, and aligned with the business's competitive environment. For example, the retail business might use a combination of partnerships, acquisitions, and organic growth to achieve its vision.\n\n- Milestones: These are the key achievements that the business aims to reach along its journey. The milestones should be significant, achievable, and aligned with the business's timeline. For example, the retail business might aim to launch its first sustainable product line within one year.\n\nBy developing a \"Roadmap\", a business can ensure that it is moving in the right direction, making progress towards its vision, and creating value for its stakeholders. For instance, the retail business might use its roadmap to guide its transition to sustainable fashion, track its progress, and communicate its achievements to its customers, employees, and investors. This would demonstrate the business's ability to leverage its \"Roadmap\" to drive its business model and create value.",
@@ -375,7 +349,6 @@
       },
       {
         "name": "Pricing",
-        "category_id": "Products and services",
         "icon": "tag",
         "summary": "The approach the business will take to determine the price points for its products or services. It considers various factors, including the cost structure, target market positioning, perceived value, and competitive landscape.",
         "description": "The Pricing Strategy section outlines the approach the business will take to determine the price points for its products or services. It considers various factors, including the cost structure, target market positioning, perceived value, and competitive landscape. The strategy aims to find a balance between profitability and market penetration, ensuring that the pricing reflects the unique value proposition while remaining attractive to the intended customer segments. The chosen pricing model may be dynamic, value-based, or cost-plus, depending on the industry context and customer expectations.\n\nIn this section, we will detail the pricing tiers, any planned discounts or promotional offers, and adjustments based on market trends or seasonality. The goal is to set prices that not only cover costs but also drive growth and support the company’s broader business objectives. We will also outline the key metrics to monitor, such as price elasticity and customer feedback, to ensure the pricing strategy remains aligned with market demand and the overall business plan.",
@@ -389,7 +362,6 @@
       },
       {
         "name": "Offerings",
-        "category_id": "Products and services",
         "icon": "shopping-bag",
         "summary": "the products or services that a business model provides to its customers to fulfill their needs or solve their problems.",
         "description": "\"offerings\" in business modeling refers to the specific products, services, or processes that a business provides to its customers in order to fulfill their needs or solve their problems. This concept is at the heart of a business's value proposition and is a crucial element in establishing its competitive advantage.\n\nIn this model, a solution serves as a unique identifier for a product, service, or process. This could be a product SKU, a service ID, or a process ID. This solution is utilized to track, manage, and analyze all activities related to that specific product, service, or process.\n\nThe solution is designed to address a specific problem or meet a specific need of the customers. It could be a tangible product, such as a smartphone or a car, an intangible service, such as a software subscription or a consulting service, or a process, such as a supply chain process or a customer service process.\n\nFor instance, in a technology company, the solution could be a software product that assists businesses in managing their customer relationships. The company can use this solution to track the sales, usage, and performance of the software, understand the needs and preferences of its customers, and continuously improve the software to better meet the needs of its customers.\n\nIn a consulting firm, the solution could be a consulting service that assists businesses in improving their operations. The firm can use this solution to track the delivery, outcomes, and satisfaction of the service, understand the problems and needs of its clients, and continuously improve the service to better solve the problems of its clients.\n\nIn summary, the solution model is a potent tool for businesses to create value for their customers, differentiate themselves from their competitors, and drive their growth. It is a key component of business design and a critical driver of business success.",
@@ -403,7 +375,6 @@
       },
       {
         "name": "Marketing",
-        "category_id": "Solutions",
         "icon": "megaphone",
         "summary": "Marketing is the process of identifying and satisfying customer needs through the creation, promotion, and distribution of products or services.",
         "description": "In business design, \"marketing\" is understood as the strategic process of identifying, anticipating, and satisfying customer needs and wants, with the ultimate goal of driving profit. This process involves the creation, promotion, and distribution of products or services, and it is a critical component of any successful business model.\n\nMarketing begins with market research to understand the needs, preferences, and behaviors of the target customer segments. This research can involve various methods, such as surveys, interviews, focus groups, or analysis of market trends and consumer data. The insights gained from this research are then used to inform the design and development of products or services that meet the identified customer needs.\n\nOnce the product or service is created, the next step in the marketing process is promotion. This involves communicating the value of the product or service to the target customers through various channels, such as advertising, public relations, social media, or direct marketing. The goal of promotion is to raise awareness, generate interest, and stimulate demand for the product or service.\n\nThe final step in the marketing process is distribution, which involves getting the product or service into the hands of the customers. This can involve various strategies, such as selling directly to customers through online or physical stores, or using intermediaries like wholesalers or retailers.\n\nAn example of marketing in business design could be a company that manufactures eco-friendly cleaning products. The company identifies a growing demand for sustainable products among environmentally-conscious consumers. It designs and develops a range of cleaning products using natural ingredients, and promotes these products through social media and influencer marketing targeting eco-conscious consumers. The company distributes its products through online stores and selected retailers that cater to eco-conscious consumers.\n\nIn conclusion, marketing is a vital process in business design that helps companies to identify and satisfy customer needs, create value, and drive business growth. It involves a strategic combination of market research, product or service design, promotion, and distribution, all aimed at meeting the needs and wants of the target customers.",
@@ -417,7 +388,6 @@
       },
       {
         "name": "Naming",
-        "category_id": "Marketing",
         "icon": "type",
         "summary": "the process of choosing and defining the name of a business, product, or service within a business model.",
         "description": "\"Naming\" in business modeling refers to the process of selecting and defining the name of a business, product, or service within a business model. This is a crucial aspect of business design as it plays a significant role in shaping the identity and perception of the business or its offerings in the market. \n\nHere are the key aspects of \"Naming\" in business modeling:\n\n- Relevance: The name should be relevant to the business, product, or service it represents. It should give an indication of what the business or product is about. For example, a company that specializes in organic food products might choose a name that reflects its commitment to natural, healthy ingredients.\n\n- Distinctiveness: The name should be unique and stand out in the market. This helps to differentiate the business or product from its competitors. For example, a tech startup might choose a name that is innovative and futuristic to set itself apart in the tech industry.\n\n- Memorability: The name should be easy to remember. This helps to ensure that the business or product stays top of mind for consumers. For example, a fashion brand might choose a name that is catchy and easy to pronounce to make it memorable for its target audience.\n\n- Legality: The name should be legally available for use. This means checking that the name is not already trademarked or in use by another business. For example, a new restaurant might need to do a trademark search to ensure its chosen name is legally available.\n\n- Marketability: The name should be marketable. This means it should be appealing to the target audience and suitable for use in advertising and promotional materials. For example, a children's toy company might choose a name that is fun and appealing to kids.\n\nBy carefully considering these aspects in the \"Naming\" process, a business can create a strong and effective name that supports its business model and contributes to its success in the market. For instance, the organic food company might use its name to communicate its commitment to natural ingredients, differentiate itself from competitors, and create a memorable brand for consumers. This would demonstrate the company's ability to leverage \"Naming\" to drive its business model and create value.",
@@ -431,7 +401,6 @@
       },
       {
         "name": "Branding",
-        "category_id": "Marketing",
         "icon": "palette",
         "summary": "Branding is the process of creating a unique image and identity for a business, product, or service.",
         "description": "Branding, in the context of business modeling, is a strategic process that involves creating a unique identity, image, and position for a business, product, or service in the minds of its target audience. This is achieved through a combination of elements such as name, logo, design, messaging, and customer experience, which together form the brand identity.\n\nThe purpose of branding is to differentiate a business or its offerings from its competitors, build a strong and positive perception in the market, and foster customer loyalty. It is a way for a business to communicate its values, personality, and promise to its customers, and to create emotional connections with them.\n\nFor example, consider the brand Apple. Its branding strategy revolves around the concepts of innovation, simplicity, and premium quality. The Apple logo, the minimalist design of its products, the unique user experience they provide, and the consistent messaging across all its communications, all contribute to a strong and distinctive brand identity. This branding has helped Apple to stand out in the highly competitive technology market, command a premium price for its products, and build a loyal customer base.\n\nIn essence, branding is not just about having a catchy name or a stylish logo. It is about creating a holistic and consistent experience that resonates with the customers and influences their perceptions and behaviors. It is a critical aspect of business design, as it directly impacts the customer's decision to choose one product or service over another, and their overall relationship with the business.",
@@ -445,7 +414,6 @@
       },
       {
         "name": "Visual identity",
-        "category_id": "Marketing",
         "icon": "image",
         "summary": "the overall look and feel of a company's brand, including its logo, color scheme, typography, and other visual elements.",
         "description": "\"Visual Identity\" in business modeling refers to the visual elements that make up a company's brand image. This includes the logo, color scheme, typography, and other visual elements that are consistently used across all platforms and mediums to represent the company. The visual identity is a crucial part of a company's brand, as it helps to create a recognizable and memorable image in the minds of consumers.\n\nIn this model, businesses carefully design and select each visual element to reflect their brand's values, personality, and message. For example, a company that wants to convey a sense of luxury and exclusivity might choose a sleek, minimalist logo and a sophisticated color scheme. On the other hand, a company that wants to appear friendly and approachable might opt for a colorful, playful logo and typography.\n\nThe visual identity is not just about aesthetics; it also plays a strategic role in the company's marketing and communication efforts. A strong visual identity can help a company stand out from its competitors, attract its target audience, and build brand loyalty. It can also influence consumers' perceptions and attitudes towards the company and its products or services.\n\nFor instance, a tech company might use a modern and innovative visual identity to position itself as a leader in the industry and attract a young, tech-savvy audience. Meanwhile, a food company might use a warm and inviting visual identity to evoke feelings of comfort and nostalgia and appeal to families.\n\nIn conclusion, the \"Visual Identity\" concept in business modeling is essential as it helps businesses to create a distinctive and appealing brand image that resonates with their target audience and supports their marketing and communication goals.",
@@ -459,7 +427,6 @@
       },
       {
         "name": "Logo",
-        "category_id": "Marketing",
         "icon": "shapes",
         "summary": "A logo is a visual symbol or design that represents a company or brand and is used to promote recognition and awareness.",
         "description": "\"logo\" in business modeling is a critical component of a company's brand identity. A logo is a unique visual symbol or design that represents a company or brand. It is used to promote recognition and awareness among consumers and differentiate the company from its competitors.\n\nThe logo is often the first point of contact between a company and its potential customers. It is typically displayed on all of the company's marketing materials, including its website, social media profiles, advertisements, and product packaging. As such, it plays a crucial role in shaping the public's perception of the company and its products or services.\n\nA well-designed logo can convey key aspects of a company's brand, such as its values, mission, and personality. It can also evoke certain emotions or associations in the viewer, which can influence their perception of the brand and their decision to purchase its products or services.\n\nIn the context of business modeling, the design of the logo is often closely tied to the company's overall branding strategy. It needs to align with the company's target audience, market positioning, and product offerings. It also needs to be adaptable and scalable, so it can be used in a variety of formats and sizes.\n\nIn essence, \"logo\" in business modeling is about creating a powerful visual symbol that can effectively communicate a company's brand identity and resonate with its target audience. It's a critical aspect of business design, as it can significantly impact a company's brand recognition, customer loyalty, and overall market success.",
@@ -473,7 +440,6 @@
       },
       {
         "name": "Media plan",
-        "category_id": "Marketing",
         "icon": "newspaper",
         "summary": "A marketing plan outlines the strategies and tactics a business will use to promote and sell its products or services.",
         "description": "A marketing plan, in the context of business design, is a strategic document that outlines the specific strategies and tactics a business will use to promote and sell its products or services. It is a comprehensive plan that details the marketing objectives of a business, the target market, and how the business intends to reach that market to achieve its objectives.\n\nThe marketing plan begins with a market analysis, which involves researching and understanding the needs, preferences, and behaviors of the target market. This analysis provides valuable insights that inform the development of the marketing strategies and tactics.\n\nThe next section of the marketing plan outlines the marketing strategies. These are the broad approaches the business will use to reach its target market and achieve its marketing objectives. The strategies could include product development, pricing, promotion, and distribution strategies.\n\nThe tactics are the specific actions the business will take to implement the strategies. For example, if the strategy is to promote the product through social media, the tactics could include creating a social media calendar, developing engaging content, and running social media ads.\n\nThe marketing plan also includes a budget, which details the financial resources allocated to implement the marketing strategies and tactics. It also includes a timeline, which outlines when each tactic will be implemented.\n\nFinally, the marketing plan includes a section on monitoring and evaluation. This involves tracking the performance of the marketing strategies and tactics, and evaluating their effectiveness in achieving the marketing objectives.\n\nAn example of a marketing plan in business design could be a startup tech company that plans to launch a new app. The company's marketing plan could include strategies and tactics for market research, product development, pricing, promotion through digital channels, and distribution through app stores. The plan would also include a budget and timeline for implementing the strategies and tactics, and a plan for monitoring and evaluating their effectiveness.\n\nIn conclusion, a marketing plan is a critical tool in business design that guides a business in promoting and selling its products or services. It provides a strategic roadmap for reaching the target market and achieving the marketing objectives, and it is essential for driving business growth and success.",
@@ -487,7 +453,6 @@
       },
       {
         "name": "Communication",
-        "category_id": "Solutions",
         "icon": "message-circle",
         "summary": "the exchange of_information and ideas between the company and its stakeholders.",
         "description": "\"Communication\" in business modeling refers to the exchange of information and ideas between a company and its stakeholders. This aspect of business modeling is vital as it directly influences the company's reputation, relationships, and overall success.\n\nIn a business model, \"Communication\" encompasses various areas such as internal communication, external communication, public relations, and crisis management. It involves not only the transmission of information but also the understanding and interpretation of that information.\n\nFor example, a company in the retail sector needs to consider communication with its customers, suppliers, employees, and shareholders. The communication model will shape the business model, influencing decisions on marketing strategies, customer service, employee engagement, and investor relations.\n\nSimilarly, a non-profit organization would need to consider communication with its donors, volunteers, beneficiaries, and the public. The communication model could influence the organization's strategies in terms of fundraising, volunteer recruitment, service delivery, and public awareness campaigns.\n\n\"Communication\" in business modeling is not just about transmitting information. It's about strategically managing the flow of information to build strong relationships, foster trust, and create value. It's about integrating communication strategies into the design and execution of the business model.\n\nIn conclusion, the \"Communication\" concept in business modeling is a critical element that contributes to the relational and reputational success of the business. It emphasizes the importance of understanding and strategically managing the exchange of information and ideas in a business model.",
@@ -501,7 +466,6 @@
       },
       {
         "name": "Pitch",
-        "category_id": "Communication",
         "icon": "presentation",
         "summary": "A pitch is a concise and compelling presentation of a business idea or model to potential investors or customers.",
         "description": "\"Pitch\" in business modeling refers to a succinct and persuasive presentation of a business idea or model to potential investors or customers. The purpose of a pitch is to convince the audience of the viability and potential profitability of a business concept, and to persuade them to invest in the idea or become customers.\n\nA pitch typically includes a description of the product or service, an overview of the market and competition, a presentation of the business model and revenue streams, and a discussion of the team and their qualifications. It also often includes a financial forecast and a request for investment.\n\nFor example, a tech startup might pitch a new mobile app to potential investors. The pitch would include a demo of the app, an analysis of the market for the app and the competition, a presentation of the business model (e.g., freemium, subscription, advertising), a discussion of the team's background and skills, and a financial forecast showing the potential return on investment.\n\nThe pitch is a critical component of the entrepreneurial process. It is the primary tool entrepreneurs use to raise capital and attract customers. A successful pitch can secure the funding needed to launch or grow a business, and can attract the customers needed to make the business profitable.\n\nIn essence, \"Pitch\" in business modeling is about selling a business idea or model. It is a vital aspect of business design, as it directly impacts the ability of a business to secure funding and customers, and ultimately, its ability to succeed.",
@@ -515,7 +479,6 @@
       },
       {
         "name": "Brochure",
-        "category_id": "Products and services",
         "icon": "book-open",
         "summary": "Basic piece of_information that should be provided to the end customer so that they know the advantages of using our product or service.",
         "description": "\"brochure\" in business modeling refers to the essential information about a product or service that a company provides to its potential customers. This information is typically presented in a concise and attractive format, such as a brochure, and is designed to highlight the key benefits and features of the product or service.\n\nThe \"solution\" part of the concept refers to the unique identifier of the product or service. This could be a specific model of a product, a version of a software, or a type of service. The solution is what the customer is considering to purchase or use, and the brochure is the tool that helps them understand its value.\n\nThe \"brochure\" part of the concept refers to the document or piece of content that contains the information about the solution. The brochure is designed to be easily digestible and engaging, and to provide the customer with all the information they need to make an informed decision. It typically includes details about the features and benefits of the solution, how it works, why it's better than competing solutions, and how it can solve the customer's problem or meet their needs.\n\nIn essence, \"brochure\" in business modeling is about effectively communicating the value of a product or service to potential customers. It's a crucial part of the sales and marketing process, and plays a key role in attracting and converting customers. As such, it's an important aspect of business design, as it directly impacts the company's ability to generate revenue and achieve its business goals.",
@@ -529,7 +492,6 @@
       },
       {
         "name": "Web",
-        "category_id": "Communication",
         "icon": "globe",
         "summary": "the online platform or digital presence of a business model, which includes websites, social media, and other online channels.",
         "description": "\"Web\" in business modeling refers to the digital presence or online platform of a business model, which includes websites, social media, and other online channels. This concept is crucial in today's digital age, where businesses are increasingly leveraging the internet to reach and engage with their customers.\n\nHere are the key aspects of \"Web\" in business modeling:\n\n- Website Development: This involves creating a website that serves as the digital storefront of the business. The website should be designed to effectively communicate the business's value proposition, showcase its products or services, and facilitate customer transactions.\n\n- Social Media Presence: This involves establishing a presence on social media platforms where the business's target customers are active. Social media can be used to engage with customers, share content, promote products or services, and build brand awareness.\n\n- Online Marketing: This involves leveraging online channels to market the business's products or services. This could include search engine optimization (SEO), pay-per-click advertising (PPC), email marketing, content marketing, and more.\n\n- E-commerce: For businesses that sell products, this involves setting up an online store or using third-party e-commerce platforms. This allows customers to purchase products directly from the business's website.\n\n- Analytics and Optimization: This involves tracking and analyzing the performance of the business's online activities. This data can provide valuable insights into customer behavior, website performance, and the effectiveness of online marketing efforts. These insights can be used to optimize the business's online strategy and improve its performance.\n\nFor instance, a retail business might use the \"Web\" concept in its business model as follows: They develop an e-commerce website to sell their products (Website Development), establish a presence on Instagram and Facebook to engage with their customers (Social Media Presence), use SEO and PPC to drive traffic to their website (Online Marketing), sell products through their website (E-commerce), and use Google Analytics to track their website performance and optimize their online marketing efforts (Analytics and Optimization). This demonstrates the importance of the \"Web\" concept in reaching and engaging with customers in the digital age.",
@@ -543,7 +505,6 @@
       },
       {
         "name": "Storytelling",
-        "category_id": "Communication",
         "icon": "feather",
         "summary": "the use of narrative techniques to communicate the brand's purpose, values, and mission to customers.",
         "description": "Storytelling in business modeling refers to the strategic and purposeful use of narrative techniques to communicate a brand's purpose, values, and mission to its customers. This approach is rooted in the understanding that humans are naturally drawn to stories, and that stories can be a powerful tool for creating emotional connections, conveying complex ideas, and inspiring action.\n\nIn the context of business design, storytelling can take many forms. It could be the brand's founding story that illustrates its mission and values, customer success stories that demonstrate the value of its products or services, or future-oriented stories that paint a vision of what the brand aims to achieve.\n\nStorytelling serves several key functions in business modeling. Firstly, it helps to humanize the brand, making it more relatable and engaging to customers. By sharing stories that resonate with customers' experiences, aspirations, or values, brands can build stronger emotional connections and loyalty.\n\nSecondly, storytelling can simplify and clarify the brand's value proposition. By weaving the brand's products or services into a compelling narrative, brands can help customers understand what they offer, why it matters, and how it differs from competitors.\n\nThirdly, storytelling can inspire and mobilize action. Whether it's a call to purchase, share, join, or advocate, a well-crafted story can motivate customers to take the desired action, driving business growth and impact.\n\nLastly, storytelling can shape and reinforce the brand's culture and identity. The stories a brand tells - both internally and externally - can help define what it stands for, how it operates, and how it perceives and interacts with the world.\n\nIn summary, the Storytelling model in business design is a strategic approach that uses narrative techniques to communicate a brand's purpose, values, and mission, build emotional connections, clarify its value proposition, inspire action, and shape its culture and identity. It is a powerful tool for enhancing brand perception, customer engagement, and business performance.",
@@ -557,7 +518,6 @@
       },
       {
         "name": "Presentations",
-        "category_id": "Communication",
         "icon": "monitor-play",
         "summary": "the way in which a business model is communicated or visually represented to stakeholders.",
         "description": "\"Presentations\" in business modeling refers to the visual representation or communication of a business model to its stakeholders. This aspect of business modeling is crucial as it provides a clear, concise, and comprehensive view of the business's structure, strategy, and operations. It allows stakeholders to understand the business model, its value proposition, and how it plans to achieve its objectives.\n\nIn a business model, \"Presentations\" can take various forms such as diagrams, charts, infographics, slideshows, or even physical models. They are designed to visually represent complex business concepts, strategies, and processes in a way that is easy to understand and interpret.\n\nFor instance, a tech startup might use a presentation to explain its business model to potential investors. The presentation could include diagrams showing the company's customer segments, value propositions, channels, customer relationships, revenue streams, key resources, key activities, key partnerships, and cost structure. It could also include charts showing the company's market size, growth projections, and financial forecasts.\n\nSimilarly, a large corporation might use a presentation to communicate its business model to its employees. The presentation could include infographics showing the company's mission, vision, values, strategy, and organizational structure. It could also include slideshows explaining the company's products, markets, competitors, and performance metrics.\n\n\"Presentations\" in business modeling is not just about creating visually appealing representations. It's about effectively communicating the essence of the business model, making complex concepts understandable, and engaging stakeholders in a meaningful way. It's about using visual tools to facilitate understanding, dialogue, and decision-making.\n\nIn conclusion, the \"Presentations\" concept in business modeling is a vital element that contributes to the clarity, comprehension, and communication of the business model. It emphasizes the importance of visually representing and communicating the business model in a way that engages and informs stakeholders.",
@@ -571,7 +531,6 @@
       },
       {
         "name": "Organization",
-        "category_id": null,
         "icon": "building-2",
         "summary": null,
         "description": null,
@@ -585,7 +544,6 @@
       },
       {
         "name": "Business idea",
-        "category_id": "Organization",
         "icon": "lightbulb",
         "summary": "A business idea refers to a unique concept or proposition that forms the foundation of a business model.",
         "description": "\"business idea\" refers to the initial concept or thought that forms the basis for a potential business venture. It is the seed from which a business can grow, encompassing the product or service that the business will offer, the target market, and the unique selling proposition that will differentiate the business from its competitors.\n\nThe business idea is the starting point for the design of the business, providing the initial vision that guides the development of the business model, strategy, and operations.\n\nFor example, the business idea for a tech startup might be \"to develop a mobile app that uses artificial intelligence to help individuals manage their personal finances.\" This idea outlines the product (the mobile app), the target market (individuals needing help with personal finance), and the unique selling proposition (the use of artificial intelligence).\n\nIn essence, \"business idea\" in business modeling is about identifying and articulating the initial concept that forms the basis for a potential business. It is a crucial element in business design, providing the initial vision and direction for the business, and shaping the development of the business model, strategy, and operations.",
@@ -599,7 +557,6 @@
       },
       {
         "name": "Inspiration",
-        "category_id": "Business idea",
         "icon": "sparkles",
         "summary": "Inspiration in the context of a business model refers to the creative spark that drives innovative ideas and solutions. It can refer to anything (aphenomenon, idea, competitor,,,) that serves as a foundation for an entrepreneur to create a new business.",
         "description": "\"inspiration\" refers to the creative and innovative ideas that drive the formation and evolution of a business. It is the spark that ignites the entrepreneurial spirit, leading to the development of new products, services, or business models. Inspiration can come from various sources, such as market trends, customer needs, technological advancements, or even societal changes.\n\nInspiration is a crucial aspect of business design as it fuels the ideation process, leading to the creation of unique and competitive value propositions. It encourages businesses to think outside the box, challenge the status quo, and strive for continuous improvement. \n\nFor example, a business may be inspired by the growing trend of sustainability and environmental consciousness among consumers. This inspiration could lead the business to design and launch a new line of eco-friendly products, thereby meeting customer needs, differentiating itself from competitors, and contributing to environmental sustainability.\n\nHowever, it's important to note that inspiration alone is not enough. It must be coupled with rigorous market research, strategic planning, and effective execution to translate innovative ideas into successful business ventures. \n\nIn essence, inspiration is the catalyst for business innovation and growth. It is what drives entrepreneurs to take risks, push boundaries, and create value for their customers, stakeholders, and society at large.",
@@ -613,7 +570,6 @@
       },
       {
         "name": "Opportunity",
-        "category_id": "Business idea",
         "icon": "door-open",
         "summary": "An opportunity is a potential area for a business to generate revenue or create value for customers within its business model.",
         "description": "\"opportunity\" refers to a set of circumstances that makes it possible for a business to achieve specific, strategic goals. Opportunities can arise from a variety of sources, such as changes in market trends, technological advancements, shifts in customer needs or behaviors, or regulatory changes. \n\nOpportunities are a crucial component of a business model as they provide the basis for the creation of value. They represent potential avenues for growth and profitability, and they guide the strategic decisions that a business makes in terms of its products, services, operations, and market positioning. \n\nFor example, a software company might identify an opportunity in the growing demand for remote work solutions. This opportunity could guide the company's product development efforts, leading to the creation of a new software solution that enables efficient remote collaboration. \n\nIn essence, \"opportunity\" in business modeling is about identifying and capitalizing on the potential for growth and value creation. It is a critical element in business design, driving strategic decision-making, innovation, and competitive positioning. It shapes the business's strategies for product development, market entry, customer engagement, and revenue generation.",
@@ -627,7 +583,6 @@
       },
       {
         "name": "Business status",
-        "category_id": "Business idea",
         "icon": "heart-pulse",
         "summary": "The business status refers to the current condition or status of a business, including its operations, performance, and market position.",
         "description": "\"Business status\" refers to the current position or condition of a company in terms of its financial health, operational efficiency, market position, and overall performance. It is a snapshot of the company's situation at a particular point in time, providing a basis for decision-making, planning, and strategy development. Business status is a crucial component of a business model as it provides the context in which the company operates and influences its strategic choices and actions.\n\nA business status typically includes the following elements:\n\n- Financial Performance: This refers to the company's financial results, such as revenue, profit, cash flow, and return on investment. It provides an indication of the company's profitability and financial stability.\n- Operational Efficiency: This involves the company's operational metrics, such as productivity, quality, efficiency, and customer satisfaction. It reflects the effectiveness of the company's operations and processes.\n- Market Position: This relates to the company's standing in the market, including its market share, competitive position, and brand reputation. It shows the company's relative strength or weakness in the marketplace.\n- Organizational Health: This includes factors such as employee engagement, leadership effectiveness, culture, and innovation. It provides insights into the company's internal environment and its capacity for change and growth.\n\nFor example, a company's business status might show that it has strong financial performance, high operational efficiency, a leading market position, and a healthy organizational culture. This status would suggest that the company is in a strong position to pursue aggressive growth strategies, invest in new opportunities, and withstand competitive pressures. On the other hand, if the company's business status reveals financial difficulties, operational problems, a weak market position, or organizational issues, it might need to focus on turnaround strategies, cost reduction, process improvement, or organizational change.",
@@ -641,7 +596,6 @@
       },
       {
         "name": "Challenges",
-        "category_id": "Business idea",
         "icon": "mountain",
         "summary": "Challenges refer to obstacles or difficulties that hinder the achievement of desired outcomes.",
         "description": "\"Challenges\" refer to the obstacles or difficulties that a business may encounter in its journey to achieve its goals. These can range from internal issues such as operational inefficiencies, lack of resources, or skill gaps, to external factors like market competition, regulatory changes, or economic downturns. \n\nChallenges are an integral part of business design as they test the resilience and adaptability of a business model. They force businesses to critically analyze their strategies, processes, and resources, and make necessary adjustments to overcome the hurdles. This process of problem-solving and continuous improvement often leads to the development of more robust and sustainable business models.\n\nFor example, a business may face the challenge of declining sales due to increasing competition in the market. To overcome this, the business may need to redesign its value proposition, improve its product or service quality, or adopt innovative marketing strategies. \n\nHowever, it's important to note that challenges should not be viewed merely as problems, but as opportunities for growth and innovation. They provide valuable insights into the strengths and weaknesses of a business, and can serve as catalysts for change and transformation. \n\nIn essence, challenges are the stepping stones to business success. They push businesses to step out of their comfort zones, embrace change, and strive for excellence. They are what drive businesses to continuously evolve, innovate, and create value in the face of adversity.",
@@ -655,7 +609,6 @@
       },
       {
         "name": "Business objectives",
-        "category_id": "Organization",
         "icon": "target",
         "summary": "Business objectives are the targets that a business model aims to achieve in order to create value for its stakeholders.",
         "description": "\"business objectives\" refers to the high level goals that a company sets out to achieve in a certain period of time. These objectives are the driving force behind all business decisions, providing a clear direction and focus for the company. They are typically aligned with the company's overall mission and vision, and are used to guide the development of strategies and action plans.\n\nIn essence, \"business objectives\" in business modeling is about setting clear, measurable goals that guide the company's actions and decisions. It is a critical element in business design, providing a clear direction for the company and shaping the development of its strategies and operations.",
@@ -669,7 +622,6 @@
       },
       {
         "name": "Mission",
-        "category_id": "Business objectives",
         "icon": "target",
         "summary": "The purpose or reason for the existence of a business.",
         "description": "\"mission\" refers to the fundamental purpose or reason for the existence of a business. It is the driving force behind all business decisions and actions, providing a clear direction and focus for the organization. The mission is typically expressed in a mission statement, which is a brief, concise declaration of the business's core purpose.\n\nThe mission is a critical component of a business model as it defines the business's overall goals and guides its strategies and operations. It communicates what the business does, who it serves, and how it provides value to its customers or clients. The mission also serves as a motivational tool, inspiring employees and stakeholders to work towards the common goal.\n\nFor example, the mission of a non-profit organization might be \"to provide educational opportunities for underprivileged children.\" This mission guides all of the organization's activities, from fundraising to program development. It also communicates to stakeholders - including donors, volunteers, and the community - what the organization is striving to achieve.\n\nIn essence, \"mission\" in business modeling is about defining and articulating the fundamental purpose of a business. It is a crucial element in business design, providing direction, focus, and motivation, and shaping the business's strategies and operations.",
@@ -683,7 +635,6 @@
       },
       {
         "name": "Vision",
-        "category_id": "Business objectives",
         "icon": "telescope",
         "summary": "Vision is a statement that outlines the long-term aspirations and goals of a business model.",
         "description": "\"vision\" refers to the aspirational image or goal that a business aims to achieve in the future. It is a forward-looking statement that provides a clear direction for the organization's growth and development. The vision is typically expressed in a vision statement, which is a brief, inspiring declaration of the business's long-term objectives.\n\nThe vision is a vital component of a business model as it sets the business's strategic direction and guides its decision-making processes. It communicates what the business aspires to become, who it aims to serve, and how it intends to evolve to provide greater value to its customers or clients. The vision also serves as an inspirational tool, motivating employees and stakeholders to strive towards the shared goal.\n\nFor example, the vision of a technology company might be \"to revolutionize the way people interact with technology.\" This vision guides the company's innovation and product development efforts, and it communicates to stakeholders - including investors, employees, and customers - what the company is aiming to achieve.\n\nIn essence, \"vision\" in business modeling is about defining and articulating the long-term goals of a business. It is a critical element in business design, providing strategic direction, inspiration, and a framework for decision-making, and shaping the business's growth and development strategies.",
@@ -697,7 +648,6 @@
       },
       {
         "name": "Organizational values",
-        "category_id": "Business objectives",
         "icon": "compass",
         "summary": "The principles, beliefs, and attitudes that guide the behavior and decision-making of a business and its stakeholders.",
         "description": "\"organization values\" refers to the core principles or standards that guide a company's actions and decisions. These values are deeply ingrained in the company's culture and serve as a compass for its behavior, shaping its interactions with stakeholders, its approach to business, and its overall identity.\n\nOrganization values are a critical component of a business model because they define what the company stands for and what it believes in. They influence every aspect of the business, from its mission and vision to its strategies and operations. They also play a key role in attracting and retaining employees, customers, and partners who share the same values.\n\nFor example, a company might have organization values centered around innovation, customer satisfaction, and social responsibility. These values would guide the company's actions and decisions, leading it to invest in research and development, prioritize customer needs, and engage in sustainable practices.\n\nIn essence, \"organization values\" in business modeling is about defining and embodying the principles that drive a company's actions and decisions. It is a fundamental element in business design, shaping the company's culture, strategy, and brand identity. It influences how the company is perceived by its stakeholders and how it contributes to society at large.",
@@ -711,7 +661,6 @@
       },
       {
         "name": "Organizational goals",
-        "category_id": "Business objectives",
         "icon": "flag",
         "summary": "Organizational goals are the specific objectives that a business model aims to achieve (for example, in terms of revenue, growth, profitability, or market share)",
         "description": "\"Organizational goals\" refer to the strategic objectives that a company aims to achieve over a specific period. These goals provide direction, facilitate planning, guide decision-making, and serve as a benchmark for evaluating performance. They are a critical component of a business model as they define the company's purpose, drive its activities, and shape its strategies.\n\nOrganization goals typically encompass the following aspects:\n\n- Financial Goals: These relate to the financial outcomes that the company seeks to achieve, such as revenue growth, profit margin improvement, cost reduction, and return on investment. They reflect the company's financial aspirations and its commitment to delivering value to shareholders.\n- Operational Goals: These pertain to the operational results that the company aims to attain, such as enhancing productivity, improving quality, increasing efficiency, and boosting customer satisfaction. They demonstrate the company's focus on operational excellence and process optimization.\n- Market Goals: These involve the market positions that the company strives to reach, such as gaining market share, entering new markets, strengthening competitive position, and building brand reputation. They indicate the company's ambition to grow, compete, and succeed in the marketplace.\n- Organizational Goals: These include the organizational outcomes that the company desires to realize, such as developing leadership, fostering innovation, promoting a positive culture, and enhancing employee engagement. They signify the company's dedication to creating a conducive work environment, nurturing talent, and fostering organizational health.\n\nFor instance, an organization's goals might include increasing revenue by 20%, reducing operational costs by 10%, expanding to two new markets, and improving employee engagement by 15%. These goals would guide the company's strategies, decisions, and actions, and provide a standard for measuring its performance. If the company achieves these goals, it would indicate that it is successful in executing its business model and creating value. Conversely, if the company falls short of these goals, it would suggest that it needs to reassess its business model, strategies, or execution.",
@@ -725,7 +674,6 @@
       },
       {
         "name": "Operations",
-        "category_id": "Organization",
         "icon": "settings",
         "summary": "The activities and processes involved in delivering a product or service to customers within a business model.",
         "description": "\"Operations\" in business modeling refers to the activities and processes that a business undertakes to deliver its product or service to its customers. This is a critical component of business design as it directly impacts the efficiency, effectiveness, and overall performance of the business. \n\nHere are the key aspects of \"Operations\" in business modeling:\n\n- Production: This involves the processes used to create the product or service. For example, a manufacturing company's operations would include the assembly line process where the product is physically made.\n- Quality Control: This involves the measures taken to ensure the product or service meets the desired quality standards. For instance, a restaurant's operations would include food safety checks and taste tests.\n- Delivery: This involves the methods used to get the product or service to the customer. For example, an e-commerce company's operations would include warehousing, packaging, and shipping processes.\n- Customer Service: This involves the activities aimed at providing support and assistance to customers. For instance, a telecommunications company's operations would include call centers and technical support teams.\n- Process Improvement: This involves the ongoing efforts to enhance the efficiency and effectiveness of the operations. For example, a software development company's operations would include regular code reviews and system upgrades.\n\nBy carefully managing these aspects of \"Operations\", a business can ensure that it delivers its product or service in a timely, efficient, and high-quality manner. This not only contributes to customer satisfaction but also enhances the business's competitive advantage and profitability. For instance, the e-commerce company might streamline its delivery process to reduce shipping times, improve customer satisfaction, and increase repeat purchases. This would demonstrate the company's ability to leverage \"Operations\" to drive its business model and create value.",
@@ -739,7 +687,6 @@
       },
       {
         "name": "Activities",
-        "category_id": "Operations",
         "icon": "list-checks",
         "summary": "the tasks or processes that a business engages in to create, deliver, and capture value for its customers.",
         "description": "an activity list, in the context of business modeling, refers to the comprehensive set of tasks or processes that a business undertakes to create, deliver, and capture value for its customers. This includes everything from the initial ideation and development of a product or service, to its production, marketing, sales, and after-sales service. \n\nThe purpose of an activity list is to provide a clear and structured overview of the business operations, identify the key value-creating activities, and ensure that they are effectively aligned with the business strategy and customer needs. It serves as a roadmap for the business, guiding its actions and decisions, and helping it to optimize its resources, improve its efficiency, and enhance its value proposition.\n\nFor example, consider a restaurant business. Its activity list might include tasks such as sourcing and purchasing ingredients, preparing and cooking meals, serving customers, managing reservations, maintaining the restaurant premises, marketing and promoting the restaurant, and handling customer feedback and complaints. Each of these activities contributes to the overall value that the restaurant provides to its customers, and hence, to its success and profitability.\n\nIn essence, an activity list is not just a to-do list for a business. It is a strategic tool that helps a business to understand and manage its operations, focus on its core competencies, and create a unique and compelling value proposition for its customers. It is a critical aspect of business design, as it directly impacts the business's ability to meet its objectives and satisfy its customers.",
@@ -753,7 +700,6 @@
       },
       {
         "name": "Functions",
-        "category_id": "Operations",
         "icon": "workflow",
         "summary": "High-level specification of the set of tasks that are necessary to carry out a business activity towards the achievement of a business goal.",
         "description": "\"Function List\" in business modeling refers to a high-level specification of the tasks that are necessary to carry out a business activity towards the achievement of a business goal. This list is a crucial component of a business model as it outlines the key functions or tasks that need to be performed to deliver a product or service, create value for customers, and achieve the business objectives.\n\nThe function list is typically organized in a logical sequence, starting from the initial stages of the business process to the final stages. Each function or task in the list is clearly defined and includes details such as the resources required, the expected output, and the responsible party or department.\n\nFor example, in a manufacturing business, the function list might include tasks such as sourcing raw materials, production, quality control, packaging, distribution, and customer service. Each of these tasks is essential for the business to produce and deliver its products to the customers.\n\nThe function list is not just a to-do list; it is a strategic tool that helps businesses to plan and manage their operations efficiently. It allows businesses to identify the key activities that drive value creation and focus their resources and efforts on these activities. It also helps to identify potential bottlenecks or inefficiencies in the business process and find ways to improve them.\n\nMoreover, the function list can be used as a communication tool to clarify roles and responsibilities within the organization and ensure that everyone understands what needs to be done to achieve the business goals.\n\nIn conclusion, the \"Function List\" concept in business modeling is a vital tool that helps businesses to plan, manage, and optimize their operations towards the achievement of their business goals.",
@@ -767,7 +713,6 @@
       },
       {
         "name": "Resources",
-        "category_id": "Operations",
         "icon": "boxes",
         "summary": "the assets, capabilities, and infrastructure a business uses to create and deliver value to its customers.",
         "description": "\"resource list\" in business modeling refers to the tangible and intangible assets, capabilities, and infrastructure that a business utilizes to create and deliver value to its customers. This can encompass a wide range of resources, from physical assets like buildings and equipment, to human resources like employees and their skills, to intellectual property like patents and trademarks.\n\nThe resource list is a critical component of a business model because it outlines the foundational elements that a company needs to operate effectively and competitively. It provides a clear picture of what the company has at its disposal to create its products or services, serve its customers, and achieve its business objectives.\n\nFor example, a manufacturing company's resource list might include its production facilities, machinery, raw materials, and workforce. A software company, on the other hand, might list its software development tools, servers, proprietary algorithms, and the expertise of its developers.\n\nIn addition to identifying the resources, a resource list also often includes an assessment of their condition and performance. This can help the company identify any gaps or weaknesses in its resources that need to be addressed, and also highlight its strengths and competitive advantages.\n\nIn the context of business modeling, the resource list is often used to inform strategic planning and decision-making. It can help the company determine where to invest its resources, how to allocate them effectively, and how to leverage them to create and deliver value to its customers.\n\nIn essence, \"resource list\" in business modeling is about identifying and understanding the key resources that a company needs to operate and succeed. It's a crucial aspect of business design, as it can significantly impact a company's operational efficiency, competitive advantage, and overall business performance.",
@@ -781,7 +726,6 @@
       },
       {
         "name": "Team",
-        "category_id": "Organization",
         "icon": "users-round",
         "summary": "A group of individuals working together towards a common goal within a business model.",
         "description": "\"Team\" in business modeling refers to a collective group of individuals who work together towards a common goal within a business model. This group is not just a random assembly of people, but a carefully selected team with complementary skills and abilities that can effectively collaborate to achieve the business objectives.\n\nIn a business model, a team is a fundamental component as it is the driving force behind the execution of the business activities. The team is responsible for carrying out the tasks outlined in the function list, and their performance directly impacts the success of the business.\n\nThe composition of the team can vary depending on the nature of the business and the tasks at hand. It can include different roles such as managers, team leaders, specialists, and support staff. Each team member has a specific role and responsibilities, and they all need to work together in a coordinated manner to achieve the team goals.\n\nFor example, in a software development business, the team might include roles such as project manager, software developers, quality assurance specialists, and customer support representatives. Each of these roles is crucial for the business to develop and deliver high-quality software products to the customers.\n\n\"Team\" in business modeling is not just about having a group of people working together. It's about creating a collaborative environment where team members can share ideas, learn from each other, and work together to solve problems and achieve the business goals. It's about fostering a culture of teamwork and collaboration that drives business performance and success.\n\nIn conclusion, the \"Team\" concept in business modeling is a critical element that contributes to the effective execution of the business activities and the achievement of the business goals. It emphasizes the importance of teamwork and collaboration in driving business success.",
@@ -795,7 +739,6 @@
       },
       {
         "name": "Goals",
-        "category_id": "Team",
         "icon": "goal",
         "summary": null,
         "description": null,
@@ -809,7 +752,6 @@
       },
       {
         "name": "Skills",
-        "category_id": "Team",
         "icon": "award",
         "summary": "The unique identification and competencies of individuals within a team.",
         "description": "\"Skills\" in business modeling refers to the unique identification and competencies of individuals within a business model. This concept is crucial in business design as it helps businesses understand the unique value each individual brings to the organization and informs strategic decisions about talent acquisition, development, and management.\n\nHere are the key aspects of \"Skills\" in business modeling:\n\n- Unique Identification: This involves assigning a unique identifier to each individual in the organization. This allows for accurate tracking and management of individuals, which is essential for effective human resource management.\n\n- Skills and Competencies: This refers to the specific abilities and knowledge that an individual possesses. Understanding the skills and competencies of each individual helps the organization to effectively allocate resources, assign tasks, and develop talent.\n\n- Talent Acquisition: This involves the strategies used to attract and recruit individuals with the necessary skills and competencies. The more effectively a business can acquire talent, the more successful it will be.\n\n- Talent Development: This refers to the strategies used to enhance the skills and competencies of individuals within the organization. This not only improves the performance of the individual but also increases the overall capability of the organization.\n\n- Talent Management: This involves the strategies used to retain, motivate, and manage individuals within the organization. Effective talent management can increase employee satisfaction, reduce turnover, and improve organizational performance.\n\nBy understanding and optimizing these aspects of \"Skills\", a business can maximize the value of its human resources. For instance, a tech company might invest in training and development programs to enhance the skills of its employees, thereby increasing the overall capability of the organization. This would demonstrate the company's ability to leverage \"Skills\" to drive its business model and create value.",
@@ -823,7 +765,6 @@
       },
       {
         "name": "Contributions",
-        "category_id": "Team",
         "icon": "gift",
         "summary": "The multiple resources or inputs that an individual provides to the company, highlighting the variety and range of valuable assets they bring to the organization's operations and growth.",
         "description": "\"Contributions\" in business modeling refers to the specific individuals, assets, or resources that play a vital role in the value creation process within a business model. These contributors are not random elements but carefully identified as having a direct impact on business operations, performance, and outcomes.\n\nIn a business model, \"Contributions\" are fundamental components as they enable the execution of key activities. They may involve carrying out specific tasks, providing necessary resources, or supporting critical functions. The performance or quality of these contributors directly influences the overall success of the business.\n\nThe identification of \"Contributions\" varies depending on the nature of the business and its activities. It includes not only roles such as employees, suppliers, or partners but also tangible and intangible assets like equipment, technology, intellectual property, or data. Each contributor—whether a person, resource, or asset—fulfills a specific role and responsibility, requiring a coordinated effort to achieve business objectives.\n\nFor example, in a manufacturing business, \"Contributions\" might include roles like production managers, machine operators, and raw material suppliers, as well as resources like manufacturing equipment, logistics systems, and production facilities. Each of these elements is crucial for producing and delivering high-quality products to customers.\n\n\"Contributions\" goes beyond merely identifying the people or resources involved in business operations. It is about understanding their roles, responsibilities, and their specific contributions to the value creation process. It emphasizes creating a system where individuals, assets, and resources collaborate effectively to drive business success.\n\nIn conclusion, the \"Contributions\" concept in business modeling highlights the importance of identifying and understanding the key individuals, assets, and resources essential to the value creation process. By integrating these contributors cohesively, businesses can ensure the effective execution of activities and achieve their strategic goals.",
@@ -837,7 +778,6 @@
       },
       {
         "name": "Compensations",
-        "category_id": "Team",
         "icon": "hand-coins",
         "summary": "The various forms of remuneration, benefits, and rewards that a company provides to an individual in exchange for their contributions. This can include salary, bonuses, stock options, health benefits, retirement plans, and other perks that constitute the total compensation package offered to employees or collaborators for their valuable inputs to the company.",
         "description": "\"Compensations\" in business modeling refers to the various forms of retribution or rewards that team members or contributors receive in exchange for their contributions to the business. This concept encompasses all types of compensations, whether financial, non-financial, tangible, or intangible, that recognize and reciprocate the value provided by individuals or entities.\n\nIn this context, the \"Person\" represents an individual or entity contributing to the business's success. These contributors might include employees, contractors, partners, or even customers whose actions or resources add value to the business model.\n\n\"Compensations\" are the rewards provided to these contributors in return for their input. These can include salaries, bonuses, equity, benefits, recognition, access to resources, or other forms of value that acknowledge their contributions. The nature and structure of these compensations can vary widely depending on the business model, the role of the contributor, and the mutual agreement between the parties involved.\n\nFor example: In a manufacturing business, employees operating the production line might receive monetary wages and benefits as compensations for their work. In a consulting business, consultants may be compensated with project-based fees, performance bonuses, or professional development opportunities in exchange for the solutions they deliver to clients. \"Compensations\" emphasizes the reciprocal nature of the relationship between a business and its contributors. It highlights the importance of not only identifying the value provided by individuals or entities but also ensuring that their contributions are recognized and rewarded in a way that sustains motivation, engagement, and long-term collaboration.\n\nIn essence, integrating \"Compensations\" into business modeling ensures that the value exchange within the organization is fair, transparent, and aligned with the strategic goals of the business. It fosters a balanced system where contributors feel valued and are incentivized to continue driving the business's success.",
@@ -851,7 +791,6 @@
       },
       {
         "name": "Positions",
-        "category_id": "Team",
         "icon": "contact",
         "summary": "A position list refers to a strategic document outlining the roles, responsibilities, and hierarchy of positions within a business.",
         "description": "a \"Position List\" in business modeling refers to a strategic document that outlines the roles, responsibilities, and hierarchy of positions within a business. This is a critical component in business design as it provides a clear structure for the organization and helps to define the roles and responsibilities of each position. \n\nHere are the key aspects of a \"Position List\" in business modeling:\n\n- Roles: This refers to the specific duties or tasks that a position is responsible for. Clearly defined roles ensure that all tasks within the organization are accounted for and that there is no overlap or confusion about who is responsible for what.\n\n- Responsibilities: This refers to the obligations or expectations associated with a position. Clearly defined responsibilities ensure that each position knows what is expected of them and what they are accountable for.\n\n- Hierarchy: This refers to the levels of authority and reporting relationships within the organization. A clear hierarchy ensures that there is a defined chain of command and that each position knows who they report to and who reports to them.\n\n- Strategic Alignment: The position list should align with the strategic goals and objectives of the business. This ensures that each position contributes to the overall success of the business.\n\n- Talent Management: The position list informs talent management strategies, including recruitment, development, and retention. By understanding the roles, responsibilities, and hierarchy of positions, businesses can more effectively manage their talent.\n\nBy understanding and optimizing these aspects of a \"Position List\", a business can create a more efficient and effective organizational structure. For instance, a manufacturing company might use a position list to clearly define the roles and responsibilities of its production team, ensuring that each step of the production process is accounted for and managed effectively. This would demonstrate the company's ability to leverage a \"Position List\" to drive its business model and create value.",
@@ -865,7 +804,6 @@
       },
       {
         "name": "Project plan",
-        "category_id": "Organization",
         "icon": "calendar-range",
         "summary": "A project is a temporary endeavor with a specific goal or objective that contributes to the overall business model.",
         "description": "\"Project Plan\" in business modeling refers to a detailed plan that outlines the tasks, resources, timeline, and budget required to complete a specific project. This project is a temporary endeavor with a specific goal or objective that contributes to the overall business model. \n\nA project plan is a critical tool in business design and modeling as it provides a roadmap for executing and controlling the project. It helps to ensure that all team members understand their roles and responsibilities, the project's scope, and the timeline for completion. \n\nThe process of creating a project plan involves several steps. First, the project's objectives and deliverables must be clearly defined. This includes understanding the project's purpose, its expected outcomes, and how it will contribute to the business model.\n\nNext, the tasks required to achieve these objectives and deliverables must be identified. This includes determining what work needs to be done, who will do it, and when it needs to be completed. \n\nThen, the resources needed to complete these tasks must be identified and allocated. This includes personnel, equipment, materials, and budget. \n\nFinally, a timeline for the project must be developed. This includes setting start and end dates for the project, as well as deadlines for individual tasks. \n\nThe project plan also includes a risk management plan, which identifies potential risks and outlines strategies for mitigating them. \n\nIn conclusion, a project plan is a comprehensive guide for managing a project. It outlines the project's objectives, tasks, resources, timeline, and risk management strategies. It is a critical tool in business design and modeling, helping to ensure that projects are completed on time, within budget, and meet their objectives.",
@@ -879,7 +817,6 @@
       },
       {
         "name": "Phases",
-        "category_id": "Project plan",
         "icon": "layers",
         "summary": "the distinct stages or steps involved in the development, implementation, and evolution of a business model.",
         "description": "\"Phases\" in business modeling refers to the distinct stages or steps involved in the development, implementation, and evolution of a business model. These phases are critical in shaping the business model and ensuring its success and sustainability. \n\nHere are the key aspects of \"Phases\" in business modeling:\n\n- Idea Generation: This is the initial phase where the business idea is conceived. It involves identifying a market need, coming up with a unique solution, and defining the value proposition. This phase sets the foundation for the business model.\n\n- Business Model Design: This phase involves designing the business model that will deliver the value proposition. It includes defining the key activities, resources, partners, customer segments, channels, revenue streams, and cost structure. The business model design should align with the business strategy and objectives.\n\n- Implementation: This is the phase where the business model is put into action. It involves setting up the operations, building the product or service, establishing partnerships, and launching the marketing and sales activities. The success of the implementation phase is critical for the viability of the business model.\n\n- Evaluation: This phase involves assessing the performance of the business model. It includes tracking key performance indicators (KPIs), analyzing financial results, and gathering customer feedback. The evaluation phase provides insights into the effectiveness of the business model and identifies areas for improvement.\n\n- Evolution: This is the phase where the business model is adjusted based on the evaluation results. It could involve tweaking the value proposition, adjusting the revenue model, optimizing the cost structure, or pivoting the business model entirely. The evolution phase ensures that the business model remains relevant and competitive in the changing market conditions.\n\nFor instance, a tech startup might go through these phases as follows: They identify a market need for a new type of software (Idea Generation), design a freemium business model to deliver this software (Business Model Design), develop and launch the software (Implementation), track user engagement and conversion rates (Evaluation), and introduce a premium subscription tier based on user feedback (Evolution). This demonstrates the value of \"Phases\" in driving the business model and ensuring its success and sustainability.",
@@ -893,7 +830,6 @@
       },
       {
         "name": "Milestones",
-        "category_id": "Project plan",
         "icon": "milestone",
         "summary": "Milestones are specific achievements or events that mark significant progress or success in a business model.",
         "description": "Milestones in business modeling refers to the significant achievements or events that indicate substantial progress or success in a business model. These milestones serve as markers that help businesses track their progress towards their strategic goals and objectives.\n\nMilestones can be diverse and depend on the nature and stage of the business. For instance, for a startup, milestones could include securing initial funding, launching a prototype, acquiring the first 100 customers, or reaching a certain revenue target. For an established business, milestones could involve expanding into a new market, launching a new product line, achieving a certain market share, or reaching a specific sales or profit target.\n\nMilestones are crucial in business modeling for several reasons. Firstly, they provide a clear roadmap for the business, helping to guide strategic planning and decision-making. By setting clear, measurable milestones, businesses can better plan their activities and resources to achieve these targets.\n\nSecondly, milestones serve as a motivational tool. Achieving a milestone can boost morale and motivation within the team, reinforcing the belief in the business's vision and strategy.\n\nThirdly, milestones are a powerful communication tool with external stakeholders. For investors, milestones provide tangible evidence of a business's progress and potential, helping to build confidence and trust in the business. For customers, milestones can demonstrate a business's commitment to continuous improvement and customer satisfaction.\n\nLastly, milestones can also serve as a risk management tool. If a business is consistently failing to meet its milestones, it may indicate underlying problems that need to be addressed. This can help businesses identify and mitigate risks early, preventing potential crises down the line.\n\nIn summary, the Milestones model in business design provides a framework for setting, tracking, and achieving significant achievements or events that indicate substantial progress or success in a business model. It is a critical component of business design, influencing strategic planning, motivation, communication with stakeholders, and risk management.",
@@ -907,7 +843,6 @@
       },
       {
         "name": "Metrics",
-        "category_id": "Organization",
         "icon": "gauge",
         "summary": "Metrics are quantifiable measures used to evaluate the performance and effectiveness of a business model.",
         "description": "Metrics, in the context of business design, is a set of quantifiable measures that are used to assess the performance and effectiveness of a business model. These metrics serve as a tool for businesses to track their progress towards achieving their strategic objectives, and to identify areas where improvements can be made.\n\nThe Metric List begins with the identification of key performance indicators (KPIs). These are the critical measures that reflect the success or failure of a business model. KPIs can be financial, such as revenue or profit margins, or non-financial, such as customer satisfaction or employee turnover rates.\n\nOnce the KPIs have been identified, the next step is to establish benchmarks or targets for each metric. These benchmarks serve as a standard against which the actual performance of the business can be compared. They can be based on industry standards, historical performance, or strategic objectives.\n\nThe Metric List also includes a system for tracking and reporting on these metrics. This could involve the use of dashboards, reports, or other data visualization tools that allow businesses to monitor their performance in real-time. This system should be designed to provide clear, concise, and actionable information to decision-makers.\n\nFinally, the Metric List includes a process for reviewing and updating the metrics. This is because the relevance and usefulness of metrics can change over time due to factors such as changes in the business environment, strategic shifts, or advancements in technology.\n\nAn example of a Metric List in business design could be a retail company that uses metrics such as sales revenue, customer footfall, average transaction value, and customer satisfaction scores to evaluate the performance of its business model. The company would set targets for each of these metrics, track their performance using a dashboard, and regularly review and update the metrics to ensure they remain relevant and useful.\n\nIn conclusion, a Metric List is a vital tool in business design that enables businesses to measure the performance and effectiveness of their business model. It provides a structured approach to tracking progress, identifying areas for improvement, and driving business growth and success.",
@@ -921,7 +856,6 @@
       },
       {
         "name": "Finance",
-        "category_id": "Organization",
         "icon": "banknote",
         "summary": "The management of financial resources and the allocation of funds within a business model.",
         "description": "Finance in business modeling refers to the strategic management and allocation of financial resources within a business model. This involves the planning, organizing, controlling, and monitoring of financial resources to achieve the business objectives.\n\nIn this model, the financial resources of a business are identified and quantified. These resources can include capital, revenues, investments, and other financial assets. The allocation of these resources is then planned and managed, based on the business's strategic goals and operational needs. This can involve decisions about investment, expenditure, savings, and fundraising.\n\nThe purpose of the Finance model is to ensure that the business has sufficient financial resources to operate effectively and achieve its goals. It also aims to optimize the use of these resources, by allocating them in a way that maximizes the business's profitability and financial sustainability. This involves balancing the need for immediate expenditure, to support the business's operations and growth, with the need for long-term financial stability and resilience.\n\nFor example, in a manufacturing company, the Finance model might involve decisions about how much to invest in new machinery, how much to spend on raw materials and labor, how much to save for future expansion, and how much to return to shareholders as dividends. These decisions would be based on a careful analysis of the company's financial resources, market conditions, business strategy, and risk tolerance.\n\nIn essence, the Finance model is a critical aspect of business design. It provides a framework for making strategic financial decisions, managing financial risks, and ensuring the financial health and success of the business. It also interacts with other business modeling concepts, such as the Functions model, by determining the financial resources available for each function and role within the business.",
@@ -935,7 +869,6 @@
       },
       {
         "name": "Revenue",
-        "category_id": "Finance",
         "icon": "coins",
         "summary": "The various sources of income that a business model generates through its offerings",
         "description": "\"Revenue\" in business modeling refers to the various sources of income that a business model generates through its offerings. These revenue lines are not just random streams of income, but carefully identified and strategized sources that directly impact the financial health and sustainability of the business.\n\nIn a business model, \"Revenue\" are critical components as they are the primary sources of income that support the business operations and growth. They are derived from the value propositions that the business offers to its customers, and their performance or profitability directly impacts the success of the business.\n\nThe identification of \"Revenue\" can vary depending on the nature of the business and its offerings. It can include different sources such as sales of products or services, subscription fees, advertising revenue, licensing fees, or even commission from affiliate marketing. Each identified revenue line has a specific strategy and objectives, and they all need to work together in a coordinated manner to achieve the financial goals of the business.\n\nFor example, in a software business, \"Revenue\" might include sources such as sales of software licenses, subscription fees for cloud-based services, revenue from in-app purchases, and advertising revenue from free versions of the software. Each of these revenue lines is crucial for the business to sustain its operations and invest in further development and growth.\n\n\"Revenue\" in business modeling is not just about identifying the sources of income. It's about understanding their potential, strategizing their growth, and managing their performance. It's about creating a system where these revenue lines can effectively contribute to the financial sustainability and growth of the business.\n\nIn conclusion, the \"Revenue Lines\" concept in business modeling is a critical element that contributes to the financial success and sustainability of the business. It emphasizes the importance of identifying, strategizing, and managing the various sources of income in a business model.",
@@ -949,7 +882,6 @@
       },
       {
         "name": "Life Time Value",
-        "category_id": "Finance",
         "icon": "repeat",
         "summary": "Lifetime value is the net present value of the total revenue a customer will generate over their relationship with a business.",
         "description": "\"Lifetime Value\" in business modeling refers to the total net present value of the revenue that a customer is expected to generate over the course of their relationship with a business. This is a crucial component of business design as it helps businesses understand the long-term financial value of their customers and informs strategic decisions about sales, marketing, product development, and customer support.\n\nHere are the key aspects of \"Lifetime Value\" in business modeling:\n\n- Purchase Frequency: This refers to how often a customer makes a purchase. The more frequently a customer purchases, the higher their lifetime value.\n- Average Purchase Value: This is the average amount a customer spends per purchase. The higher the average purchase value, the higher the customer's lifetime value.\n- Customer Retention: This involves the strategies used to keep customers and reduce churn. The longer a business can retain a customer, the higher their lifetime value.\n- Profit Margin: This is the profit made from each customer after subtracting the costs associated with serving them. The higher the profit margin, the higher the customer's lifetime value.\n\nBy understanding and optimizing these aspects of \"Lifetime Value\", a business can maximize the profitability of its customer relationships. For instance, a subscription-based software company might invest in customer service and product enhancements to increase customer retention and, therefore, lifetime value. This would demonstrate the company's ability to leverage \"Lifetime Value\" to drive its business model and create value.",
@@ -963,7 +895,6 @@
       },
       {
         "name": "Costs",
-        "category_id": "Finance",
         "icon": "receipt",
         "summary": "the expenses incurred in the production and delivery of a product or service within a business model.",
         "description": "\"Cost Lines\" in business modeling refers to the various expenses that a business incurs in the process of producing and delivering its products or services. These costs are an integral part of the business model, as they directly impact the profitability and financial sustainability of the business.\n\nCost Lines can be categorized into different types, depending on the nature of the expense. For example, direct costs are those that are directly tied to the production of a product or service, such as raw materials, labor, and manufacturing overhead. Indirect costs, on the other hand, are not directly tied to production, but are necessary for the overall operation of the business, such as administrative expenses, marketing costs, and rent.\n\nIn addition to these, there are also fixed costs, which remain constant regardless of the level of production, and variable costs, which change in proportion to the level of production. Understanding the different types of costs and how they behave is crucial for effective cost management and pricing strategies.\n\nFor instance, in a restaurant business, the \"Cost Lines\" could include the cost of food ingredients (a direct and variable cost), the salaries of the chefs and waitstaff (a direct and fixed cost), the rent for the restaurant premises (an indirect and fixed cost), and the cost of advertising (an indirect and variable cost).\n\nIn essence, \"Cost Lines\" in business modeling is about identifying, categorizing, and managing the various costs involved in running a business. This is a critical aspect of business design, as it directly impacts the business's bottom line and its ability to achieve financial sustainability and growth.",
@@ -977,7 +908,6 @@
       },
       {
         "name": "Customer Aquisition Cost",
-        "category_id": "Finance",
         "icon": "user-plus",
         "summary": "The cost incurred by a business to attract and convert a new customer.",
         "description": "Customer Acquisition Cost (CAC), in the context of business modeling, refers to the total cost that a business incurs to attract and convert a potential customer into an actual customer. This includes all the expenses related to marketing and sales activities, such as advertising, promotions, sales personnel salaries, commissions, and any other costs associated with the customer acquisition process.\n\nThe purpose of calculating the CAC is to understand how much a business is spending to acquire each new customer. This is a critical metric for any business, as it directly impacts its profitability and sustainability. If the CAC is too high, it means that the business is spending too much to acquire customers, which can erode its profits and even lead to losses. On the other hand, if the CAC is too low, it might indicate that the business is not investing enough in customer acquisition, which can limit its growth and market share.\n\nFor example, consider an online retail business that spends $100,000 on a marketing campaign and acquires 1,000 new customers as a result. The CAC in this case would be $100 (i.e., $100,000 / 1,000 customers). This means that the business needs to generate at least $100 in profit from each new customer, just to cover the cost of acquiring them.\n\nIn essence, the CAC is not just a cost figure for a business. It is a strategic metric that helps a business to assess the effectiveness of its marketing and sales efforts, optimize its customer acquisition strategies, and ensure its financial health. It is a crucial aspect of business design, as it directly influences the business's growth, profitability, and long-term success.",
@@ -991,7 +921,6 @@
       },
       {
         "name": "Unit economics",
-        "category_id": "Finance",
         "icon": "calculator",
         "summary": "the financial analysis of the revenue and costs associated with a single unit of a product or service.",
         "description": "\"Unit Economics\" in business modeling refers to the detailed financial analysis that focuses on the revenue and costs associated with a single unit of a product or service. This concept is crucial in understanding the profitability of a business on a per-unit basis, which can provide valuable insights into the overall financial health and sustainability of the business.\n\nUnit Economics involves calculating the direct revenues and costs associated with a single unit of a product or service, to determine the net value or profit margin per unit. This includes factors such as the selling price, the cost of goods sold (COGS), and any direct expenses related to the production, marketing, and delivery of the unit.\n\nFor example, if a company sells a product for $100, and the cost of producing and delivering that product is $60, the unit economics would show a profit of $40 per unit. This information can be used to assess the profitability of the product, and to make strategic decisions about pricing, production, and marketing.\n\nUnit Economics is a powerful tool as it allows businesses to understand their cost structures and profit margins in detail. It can help businesses identify which products or services are most profitable, and where there may be opportunities to reduce costs or increase prices. It can also provide a benchmark for comparing the performance of different products, services, or business models.\n\nIn conclusion, \"Unit Economics\" is a fundamental element in business design and modeling. It provides a detailed understanding of the financial performance of a business on a per-unit basis, and it can guide strategic decision-making and business planning.",
@@ -1005,7 +934,6 @@
       },
       {
         "name": "Funding sources",
-        "category_id": "Finance",
         "icon": "landmark",
         "summary": "the various ways a business model generates revenue or acquires capital to support its operations.",
         "description": "Funding Sources in business modeling refers to the diverse ways a business model generates revenue or acquires capital to support its operations. This concept is crucial as it directly impacts the financial sustainability and growth potential of a business.\n\nFunding Sources can be broadly categorized into two types: internal and external. Internal funding sources are generated within the business and include revenues from sales, profits retained in the business, and depreciation provisions. These sources are typically recurring and are closely linked to the business's operational performance.\n\nExternal funding sources, on the other hand, are funds obtained from outside the business. These can include equity capital from shareholders, loans from financial institutions, grants, and subsidies from government bodies, and investments from venture capitalists or angel investors. External funding sources are often used for significant business expansion or development projects.\n\nThe choice of funding sources depends on various factors such as the business's stage of development, its financial health, the nature of its operations, and its strategic objectives. For instance, a startup might rely heavily on external funding sources like venture capital and angel investment, while a mature business might primarily use its internal funding sources.\n\nThe Funding Sources model is a vital part of business design as it determines how a business finances its operations, invests in growth, and manages financial risks. It also influences other aspects of the business model, such as the value proposition, customer segments, and cost structure.\n\nFor example, a software company might generate revenue through subscription fees (an internal funding source) and also raise capital through a series of funding rounds with venture capitalists (an external funding source). These funding sources would support the company's operations, fund its growth initiatives, and shape its business model.\n\nIn summary, the Funding Sources model provides a framework for identifying, evaluating, and managing the various ways a business generates revenue or acquires capital. It is a critical component of business design, influencing the business's financial sustainability, growth potential, and overall business strategy.",
@@ -1019,7 +947,6 @@
       },
       {
         "name": "Shareholders",
-        "category_id": "Finance",
         "icon": "pie-chart",
         "summary": "the financial resources, assets, and investments that a business uses to generate income and support its operations.",
         "description": "\"Capital Structure\" in business modeling refers to the mix of financial resources, assets, and investments that a business utilizes to generate income and support its operations. This structure is not randomly assembled, but strategically designed to optimize the financial performance and sustainability of the business.\n\nIn a business model, the \"Capital Structure\" is a fundamental component as it determines how the business finances its overall operations and growth. It includes both debt and equity, which are the two primary sources of financing for any business. The balance between these two sources is crucial as it impacts the risk and return profile of the business.\n\nThe composition of the \"Capital Structure\" can vary depending on the nature of the business, its financial strategy, and its risk tolerance. It can include resources such as retained earnings, equity shares, bonds, loans, or other forms of debt. Each component of the capital structure has a cost associated with it, and the goal is to minimize this cost to maximize the profitability of the business.\n\nFor example, in a manufacturing business, the \"Capital Structure\" might include sources such as equity from shareholders, loans from banks for purchasing machinery and equipment, and retained earnings for reinvestment into the business. The balance between these sources is carefully managed to ensure the financial stability and growth of the business.\n\n\"Capital Structure\" in business modeling is not just about assembling the sources of financing. It's about strategically managing these resources to optimize the financial performance of the business. It's about creating a structure that can effectively support the business operations and contribute to its financial sustainability and growth.\n\nIn conclusion, the \"Capital Structure\" concept in business modeling is a critical element that contributes to the financial success and sustainability of the business. It emphasizes the importance of strategically managing the financial resources, assets, and investments in a business model.",
@@ -1033,7 +960,6 @@
       },
       {
         "name": "Projections",
-        "category_id": "Finance",
         "icon": "line-chart",
         "summary": "Cashflow projections are estimates of the expected inflows and outflows of cash in a business model over a specific period.",
         "description": "Cashflow projections in business modeling are a critical tool used to forecast the flow of cash into and out of a business over a specific period. This financial model provides an estimate of a company's future financial position and is a key component of business design. \n\nHere are the key aspects of \"Cashflow Projections\" in business modeling:\n\n- Revenue Projections: This involves estimating the future sales of the business. This could be based on historical sales data, market research, or sales targets. The accuracy of revenue projections is crucial as it directly impacts the cash inflows.\n\n- Expense Projections: This involves forecasting the future costs of the business. This could include fixed costs such as rent and salaries, and variable costs such as raw materials and utilities. Accurate expense projections help to ensure that the business has sufficient cash to cover its outflows.\n\n- Cash Inflows and Outflows: This refers to the money coming into and going out of the business. Cash inflows could come from sales, loans, or investment, while cash outflows could include expenses, loan repayments, or dividends. Understanding the timing and amount of cash inflows and outflows is crucial for maintaining liquidity.\n\n- Cash Balance: This is the net amount of cash available to the business at any given time. It is calculated by subtracting the cash outflows from the cash inflows. A positive cash balance indicates that the business has sufficient cash to meet its obligations, while a negative cash balance could indicate a potential liquidity crisis.\n\n- Scenario Analysis: This involves creating multiple cashflow projections based on different scenarios. This could include a best-case scenario, a worst-case scenario, and a most likely scenario. Scenario analysis helps to prepare the business for different potential outcomes and mitigate financial risk.\n\n- Cashflow Management: This involves using the cashflow projections to make strategic decisions about the business. This could include adjusting pricing, managing costs, securing financing, or investing in growth. Effective cashflow management can help to ensure the financial sustainability and success of the business.\n\nFor instance, a retail business might use cashflow projections to plan for seasonal fluctuations in sales and expenses. This would allow the business to manage its cash effectively, ensuring that it has sufficient cash to cover its expenses during slow periods and to invest in inventory and marketing during peak periods. This demonstrates the value of \"Cashflow Projections\" in driving the business model and ensuring financial sustainability.",
@@ -1047,7 +973,6 @@
       },
       {
         "name": "Legal",
-        "category_id": "Organization",
         "icon": "scale",
         "summary": "the compliance of a business model with laws and regulations governing its operations and interactions with stakeholders.",
         "description": "Legal in business modeling refers to the adherence of a business model to the laws and regulations that govern its operations and interactions with stakeholders. This concept is critical as it directly impacts the business's reputation, operational efficiency, and overall sustainability.\n\nLegal compliance in a business model involves ensuring that all business activities, from product development to marketing and sales, are conducted in accordance with relevant laws and regulations. This includes compliance with labor laws, environmental regulations, tax laws, data protection laws, and industry-specific regulations, among others.\n\nFor instance, a pharmaceutical company must comply with stringent regulations regarding drug testing and approval, while a financial services firm must adhere to regulations related to customer data protection and financial reporting.\n\nLegal compliance is not just about avoiding penalties and lawsuits. It also plays a crucial role in maintaining a company's reputation and trustworthiness among its stakeholders, including customers, employees, investors, and the public. A business that is known for its strong commitment to legal compliance is more likely to attract and retain customers and investors, and to have a positive relationship with regulators.\n\nMoreover, a well-designed legal compliance system can also contribute to a company's operational efficiency and risk management. By identifying and addressing legal risks early, a company can avoid costly disruptions and crises down the line.\n\nFor example, a manufacturing company might implement rigorous quality control procedures to ensure compliance with product safety regulations. This not only helps the company avoid legal penalties and product recalls, but also contributes to a reputation for high-quality products, thereby enhancing its competitive position.\n\nIn summary, the Legal model in business design provides a framework for ensuring that a business operates in accordance with relevant laws and regulations. It is a critical component of business design, influencing the business's reputation, operational efficiency, risk management, and overall sustainability.",
@@ -1061,7 +986,6 @@
       },
       {
         "name": "Legal issues",
-        "category_id": "Legal",
         "icon": "gavel",
         "summary": "the potential consequences or obligations that arise from the legal framework within which a business model operates.",
         "description": "\"Legal Issues\" in business modeling refers to the potential consequences or obligations that arise from the legal framework within which a business model operates. This aspect of business modeling is crucial as it directly impacts the viability, sustainability, and legality of the business operations.\n\nIn a business model, \"Legal Issues\" can encompass a wide range of areas such as regulatory compliance, intellectual property rights, contractual obligations, employment laws, and tax obligations, among others. These issues are not just constraints but also opportunities for the business to protect its interests, mitigate risks, and gain competitive advantages.\n\nFor instance, a business operating in the healthcare sector needs to consider legal issues related to patient privacy laws, medical licensing requirements, and healthcare regulations. These legal issues will shape the business model, influencing decisions on operational processes, data management, and service delivery methods.\n\nSimilarly, a tech startup would need to consider legal issues related to intellectual property rights, data protection laws, and possibly international trade regulations. These legal issues could influence the business model in terms of product development, market positioning, and revenue generation strategies.\n\n\"Legal Issues\" in business modeling is not just about identifying potential legal obstacles. It's about strategically navigating the legal landscape to ensure the business model is not only compliant but also resilient and competitive. It's about integrating legal considerations into the design and execution of the business model.\n\nIn conclusion, the \"Legal Issues\" concept in business modeling is a critical element that contributes to the legal and operational success of the business. It emphasizes the importance of understanding and strategically managing the legal implications and obligations in a business model.",
@@ -1075,7 +999,6 @@
       },
       {
         "name": "Contracts",
-        "category_id": "Legal",
         "icon": "scroll-text",
         "summary": "A contract list refers to a comprehensive inventory of all the agreements and legal obligations between a business and its stakeholders.",
         "description": "\"Contract List\" in business modeling refers to a comprehensive inventory of all the agreements, contracts, and legal obligations that exist between a business and its stakeholders. This list is a crucial component of a business's operational structure, as it outlines the nature of the relationships, the obligations each party has, and the legal implications of these agreements.\n\nThe Contract List includes all types of agreements, such as service contracts, supplier agreements, partnership contracts, employment contracts, and lease agreements. It also shows the duration of these contracts, the terms and conditions, and the penalties for non-compliance or breach of contract.\n\nFor example, in a manufacturing company, the Contract List would include agreements with raw material suppliers, contracts with service providers, employment contracts with staff, and lease agreements for the factory and office spaces. Each of these contracts has legal and operational implications for the business, and managing them effectively is crucial for the smooth running of the company.\n\nThe Contract List is a dynamic document that changes over time as the business enters into new contracts or existing ones expire. It is a crucial tool for operational planning and decision-making, as it provides a clear picture of the company's contractual obligations and the potential impact of these contracts on the business's operations and financial performance.\n\nIn essence, \"Contract List\" in business modeling is about understanding and managing the contractual relationships of a company. This is a vital aspect of business design, as it directly impacts the company's operational efficiency, its legal and financial risks, and its ability to meet its obligations to its stakeholders.",
@@ -1089,7 +1012,6 @@
       },
       {
         "name": "Matrices",
-        "category_id": null,
         "icon": "grid-3x3",
         "summary": null,
         "description": null,
@@ -1103,7 +1025,6 @@
       },
       {
         "name": "Analysis",
-        "category_id": null,
         "icon": "microscope",
         "summary": "The process of examining and evaluating the different components of the business model to identify their importance and coherence and determine the risks it entails.",
         "description": "\"Analysis\" in business modeling refers to the systematic examination and evaluation of the various components of a business model. This process is crucial in identifying the significance and coherence of each element, as well as determining the potential risks associated with the model.\n\nDuring the analysis phase, each aspect of the business model is scrutinized. This includes the value proposition, customer segments, channels, customer relationships, revenue streams, key resources, key activities, key partnerships, and cost structure. The goal is to understand how these components interact with each other and contribute to the overall functioning of the business.\n\nFor instance, a company might analyze its business model to assess the viability of a new product. This would involve examining the product's potential market, the competition, the proposed revenue streams, the necessary resources and activities, and the potential costs. The analysis might reveal that while the product has a large potential market, the competition is fierce and the cost structure is high, making the product risky.\n\nThe analysis phase is not only about identifying potential risks, but also about finding opportunities for improvement and innovation. It can reveal inefficiencies in the business model, areas for cost reduction, potential new revenue streams, and opportunities for better serving customers.\n\nIn essence, \"Analysis\" in business modeling is about understanding a business model in depth. It is a critical aspect of business design, as it directly impacts the ability of a business to mitigate risks, seize opportunities, and ultimately, achieve success.",
@@ -1117,7 +1038,6 @@
       },
       {
         "name": "Assumptions",
-        "category_id": "Analysis",
         "icon": "circle-help",
         "summary": "Assumptions refer to the hypotheses or beliefs that underpin a business idea or model. These are the uncertain elements about customers, markets, or products that must be validated to ensure the viability and success of the business.",
         "description": "\"Assumption List\" in business modeling refers to a list of hypotheses or beliefs that the entrepreneurial team holds to be true and relevant to their business. These assumptions are often based on the team's understanding of the market, the customer, the product or service, and the business environment. They serve as the foundation upon which the business model is built and are used to guide decision-making and strategy development.\n\nHere are the key aspects of \"Assumption List\" in business modeling:\n\n- Market Assumptions: These are assumptions about the market in which the business operates, including the size of the market, the growth rate, the level of competition, and the market trends. For example, a startup might assume that the market for their product is growing at a rate of 10% per year.\n- Customer Assumptions: These are assumptions about the customers that the business serves, including their needs, preferences, behaviors, and willingness to pay. For example, a business might assume that their customers value quality over price.\n- Product or Service Assumptions: These are assumptions about the product or service that the business offers, including its functionality, value proposition, and competitive advantage. For example, a tech company might assume that their software is more user-friendly than the competition.\n- Business Environment Assumptions: These are assumptions about the broader business environment, including the regulatory environment, the economic environment, and the technological environment. For example, a business might assume that there will be no significant regulatory changes in the next few years.\n- Financial Assumptions: These are assumptions about the financial aspects of the business, including the cost structure, the revenue model, and the profitability. For example, a business might assume that their cost of goods sold will decrease over time due to economies of scale.\n\nIt's important to note that while assumptions are necessary to move forward with a business model, they should be validated or invalidated as soon as possible through market research, customer feedback, and other forms of testing. This helps to reduce risk and uncertainty, and allows the business to adapt its model based on real-world evidence.",
@@ -1131,7 +1051,6 @@
       },
       {
         "name": "Risks",
-        "category_id": "Analysis",
         "icon": "shield-alert",
         "summary": "Potential negative outcomes or uncertainties that may affect the success and sustainability of a business model.",
         "description": "a Risks in business modeling refers to the identification and documentation of potential negative outcomes or uncertainties that may affect the success and sustainability of a business model. This concept is rooted in the understanding that every business operates in an environment of uncertainty and risk, and that proactive risk management is crucial for business survival and growth.\n\nIn the context of business design, a Risks can take many forms. It could be a list of potential market risks such as changes in customer preferences, competitive threats, or regulatory changes. It could also include operational risks such as supply chain disruptions, technology failures, or talent shortages. Financial risks such as currency fluctuations, interest rate changes, or liquidity issues may also be included. \n\nThe Risk List serves several key functions in business modeling. Firstly, it helps to identify and prioritize risks, enabling businesses to focus their resources and efforts on the most significant threats. By understanding the potential impact and likelihood of each risk, businesses can make informed decisions about risk mitigation strategies.\n\nSecondly, a Risk List can facilitate proactive risk management. By identifying potential risks early, businesses can take steps to prevent or reduce their impact, rather than reacting to them after they occur. This can enhance business resilience, reduce costs, and protect business value.\n\nThirdly, a Risk List can enhance strategic planning and decision-making. By considering potential risks in their strategic planning, businesses can develop more robust and resilient strategies that take into account the full range of uncertainties they face.\n\nLastly, a Risk List can improve stakeholder communication and trust. By transparently communicating about potential risks and their management strategies, businesses can build trust with stakeholders, including investors, customers, employees, and regulators.\n\nIn summary, the Risk List model in business design is a strategic approach that involves identifying, documenting, and managing potential negative outcomes or uncertainties that may affect the success and sustainability of a business model. It is a crucial tool for enhancing business resilience, strategic planning, stakeholder communication, and overall business performance.",
@@ -1145,7 +1064,6 @@
       },
       {
         "name": "Suggestions",
-        "category_id": "Analysis",
         "icon": "messages-square",
         "summary": null,
         "description": null,
@@ -1159,7 +1077,6 @@
       },
       {
         "name": "Unfair advantage",
-        "category_id": "Analysis",
         "icon": "zap",
         "summary": "Unfair advantage refers to a unique and difficult-to-replicate attribute or strategy that gives a business a competitive edge.",
         "description": "\"Unfair Advantage\" in business modeling refers to a unique benefit or set of benefits that a business possesses, which allows it to outperform its competitors. This could be anything from proprietary technology, exclusive partnerships, superior talent, or access to scarce resources. The key aspect of an unfair advantage is that it is not easily replicable or attainable by competitors, making it a powerful competitive edge.\n\nIn the \"Unfair Advantage\" model, the business leverages its unique advantages to create superior value for its customers and/or operate more efficiently than its competitors. This could involve using proprietary technology to offer a better product, leveraging exclusive partnerships to access markets or resources that competitors can't, or utilizing superior talent to provide exceptional service.\n\nFor example, a tech startup might have an unfair advantage in the form of a proprietary algorithm that allows it to offer a more effective solution than its competitors. This unfair advantage enables the startup to attract more customers and generate higher revenues, even if it's a smaller company with fewer resources.\n\nAlternatively, a manufacturing company might have an unfair advantage in the form of an exclusive partnership with a key supplier. This allows the company to access high-quality materials at a lower cost than its competitors, enabling it to produce superior products and/or offer more competitive prices.\n\nThe \"Unfair Advantage\" concept in business modeling is crucial because it emphasizes the importance of leveraging unique benefits to achieve competitive superiority. It encourages businesses to identify, cultivate, and exploit their unique advantages to outperform their competitors and achieve greater success.",
@@ -1173,7 +1090,6 @@
       },
       {
         "name": "SWOT",
-        "category_id": "Analysis",
         "icon": "layout-grid",
         "summary": "The SWOT analysis provides a comprehensive overview of the company’s current strategic position by identifying its internal strengths and weaknesses, as well as external opportunities and threats.",
         "description": "The SWOT analysis provides a comprehensive overview of the company’s current strategic position by identifying its internal strengths and weaknesses, as well as external opportunities and threats. Key strengths may include a strong brand reputation, innovative technology, or a highly skilled workforce. Conversely, weaknesses might involve limited market presence, high operational costs, or dependency on key suppliers. The goal of this analysis is to capitalize on strengths while addressing and mitigating weaknesses.\n\nOn the external side, the opportunities identified could range from emerging market trends and new customer segments to potential strategic partnerships. Threats may include increased competition, regulatory challenges, or economic downturns. This section helps to develop a strategic plan that leverages strengths to seize opportunities while creating defensive strategies to protect against potential threats, ensuring the business remains resilient and adaptable in a dynamic market environment.\nIn the context of business design, storytelling can take many forms. It could be the brand's founding story that illustrates its mission and values, customer success stories that demonstrate the value of its products or services, or future-oriented stories that paint a vision of what the brand aims to achieve.\n",
@@ -1187,7 +1103,6 @@
       },
       {
         "name": "Keys",
-        "category_id": null,
         "icon": "key-round",
         "summary": null,
         "description": null,
@@ -1201,7 +1116,6 @@
       },
       {
         "name": "Validation",
-        "category_id": null,
         "icon": "clipboard-check",
         "summary": "The process of testing and verifying the assumptions and hypotheses underlying a business model.",
         "description": "\"Validation\" in business modeling refers to the process of testing and verifying the assumptions and hypotheses that underpin a business model. This process is essential in ensuring that the business model is based on accurate and realistic assumptions, and that it is capable of delivering the expected results.\n\nDuring the validation phase, the risks, assumptions and hypotheses of the business model are put to the test. This could involve conducting market research to validate customer segments and value propositions, running financial simulations to verify revenue streams and cost structures, or carrying out pilot projects to test key activities and partnerships.\n\nFor example, a company might validate its business model by launching a minimum viable product (MVP) to a small segment of its target market. The feedback and data gathered from this MVP launch can then be used to validate or invalidate the assumptions about the product's market fit, pricing strategy, and customer acquisition channels. If the assumptions are validated, the company can proceed with confidence. If they are invalidated, the company can pivot and adjust its business model based on the new insights.\n\nThe validation phase is not only about confirming the viability of a business model, but also about learning and adapting. It allows businesses to learn from their mistakes, adapt their strategies, and continuously improve their business models.\n\nIn essence, \"Validation\" in business modeling is about ensuring that a business model is grounded in reality and capable of delivering success. It is a critical aspect of business design, as it directly impacts the ability of a business to survive, thrive, and grow in a competitive market.",
@@ -1215,7 +1129,6 @@
       },
       {
         "name": "Coherence",
-        "category_id": "Validation",
         "icon": "link",
         "summary": null,
         "description": null,
@@ -1229,7 +1142,6 @@
       },
       {
         "name": "Experiments",
-        "category_id": "Validation",
         "icon": "flask-conical",
         "summary": "Experiments are tests or trials designed to validate assumptions and hypotheses about a business model's value proposition, customer segments, and revenue streams.",
         "description": "\"Experiment List\" in business modeling refers to a systematic list of tests or trials designed to validate the assumptions and hypotheses about a business model's value proposition, customer segments, and revenue streams. This list is used as a roadmap to test and validate the viability and effectiveness of a business model before its full-scale implementation.\n\nAn experiment list can include various types of tests depending on the specific aspects of the business model that need validation. For instance, it may include customer interviews to validate assumptions about customer needs and preferences. It may also include prototype testing to validate the feasibility and attractiveness of a product or service offering.\n\nMoreover, an experiment list can also include market tests to validate assumptions about the size and profitability of a market segment. It may also include financial tests to validate assumptions about revenue streams and cost structures.\n\nThe experiment list serves as a structured approach to risk management in business design and modeling. It helps business leaders and stakeholders to identify and address potential flaws and weaknesses in a business model before they become costly mistakes. It also provides valuable insights and learnings that can be used to refine and improve the business model.\n\nIn conclusion, an experiment list is a critical tool in business design and modeling. It provides a systematic and evidence-based approach to validating the key assumptions and hypotheses of a business model, reducing risks and increasing the chances of success. It is a crucial component of a lean and agile business model, promoting continuous learning and adaptation in response to market feedback and changes.",
@@ -1243,7 +1155,6 @@
       },
       {
         "name": "Misc",
-        "category_id": null,
         "icon": "ellipsis",
         "summary": "Documents, articles, web sites, etc... referenced in this document",
         "description": "\"References\" in business modeling refers to the various sources of information that are used to support the development and validation of a business model. These references can include documents, articles, websites, and other resources that provide valuable insights, data, or perspectives related to the business model.\n\nIn the context of business design, references serve several key functions. Firstly, they provide evidence and support for the assumptions, decisions, and strategies that are incorporated into the business model. This can enhance the credibility and validity of the model, making it more likely to be accepted and implemented by stakeholders.\n\nSecondly, references can provide a source of inspiration and ideas for the business model. By exploring a wide range of sources, businesses can discover new perspectives, approaches, or solutions that they may not have considered otherwise. This can lead to more innovative and effective business models.\n\nThirdly, references can help to identify and understand the external factors that may affect the business model. This can include market trends, competitive dynamics, regulatory changes, technological developments, and other environmental factors. By staying informed about these factors, businesses can ensure that their model remains relevant and adaptable in a changing business environment.\n\nLastly, references can serve as a learning tool for businesses. By studying the experiences, successes, and failures of other businesses, they can gain valuable insights and lessons that can inform their own business model.\n\nIn summary, \"References\" in business modeling is about leveraging various sources of information to support, inspire, and inform the development of a business model. It is a crucial aspect of business design that contributes to the credibility, innovation, adaptability, and learning of the business.",
@@ -1257,7 +1168,6 @@
       },
       {
         "name": "Guides",
-        "category_id": null,
         "icon": "book-open",
         "summary": "A high-level overview or instruction manual that explains the overall process or purpose.\nExample: “Guide to recording a meeting…”",
         "description": "A Guide serves as a structured document that provides orientation and context for executing a process. It includes explanations, objectives, and references to other elements such as workflows, tools, and roles. It ensures that users understand not just what to do, but why and how each component fits into the whole.",
@@ -1271,7 +1181,6 @@
       },
       {
         "name": "Work",
-        "category_id": "Guides",
         "icon": "hammer",
         "summary": "A sequence of actions or steps designed to achieve a specific result.\nExample: “Record meeting notes” or “Summarize the meeting”.",
         "description": "A Work item represents a complete or partial process, typically composed of multiple steps and sub-processes. It defines the logic of how a task is accomplished from beginning to end, including inputs, outputs, and sequencing. It ensures consistency, repeatability, and clarity in execution.",
@@ -1285,7 +1194,6 @@
       },
       {
         "name": "Objects",
-        "category_id": "Guides",
         "icon": "box",
         "summary": "Items, data or documents created, transformed, or used during the work.\nExample: Audio Recording, Transcript, Meeting Summary.",
         "description": "Objects represent tangible or digital outputs of the work process. They are key artifacts that flow through the system—serving as evidence of actions taken, inputs to other steps, or final deliverables. Each object has a format, a purpose, and may be the result of multiple transformations.",
@@ -1299,7 +1207,6 @@
       },
       {
         "name": "Tools",
-        "category_id": "Guides",
         "icon": "wrench",
         "summary": "Software or devices used to carry out specific tasks within the procedure.\nExample: Mobile Recorder App, Whisper, ChatGPT.",
         "description": "Tools are technological or manual resources that enable, support, or automate activities in the workflow. They are typically associated with one or more steps and are chosen based on compatibility with required inputs and outputs. Tools can include apps, platforms, or physical instruments.",
@@ -1313,7 +1220,6 @@
       },
       {
         "name": "Organization",
-        "category_id": null,
         "icon": "building-2",
         "summary": "The company, institution, or team within which the workflow is executed or governed.\t",
         "description": "An Organization provides the structural and legal context in which people, positions, tools, and processes operate. It defines the boundaries of responsibility, governance, and ownership of the workflow. Organizations allocate resources, enforce standards, and determine strategic goals. Examples include companies, departments, institutions, or cross-functional teams.",
@@ -1327,7 +1233,6 @@
       },
       {
         "name": "Roles",
-        "category_id": "Guides",
         "icon": "user-cog",
         "summary": "Defined responsibilities involved in the work.\nExample: Meeting Recorder, Transcriber, Summarizer.\n\n",
         "description": "Roles define the operational function performed by individuals or systems within the process. A role is not tied to a person, but to a function or responsibility, and can be assigned to multiple actors. Roles are essential for delegation, clarity of ownership, and division of labor.",
@@ -1341,7 +1246,6 @@
       },
       {
         "name": "Positions",
-        "category_id": "Organization",
         "icon": "contact",
         "summary": "Set of roles within an organization or workflow that group together specific responsibilities, tasks, and required competencies and represent a recurring function necessary to execute one or more parts of a process.",
         "description": "Positions aggregate roles into formal job profiles that are stable and repeatable within an organization. Each position combines responsibilities, competencies, and expectations into a unit that can be assigned to individuals. Positions often determine access to tools, tasks, and decision rights.",
@@ -1355,7 +1259,6 @@
       },
       {
         "name": "People",
-        "category_id": "Organization",
         "icon": "users",
         "summary": "Specific individuals or example users who perform one or more roles in the process.\nExample: “Lucas Cervera – Meeting Recorder and Minutes Writer”.",
         "description": "People are the real-world actors—named individuals or personas—who participate in a process by performing one or more roles. Identifying people helps illustrate the application of roles in practice, demonstrate responsibility, and personalize the process through real examples.",
@@ -3213,7 +3116,7 @@
         "target": "Emotions",
         "color": "blue",
         "content": "This matrix establishes the relationships between the different stages of a customer journey map and the emotions that are generated in the customer as they go through each stage.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Segmentation-Profiles Matrix",
@@ -3221,7 +3124,7 @@
         "target": "Profiles",
         "color": "blue",
         "content": "This matrix maps segmentation criteria to specific customer profiles, showing how criteria define each profile.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Problems-Value propositions Matrix",
@@ -3229,7 +3132,7 @@
         "target": "Value propositions",
         "color": "blue",
         "content": "This matrix links the problems faced by personas to the value propositions that address them.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Value propositions-Messages Matrix",
@@ -3237,7 +3140,7 @@
         "target": "Messages",
         "color": "blue",
         "content": "This matrix links value propositions to the messages used to communicate them to customers.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Messages-Channels Matrix",
@@ -3245,7 +3148,7 @@
         "target": "Channels",
         "color": "blue",
         "content": "This matrix links messages to the channels through which they are delivered to customers.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Assumptions-Risks Matrix",
@@ -3253,7 +3156,7 @@
         "target": "Risks",
         "color": "blue",
         "content": "This matrix links assumptions to potential risks.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Experiments-Assumptions Matrix",
@@ -3261,7 +3164,7 @@
         "target": "Assumptions",
         "color": "blue",
         "content": "This matrix links experiments to the hypotheses they test.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Metrics-Organizational goals Matrix",
@@ -3269,7 +3172,7 @@
         "target": "Organizational goals",
         "color": "blue",
         "content": "This matrix links organizational metrics to business objectives.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Features-Milestones Matrix",
@@ -3277,7 +3180,7 @@
         "target": "Milestones",
         "color": "blue",
         "content": "This matrix links product features to milestones in the product roadmap.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Organizational values-Organizational goals Matrix",
@@ -3285,7 +3188,7 @@
         "target": "Organizational goals",
         "color": "blue",
         "content": "This matrix links organizational values to specific organizational goals.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Functions-Positions Matrix",
@@ -3293,7 +3196,7 @@
         "target": "Positions",
         "color": "blue",
         "content": "This matrix links operational functions to team positions.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Activities-Resources Matrix",
@@ -3301,7 +3204,7 @@
         "target": "Resources",
         "color": "blue",
         "content": "This matrix links operational activities to the resources required.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       },
       {
         "name": "Problems-Competition Matrix",
@@ -3309,7 +3212,7 @@
         "target": "Competition",
         "color": "blue",
         "content": "This matrix links customer problems to the competitors that address them.",
-        "values": "Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min"
+        "values": "Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max"
       }
     ],
     "markers": [
@@ -11043,6 +10946,352 @@
         "summary": "Set up an affiliate program to measure interest from other professionals or influencers in promoting the business idea.",
         "description": "\n\n  - ### #[[goal]]\n    - #goal [[Measure interest from other professionals or influencers in promoting the business idea]]\n    - #goal [[Identify potential partners or affiliates for the business]]\n  - ### Hypothesis\n    - By setting up an affiliate program, we will be able to attract other professionals or influencers who are interested in promoting our business idea.\n  - ### Related items\n    - \n  - ### #[[work]]\n    - TODO [[Set up an affiliate program]]\n      - TODO [[Define the program structure]]\n        - Determine the terms and conditions of the affiliate program, including the commission structure, promotional materials, and tracking mechanisms.\n      - TODO [[Recruit potential affiliates]]\n        - Reach out to other professionals or influencers who may be interested in promoting the business idea. This can be done through personal networks, online platforms, or industry events.\n      - TODO [[Provide promotional materials]]\n        - Create marketing materials and resources that affiliates can use to promote the business idea. This could include banners, social media posts, email templates, or product demos.\n      - TODO [[Track affiliate performance]]\n        - Implement a tracking system to monitor the performance of the affiliates. This could involve using affiliate tracking software or setting up unique referral links for each affiliate.\n      - TODO [[Reward affiliates]]\n        - Establish a commission structure or reward system to incentivize affiliates for their efforts. This could be based on a percentage of sales generated or a fixed fee for each referral.\n      - TODO [[Evaluate the results]]\n        - Monitor the performance of the affiliate program and evaluate the results. Look for indicators of interest and engagement from the affiliates, such as the number of referrals generated or the quality of leads.\n      - TODO [[Identify potential partners]]\n        - Analyze the performance of the affiliates and identify potential partners or influencers who have shown a strong interest in promoting the business idea. Reach out to them to explore partnership opportunities or collaborations.\n  - ### Expected outcome\n    - By setting up an affiliate program, the business will be able to measure the interest from other professionals or influencers in promoting the business idea. This will help identify potential partners or affiliates who can contribute to the growth and success of the business. The expected outcome of this experiment is to attract a network of affiliates who are actively promoting the business and generating leads or sales. Additionally, the business may establish partnerships or collaborations with influential individuals or organizations, which can further enhance its visibility and credibility in the market.",
         "author": null
+      }
+    ],
+    "taxonomy": [
+      {
+        "parent": "Market",
+        "child": "Stakeholders"
+      },
+      {
+        "parent": "Market",
+        "child": "Segments"
+      },
+      {
+        "parent": "Segments",
+        "child": "Profiles"
+      },
+      {
+        "parent": "Profiles",
+        "child": "Persona"
+      },
+      {
+        "parent": "Segments",
+        "child": "Segmentation"
+      },
+      {
+        "parent": "Segments",
+        "child": "Market trends"
+      },
+      {
+        "parent": "Segments",
+        "child": "Market size"
+      },
+      {
+        "parent": "Segments",
+        "child": "Competition"
+      },
+      {
+        "parent": "Segments",
+        "child": "Roles"
+      },
+      {
+        "parent": "Segments",
+        "child": "Problems"
+      },
+      {
+        "parent": "Segments",
+        "child": "Value propositions"
+      },
+      {
+        "parent": "Segments",
+        "child": "Messages"
+      },
+      {
+        "parent": "Segments",
+        "child": "Channels"
+      },
+      {
+        "parent": "Segments",
+        "child": "Relationships"
+      },
+      {
+        "parent": "Segments",
+        "child": "Perceptions"
+      },
+      {
+        "parent": "Segments",
+        "child": "Emotions"
+      },
+      {
+        "parent": "Segments",
+        "child": "Behaviors"
+      },
+      {
+        "parent": "Segments",
+        "child": "Journey"
+      },
+      {
+        "parent": "Solutions",
+        "child": "Products and services"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Portfolio"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Components"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Features"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Roadmap"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Pricing"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Offerings"
+      },
+      {
+        "parent": "Solutions",
+        "child": "Marketing"
+      },
+      {
+        "parent": "Marketing",
+        "child": "Naming"
+      },
+      {
+        "parent": "Marketing",
+        "child": "Branding"
+      },
+      {
+        "parent": "Marketing",
+        "child": "Visual identity"
+      },
+      {
+        "parent": "Marketing",
+        "child": "Logo"
+      },
+      {
+        "parent": "Marketing",
+        "child": "Media plan"
+      },
+      {
+        "parent": "Solutions",
+        "child": "Communication"
+      },
+      {
+        "parent": "Communication",
+        "child": "Pitch"
+      },
+      {
+        "parent": "Products and services",
+        "child": "Brochure"
+      },
+      {
+        "parent": "Communication",
+        "child": "Web"
+      },
+      {
+        "parent": "Communication",
+        "child": "Storytelling"
+      },
+      {
+        "parent": "Communication",
+        "child": "Presentations"
+      },
+      {
+        "parent": "Organization",
+        "child": "Business idea"
+      },
+      {
+        "parent": "Business idea",
+        "child": "Inspiration"
+      },
+      {
+        "parent": "Business idea",
+        "child": "Opportunity"
+      },
+      {
+        "parent": "Business idea",
+        "child": "Business status"
+      },
+      {
+        "parent": "Business idea",
+        "child": "Challenges"
+      },
+      {
+        "parent": "Organization",
+        "child": "Business objectives"
+      },
+      {
+        "parent": "Business objectives",
+        "child": "Mission"
+      },
+      {
+        "parent": "Business objectives",
+        "child": "Vision"
+      },
+      {
+        "parent": "Business objectives",
+        "child": "Organizational values"
+      },
+      {
+        "parent": "Business objectives",
+        "child": "Organizational goals"
+      },
+      {
+        "parent": "Organization",
+        "child": "Operations"
+      },
+      {
+        "parent": "Operations",
+        "child": "Activities"
+      },
+      {
+        "parent": "Operations",
+        "child": "Functions"
+      },
+      {
+        "parent": "Operations",
+        "child": "Resources"
+      },
+      {
+        "parent": "Organization",
+        "child": "Team"
+      },
+      {
+        "parent": "Team",
+        "child": "Goals"
+      },
+      {
+        "parent": "Team",
+        "child": "Skills"
+      },
+      {
+        "parent": "Team",
+        "child": "Contributions"
+      },
+      {
+        "parent": "Team",
+        "child": "Compensations"
+      },
+      {
+        "parent": "Team",
+        "child": "Positions"
+      },
+      {
+        "parent": "Organization",
+        "child": "Project plan"
+      },
+      {
+        "parent": "Project plan",
+        "child": "Phases"
+      },
+      {
+        "parent": "Project plan",
+        "child": "Milestones"
+      },
+      {
+        "parent": "Organization",
+        "child": "Metrics"
+      },
+      {
+        "parent": "Organization",
+        "child": "Finance"
+      },
+      {
+        "parent": "Finance",
+        "child": "Revenue"
+      },
+      {
+        "parent": "Finance",
+        "child": "Life Time Value"
+      },
+      {
+        "parent": "Finance",
+        "child": "Costs"
+      },
+      {
+        "parent": "Finance",
+        "child": "Customer Aquisition Cost"
+      },
+      {
+        "parent": "Finance",
+        "child": "Unit economics"
+      },
+      {
+        "parent": "Finance",
+        "child": "Funding sources"
+      },
+      {
+        "parent": "Finance",
+        "child": "Shareholders"
+      },
+      {
+        "parent": "Finance",
+        "child": "Projections"
+      },
+      {
+        "parent": "Organization",
+        "child": "Legal"
+      },
+      {
+        "parent": "Legal",
+        "child": "Legal issues"
+      },
+      {
+        "parent": "Legal",
+        "child": "Contracts"
+      },
+      {
+        "parent": "Analysis",
+        "child": "Assumptions"
+      },
+      {
+        "parent": "Analysis",
+        "child": "Risks"
+      },
+      {
+        "parent": "Analysis",
+        "child": "Suggestions"
+      },
+      {
+        "parent": "Analysis",
+        "child": "Unfair advantage"
+      },
+      {
+        "parent": "Analysis",
+        "child": "SWOT"
+      },
+      {
+        "parent": "Validation",
+        "child": "Coherence"
+      },
+      {
+        "parent": "Validation",
+        "child": "Experiments"
+      },
+      {
+        "parent": "Guides",
+        "child": "Work"
+      },
+      {
+        "parent": "Guides",
+        "child": "Objects"
+      },
+      {
+        "parent": "Guides",
+        "child": "Tools"
+      },
+      {
+        "parent": "Guides",
+        "child": "Roles"
+      },
+      {
+        "parent": "Organization",
+        "child": "Positions"
+      },
+      {
+        "parent": "Organization",
+        "child": "People"
       }
     ]
   }

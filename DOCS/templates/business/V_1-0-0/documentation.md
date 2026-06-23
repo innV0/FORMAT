@@ -1,10 +1,10 @@
-# innV0 Metamodel Documentation
+# FORMAT Template Documentation
 
-This file contains the detailed descriptions, summaries, methodologies, and prompts for each concept defined in the innV0 Metamodel.
+This file contains the detailed descriptions, summaries, methodologies, and prompts for each concept defined in the FORMAT Template.
 
 ## Business summary
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `None`
 *   **Mode:** `basic`
@@ -49,7 +49,7 @@ The PESTEL analysis can help a business understand the macro-environmental facto
 
 ## Market
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `None`
 *   **Mode:** `basic`
@@ -69,14 +69,14 @@ The PESTEL analysis can help a business understand the macro-environmental facto
 `Describe the overall market context for [your sector], including size, key segments, and growth drivers.`
 `What are the barriers to entry and regulatory factors affecting this market?`
 `Who are the key influencers, regulators, or associations shaping this market?`
-`How has this market grown historically over the past 5–10 years, and what factors drove that growth?`
+`How has this market grown historically over the past 5â€“10 years, and what factors drove that growth?`
 `What emerging sub-segments or niches within this market present untapped opportunities?`
 
 ---
 
 ## Stakeholders
 
-*   **Emoji:** 🤔
+*   **Emoji:** ðŸ¤”
 *   **Type:** `weight`
 *   **Category:** `Market`
 *   **Mode:** `basic`
@@ -121,7 +121,7 @@ Stakeholder Value Analysis is a method used to understand how different stakehol
 
 ### Prompts
 `Identify and characterize the main stakeholders for [your business], detailing their interests and influence.`
-`Map each stakeholder’s decision-making power and level of engagement.`
+`Map each stakeholderâ€™s decision-making power and level of engagement.`
 `Determine the key objectives and concerns of each stakeholder group.`
 `Describe the current relationship dynamics between your business and each stakeholder.`
 `Assess potential conflicts or alignments among these stakeholders.`
@@ -130,7 +130,7 @@ Stakeholder Value Analysis is a method used to understand how different stakehol
 
 ## Segments
 
-*   **Emoji:** 🙋
+*   **Emoji:** ðŸ™‹
 *   **Type:** `weight`
 *   **Category:** `Market`
 *   **Mode:** `basic`
@@ -176,7 +176,7 @@ This tool helps to gain a deeper insight into customers. It involves understandi
 
 ## Profiles
 
-*   **Emoji:** 🙎
+*   **Emoji:** ðŸ™Ž
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `basic`
@@ -208,7 +208,7 @@ This framework focuses on understanding the customer's needs in terms of the job
 ### Prompts
 `For each customer segment, create a detailed profile including demographics, needs, and buying behaviors.`
 `Outline the typical buying process and information sources for this profile.`
-`Identify the profile’s goals, success metrics, and decision triggers.`
+`Identify the profileâ€™s goals, success metrics, and decision triggers.`
 `Describe common objections this profile may raise and how to address them.`
 `Suggest tailored messaging strategies that resonate with this profile.`
 
@@ -216,7 +216,7 @@ This framework focuses on understanding the customer's needs in terms of the job
 
 ## Persona
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Profiles`
 *   **Mode:** `advanced`
@@ -261,7 +261,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ### Prompts
 `Create a detailed persona for [segment name], including demographics, motivations, and goals.`
-`Describe this persona’s daily routines and decision-making process when evaluating solutions.`
+`Describe this personaâ€™s daily routines and decision-making process when evaluating solutions.`
 `Identify their top 3 pain points and aspirations.`
 `Explain how this persona perceives value and trust in our industry.`
 `List potential objections this persona may raise during purchase discussions.`
@@ -270,7 +270,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ## Segmentation
 
-*   **Emoji:** ✂️
+*   **Emoji:** âœ‚ï¸
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -317,7 +317,7 @@ This is a method of dividing a market into segments based on variables such as s
 
 ## Market trends
 
-*   **Emoji:** 📈
+*   **Emoji:** ðŸ“ˆ
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `expert`
@@ -365,7 +365,7 @@ This tool involves the identification and analysis of market trends over time. I
 
 ## Market size
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -409,7 +409,7 @@ This strategic planning tool helps businesses decide their product and market gr
 
 ## Competition
 
-*   **Emoji:** 🏅
+*   **Emoji:** ðŸ…
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -442,7 +442,7 @@ This model helps a business to identify its competitive advantage in its market 
 **Value Net Model**
 Developed by Adam Brandenburger and Barry Nalebuff, this model looks at business competition and cooperation. It identifies four types of players in the competitive game: Customers, Suppliers, Competitors, and Complementors. Understanding these players helps in strategizing and creating value.
 **Blue Ocean Strategy**
-This strategy, developed by W. Chan Kim and Renée Mauborgne, involves creating a new, uncontested market space (or "Blue Ocean") rather than competing in an existing market, which is often saturated and highly competitive ("Red Ocean").
+This strategy, developed by W. Chan Kim and RenÃ©e Mauborgne, involves creating a new, uncontested market space (or "Blue Ocean") rather than competing in an existing market, which is often saturated and highly competitive ("Red Ocean").
 **PESTEL Analysis**
 The PESTEL analysis can help identify how external factors might affect the competition within a market segment. For example, changes in legal regulations might affect the competitive landscape.
 
@@ -457,7 +457,7 @@ The PESTEL analysis can help identify how external factors might affect the comp
 
 ## Roles
 
-*   **Emoji:** 🎩
+*   **Emoji:** ðŸŽ©
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `expert`
@@ -495,7 +495,7 @@ Similar to the Customer Journey Map, this tool involves mapping out the entire p
 By analyzing Political, Economic, Social, Technological, Ecological, and Legal factors, companies can identify how these external factors affect the roles involved in the purchasing decision. For example, legal regulations might dictate who can make certain purchasing decisions in a company.
 
 ### Prompts
-`Identify the key roles (e.g., champion, decision-maker, influencer, approver) in your customers’ buying journey and describe their responsibilities.`
+`Identify the key roles (e.g., champion, decision-maker, influencer, approver) in your customersâ€™ buying journey and describe their responsibilities.`
 `What criteria does each role use to evaluate potential solutions?`
 `How do budget holders and technical evaluators collaborate during the purchase process?`
 `Which role typically drives the final purchase decision and why?`
@@ -505,7 +505,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ## Problems
 
-*   **Emoji:** 😟
+*   **Emoji:** ðŸ˜Ÿ
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `basic`
@@ -547,7 +547,7 @@ The PESTEL analysis can be used to understand the broader context in which stake
 
 ## Value propositions
 
-*   **Emoji:** 💎
+*   **Emoji:** ðŸ’Ž
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `basic`
@@ -564,7 +564,7 @@ The value proposition is a critical component of business design as it defines t
 
 For instance, a software company may offer a unique value proposition to its business customers by providing innovative, reliable, and user-friendly software solutions that help businesses improve their productivity, reduce their costs, and grow their revenues. The company may also offer superior customer service, technical support, and training to ensure that its customers can fully utilize its software and achieve their business goals.
 
-The software company's value proposition is not just about its software. It is about the total value that the company delivers to its customers, including the the benefits that its software brings to its customers, quality of its software, and the support that the company provides to its customers. It is about how the company solves its customers' problems, meets their needs, and creates value for them.
+The software company's value proposition is not just about its software. It is about the total value that the company delivers to its customers, including the benefits that its software brings to its customers, quality of its software, and the support that the company provides to its customers. It is about how the company solves its customers' problems, meets their needs, and creates value for them.
 
 In essence, the value proposition is a strategic tool that enables businesses to differentiate themselves from their competitors, attract and retain their customers, and achieve their business goals. It is the heart of business design and a key driver of business success.
 
@@ -591,7 +591,7 @@ This theory, developed by Clayton Christensen, suggests that customers hire prod
 
 ## Messages
 
-*   **Emoji:** 📣
+*   **Emoji:** ðŸ“£
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -623,7 +623,7 @@ The Customer Journey Map is a tool that can be used to identify the key messages
 The PESTEL Analysis can be used to identify external factors that may affect the messages that a company communicates to its customers. For example, social factors may influence the type of language that is used in the messages, and technological factors may influence the channels through which the messages are delivered.
 
 ### Prompts
-`Draft three headline messages that resonate with [persona]’s main challenge.`
+`Draft three headline messages that resonate with [persona]â€™s main challenge.`
 `What call-to-action phrases would prompt immediate engagement?`
 `Which tone and language style best aligns with this persona?`
 `How should messages differ by stage of the buyer journey?`
@@ -633,7 +633,7 @@ The PESTEL Analysis can be used to identify external factors that may affect the
 
 ## Channels
 
-*   **Emoji:** 🎙️
+*   **Emoji:** ðŸŽ™ï¸
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `basic`
@@ -646,7 +646,7 @@ Means through which we interact with our clients throughout the customer journey
 ### Description
 Channels are the pathways through which a company communicates and delivers its value proposition to customers. They encompass everything from how customers first hear about a product to how it is delivered to them and supported afterward. Channels ensure that the value created by a business reaches its intended audience in a way that is efficient, effective, and aligned with customer expectations.
 
-Think of channels as the customer journey: first, they discover your product or service (awareness). This could happen through an engaging social media ad, word of mouth, or a well-placed banner on a website. Next comes evaluation—customers need a way to understand whether your product meets their needs. This might involve offering free trials, showcasing customer reviews, or creating informative product videos.
+Think of channels as the customer journey: first, they discover your product or service (awareness). This could happen through an engaging social media ad, word of mouth, or a well-placed banner on a website. Next comes evaluationâ€”customers need a way to understand whether your product meets their needs. This might involve offering free trials, showcasing customer reviews, or creating informative product videos.
 
 When the customer is ready to buy, the purchase phase is where your sales channels come into play. They might buy directly from your website, visit a physical store, or order through a third-party retailer. Once the purchase is made, delivery channels take over to ensure the product reaches the customer, whether through home delivery, digital downloads, or pickup options. Finally, post-sale support keeps the relationship alive, with loyalty programs, customer service, or satisfaction surveys helping to build trust and encourage repeat business.
 
@@ -677,7 +677,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ## Relationships
 
-*   **Emoji:** 🤝
+*   **Emoji:** ðŸ¤
 *   **Type:** `text`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -721,7 +721,7 @@ NPS is a tool used to measure the loyalty of a company's customer relationships.
 
 ## Perceptions
 
-*   **Emoji:** 👁️
+*   **Emoji:** ðŸ‘ï¸
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -767,7 +767,7 @@ These tools can be used to monitor and manage online perceptions of the company.
 
 ## Emotions
 
-*   **Emoji:** 😐
+*   **Emoji:** ðŸ˜
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -817,7 +817,7 @@ NPS is a tool that measures customer loyalty and satisfaction. It can provide in
 
 ## Behaviors
 
-*   **Emoji:** 🦾
+*   **Emoji:** ðŸ¦¾
 *   **Type:** `weight`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -825,7 +825,7 @@ NPS is a tool that measures customer loyalty and satisfaction. It can provide in
 *   **AI Applicability:** 5
 
 ### Summary
-Behaviors refers to what customers express (say) and their observable actions (do) during their experience with a product or service, both the verbal feedback provided by customers—such as comments, quotes, and reviews—and their actual behaviors or interactions.
+Behaviors refers to what customers express (say) and their observable actions (do) during their experience with a product or service, both the verbal feedback provided by customersâ€”such as comments, quotes, and reviewsâ€”and their actual behaviors or interactions.
 
 ### Description
 "Emotions" in business modeling refers to the emotional aspects that influence the behaviors and decisions of customers, employees, and other stakeholders. This concept is crucial in a business model as it helps companies understand and manage these emotional aspects to enhance their relationships with these stakeholders, improve their experiences, and ultimately, drive their business success.
@@ -867,7 +867,7 @@ NPS is a tool that measures customer loyalty and satisfaction. It can provide in
 
 ## Journey
 
-*   **Emoji:** ✈️
+*   **Emoji:** âœˆï¸
 *   **Type:** `steps`
 *   **Category:** `Segments`
 *   **Mode:** `advanced`
@@ -903,7 +903,7 @@ Personas are fictional characters created to represent the different user types 
 The Jobs to Be Done Framework is a tool for understanding customer needs, and helps businesses focus on what a customer is trying to achieve at each stage of their journey. It provides insight into customer motivations and can help businesses design their services or products to meet these needs.
 
 ### Prompts
-`Map the journey stages (awareness → consideration → purchase → loyalty → advocacy) for [persona], naming each phase.`
+`Map the journey stages (awareness â†’ consideration â†’ purchase â†’ loyalty â†’ advocacy) for [persona], naming each phase.`
 `What touchpoints and channels appear at each stage?`
 `What goals, questions, and pain points do they have in each phase?`
 `Which success metrics track performance at each point?`
@@ -913,7 +913,7 @@ The Jobs to Be Done Framework is a tool for understanding customer needs, and he
 
 ## Solutions
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `None`
 *   **Mode:** `basic`
@@ -940,7 +940,7 @@ The Jobs to Be Done Framework is a tool for understanding customer needs, and he
 
 ## Products and services
 
-*   **Emoji:** 💊
+*   **Emoji:** ðŸ’Š
 *   **Type:** `weight`
 *   **Category:** `Solutions`
 *   **Mode:** `basic`
@@ -986,7 +986,7 @@ This tool is used for service design and innovation. It maps out the processes i
 
 ## Portfolio
 
-*   **Emoji:** 💼
+*   **Emoji:** ðŸ’¼
 *   **Type:** `text`
 *   **Category:** `Products and services`
 *   **Mode:** `basic`
@@ -1013,7 +1013,7 @@ This tool is used for service design and innovation. It maps out the processes i
 
 ## Components
 
-*   **Emoji:** 🧩
+*   **Emoji:** ðŸ§©
 *   **Type:** `weight`
 *   **Category:** `Products and services`
 *   **Mode:** `expert`
@@ -1059,7 +1059,7 @@ This tool analyzes a company's activities to understand the sources of value. Th
 
 ## Features
 
-*   **Emoji:** 🌟
+*   **Emoji:** ðŸŒŸ
 *   **Type:** `weight`
 *   **Category:** `Products and services`
 *   **Mode:** `advanced`
@@ -1086,7 +1086,7 @@ This tool, also developed by Alexander Osterwalder, is a more detailed look at t
 **Lean Startup Methodology**
 The Lean Startup methodology, developed by Eric Ries, emphasizes the importance of getting a "Minimum Viable Product" (MVP) to market as quickly as possible. The MVP is a version of the product with just enough features to satisfy early customers and provide feedback for future product development.
 **Jobs to be Done Framework**
-This framework, developed by Clayton Christensen, focuses on understanding the customer's "job" – the progress they are trying to make in a particular circumstance. The features of the solution are designed to help the customer get this job done more effectively or efficiently.
+This framework, developed by Clayton Christensen, focuses on understanding the customer's "job" â€“ the progress they are trying to make in a particular circumstance. The features of the solution are designed to help the customer get this job done more effectively or efficiently.
 **Feature Prioritization Matrix**
 This tool is used to prioritize the features to be included in a product or service. It involves plotting the features on a matrix based on their value to the customer and the effort required to implement them. This helps ensure that the most valuable and feasible features are included in the solution.
 **Kano Model**
@@ -1103,7 +1103,7 @@ The Kano Model, developed by Noriaki Kano, is a theory for product development a
 
 ## Roadmap
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `steps`
 *   **Category:** `Products and services`
 *   **Mode:** `expert`
@@ -1134,7 +1134,7 @@ In the Business Model Canvas, the "Key Activities" component can be used to outl
 **Lean Startup Methodology**
 The Lean Startup methodology, developed by Eric Ries, emphasizes the creation of a Minimum Viable Product (MVP) and then using customer feedback to iterate and improve. The roadmap in this context is a plan for developing and refining the solution based on customer feedback.
 **Agile Development**
-Agile development is a methodology that emphasizes flexibility, customer collaboration, and responsiveness to change. The roadmap in Agile development is a high-level view of the product’s development, outlining the steps and strategies needed to implement the solution.
+Agile development is a methodology that emphasizes flexibility, customer collaboration, and responsiveness to change. The roadmap in Agile development is a high-level view of the productâ€™s development, outlining the steps and strategies needed to implement the solution.
 **Gantt Chart**
 A Gantt chart is a visual representation of a project schedule, showing the start and finish dates of the terminal elements and summary elements of a project. It can be used as a roadmap to outline the steps and strategies needed to implement a business model solution.
 **SWOT Analysis**
@@ -1153,7 +1153,7 @@ A PESTEL analysis can be used to identify how external macro-environmental facto
 
 ## Pricing
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Products and services`
 *   **Mode:** `advanced`
@@ -1166,7 +1166,7 @@ The approach the business will take to determine the price points for its produc
 ### Description
 The Pricing Strategy section outlines the approach the business will take to determine the price points for its products or services. It considers various factors, including the cost structure, target market positioning, perceived value, and competitive landscape. The strategy aims to find a balance between profitability and market penetration, ensuring that the pricing reflects the unique value proposition while remaining attractive to the intended customer segments. The chosen pricing model may be dynamic, value-based, or cost-plus, depending on the industry context and customer expectations.
 
-In this section, we will detail the pricing tiers, any planned discounts or promotional offers, and adjustments based on market trends or seasonality. The goal is to set prices that not only cover costs but also drive growth and support the company’s broader business objectives. We will also outline the key metrics to monitor, such as price elasticity and customer feedback, to ensure the pricing strategy remains aligned with market demand and the overall business plan.
+In this section, we will detail the pricing tiers, any planned discounts or promotional offers, and adjustments based on market trends or seasonality. The goal is to set prices that not only cover costs but also drive growth and support the companyâ€™s broader business objectives. We will also outline the key metrics to monitor, such as price elasticity and customer feedback, to ensure the pricing strategy remains aligned with market demand and the overall business plan.
 
 ### Methodologies
 **Business Model Canvas**
@@ -1176,7 +1176,7 @@ This tool, also developed by Alexander Osterwalder, is specifically designed to 
 **Lean Startup Methodology**
 The Lean Startup methodology, developed by Eric Ries, emphasizes the importance of getting a "minimum viable product" (MVP) into the hands of customers as quickly as possible. The MVP is a version of the product with just enough features to satisfy early customers and provide feedback for future product development.
 **Blue Ocean Strategy**
-This strategy, developed by W. Chan Kim and Renée Mauborgne, encourages businesses to create new demand in uncontested market spaces (or "blue oceans") rather than competing in existing markets. One way to do this is by offering a dramatically different solution or offering that creates a new market.
+This strategy, developed by W. Chan Kim and RenÃ©e Mauborgne, encourages businesses to create new demand in uncontested market spaces (or "blue oceans") rather than competing in existing markets. One way to do this is by offering a dramatically different solution or offering that creates a new market.
 **Jobs to be Done Theory**
 This theory, developed by Clayton Christensen, suggests that customers "hire" products or services to do specific "jobs" for them. By understanding what job a customer needs done, businesses can design solutions or offerings that do that job better than any other product on the market.
 **SWOT Analysis**
@@ -1195,7 +1195,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ## Offerings
 
-*   **Emoji:** 🛍️
+*   **Emoji:** ðŸ›ï¸
 *   **Type:** `weight`
 *   **Category:** `Products and services`
 *   **Mode:** `advanced`
@@ -1226,7 +1226,7 @@ This tool, also developed by Alexander Osterwalder, is specifically designed to 
 **Lean Startup Methodology**
 The Lean Startup methodology, developed by Eric Ries, emphasizes the importance of getting a "minimum viable product" (MVP) into the hands of customers as quickly as possible. The MVP is a version of the product with just enough features to satisfy early customers and provide feedback for future product development.
 **Blue Ocean Strategy**
-This strategy, developed by W. Chan Kim and Renée Mauborgne, encourages businesses to create new demand in uncontested market spaces (or "blue oceans") rather than competing in existing markets. One way to do this is by offering a dramatically different solution or offering that creates a new market.
+This strategy, developed by W. Chan Kim and RenÃ©e Mauborgne, encourages businesses to create new demand in uncontested market spaces (or "blue oceans") rather than competing in existing markets. One way to do this is by offering a dramatically different solution or offering that creates a new market.
 **Jobs to be Done Theory**
 This theory, developed by Clayton Christensen, suggests that customers "hire" products or services to do specific "jobs" for them. By understanding what job a customer needs done, businesses can design solutions or offerings that do that job better than any other product on the market.
 **SWOT Analysis**
@@ -1245,7 +1245,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ## Marketing
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `Solutions`
 *   **Mode:** `advanced`
@@ -1295,7 +1295,7 @@ Porter's Five Forces is a model that identifies and analyzes five competitive fo
 
 ## Naming
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Marketing`
 *   **Mode:** `advanced`
@@ -1347,7 +1347,7 @@ Before finalizing a name, businesses should conduct a trademark search to ensure
 
 ## Branding
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Marketing`
 *   **Mode:** `advanced`
@@ -1391,7 +1391,7 @@ This tool, based on the archetypes defined by psychologist Carl Jung, helps busi
 
 ## Visual identity
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Marketing`
 *   **Mode:** `expert`
@@ -1445,7 +1445,7 @@ A Mood Board is a tool used in the early stages of the design process to help de
 
 ## Logo
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Marketing`
 *   **Mode:** `expert`
@@ -1491,7 +1491,7 @@ A brand audit is a thorough examination of a brand's current position in the mar
 
 ## Media plan
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Marketing`
 *   **Mode:** `expert`
@@ -1545,7 +1545,7 @@ Porter's Five Forces is a tool that can be used to analyze the competitive envir
 
 ## Communication
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `Solutions`
 *   **Mode:** `advanced`
@@ -1577,7 +1577,7 @@ This tool, also developed by Alexander Osterwalder, focuses on the "value propos
 This tool helps businesses identify and understand their key stakeholders, including their needs, interests, and influence. It can be used to plan and manage communications with different stakeholder groups.
 **Message Map**
 A message map is a tool that helps businesses create and communicate a consistent message to their stakeholders. It can be used to ensure that all communications are aligned with the company's key messages.
-**PR Smith's SOSTAC® Planning Model**
+**PR Smith's SOSTACÂ® Planning Model**
 This model provides a framework for developing a comprehensive communications strategy. It covers six key areas: Situation analysis, Objectives, Strategy, Tactics, Action, and Control.
 **RACE Digital Marketing Planning Framework**
 RACE (Reach, Act, Convert, Engage) is a practical framework to help manage and improve results from digital marketing. Ultimately it's about using digital communications tools to achieve marketing objectives.
@@ -1595,7 +1595,7 @@ The PESO model (Paid, Earned, Shared, Owned) is a tool for planning and executin
 
 ## Pitch
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Communication`
 *   **Mode:** `advanced`
@@ -1631,7 +1631,7 @@ This concept is often used in business pitches to demonstrate that a business ha
 The Lean Canvas is a 1-page business plan template that helps businesses deconstruct their idea into key assumptions. It can be used to create a concise and compelling pitch that focuses on the key components of the business model.
 
 ### Prompts
-`Draft a one-slide “elevator pitch” summarizing the problem, solution, and opportunity.`
+`Draft a one-slide â€œelevator pitchâ€ summarizing the problem, solution, and opportunity.`
 `What core metrics (e.g., TAM, growth rate) should we highlight to investors?`
 `How can we tailor our pitch to address VC vs. strategic investors?`
 `Which storytelling structure will make our pitch most persuasive?`
@@ -1641,7 +1641,7 @@ The Lean Canvas is a 1-page business plan template that helps businesses deconst
 
 ## Brochure
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Products and services`
 *   **Mode:** `advanced`
@@ -1683,7 +1683,7 @@ The "Solution/Brochure" can be influenced by external factors analyzed in the PE
 
 ## Web
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Communication`
 *   **Mode:** `advanced`
@@ -1735,7 +1735,7 @@ Google Analytics is a tool that allows businesses to analyze in-depth detail abo
 
 ## Storytelling
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Communication`
 *   **Mode:** `expert`
@@ -1777,7 +1777,7 @@ This approach involves creating and sharing a narrative across multiple platform
 This theory suggests that when people lose themselves in a story, their attitudes and intentions change to reflect that story. Businesses can use this theory to create compelling brand stories that 'transport' their audience and influence their perceptions and behaviors.
 
 **Emotional Branding**
-Developed by Marc Gobé, this approach focuses on building brands that appeal directly to a consumer's emotional state, needs and aspirations. Emotional branding involves creating a story that will resonate with target customers on an emotional level, helping to build strong and lasting relationships.
+Developed by Marc GobÃ©, this approach focuses on building brands that appeal directly to a consumer's emotional state, needs and aspirations. Emotional branding involves creating a story that will resonate with target customers on an emotional level, helping to build strong and lasting relationships.
 
 ### Prompts
 `Craft a brand narrative that weaves together our origin, mission, and customer impact.`
@@ -1790,7 +1790,7 @@ Developed by Marc Gobé, this approach focuses on building brands that appeal di
 
 ## Presentations
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Communication`
 *   **Mode:** `advanced`
@@ -1840,7 +1840,7 @@ A PESTEL analysis can be used in presentations to provide stakeholders with a co
 
 ## Organization
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `None`
 *   **Mode:** `advanced`
@@ -1867,7 +1867,7 @@ A PESTEL analysis can be used in presentations to provide stakeholders with a co
 
 ## Business idea
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `advanced`
@@ -1892,7 +1892,7 @@ In the Business Model Canvas, the business idea is essentially the foundation of
 **Lean Startup Methodology**
 The Lean Startup methodology, developed by Eric Ries, is built around the concept of developing a business idea through a process of validated learning. This involves quickly building a minimum viable product (MVP) based on the business idea, measuring how it performs in the market, and learning from that data to iterate and improve the product.
 **Blue Ocean Strategy**
-The Blue Ocean Strategy, developed by W. Chan Kim and Renée Mauborgne, is a business model that focuses on creating new demand in an uncontested market space, or "Blue Ocean", rather than competing in an existing market. The business idea is the unique concept or proposition that allows the company to create this new market space.
+The Blue Ocean Strategy, developed by W. Chan Kim and RenÃ©e Mauborgne, is a business model that focuses on creating new demand in an uncontested market space, or "Blue Ocean", rather than competing in an existing market. The business idea is the unique concept or proposition that allows the company to create this new market space.
 **Value Proposition Canvas**
 The Value Proposition Canvas, also developed by Alexander Osterwalder, is a tool that helps businesses to design compelling value propositions that customers will love. The business idea is the unique concept or proposition that forms the basis of the value proposition.
 **SWOT Analysis**
@@ -1911,7 +1911,7 @@ The PESTEL analysis can be used to identify how external factors (Political, Eco
 
 ## Inspiration
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Business idea`
 *   **Mode:** `expert`
@@ -1952,7 +1952,7 @@ SCAMPER is a creative thinking technique that can be used to improve products or
 The Innovation Ambition Matrix is a tool that can help companies identify new opportunities for growth. It involves plotting existing and potential products on a matrix based on the potential market and the level of innovation required. This can inspire new ideas for innovative products or services.
 
 ### Prompts
-`Identify 3–5 sources of inspiration (companies, trends, technologies) that shaped our business concept.`
+`Identify 3â€“5 sources of inspiration (companies, trends, technologies) that shaped our business concept.`
 `How can we translate these inspirations into innovative features or services?`
 `What lessons can we learn from similar successful ventures?`
 `Which external case studies demonstrate best practices relevant to our model?`
@@ -1962,7 +1962,7 @@ The Innovation Ambition Matrix is a tool that can help companies identify new op
 
 ## Opportunity
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Business idea`
 *   **Mode:** `advanced`
@@ -2008,7 +2008,7 @@ By analyzing Political, Economic, Social, Technological, Ecological, and Legal f
 
 ## Business status
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Business idea`
 *   **Mode:** `basic`
@@ -2055,7 +2055,7 @@ Financial ratios are numerical comparisons of various aspects of a business's fi
 
 ## Challenges
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Business idea`
 *   **Mode:** `expert`
@@ -2103,7 +2103,7 @@ Gap Analysis is a tool that can help businesses identify challenges by comparing
 
 ## Business objectives
 
-*   **Emoji:** 🧠
+*   **Emoji:** ðŸ§ 
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `basic`
@@ -2135,7 +2135,7 @@ PESTEL Analysis is a tool used to analyze the macro-environmental factors that a
 This tool helps businesses to understand their customers' needs and design products and services they want. It can help in setting business objectives by identifying customer needs and wants.
 
 ### Prompts
-`Define 3–5 SMART objectives for the next 12 months aligned with our mission.`
+`Define 3â€“5 SMART objectives for the next 12 months aligned with our mission.`
 `What metrics will measure success against each objective?`
 `Which departments or teams are responsible for each objective?`
 `What resources and timelines are needed to achieve these objectives?`
@@ -2145,7 +2145,7 @@ This tool helps businesses to understand their customers' needs and design produ
 
 ## Mission
 
-*   **Emoji:** 🎯
+*   **Emoji:** ðŸŽ¯
 *   **Type:** `text`
 *   **Category:** `Business objectives`
 *   **Mode:** `advanced`
@@ -2189,7 +2189,7 @@ This tool, also developed by Alexander Osterwalder, can be used to ensure that a
 
 ## Vision
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Business objectives`
 *   **Mode:** `advanced`
@@ -2223,7 +2223,7 @@ The PESTEL analysis can be used to evaluate the alignment of the company's visio
 The Value Proposition Canvas is a tool that helps businesses to understand their customers' needs and to design products and services that meet these needs. The vision of the company can guide the design of the value proposition, ensuring that it aligns with the long-term aspirations and goals of the business model.
 
 ### Prompts
-`Craft a vision statement describing our desired future state in 5–10 years.`
+`Craft a vision statement describing our desired future state in 5â€“10 years.`
 `What aspirational goals and values should the vision convey?`
 `How does this vision align with industry trends and societal needs?`
 `What milestones will indicate progress toward this vision?`
@@ -2233,7 +2233,7 @@ The Value Proposition Canvas is a tool that helps businesses to understand their
 
 ## Organizational values
 
-*   **Emoji:** ⚙️
+*   **Emoji:** âš™ï¸
 *   **Type:** `weight`
 *   **Category:** `Business objectives`
 *   **Mode:** `advanced`
@@ -2257,7 +2257,7 @@ In essence, "organization values" in business modeling is about defining and emb
 This tool, developed by Denison Consulting, assesses the alignment of an organization's values with its practices. It measures four key traits: adaptability, mission, involvement, and consistency. The latter directly relates to the organization's values, as it measures the extent to which the organization's behavior is consistent with its stated values.
 
 **Balanced Scorecard**
-The Balanced Scorecard, developed by Robert Kaplan and David Norton, is a strategic planning and management system that organizations use to align business activities with the vision and strategy of the organization, improve internal and external communications, and monitor organization performance against strategic goals. The scorecard includes financial measures that tell the results of actions already taken. And it complements the financial measures with operational measures on customer satisfaction, internal processes, and the organization's innovation and improvement activities—operational measures that are the drivers of future financial performance.
+The Balanced Scorecard, developed by Robert Kaplan and David Norton, is a strategic planning and management system that organizations use to align business activities with the vision and strategy of the organization, improve internal and external communications, and monitor organization performance against strategic goals. The scorecard includes financial measures that tell the results of actions already taken. And it complements the financial measures with operational measures on customer satisfaction, internal processes, and the organization's innovation and improvement activitiesâ€”operational measures that are the drivers of future financial performance.
 
 **Cultural Web**
 The Cultural Web, developed by Gerry Johnson and Kevan Scholes, is a model that represents the behavioral, physical, and symbolic manifestations of a culture that can help to identify the organization's culture. One of the six components of the Cultural Web is 'Rituals and Routines', which are the daily behavior and actions of people that signal acceptable behavior. This influences what is expected to happen in given situations, and what is valued by management.
@@ -2279,7 +2279,7 @@ The McKinsey 7S Framework, developed by Tom Peters and Robert Waterman at McKins
 
 ## Organizational goals
 
-*   **Emoji:** 👔
+*   **Emoji:** ðŸ‘”
 *   **Type:** `weight`
 *   **Category:** `Business objectives`
 *   **Mode:** `advanced`
@@ -2321,7 +2321,7 @@ While SWOT Analysis is a general tool, it can be used to identify the strengths,
 PESTEL Analysis is a framework or tool used by marketers to analyze and monitor the macro-environmental (external marketing environment) factors that have an impact on an organization. The outcome of PESTEL Analysis can be used to adjust the strategy or identify new goals for the organization.
 
 ### Prompts
-`Define 3–5 SMART organizational goals aligned with our mission.`
+`Define 3â€“5 SMART organizational goals aligned with our mission.`
 `Assign measurable KPIs to each goal to track progress.`
 `Specify owners and timelines for each goal.`
 `Describe how these goals cascade down to team and individual objectives.`
@@ -2331,7 +2331,7 @@ PESTEL Analysis is a framework or tool used by marketers to analyze and monitor 
 
 ## Operations
 
-*   **Emoji:** ⭐
+*   **Emoji:** â­
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `advanced`
@@ -2384,7 +2384,7 @@ The SCOR Model is a process reference model that provides a cross-industry stand
 
 ## Activities
 
-*   **Emoji:** 👤
+*   **Emoji:** ðŸ‘¤
 *   **Type:** `weight`
 *   **Category:** `Operations`
 *   **Mode:** `advanced`
@@ -2430,7 +2430,7 @@ Lean Manufacturing is a systematic method for waste minimization within a manufa
 
 ## Functions
 
-*   **Emoji:** 🎯
+*   **Emoji:** ðŸŽ¯
 *   **Type:** `weight`
 *   **Category:** `Operations`
 *   **Mode:** `expert`
@@ -2472,13 +2472,13 @@ Lean Six Sigma is a method that relies on a collaborative team effort to improve
 `Describe how functions collaborate and hand off work.`
 `Identify any gaps or overlaps between functions.`
 `Propose governance or coordination mechanisms to improve cross-functional alignment.`
-`Recommend performance metrics to evaluate each function’s effectiveness.`
+`Recommend performance metrics to evaluate each functionâ€™s effectiveness.`
 
 ---
 
 ## Resources
 
-*   **Emoji:** 🔧
+*   **Emoji:** ðŸ”§
 *   **Type:** `weight`
 *   **Category:** `Operations`
 *   **Mode:** `expert`
@@ -2513,7 +2513,7 @@ The SWOT analysis can be used to identify the strengths and weaknesses of a comp
 **Resource-Based View (RBV)**
 The Resource-Based View is a method of analyzing and identifying a firm's strategic advantages based on the examination of the combination of its resources. It emphasizes the importance of firm-specific resources that are valuable, rare, inimitable, and non-substitutable (VRIN) to gain and maintain competitive advantage.
 **Balanced Scorecard**
-The Balanced Scorecard is a strategic planning and management system that organizations use to align business activities with the vision and strategy of the organization, improve internal and external communications, and monitor organization performance against strategic goals. It includes financial measures that tell the results of actions already taken, and operational measures on customer satisfaction, internal processes, and the organization's innovation and improvement activities—the drivers of future financial performance.
+The Balanced Scorecard is a strategic planning and management system that organizations use to align business activities with the vision and strategy of the organization, improve internal and external communications, and monitor organization performance against strategic goals. It includes financial measures that tell the results of actions already taken, and operational measures on customer satisfaction, internal processes, and the organization's innovation and improvement activitiesâ€”the drivers of future financial performance.
 
 ### Prompts
 `Identify the critical resources (physical, human, intellectual, financial) required for each solution.`
@@ -2526,7 +2526,7 @@ The Balanced Scorecard is a strategic planning and management system that organi
 
 ## Team
 
-*   **Emoji:** ➡️
+*   **Emoji:** âž¡ï¸
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `basic`
@@ -2579,7 +2579,7 @@ Kanban is a visual system for managing work as it moves through a process. It vi
 
 ## Goals
 
-*   **Emoji:** ⬅️
+*   **Emoji:** â¬…ï¸
 *   **Type:** `weight`
 *   **Category:** `Team`
 *   **Mode:** `expert`
@@ -2596,7 +2596,7 @@ Kanban is a visual system for managing work as it moves through a process. It vi
 *No methodologies provided.*
 
 ### Prompts
-`List 3–5 departmental or individual goals that support the organizational objectives.`
+`List 3â€“5 departmental or individual goals that support the organizational objectives.`
 `Assign specific metrics and targets to each goal.`
 `Specify owners and deadlines for achieving each goal.`
 `Explain how progress on these goals will be reported.`
@@ -2606,7 +2606,7 @@ Kanban is a visual system for managing work as it moves through a process. It vi
 
 ## Skills
 
-*   **Emoji:** 🪪
+*   **Emoji:** ðŸªª
 *   **Type:** `weight`
 *   **Category:** `Team`
 *   **Mode:** `expert`
@@ -2658,7 +2658,7 @@ This is a systematic process of collecting information about a job. A job analys
 
 ## Contributions
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Team`
 *   **Mode:** `expert`
@@ -2673,7 +2673,7 @@ The multiple resources or inputs that an individual provides to the company, hig
 
 In a business model, "Contributions" are fundamental components as they enable the execution of key activities. They may involve carrying out specific tasks, providing necessary resources, or supporting critical functions. The performance or quality of these contributors directly influences the overall success of the business.
 
-The identification of "Contributions" varies depending on the nature of the business and its activities. It includes not only roles such as employees, suppliers, or partners but also tangible and intangible assets like equipment, technology, intellectual property, or data. Each contributor—whether a person, resource, or asset—fulfills a specific role and responsibility, requiring a coordinated effort to achieve business objectives.
+The identification of "Contributions" varies depending on the nature of the business and its activities. It includes not only roles such as employees, suppliers, or partners but also tangible and intangible assets like equipment, technology, intellectual property, or data. Each contributorâ€”whether a person, resource, or assetâ€”fulfills a specific role and responsibility, requiring a coordinated effort to achieve business objectives.
 
 For example, in a manufacturing business, "Contributions" might include roles like production managers, machine operators, and raw material suppliers, as well as resources like manufacturing equipment, logistics systems, and production facilities. Each of these elements is crucial for producing and delivering high-quality products to customers.
 
@@ -2706,7 +2706,7 @@ Six Sigma is a set of techniques and tools for process improvement. It seeks to 
 
 ## Compensations
 
-*   **Emoji:** 🗓️
+*   **Emoji:** ðŸ—“ï¸
 *   **Type:** `weight`
 *   **Category:** `Team`
 *   **Mode:** `expert`
@@ -2752,7 +2752,7 @@ This tool involves creating fictional characters based on your real and potentia
 
 ## Positions
 
-*   **Emoji:** 🏁
+*   **Emoji:** ðŸ
 *   **Type:** `weight`
 *   **Category:** `Team`
 *   **Mode:** `expert`
@@ -2802,7 +2802,7 @@ The McKinsey 7S Framework is a management tool used to assess the alignment of s
 
 ## Project plan
 
-*   **Emoji:** 📐
+*   **Emoji:** ðŸ“
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `expert`
@@ -2856,7 +2856,7 @@ Scrum is an agile framework for managing knowledge work, with an emphasis on sof
 
 ## Phases
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `steps`
 *   **Category:** `Project plan`
 *   **Mode:** `expert`
@@ -2893,7 +2893,7 @@ Design Thinking is a methodology that includes distinct phases in the developmen
 **Agile Methodology**
 Agile methodology, often used in software development, can also be applied to business model development. The phases in Agile include "Requirements, Design, Development, Testing, Deployment, Review". The process is iterative, with each phase being revisited in response to the insights gained in the previous phase.
 **Blue Ocean Strategy**
-The Blue Ocean Strategy, developed by W. Chan Kim and Renée Mauborgne, includes distinct phases in the development and implementation of a business model. These phases are "Reconstruct Market Boundaries, Focus on the Big Picture, Reach Beyond Existing Demand, Get the Strategic Sequence Right". The process involves creating a new market space (blue ocean), rather than competing in an existing market (red ocean).
+The Blue Ocean Strategy, developed by W. Chan Kim and RenÃ©e Mauborgne, includes distinct phases in the development and implementation of a business model. These phases are "Reconstruct Market Boundaries, Focus on the Big Picture, Reach Beyond Existing Demand, Get the Strategic Sequence Right". The process involves creating a new market space (blue ocean), rather than competing in an existing market (red ocean).
 
 ### Prompts
 `Break the project into phases with clear objectives and deliverables for each.`
@@ -2906,7 +2906,7 @@ The Blue Ocean Strategy, developed by W. Chan Kim and Renée Mauborgne, includes
 
 ## Milestones
 
-*   **Emoji:** 💰
+*   **Emoji:** ðŸ’°
 *   **Type:** `sequence`
 *   **Category:** `Project plan`
 *   **Mode:** `expert`
@@ -2956,7 +2956,7 @@ In the Lean Startup methodology, milestones are often used in the "Build-Measure
 
 ## Metrics
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Organization`
 *   **Mode:** `advanced`
@@ -2993,7 +2993,7 @@ Dashboards are a visual display of the most important information needed to achi
 **Benchmarking**
 Benchmarking is the process of comparing your business processes and performance metrics to industry bests or best practices from other industries. It can be applied against any product, process, function or approach in business.
 **Net Promoter Score (NPS)**
-NPS is a customer loyalty metric that measures customers’ willingness to not only return for another purchase or service but also make a recommendation to their family, friends or colleagues. It is a powerful and straightforward metric that can be used to measure a customer's perception of a brand.
+NPS is a customer loyalty metric that measures customersâ€™ willingness to not only return for another purchase or service but also make a recommendation to their family, friends or colleagues. It is a powerful and straightforward metric that can be used to measure a customer's perception of a brand.
 **Customer Lifetime Value (CLV)**
 CLV is a prediction of the net profit attributed to the entire future relationship with a customer. This metric helps businesses understand a reasonable cost per acquisition.
 
@@ -3008,7 +3008,7 @@ CLV is a prediction of the net profit attributed to the entire future relationsh
 
 ## Finance
 
-*   **Emoji:** 💸
+*   **Emoji:** ðŸ’¸
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `basic`
@@ -3054,7 +3054,7 @@ Budgeting is a financial tool that involves planning for future income and expen
 
 ## Revenue
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Finance`
 *   **Mode:** `advanced`
@@ -3104,7 +3104,7 @@ Pricing strategies are directly linked to revenue lines. They include various me
 
 ## Life Time Value
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Finance`
 *   **Mode:** `advanced`
@@ -3151,7 +3151,7 @@ RFM analysis is a marketing technique used to quantitatively rank and group cust
 
 ## Costs
 
-*   **Emoji:** 💵
+*   **Emoji:** ðŸ’µ
 *   **Type:** `weight`
 *   **Category:** `Finance`
 *   **Mode:** `advanced`
@@ -3192,14 +3192,14 @@ This tool can help businesses understand how external factors might affect their
 `Break down fixed versus variable costs and quantify each category.`
 `Identify top cost drivers and propose reduction strategies.`
 `Estimate breakeven point based on current cost structure.`
-`Forecast cost trends over the next 12–24 months.`
+`Forecast cost trends over the next 12â€“24 months.`
 `Analyze cost implications of scaling operations or entering new markets.`
 
 ---
 
 ## Customer Aquisition Cost
 
-*   **Emoji:** 💼
+*   **Emoji:** ðŸ’¼
 *   **Type:** `text`
 *   **Category:** `Finance`
 *   **Mode:** `advanced`
@@ -3251,7 +3251,7 @@ CRO is the process of increasing the percentage of website visitors who complete
 
 ## Unit economics
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Finance`
 *   **Mode:** `expert`
@@ -3299,7 +3299,7 @@ Financial forecasting is the process of estimating or predicting how a business 
 
 ## Funding sources
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `weight`
 *   **Category:** `Finance`
 *   **Mode:** `expert`
@@ -3351,7 +3351,7 @@ Platforms like Kickstarter, Indiegogo, and GoFundMe have become popular tools fo
 
 ## Shareholders
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Finance`
 *   **Mode:** `expert`
@@ -3399,7 +3399,7 @@ This tool can be used to understand how a company's activities contribute to its
 
 ## Projections
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Finance`
 *   **Mode:** `expert`
@@ -3461,7 +3461,7 @@ Scenario analysis is a process of examining and evaluating possible events or sc
 
 ## Legal
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `category`
 *   **Category:** `Organization`
 *   **Mode:** `advanced`
@@ -3516,7 +3516,7 @@ CSR Frameworks, such as ISO 26000, can also play a role in the legal component o
 
 ## Legal issues
 
-*   **Emoji:** 🔮
+*   **Emoji:** ðŸ”®
 *   **Type:** `weight`
 *   **Category:** `Legal`
 *   **Mode:** `advanced`
@@ -3564,7 +3564,7 @@ This is a methodology that applies design thinking principles to legal issues. I
 
 ## Contracts
 
-*   **Emoji:** 🚨
+*   **Emoji:** ðŸš¨
 *   **Type:** `weight`
 *   **Category:** `Legal`
 *   **Mode:** `expert`
@@ -3608,7 +3608,7 @@ This tool is used to identify and understand the needs and expectations of major
 
 ## Matrices
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `None`
 *   **Mode:** `advanced`
@@ -3635,7 +3635,7 @@ This tool is used to identify and understand the needs and expectations of major
 
 ## Analysis
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `category`
 *   **Category:** `None`
 *   **Mode:** `basic`
@@ -3686,7 +3686,7 @@ Scenario Planning is a tool that can be used to analyze the potential future sce
 
 ## Assumptions
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Analysis`
 *   **Mode:** `advanced`
@@ -3734,7 +3734,7 @@ This tool, developed by David Bland, is specifically designed to help teams iden
 
 ## Risks
 
-*   **Emoji:** 🔑
+*   **Emoji:** ðŸ”‘
 *   **Type:** `weight`
 *   **Category:** `Analysis`
 *   **Mode:** `basic`
@@ -3761,7 +3761,7 @@ In summary, the Risk List model in business design is a strategic approach that 
 
 ### Methodologies
 **Risk Management Plan**
-A Risk Management Plan is a document that a project manager prepares to foresee risks, estimate impacts, and define responses to issues. It also contains a risk assessment matrix. A risk is "an uncertain event or condition that, if it occurs, has a positive or negative effect on a project’s objectives." This tool is used to identify potential risks in the early stages of a project and is a part of the overall project management plan.
+A Risk Management Plan is a document that a project manager prepares to foresee risks, estimate impacts, and define responses to issues. It also contains a risk assessment matrix. A risk is "an uncertain event or condition that, if it occurs, has a positive or negative effect on a projectâ€™s objectives." This tool is used to identify potential risks in the early stages of a project and is a part of the overall project management plan.
 **SWOT Analysis**
 The SWOT Analysis (Strengths, Weaknesses, Opportunities, Threats) is a strategic planning tool used to identify and analyze the strengths, weaknesses, opportunities, and threats involved in a project or business. It can be used to identify potential risks (threats) that could negatively affect the business model.
 **PESTEL Analysis**
@@ -3771,7 +3771,7 @@ The Risk Breakdown Structure (RBS) is a hierarchical representation of risks acc
 **Failure Mode and Effects Analysis (FMEA)**
 Failure Mode and Effects Analysis (FMEA) is a step-by-step approach for identifying all possible failures in a design, a manufacturing or assembly process, or a product or service. It is a common tool for risk assessment and is used to identify potential failure modes, determine their effect on the operation of the product, and identify actions to mitigate the failures.
 **Monte Carlo Simulation**
-Monte Carlo Simulation is a computerized mathematical technique that allows people to account for risk in quantitative analysis and decision making. It provides a range of possible outcomes and the probabilities they will occur for any choice of action. It shows the extreme possibilities—the outcomes of going for broke and for the most conservative decision—along with all possible consequences for middle-of-the-road decisions.
+Monte Carlo Simulation is a computerized mathematical technique that allows people to account for risk in quantitative analysis and decision making. It provides a range of possible outcomes and the probabilities they will occur for any choice of action. It shows the extreme possibilitiesâ€”the outcomes of going for broke and for the most conservative decisionâ€”along with all possible consequences for middle-of-the-road decisions.
 
 ### Prompts
 `Identify the top 5 risks associated with our business model and explain their potential impact.`
@@ -3784,7 +3784,7 @@ Monte Carlo Simulation is a computerized mathematical technique that allows peop
 
 ## Suggestions
 
-*   **Emoji:** 📂
+*   **Emoji:** ðŸ“‚
 *   **Type:** `weight`
 *   **Category:** `Analysis`
 *   **Mode:** `expert`
@@ -3811,7 +3811,7 @@ Monte Carlo Simulation is a computerized mathematical technique that allows peop
 
 ## Unfair advantage
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `text`
 *   **Category:** `Analysis`
 *   **Mode:** `expert`
@@ -3842,7 +3842,7 @@ This tool, developed by Michael Porter, can be used to identify a company's unfa
 **VRIO Framework**
 The VRIO framework (Value, Rarity, Imitability, Organization) is a tool for analyzing a company's resources and capabilities to determine if they provide a sustainable competitive advantage. If a resource or capability is valuable, rare, difficult to imitate, and the company is organized to exploit it, this can be considered an unfair advantage.
 **Blue Ocean Strategy**
-This strategy, developed by W. Chan Kim and Renée Mauborgne, involves creating a new, uncontested market space (or "blue ocean") rather than competing in an existing market. If a company can successfully implement a blue ocean strategy, this can be considered an unfair advantage as it allows the company to make the competition irrelevant.
+This strategy, developed by W. Chan Kim and RenÃ©e Mauborgne, involves creating a new, uncontested market space (or "blue ocean") rather than competing in an existing market. If a company can successfully implement a blue ocean strategy, this can be considered an unfair advantage as it allows the company to make the competition irrelevant.
 **Porter's Five Forces**
 While this tool is primarily used to analyze the competitive environment, it can also be used to identify potential unfair advantages. For example, if a company has strong bargaining power over suppliers or buyers, this can be considered an unfair advantage.
 
@@ -3857,7 +3857,7 @@ While this tool is primarily used to analyze the competitive environment, it can
 
 ## SWOT
 
-*   **Emoji:** 🧪
+*   **Emoji:** ðŸ§ª
 *   **Type:** `text`
 *   **Category:** `Analysis`
 *   **Mode:** `expert`
@@ -3865,10 +3865,10 @@ While this tool is primarily used to analyze the competitive environment, it can
 *   **AI Applicability:** 3
 
 ### Summary
-The SWOT analysis provides a comprehensive overview of the company’s current strategic position by identifying its internal strengths and weaknesses, as well as external opportunities and threats.
+The SWOT analysis provides a comprehensive overview of the companyâ€™s current strategic position by identifying its internal strengths and weaknesses, as well as external opportunities and threats.
 
 ### Description
-The SWOT analysis provides a comprehensive overview of the company’s current strategic position by identifying its internal strengths and weaknesses, as well as external opportunities and threats. Key strengths may include a strong brand reputation, innovative technology, or a highly skilled workforce. Conversely, weaknesses might involve limited market presence, high operational costs, or dependency on key suppliers. The goal of this analysis is to capitalize on strengths while addressing and mitigating weaknesses.
+The SWOT analysis provides a comprehensive overview of the companyâ€™s current strategic position by identifying its internal strengths and weaknesses, as well as external opportunities and threats. Key strengths may include a strong brand reputation, innovative technology, or a highly skilled workforce. Conversely, weaknesses might involve limited market presence, high operational costs, or dependency on key suppliers. The goal of this analysis is to capitalize on strengths while addressing and mitigating weaknesses.
 
 On the external side, the opportunities identified could range from emerging market trends and new customer segments to potential strategic partnerships. Threats may include increased competition, regulatory challenges, or economic downturns. This section helps to develop a strategic plan that leverages strengths to seize opportunities while creating defensive strategies to protect against potential threats, ensuring the business remains resilient and adaptable in a dynamic market environment.
 In the context of business design, storytelling can take many forms. It could be the brand's founding story that illustrates its mission and values, customer success stories that demonstrate the value of its products or services, or future-oriented stories that paint a vision of what the brand aims to achieve.
@@ -3891,7 +3891,7 @@ This approach involves creating and sharing a narrative across multiple platform
 This theory suggests that when people lose themselves in a story, their attitudes and intentions change to reflect that story. Businesses can use this theory to create compelling brand stories that 'transport' their audience and influence their perceptions and behaviors.
 
 **Emotional Branding**
-Developed by Marc Gobé, this approach focuses on building brands that appeal directly to a consumer's emotional state, needs and aspirations. Emotional branding involves creating a story that will resonate with target customers on an emotional level, helping to build strong and lasting relationships.
+Developed by Marc GobÃ©, this approach focuses on building brands that appeal directly to a consumer's emotional state, needs and aspirations. Emotional branding involves creating a story that will resonate with target customers on an emotional level, helping to build strong and lasting relationships.
 
 ### Prompts
 `List our top 3 strengths and describe how we can capitalize on them.`
@@ -3904,7 +3904,7 @@ Developed by Marc Gobé, this approach focuses on building brands that appeal di
 
 ## Keys
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `None`
 *   **Mode:** `advanced`
@@ -3931,7 +3931,7 @@ Developed by Marc Gobé, this approach focuses on building brands that appeal di
 
 ## Validation
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `category`
 *   **Category:** `None`
 *   **Mode:** `basic`
@@ -3979,7 +3979,7 @@ This tool, developed by David J Bland, helps teams to identify and test their ri
 
 ## Coherence
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `weight`
 *   **Category:** `Validation`
 *   **Mode:** `expert`
@@ -4006,7 +4006,7 @@ This tool, developed by David J Bland, helps teams to identify and test their ri
 
 ## Experiments
 
-*   **Emoji:** ➕
+*   **Emoji:** âž•
 *   **Type:** `weight`
 *   **Category:** `Validation`
 *   **Mode:** `advanced`
@@ -4052,7 +4052,7 @@ Growth Hacking is a marketing strategy that focuses on rapid experimentation acr
 
 ## Misc
 
-*   **Emoji:** ✔️
+*   **Emoji:** âœ”ï¸
 *   **Type:** `text`
 *   **Category:** `None`
 *   **Mode:** `expert`
@@ -4104,7 +4104,7 @@ Patent databases like those maintained by the U.S. Patent and Trademark Office o
 
 ## Guides
 
-*   **Emoji:** 💼
+*   **Emoji:** ðŸ’¼
 *   **Type:** `None`
 *   **Category:** `None`
 *   **Mode:** `None`
@@ -4113,7 +4113,7 @@ Patent databases like those maintained by the U.S. Patent and Trademark Office o
 
 ### Summary
 A high-level overview or instruction manual that explains the overall process or purpose.
-Example: “Guide to recording a meeting…”
+Example: â€œGuide to recording a meetingâ€¦â€
 
 ### Description
 A Guide serves as a structured document that provides orientation and context for executing a process. It includes explanations, objectives, and references to other elements such as workflows, tools, and roles. It ensures that users understand not just what to do, but why and how each component fits into the whole.
@@ -4128,7 +4128,7 @@ A Guide serves as a structured document that provides orientation and context fo
 
 ## Work
 
-*   **Emoji:** 🏢
+*   **Emoji:** ðŸ¢
 *   **Type:** `None`
 *   **Category:** `Guides`
 *   **Mode:** `None`
@@ -4137,7 +4137,7 @@ A Guide serves as a structured document that provides orientation and context fo
 
 ### Summary
 A sequence of actions or steps designed to achieve a specific result.
-Example: “Record meeting notes” or “Summarize the meeting”.
+Example: â€œRecord meeting notesâ€ or â€œSummarize the meetingâ€.
 
 ### Description
 A Work item represents a complete or partial process, typically composed of multiple steps and sub-processes. It defines the logic of how a task is accomplished from beginning to end, including inputs, outputs, and sequencing. It ensures consistency, repeatability, and clarity in execution.
@@ -4152,7 +4152,7 @@ A Work item represents a complete or partial process, typically composed of mult
 
 ## Objects
 
-*   **Emoji:** 👤
+*   **Emoji:** ðŸ‘¤
 *   **Type:** `None`
 *   **Category:** `Guides`
 *   **Mode:** `None`
@@ -4164,7 +4164,7 @@ Items, data or documents created, transformed, or used during the work.
 Example: Audio Recording, Transcript, Meeting Summary.
 
 ### Description
-Objects represent tangible or digital outputs of the work process. They are key artifacts that flow through the system—serving as evidence of actions taken, inputs to other steps, or final deliverables. Each object has a format, a purpose, and may be the result of multiple transformations.
+Objects represent tangible or digital outputs of the work process. They are key artifacts that flow through the systemâ€”serving as evidence of actions taken, inputs to other steps, or final deliverables. Each object has a format, a purpose, and may be the result of multiple transformations.
 
 ### Methodologies
 *No methodologies provided.*
@@ -4176,7 +4176,7 @@ Objects represent tangible or digital outputs of the work process. They are key 
 
 ## Tools
 
-*   **Emoji:** 👷‍♂️
+*   **Emoji:** ðŸ‘·â€â™‚ï¸
 *   **Type:** `None`
 *   **Category:** `Guides`
 *   **Mode:** `None`
@@ -4200,7 +4200,7 @@ Tools are technological or manual resources that enable, support, or automate ac
 
 ## Organization
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `None`
 *   **Category:** `None`
 *   **Mode:** `None`
@@ -4223,7 +4223,7 @@ An Organization provides the structural and legal context in which people, posit
 
 ## Roles
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `None`
 *   **Category:** `Guides`
 *   **Mode:** `None`
@@ -4249,7 +4249,7 @@ Roles define the operational function performed by individuals or systems within
 
 ## Positions
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `None`
 *   **Category:** `Organization`
 *   **Mode:** `None`
@@ -4272,7 +4272,7 @@ Positions aggregate roles into formal job profiles that are stable and repeatabl
 
 ## People
 
-*   **Emoji:** 📄
+*   **Emoji:** ðŸ“„
 *   **Type:** `None`
 *   **Category:** `Organization`
 *   **Mode:** `None`
@@ -4281,10 +4281,10 @@ Positions aggregate roles into formal job profiles that are stable and repeatabl
 
 ### Summary
 Specific individuals or example users who perform one or more roles in the process.
-Example: “Lucas Cervera – Meeting Recorder and Minutes Writer”.
+Example: â€œLucas Cervera â€“ Meeting Recorder and Minutes Writerâ€.
 
 ### Description
-People are the real-world actors—named individuals or personas—who participate in a process by performing one or more roles. Identifying people helps illustrate the application of roles in practice, demonstrate responsibility, and personalize the process through real examples.
+People are the real-world actorsâ€”named individuals or personasâ€”who participate in a process by performing one or more roles. Identifying people helps illustrate the application of roles in practice, demonstrate responsibility, and personalize the process through real examples.
 
 ### Methodologies
 *No methodologies provided.*
@@ -4299,7 +4299,7 @@ People are the real-world actors—named individuals or personas—who participa
 ## Marker: weight
 
 *   **Symbol:** `*`
-*   **Emoji:** ➕
+*   **Emoji:** âž•
 *   **Color:** `blue`
 
 ### Description
@@ -4311,21 +4311,21 @@ This marker assesses the relevance of each block to the business model. Understa
 * Is this something that could easily change without affecting the business model?
 
 ### Examples (High Score)
-* 💊#solution SaaS platform for SMEs ➕5 (Central to customer satisfaction. Core product offering)
-* 🎙️#channel Direct sales team ➕5 (Main way to reach customers. Key distribution platform)
-* 💰#revenue Subscription-based income ➕5 (Primary income source. Key revenue model)
+* ðŸ’Š#solution SaaS platform for SMEs âž•5 (Central to customer satisfaction. Core product offering)
+* ðŸŽ™ï¸#channel Direct sales team âž•5 (Main way to reach customers. Key distribution platform)
+* ðŸ’°#revenue Subscription-based income âž•5 (Primary income source. Key revenue model)
 
 ### Examples (Low Score)
-* 💰#revenue Merchandise sales ➕1 (Small portion of income. Minor revenue source)
-* 🎙️#channel Trade show booths ➕1 (Not critical for main audience. Backup channel)
-* 💊#solution Extended support services ➕1 (Enhancement, not essential. Secondary offering)
+* ðŸ’°#revenue Merchandise sales âž•1 (Small portion of income. Minor revenue source)
+* ðŸŽ™ï¸#channel Trade show booths âž•1 (Not critical for main audience. Backup channel)
+* ðŸ’Š#solution Extended support services âž•1 (Enhancement, not essential. Secondary offering)
 
 ---
 
 ## Marker: completion
 
 *   **Symbol:** `>`
-*   **Emoji:** ✔️
+*   **Emoji:** âœ”ï¸
 *   **Color:** `blue`
 
 ### Description
@@ -4337,21 +4337,21 @@ This marker evaluates how finished or adaptable a block is. Knowing which parts 
 * Is this content fixed, or can it change based on my decisions?
 
 ### Examples (High Score)
-* 💰#revenue Monthly contracts ✔️5 (Guaranteed income. Stable revenue source)
-* 🎙️#channel Distributor partnerships ✔️5 (Well-established agreements. Fixed channel)
-* 💊#solution Mobile app fully launched ✔️5 (Ready for market. Core product complete)
+* ðŸ’°#revenue Monthly contracts âœ”ï¸5 (Guaranteed income. Stable revenue source)
+* ðŸŽ™ï¸#channel Distributor partnerships âœ”ï¸5 (Well-established agreements. Fixed channel)
+* ðŸ’Š#solution Mobile app fully launched âœ”ï¸5 (Ready for market. Core product complete)
 
 ### Examples (Low Score)
-* 🎙️#channel Beta testing new platform ✔️1 (Under evaluation. Unstable channel)
-* 💊#solution Concept phase of new feature ✔️1 (Not yet market-ready. Subject to change)
-* 💰#revenue Projected earnings ✔️1 (No contracts signed. Revenue uncertain)
+* ðŸŽ™ï¸#channel Beta testing new platform âœ”ï¸1 (Under evaluation. Unstable channel)
+* ðŸ’Š#solution Concept phase of new feature âœ”ï¸1 (Not yet market-ready. Subject to change)
+* ðŸ’°#revenue Projected earnings âœ”ï¸1 (No contracts signed. Revenue uncertain)
 
 ---
 
 ## Marker: certainty
 
 *   **Symbol:** `?`
-*   **Emoji:** ❓
+*   **Emoji:** â“
 *   **Color:** `green`
 
 ### Description
@@ -4363,21 +4363,21 @@ This marker measures the level of uncertainty around a block. Identifying areas 
 * Is this a statement I can prove with objective facts and data?
 
 ### Examples (High Score)
-* 🎙️#channel Google Ads ❓5 (Team has no experience in this channel)
-* 💊#solution AI-powered chrome extension ❓5 (Untested technology. Uncertain effectiveness)
-* 🎙️#channel Youtube company channel ❓5 (Emerging social media platform. Unproven audience reach)
+* ðŸŽ™ï¸#channel Google Ads â“5 (Team has no experience in this channel)
+* ðŸ’Š#solution AI-powered chrome extension â“5 (Untested technology. Uncertain effectiveness)
+* ðŸŽ™ï¸#channel Youtube company channel â“5 (Emerging social media platform. Unproven audience reach)
 
 ### Examples (Low Score)
-* 💰#revenue Monthly renewals ❓1 (1k renewals last year. Stable revenue stream)
-* 💊#solution Accounting software suite ❓1 (Proven to attract 1000+ customers)
-* 🎙️#channel Established website traffic ❓1 (10k leads in the last 12 months)
+* ðŸ’°#revenue Monthly renewals â“1 (1k renewals last year. Stable revenue stream)
+* ðŸ’Š#solution Accounting software suite â“1 (Proven to attract 1000+ customers)
+* ðŸŽ™ï¸#channel Established website traffic â“1 (10k leads in the last 12 months)
 
 ---
 
 ## Marker: priority
 
 *   **Symbol:** `!`
-*   **Emoji:** 🚩
+*   **Emoji:** ðŸš©
 *   **Color:** `red`
 
 ### Description
@@ -4389,21 +4389,21 @@ This marker helps rank the urgency and importance of each block. By setting prio
 * Is this something I should pay attention to?
 
 ### Examples (High Score)
-* 💊#solution AI-powered chrome extension 🚩5 (Essential for growth. Urgent priority)
-* 🎙️#channel Direct sales 🚩5 (Main way to drive revenue. High priority)
-* 💰#revenue Recurring subscription fees 🚩5 (Critical income. Must maintain retention)
+* ðŸ’Š#solution AI-powered chrome extension ðŸš©5 (Essential for growth. Urgent priority)
+* ðŸŽ™ï¸#channel Direct sales ðŸš©5 (Main way to drive revenue. High priority)
+* ðŸ’°#revenue Recurring subscription fees ðŸš©5 (Critical income. Must maintain retention)
 
 ### Examples (Low Score)
-* 🎙️#channel Seasonal marketing campaign 🚩1 (Limited impact outside season)
-* 💊#solution Optional add-on feature 🚩1 (Low priority. Not essential)
-* 💰#revenue Minor ad revenue 🚩1 (Small contribution)
+* ðŸŽ™ï¸#channel Seasonal marketing campaign ðŸš©1 (Limited impact outside season)
+* ðŸ’Š#solution Optional add-on feature ðŸš©1 (Low priority. Not essential)
+* ðŸ’°#revenue Minor ad revenue ðŸš©1 (Small contribution)
 
 ---
 
 ## Marker: rating
 
 *   **Symbol:** `+`
-*   **Emoji:** ⭐
+*   **Emoji:** â­
 *   **Color:** `green`
 
 ### Description
@@ -4418,20 +4418,20 @@ This marker highlights strengths and weaknesses. Understanding and leveraging un
 * If an expert knows this, does it worsen their perception of my business?
 
 ### Examples (High Score)
-* 💊#solution Unique analytics feature ⭐5 (Differentiates from competitors)
-* 💰#revenue Product sales ⭐5 (Steady recurring income. Provides financial stability)
-* 🎙️#channel Strategic partnership with relevant influencer ⭐5 (Increases reach and brand trust)
-* 💰#revenue Product sales ⭐⭐-5 (Low margin. Strains financials)
-* 💊#solution Accounting software ⭐⭐-5 (Limited audience focus. Restricts market potential)
-* 🎙️#channel Ads on newspapers ⭐⭐-5 (Limited digital reach. Reduces exposure)
+* ðŸ’Š#solution Unique analytics feature â­5 (Differentiates from competitors)
+* ðŸ’°#revenue Product sales â­5 (Steady recurring income. Provides financial stability)
+* ðŸŽ™ï¸#channel Strategic partnership with relevant influencer â­5 (Increases reach and brand trust)
+* ðŸ’°#revenue Product sales â­â­-5 (Low margin. Strains financials)
+* ðŸ’Š#solution Accounting software â­â­-5 (Limited audience focus. Restricts market potential)
+* ðŸŽ™ï¸#channel Ads on newspapers â­â­-5 (Limited digital reach. Reduces exposure)
 
 ### Examples (Low Score)
-* 💰#revenue Low-margin product ⭐1 (Limited financial benefit)
-* 🎙️#channel Guatemala Musicians Association ⭐1 (Regional distribution only. Low market reach)
-* 💊#solution Support services ⭐1 (Basic customer service offering. Not unique)
-* 💰#revenue Diverse income streams ⭐-1 (Stable revenue)
-* 🎙️#channel Well-established online sales ⭐-1 (High audience reach)
-* 💊#solution Flexible and adaptable product ⭐-1 (Easy to modify)
+* ðŸ’°#revenue Low-margin product â­1 (Limited financial benefit)
+* ðŸŽ™ï¸#channel Guatemala Musicians Association â­1 (Regional distribution only. Low market reach)
+* ðŸ’Š#solution Support services â­1 (Basic customer service offering. Not unique)
+* ðŸ’°#revenue Diverse income streams â­-1 (Stable revenue)
+* ðŸŽ™ï¸#channel Well-established online sales â­-1 (High audience reach)
+* ðŸ’Š#solution Flexible and adaptable product â­-1 (Easy to modify)
 
 ---
 
@@ -4441,7 +4441,7 @@ This marker highlights strengths and weaknesses. Understanding and leveraging un
 
 *   **Source Concept:** `Journey`
 *   **Target Concept:** `Emotions`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix establishes the relationships between the different stages of a customer journey map and the emotions that are generated in the customer as they go through each stage.
@@ -4452,7 +4452,7 @@ This matrix establishes the relationships between the different stages of a cust
 
 *   **Source Concept:** `Segmentation`
 *   **Target Concept:** `Profiles`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix maps segmentation criteria to specific customer profiles, showing how criteria define each profile.
@@ -4463,7 +4463,7 @@ This matrix maps segmentation criteria to specific customer profiles, showing ho
 
 *   **Source Concept:** `Problems`
 *   **Target Concept:** `Value propositions`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links the problems faced by personas to the value propositions that address them.
@@ -4474,7 +4474,7 @@ This matrix links the problems faced by personas to the value propositions that 
 
 *   **Source Concept:** `Value propositions`
 *   **Target Concept:** `Messages`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links value propositions to the messages used to communicate them to customers.
@@ -4485,7 +4485,7 @@ This matrix links value propositions to the messages used to communicate them to
 
 *   **Source Concept:** `Messages`
 *   **Target Concept:** `Channels`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links messages to the channels through which they are delivered to customers.
@@ -4496,7 +4496,7 @@ This matrix links messages to the channels through which they are delivered to c
 
 *   **Source Concept:** `Assumptions`
 *   **Target Concept:** `Risks`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links assumptions to potential risks.
@@ -4507,7 +4507,7 @@ This matrix links assumptions to potential risks.
 
 *   **Source Concept:** `Experiments`
 *   **Target Concept:** `Assumptions`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links experiments to the hypotheses they test.
@@ -4518,7 +4518,7 @@ This matrix links experiments to the hypotheses they test.
 
 *   **Source Concept:** `Metrics`
 *   **Target Concept:** `Organizational goals`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links organizational metrics to business objectives.
@@ -4529,7 +4529,7 @@ This matrix links organizational metrics to business objectives.
 
 *   **Source Concept:** `Features`
 *   **Target Concept:** `Milestones`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links product features to milestones in the product roadmap.
@@ -4540,7 +4540,7 @@ This matrix links product features to milestones in the product roadmap.
 
 *   **Source Concept:** `Organizational values`
 *   **Target Concept:** `Organizational goals`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links organizational values to specific organizational goals.
@@ -4551,7 +4551,7 @@ This matrix links organizational values to specific organizational goals.
 
 *   **Source Concept:** `Functions`
 *   **Target Concept:** `Positions`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links operational functions to team positions.
@@ -4562,7 +4562,7 @@ This matrix links operational functions to team positions.
 
 *   **Source Concept:** `Activities`
 *   **Target Concept:** `Resources`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links operational activities to the resources required.
@@ -4573,7 +4573,7 @@ This matrix links operational activities to the resources required.
 
 *   **Source Concept:** `Problems`
 *   **Target Concept:** `Competition`
-*   **Allowed Values:** `Max;Very High;High;Slightly High;Neutral;Slightly Low;Low;Very Low;Min`
+*   **Allowed Values:** `Min;Very Low;Low;Slightly Low;Neutral;Slightly High;High;Very High;Max`
 
 ### Description
 This matrix links customer problems to the competitors that address them.

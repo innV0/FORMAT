@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Concept, Marker, AnalysisKey, Lens, LensNeighborhood } from '../types';
+import { Concept, Marker, AnalysisKey, Lens, LensEdge, LensNeighborhood } from '../types';
 import defaultMasterData from '../../innV0_master_data.json';
 import { DocumentationEntry } from '../utils/documentationParser';
 
@@ -10,15 +10,42 @@ export const useMetamodelStore = defineStore('metamodel', () => {
   const markers = ref<Marker[]>([]);
   const metamodelMatrices = ref<any[]>([]);
   const documentation = ref<Record<string, DocumentationEntry>>({});
+  // Taxonomy edges: parent→child concept name pairs loaded from sheets.taxonomy.
+  // These back the Taxonomy lens.
+  const taxonomyEdges = ref<LensEdge[]>([]);
 
   const analysisKeys = ref<AnalysisKey[]>([]);
+
+  // An element's icon is a property of the bm_format TEMPLATE (the built-in
+  // metamodel), not of any individual model. Loaded models are instances and
+  // must NOT carry their own concept icons — the template defines them by name.
+  // Precedence: explicit frontmatter `icon` > canonical template icon (by name)
+  // > legacy `emoji` field (still resolved by IconRenderer) > none.
+  const canonicalIcon: Record<string, string> = {};
+  [
+    ...(defaultMasterData.sheets.concepts as any[]),
+    ...(defaultMasterData.sheets.markers as any[]),
+  ].forEach(item => {
+    if (item?.name) canonicalIcon[item.name.toLowerCase()] = item.icon || item.emoji || '';
+  });
+
+  const withIcon = <T extends { name?: string; icon?: string; emoji?: string }>(item: T): T => ({
+    ...item,
+    icon:
+      item.icon ||
+      (item.name ? canonicalIcon[item.name.toLowerCase()] : '') ||
+      item.emoji ||
+      '',
+  });
 
   // Default fallback loader
   const loadDefaultMetamodel = () => {
     metamodelSource.value = 'Built-in Default';
-    concepts.value = defaultMasterData.sheets.concepts as Concept[];
-    markers.value = defaultMasterData.sheets.markers as Marker[];
+    concepts.value = (defaultMasterData.sheets.concepts as any[]).map(withIcon) as Concept[];
+    markers.value = (defaultMasterData.sheets.markers as any[]).map(withIcon) as Marker[];
     metamodelMatrices.value = defaultMasterData.sheets.matrices || [];
+    const sheetsAny = defaultMasterData.sheets as any;
+    taxonomyEdges.value = Array.isArray(sheetsAny.taxonomy) ? (sheetsAny.taxonomy as LensEdge[]) : [];
     
     // Load keys if defined in sheets, otherwise provide default ones
     const sheetsData = defaultMasterData.sheets as any;
@@ -42,10 +69,11 @@ export const useMetamodelStore = defineStore('metamodel', () => {
       metamodelSource.value = sourceName;
       const data = metamodelObj.sheets ? metamodelObj.sheets : metamodelObj;
       if (data.concepts) {
-        concepts.value = data.concepts as Concept[];
+        concepts.value = (data.concepts as any[]).map(withIcon) as Concept[];
+        taxonomyEdges.value = Array.isArray(data.taxonomy) ? (data.taxonomy as LensEdge[]) : [];
       }
       if (data.markers) {
-        markers.value = data.markers as Marker[];
+        markers.value = (data.markers as any[]).map(withIcon) as Marker[];
       }
       if (data.matrices) {
         metamodelMatrices.value = data.matrices;
@@ -71,24 +99,37 @@ export const useMetamodelStore = defineStore('metamodel', () => {
   // Initialize with defaults
   loadDefaultMetamodel();
 
+  // hierarchyConcepts: the instance Chain lens concept sequence (Stakeholders→Segments→…).
+  // Derived from instance hierarchy matrices parsed at model-load time (passed via
+  // setHierarchyConcepts). Falls back to the taxonomy-edge chain when no instance
+  // hierarchy data is present.
+  const _hierarchyConceptsOverride = ref<string[] | null>(null);
+
   const hierarchyConcepts = computed(() => {
+    if (_hierarchyConceptsOverride.value !== null) {
+      return _hierarchyConceptsOverride.value;
+    }
+    // Derive Chain from taxonomy edges: find the sequence of non-category concepts
+    // that are linked parent→child through category-type parents.
     const list = concepts.value;
-    const nonCategoryConcepts = list.filter(c => c.type !== 'category' && c.type !== null);
-    
+    const edges = taxonomyEdges.value;
+    const conceptNames = new Set(list.filter(c => c.type !== 'category').map(c => c.name));
+    const categoryNames = new Set(list.filter(c => c.type === 'category').map(c => c.name));
+
+    // Build a parentMap for concept→concept edges (parent is non-category)
     const parentMap = new Map<string, string>();
-    nonCategoryConcepts.forEach(c => {
-      if (c.category_id) {
-        const parentConcept = list.find(p => p.name === c.category_id);
-        if (parentConcept && parentConcept.type !== 'category') {
-          parentMap.set(c.name, parentConcept.name);
-        }
+    edges.forEach(e => {
+      if (conceptNames.has(e.child) && conceptNames.has(e.parent)) {
+        parentMap.set(e.child, e.parent);
       }
     });
 
+    // Find roots: non-category concepts whose parent in taxonomy is a category
     const chains: string[][] = [];
-    nonCategoryConcepts.forEach(c => {
+    list.filter(c => c.type !== 'category' && c.type !== null).forEach(c => {
       const hasChildren = Array.from(parentMap.values()).includes(c.name);
-      const parentIsCategory = !c.category_id || list.some(p => p.name === c.category_id && p.type === 'category');
+      const taxonomyParents = edges.filter(e => e.child === c.name).map(e => e.parent);
+      const parentIsCategory = taxonomyParents.length === 0 || taxonomyParents.some(p => categoryNames.has(p));
       if (hasChildren && parentIsCategory) {
         const chain = [c.name];
         let current = c.name;
@@ -106,40 +147,54 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     });
 
     if (chains.length > 0) {
-      const primaryChain = chains[0];
-      const rootConcept = list.find(p => p.name === primaryChain[0]);
-      if (rootConcept && rootConcept.category_id) {
-        const siblings = list.filter(c => c.category_id === rootConcept.category_id && c.type !== 'category' && c.name !== rootConcept.name);
-        if (siblings.length > 0) {
-          return [...siblings.map(s => s.name), ...primaryChain];
-        }
+      const chainRoot = chains[0][0];
+      // Sibling-prepend: find non-category concepts that share a category parent
+      // with the chain root but are not in the chain (e.g. Stakeholders shares
+      // "Market" with Segments but has no concept-type children → excluded).
+      const chainRootCategoryParents = edges
+        .filter(e => e.child === chainRoot && categoryNames.has(e.parent))
+        .map(e => e.parent);
+      const siblings: string[] = [];
+      if (chainRootCategoryParents.length > 0) {
+        list
+          .filter(c => c.type !== 'category' && c.type !== null && !chains[0].includes(c.name))
+          .forEach(c => {
+            const parentsOfC = edges.filter(e => e.child === c.name).map(e => e.parent);
+            if (parentsOfC.some(p => chainRootCategoryParents.includes(p))) {
+              siblings.push(c.name);
+            }
+          });
       }
-      return primaryChain;
+      return [...siblings, ...chains[0]];
     }
 
     return ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
   });
 
+  // Allow parser to push the instance-chain from parsed hierarchy matrices.
+  const setHierarchyConcepts = (chain: string[]) => {
+    _hierarchyConceptsOverride.value = chain.length > 0 ? chain : null;
+  };
+
+  // setTaxonomyEdges: called by the parser when it finds a concept-taxonomy matrix
+  // section in a .md file. The taxonomy is a first-class edge list.
+  const setTaxonomyEdges = (edges: LensEdge[]) => {
+    taxonomyEdges.value = edges;
+  };
+
   // Lenses: named projections of the concepts, each backed by a hierarchy matrix.
-  // A concept has no intrinsic position; hierarchy is a view (lens) you apply.
-  // Phase 1 derives lenses from existing data (no format change):
-  //  - Taxonomy: reconstructed from category_id (the legacy single hierarchy).
-  //  - Hierarchy Chain: the instance hierarchy sequence surfaced at concept level.
+  // - Taxonomy: loaded from sheets.taxonomy edges.
+  // - Chain: the instance hierarchy sequence (Stakeholders→Segments→Profiles→Persona).
   const lenses = computed<Lens[]>(() => {
-    const list = concepts.value;
-    const byName = new Set(list.map(c => c.name));
     const result: Lens[] = [];
 
-    const taxEdges = list
-      .filter(c => c.category_id && byName.has(c.category_id))
-      .map(c => ({ parent: c.category_id as string, child: c.name }));
-    if (taxEdges.length) {
-      result.push({ id: 'taxonomy', name: 'Taxonomy', icon: 'layers', edges: taxEdges });
+    if (taxonomyEdges.value.length > 0) {
+      result.push({ id: 'taxonomy', name: 'Taxonomy', icon: 'layers', edges: taxonomyEdges.value });
     }
 
     const hc = hierarchyConcepts.value;
     if (hc.length > 1) {
-      const chainEdges = [];
+      const chainEdges: LensEdge[] = [];
       for (let i = 0; i < hc.length - 1; i++) {
         chainEdges.push({ parent: hc[i], child: hc[i + 1] });
       }
@@ -212,9 +267,12 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     concepts,
     markers,
     metamodelMatrices,
+    taxonomyEdges,
     hierarchyConcepts,
     lenses,
     getConceptLenses,
+    setHierarchyConcepts,
+    setTaxonomyEdges,
     loadDefaultMetamodel,
     loadCustomMetamodel,
     loadMetamodelFromObject,

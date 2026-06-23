@@ -1,8 +1,7 @@
 export interface Concept {
   name: string;
-  category_id: string | null;
   icon: string;
-  type: 'text' | 'category' | 'weight' | 'steps' | 'sequence' | null;
+  type: 'text' | 'list' | 'category' | 'weight' | 'steps' | 'sequence' | null;
   description: string | null;
   summary?: string | null;
   color?: string | null;
@@ -25,7 +24,7 @@ export interface MetamatrixRow {
   name: string;
   source: string;
   target: string;
-  widgetType: 'boolean' | 'cycle' | 'scale' | 'set';
+  widgetType: 'boolean' | 'cycle' | 'scale' | 'set' | 'text';
   params: string;
 }
 

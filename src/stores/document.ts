@@ -22,9 +22,11 @@ export const useDocumentStore = defineStore('document', () => {
   const matrixValues = ref<MatrixValues>({});
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
-  const specificationVersion = ref<string>('V_0-1-1');
-  const specificationUrl = ref<string>('https://format.innv0.com/spec/v0-1-1/format-spec.md');
-  const documentationLocation = ref<string>('docs/V_0-1-1/');
+  const formatVersion = ref<string>('V_0-1-2');
+  const templateName = ref<string>('business');
+  const templateVersion = ref<string>('V_1-0-0');
+  const specificationUrl = ref<string>('https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md');
+  const documentationLocation = ref<string>('docs/spec/V_0-1-2/');
   const analysisScores = ref<AnalysisScores>({});
 
   const loadDocument = (markdownContent: string) => {
@@ -35,11 +37,21 @@ export const useDocumentStore = defineStore('document', () => {
     } else {
       metamodelStore.loadDefaultMetamodel();
     }
+
+    // C1 fix: wire taxonomy edges parsed from the document body (concept-taxonomy
+    // hierarchy matrix section) into the metamodel store. The frontmatter template
+    // object has no taxonomy key for flat .md files, so loadMetamodelFromObject
+    // would leave taxonomyEdges empty. We override here when the parser found edges.
+    if (parsed.taxonomyEdges && parsed.taxonomyEdges.length > 0) {
+      metamodelStore.setTaxonomyEdges(parsed.taxonomyEdges);
+    }
     
     metamodelPath.value = parsed.metamodelPath;
-    specificationVersion.value = parsed.specificationVersion || 'V_0-1-1';
-    specificationUrl.value = parsed.specificationUrl || 'https://format.innv0.com/spec/v0-1-1/format-spec.md';
-    documentationLocation.value = parsed.documentationLocation || 'docs/V_0-1-1/';
+    templateName.value = parsed.templateName || 'business';
+    templateVersion.value = parsed.templateVersion || 'V_1-0-0';
+    formatVersion.value = parsed.formatVersion || 'V_0-1-2';
+    specificationUrl.value = parsed.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md';
+    documentationLocation.value = parsed.documentationLocation || 'docs/spec/V_0-1-2/';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
     nodeMarkers.value = parsed.nodeMarkers;
@@ -367,7 +379,9 @@ export const useDocumentStore = defineStore('document', () => {
     return generateMarkdownFileContent({
       activeFileName: workspaceStore.activeFileName || 'model.md',
       metamodelPath: metamodelPath.value || undefined,
-      specificationVersion: specificationVersion.value,
+      formatVersion: formatVersion.value,
+      templateName: templateName.value,
+      templateVersion: templateVersion.value,
       specificationUrl: specificationUrl.value,
       documentationLocation: documentationLocation.value,
       modelTextData: modelTextData.value,
@@ -462,7 +476,7 @@ export const useDocumentStore = defineStore('document', () => {
       if (!content) {
         const fetchUrls = [
           `/${docPath}`,
-          `/docs/V_0-1-1/metamodel_documentation.md`,
+          `/docs/V_0-1-2/metamodel_documentation.md`,
           `/Samples/metamodel_documentation.md`
         ];
         for (const url of fetchUrls) {
@@ -502,7 +516,9 @@ export const useDocumentStore = defineStore('document', () => {
     matrixValues,
     activeGeneratedMatrixIndex,
     metamodelPath,
-    specificationVersion,
+    formatVersion,
+    templateName,
+    templateVersion,
     specificationUrl,
     documentationLocation,
     loadDocument,

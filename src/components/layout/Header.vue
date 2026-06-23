@@ -10,7 +10,7 @@
         <Info class="w-4.5 h-4.5" />
       </button>
       <div>
-        <h1 class="text-sm font-semibold tracking-tight">innV0 Business Model Modeler</h1>
+        <h1 class="text-sm font-semibold tracking-tight">FORMAT Business Modeler</h1>
         <p class="text-xs text-muted-foreground">
           Workspace: 
           <span v-if="workspaceStore.dirHandle" class="font-mono text-emerald-600 font-semibold">{{ workspaceStore.dirHandle.name }}</span>

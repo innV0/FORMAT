@@ -44,3 +44,29 @@
   }
 }
 
+@layer utilities {
+  /* Discreet scrollbar: thin, subtle, only emphasized on hover. */
+  .scrollbar-discreet {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .scrollbar-discreet::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-discreet::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-discreet::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 9999px;
+  }
+
+  .scrollbar-discreet:hover::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.4);
+  }
+}
+

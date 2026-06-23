@@ -18,36 +18,52 @@
         <span>{{ n.lens.name }}</span>
       </div>
 
-      <!-- Neighborhood strip: parents → ● self → children -->
-      <div class="flex items-center flex-wrap gap-1">
-        <template v-for="p in n.parents" :key="'p-' + p">
+      <!-- Stacked tiers: parents ▲ / active ● / children ▼ -->
+      <!-- Parent tier -->
+      <div v-if="n.parents.length" class="lens-tier">
+        <span class="lens-tier__label">Parent</span>
+        <div class="flex items-center flex-wrap gap-1">
           <button
+            v-for="p in n.parents"
+            :key="'p-' + p"
             class="lens-chip"
             @click="$emit('select', p)"
           >
             <IconRenderer :icon="iconFor(p)" custom-class="w-3 h-3 shrink-0 text-muted-foreground" />
             <span class="truncate">{{ p }}</span>
           </button>
-        </template>
+        </div>
+      </div>
 
-        <ChevronRight v-if="n.parents.length" class="w-3 h-3 text-muted-foreground shrink-0" />
+      <!-- Connector -->
+      <div v-if="n.parents.length" class="lens-connector"></div>
 
+      <!-- Active tier -->
+      <div class="lens-tier">
+        <span class="lens-tier__label lens-tier__label--active">Active</span>
         <span class="lens-chip lens-chip--active">
           <IconRenderer :icon="iconFor(conceptName)" custom-class="w-3 h-3 shrink-0 text-indigo-600" />
           <span class="truncate">{{ conceptName }}</span>
         </span>
+      </div>
 
-        <ChevronRight v-if="n.children.length" class="w-3 h-3 text-muted-foreground shrink-0" />
+      <!-- Connector -->
+      <div v-if="n.children.length" class="lens-connector"></div>
 
-        <template v-for="c in n.children" :key="'c-' + c">
+      <!-- Children tier -->
+      <div v-if="n.children.length" class="lens-tier">
+        <span class="lens-tier__label">Children</span>
+        <div class="flex items-center flex-wrap gap-1">
           <button
+            v-for="c in n.children"
+            :key="'c-' + c"
             class="lens-chip"
             @click="$emit('select', c)"
           >
             <IconRenderer :icon="iconFor(c)" custom-class="w-3 h-3 shrink-0 text-muted-foreground" />
             <span class="truncate">{{ c }}</span>
           </button>
-        </template>
+        </div>
       </div>
     </div>
   </div>
@@ -55,7 +71,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ChevronRight } from 'lucide-vue-next';
 import { useMetamodelStore } from '../../stores/metamodel';
 import IconRenderer from './IconRenderer.vue';
 
@@ -75,6 +90,34 @@ const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon ||
 </script>
 
 <style scoped>
+/* ── Tiers: each level (parent / active / children) is its own row ──── */
+.lens-tier {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.lens-tier__label {
+  flex-shrink: 0;
+  width: 3.5rem;
+  padding-top: 0.1875rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+.lens-tier__label--active {
+  color: rgb(79 70 229);
+}
+
+/* Vertical connector linking the tiers, aligned under the labels */
+.lens-connector {
+  width: 1px;
+  height: 0.5rem;
+  margin-left: 1.5rem;
+  background: var(--border);
+}
+
 .lens-chip {
   display: inline-flex;
   align-items: center;

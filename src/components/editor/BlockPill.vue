@@ -18,7 +18,13 @@
         class="shrink-0 w-3.5 h-3.5 text-current/70"
       />
       <span class="text-current leading-tight text-left flex-1 min-w-0">
-        <slot>{{ name }}</slot>
+        <slot>
+          <template v-if="conceptLabel">
+            <span class="font-medium">{{ conceptLabel }}:</span>
+            {{ name }}
+          </template>
+          <template v-else>{{ name }}</template>
+        </slot>
       </span>
 
       <!-- Active markers, read-only, rendered inside the pill -->
@@ -93,6 +99,15 @@ const isEmpty = computed(() => {
   );
   const hasInstances = (props.instanceCount ?? 0) > 0;
   return !hasDescription && !hasFields && !hasInstances;
+});
+
+// For element pills (instances), prefix the name with the concept's name:
+// "Concept: ElementName". Concept pills (molds) show their name alone.
+const conceptLabel = computed(() => {
+  if (props.kind !== 'instance') return '';
+  const ct = props.conceptType;
+  if (!ct) return '';
+  return metamodelStore.getConceptByName(ct)?.name || ct;
 });
 
 const activeMarkers = computed(() => {

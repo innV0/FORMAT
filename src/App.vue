@@ -11,7 +11,7 @@
       <!-- Main Editor Workspace -->
       <main class="flex-1 flex overflow-hidden bg-background">
         <!-- Center/Left: Editor Workspace -->
-        <div class="flex-1 flex flex-col overflow-y-auto border-r border-border p-8">
+        <div class="flex-1 flex flex-col overflow-y-auto border-r border-border p-8 scrollbar-discreet">
           
           <!-- Concept Title Header -->
           <div class="border-b border-border pb-4 mb-6 flex justify-between items-center shrink-0">
