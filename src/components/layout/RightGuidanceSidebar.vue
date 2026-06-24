@@ -15,7 +15,7 @@
     <button 
       v-if="isCollapsed"
       @click="isCollapsed = false"
-      class="absolute top-4 right-4 z-30 flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 hover:text-indigo-600 transition-all duration-200 cursor-pointer hover:scale-105"
+      class="absolute top-4 right-4 z-30 flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 hover:text-primary transition-all duration-200 cursor-pointer hover:scale-105"
       title="Show Guidance Panel"
     >
       <BookOpen class="w-4 h-4" />
@@ -41,7 +41,7 @@
       <!-- Associated Matrices Section (above the guidance) -->
       <div v-if="!isCollapsed && associatedMatrices.length" class="space-y-3 mt-8 mb-4 border-b border-slate-200/60 pb-4">
         <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-          <BarChart2 class="w-3.5 h-3.5 text-indigo-600" />
+          <BarChart2 class="w-3.5 h-3.5 text-primary" />
           Associated Matrices
         </h3>
         <div class="space-y-1.5">
@@ -49,15 +49,15 @@
             v-for="matrix in associatedMatrices"
             :key="matrix.name"
             @click="openAssociatedMatrix(matrix.index)"
-            class="w-full flex items-center justify-between bg-white border border-slate-200 hover:border-indigo-400 rounded-lg p-2.5 text-xs text-slate-700 hover:bg-indigo-50/20 transition-all cursor-pointer shadow-3xs text-left group"
+            class="w-full flex items-center justify-between bg-white border border-slate-200 hover:border-primary/60 rounded-lg p-2.5 text-xs text-slate-700 hover:bg-primary/5 transition-all cursor-pointer shadow-3xs text-left group"
           >
             <div class="truncate flex-1">
-              <span class="font-bold block truncate group-hover:text-indigo-600 transition-colors">{{ matrix.name }}</span>
+              <span class="font-bold block truncate group-hover:text-primary transition-colors">{{ matrix.name }}</span>
               <span class="text-[10px] text-slate-400 block mt-0.5 font-medium">
                 {{ matrix.source }} ➔ {{ matrix.target }}
               </span>
             </div>
-            <ChevronRight class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-600 shrink-0 transition-transform group-hover:translate-x-0.5" />
+            <ChevronRight class="w-3.5 h-3.5 text-slate-400 group-hover:text-primary shrink-0 transition-transform group-hover:translate-x-0.5" />
           </button>
         </div>
       </div>
@@ -67,7 +67,7 @@
         <!-- Title & Icon -->
         <div>
           <div class="flex items-center gap-2">
-            <IconRenderer :icon="guidance?.icon" fallback="info" custom-class="w-6 h-6 text-indigo-600 shrink-0" />
+            <IconRenderer :icon="guidance?.icon" fallback="info" custom-class="w-6 h-6 text-primary shrink-0" />
             <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
               {{ activeConcept }} Guidance
             </h2>
@@ -76,7 +76,7 @@
         </div>
 
         <!-- Summary -->
-        <div v-if="guidance.summary" class="bg-indigo-50 border border-indigo-100 rounded-lg p-3 text-xs text-indigo-950 font-medium leading-relaxed">
+        <div v-if="guidance.summary" class="bg-primary/5 border border-primary/10 rounded-lg p-3 text-xs text-primary font-medium leading-relaxed">
           {{ guidance.summary }}
         </div>
 
@@ -106,7 +106,7 @@
               v-for="(promptText, idx) in prompts" 
               :key="idx" 
               @click="copyPrompt(promptText)"
-              class="group relative bg-white border border-slate-200 rounded-lg p-2.5 text-xs text-slate-700 hover:border-indigo-400 hover:bg-indigo-50/20 transition-all cursor-pointer shadow-2xs"
+              class="group relative bg-white border border-slate-200 rounded-lg p-2.5 text-xs text-slate-700 hover:border-primary/60 hover:bg-primary/5 transition-all cursor-pointer shadow-2xs"
             >
               <p class="font-mono leading-normal pr-8 select-all">{{ promptText }}</p>
               <span class="absolute top-2.5 right-2.5 text-[10px] text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
@@ -177,7 +177,7 @@ const renderMarkdown = (text: string) => {
   // Bold **text** -> <strong>text</strong>
   let html = text.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-slate-800">$1</strong>');
   // Backticks `code` -> <code>code</code>
-  html = html.replace(/`([^`]+)`/g, '<code class="bg-slate-100 px-1 py-0.5 rounded text-[10px] font-mono text-indigo-600 font-semibold">$1</code>');
+  html = html.replace(/`([^`]+)`/g, '<code class="bg-slate-100 px-1 py-0.5 rounded text-[10px] font-mono text-primary font-semibold">$1</code>');
   return html;
 };
 </script>

@@ -627,7 +627,10 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
         
         if (!node) {
           const actualType = hierarchyConcepts.find(hc => hc.toLowerCase() === inst.type.toLowerCase()) || conceptName;
-          if (actualType === hierarchyConcepts[0]) {
+          const childIdx = hierarchyConcepts.indexOf(actualType);
+
+          if (childIdx === 0) {
+            // Root of hierarchy chain → top-level tree node
             node = {
               id: 'sh-' + generateId(),
               name: inst.name,
@@ -637,24 +640,34 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
               children: []
             };
             parsedTree.push(node);
-          } else {
-            const childIdx = hierarchyConcepts.indexOf(actualType);
-            if (childIdx > 0) {
-              const parentType = hierarchyConcepts[childIdx - 1];
-              const parentNode = findParentNodeOfType(parsedTree, parentType);
-              if (parentNode) {
-                const prefix = actualType.substring(0, 3).toLowerCase() + '-';
-                node = {
-                  id: prefix + generateId(),
-                  name: inst.name,
-                  type: actualType,
-                  description: inst.description,
-                  fields: inst.fields || {},
-                  children: []
-                };
-                parentNode.children.push(node);
-              }
+          } else if (childIdx > 0) {
+            // Non-root hierarchy concept → child of previous concept in chain
+            const parentType = hierarchyConcepts[childIdx - 1];
+            const parentNode = findParentNodeOfType(parsedTree, parentType);
+            if (parentNode) {
+              const prefix = actualType.substring(0, 3).toLowerCase() + '-';
+              node = {
+                id: prefix + generateId(),
+                name: inst.name,
+                type: actualType,
+                description: inst.description,
+                fields: inst.fields || {},
+                children: []
+              };
+              parentNode.children.push(node);
             }
+          } else {
+            // Not in hierarchy chain → flat root-level node
+            const prefix = conceptName.substring(0, 3).toLowerCase() + '-';
+            node = {
+              id: prefix + generateId(),
+              name: inst.name,
+              type: conceptName,
+              description: inst.description,
+              fields: inst.fields || {},
+              children: []
+            };
+            parsedTree.push(node);
           }
         }
         
@@ -671,7 +684,9 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
       
       const addMissingNode = (name: string, desc: string) => {
         const actualType = hierarchyConcepts.find(hc => hc.toLowerCase() === conceptName.toLowerCase()) || conceptName;
-        if (actualType === hierarchyConcepts[0]) {
+        const childIdx = hierarchyConcepts.indexOf(actualType);
+
+        if (childIdx === 0) {
           const node = {
             id: 'sh-' + generateId(),
             name: name,
@@ -680,23 +695,31 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
             children: []
           };
           parsedTree.push(node);
-        } else {
-          const childIdx = hierarchyConcepts.indexOf(actualType);
-          if (childIdx > 0) {
-            const parentType = hierarchyConcepts[childIdx - 1];
-            const parentNode = findParentNodeOfType(parsedTree, parentType);
-            if (parentNode) {
-              const prefix = actualType.substring(0, 3).toLowerCase() + '-';
-              const node = {
-                id: prefix + generateId(),
-                name: name,
-                type: actualType,
-                description: desc,
-                children: []
-              };
-              parentNode.children.push(node);
-            }
+        } else if (childIdx > 0) {
+          const parentType = hierarchyConcepts[childIdx - 1];
+          const parentNode = findParentNodeOfType(parsedTree, parentType);
+          if (parentNode) {
+            const prefix = actualType.substring(0, 3).toLowerCase() + '-';
+            const node = {
+              id: prefix + generateId(),
+              name: name,
+              type: actualType,
+              description: desc,
+              children: []
+            };
+            parentNode.children.push(node);
           }
+        } else {
+          // Not in hierarchy chain → flat root-level node
+          const prefix = conceptName.substring(0, 3).toLowerCase() + '-';
+          const node = {
+            id: prefix + generateId(),
+            name: name,
+            type: conceptName,
+            description: desc,
+            children: []
+          };
+          parsedTree.push(node);
         }
       };
       
@@ -729,8 +752,10 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     }
   };
 
-  hierarchyConcepts.forEach(concept => {
-    parseDescriptionsFromText(concept, parsedTree);
+  // Parse instances from ALL concepts (not just hierarchy ones).
+  // Hierarchy concepts get tree placement; others get flat root-level nodes.
+  conceptsList.forEach(concept => {
+    parseDescriptionsFromText(concept.name, parsedTree);
   });
 
   parsed.hierarchyConcepts = hierarchyConcepts;
@@ -949,6 +974,60 @@ last_saved: "${lastSaved}"
     updatedModelTextData[concept] = text.trim();
   });
 
+  // Also process non-hierarchy concepts that have instances in modelTree.
+  // These are flat root-level nodes not part of the hierarchy chain.
+  const hierarchySet = new Set(hierarchyConcepts.map(hc => hc.toLowerCase()));
+  const nonHierarchyConceptsWithInstances = new Set<string>();
+  const collectTypes = (nodes: TreeNode[]) => {
+    for (const n of nodes) {
+      if (n.type && !hierarchySet.has(n.type.toLowerCase())) {
+        nonHierarchyConceptsWithInstances.add(n.type);
+      }
+      if (n.children?.length) collectTypes(n.children);
+    }
+  };
+  collectTypes(params.modelTree);
+
+  nonHierarchyConceptsWithInstances.forEach(concept => {
+    if (updatedModelTextData[concept] !== undefined) return; // already processed
+    const nodes = getNodesAtLevel(concept);
+    if (nodes.length === 0) return;
+    let text = '';
+    if (isFlatFormat) {
+      const conceptLower = concept.toLowerCase();
+      text = `# <!-- block: concepts --> ${conceptLower}\n\n`;
+      nodes.forEach(node => {
+        text += `* <!-- block: ${conceptLower} --> ${node.name}\n`;
+        let hasFields = false;
+        if (node.fields && Object.keys(node.fields).length > 0) {
+          const activeFields: Record<string, any> = {};
+          Object.entries(node.fields).forEach(([k, v]) => {
+            if (v !== undefined && v !== null && v !== '') {
+              activeFields[k] = v;
+            }
+          });
+          if (Object.keys(activeFields).length > 0) {
+            text += '  ```yaml\n';
+            text += stringifyYaml(activeFields, 2) + '\n';
+            text += '  ```\n';
+            hasFields = true;
+          }
+        }
+        if (node.description) {
+          if (hasFields) text += '\n';
+          text += node.description + '\n';
+        }
+        text += '\n';
+      });
+    } else {
+      text = `# ${concept}\n`;
+      nodes.forEach(node => {
+        text += `- ${node.name}${node.description ? ': ' + node.description : ''}\n`;
+      });
+    }
+    updatedModelTextData[concept] = text.trim();
+  });
+
   params.concepts.forEach(c => {
     if (c.type !== 'category') {
       if (hierarchyConcepts.includes(c.name)) {
@@ -1011,27 +1090,14 @@ last_saved: "${lastSaved}"
   const allNodeIds: string[] = [];
   const allNodeNames: string[] = [];
   const traverseByLevel = (nodes: TreeNode[]) => {
-    const levelNodesMap: Record<string, TreeNode[]> = {};
-    hierarchyConcepts.forEach(c => {
-      levelNodesMap[c] = [];
-    });
-    
     const visit = (list: TreeNode[]) => {
       list.forEach(n => {
-        if (levelNodesMap[n.type]) {
-          levelNodesMap[n.type].push(n);
-        }
+        allNodeIds.push(n.id);
+        allNodeNames.push(n.name);
         if (n.children) visit(n.children);
       });
     };
     visit(nodes);
-    
-    hierarchyConcepts.forEach(c => {
-      levelNodesMap[c].forEach(n => {
-        allNodeIds.push(n.id);
-        allNodeNames.push(n.name);
-      });
-    });
   };
   traverseByLevel(params.modelTree);
   

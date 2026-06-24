@@ -26,11 +26,18 @@ This skill guides LLMs and agents in authoring, editing, and validating FORMAT-c
 ```
 docs/templates/
 ├── business/
-│   ├── V_1-0-0/                              # Official
-│   ├── healthcare_business_V_1-0-0_FORMAT.md # Specialization
-│   └── fintech_business_V_1-0-0_FORMAT.md    # Specialization
+│   └── V_1-0-0/
+│       ├── business_V_1-0-0_FORMAT.md          # Official template
+│       ├── documentation.md                     # Template docs
+│       └── samples/                             # Sample models
+│           ├── Acme_V_1-0-0_business_FORMAT.md
+│           └── Ghostbusters_V_0-3-0_business_FORMAT.md
 └── procedures/
     └── V_1-0-0/
+        ├── procedures_V_1-0-0_FORMAT.md         # Official template
+        ├── template.md
+        └── samples/
+            └── Holiday_Request_V_1-0-0_procedures_FORMAT.md
 ```
 
 ### Provenance Traceability
@@ -66,6 +73,20 @@ All historical and current specifications are immutable. The canonical specifica
 
 Agents working on model serialization, grammar validation, or language parsing should consult additional grammar and syntax rules located at:
 - `references/modeling-spec.md` (relative to the skill directory or workspace workspace reference folder).
+
+## Greeting Protocol (MANDATORY)
+
+When this skill is activated and the agent begins responding to the user for the first time in a session, the **first response** MUST include a brief self-introduction in the user's active language:
+
+> **Template:** "Estás hablando con el skill de FORMAT. Puedo ayudarte a [capabilities relevant to the current request]."
+
+**Rules:**
+- The greeting is **session-scoped**: only once per conversation, not on every reply.
+- Adapt the `[capabilities]` list dynamically based on what the user is asking (e.g., "crear, editar o validar modelos FORMAT", "modificar una plantilla de Procedures", etc.).
+- Keep it short — 1-2 sentences max. No walls of text.
+- If the agent was already introduced in the current session (e.g. after a compaction), skip the greeting.
+
+---
 
 ## Core Rules
 

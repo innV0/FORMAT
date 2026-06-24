@@ -35,7 +35,7 @@
             <span class="truncate font-mono font-semibold text-foreground">{{ workspaceStore.dirHandle.name }}</span>
             <button 
               @click="workspaceStore.openConnectDialog" 
-              class="text-[10px] text-indigo-600 hover:text-indigo-700 font-semibold cursor-pointer underline transition-all shrink-0 ml-2"
+              class="text-[10px] text-primary hover:text-primary/80 font-semibold cursor-pointer underline transition-all shrink-0 ml-2"
             >
               Change
             </button>
@@ -89,7 +89,7 @@
           </div>
           <button 
             @click="workspaceStore.openConnectDialog" 
-            class="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 transition-all cursor-pointer"
+            class="inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-primary/90 transition-all cursor-pointer"
           >
             Connect Workspace Folder
           </button>
@@ -178,7 +178,7 @@
           </span>
           <button 
             @click="copyToClipboard" 
-            class="inline-flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 border border-transparent hover:border-indigo-200 px-2 py-1 rounded transition-all cursor-pointer font-semibold"
+            class="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 hover:bg-primary/5 border border-transparent hover:border-primary/20 px-2 py-1 rounded transition-all cursor-pointer font-semibold"
           >
             <component :is="isCopied ? Check : Copy" class="w-3.5 h-3.5" />
             <span>{{ isCopied ? 'Copied!' : 'Copy Code' }}</span>
@@ -190,7 +190,7 @@
             readonly
             :value="serializedModelText"
             rows="16"
-            class="w-full bg-slate-950 text-slate-200 font-mono text-xs p-4 focus:outline-none resize-none border-none outline-none leading-relaxed select-all selection:bg-indigo-600 selection:text-white"
+            class="w-full bg-slate-950 text-slate-200 font-mono text-xs p-4 focus:outline-none resize-none border-none outline-none leading-relaxed select-all selection:bg-primary selection:text-white"
           ></textarea>
         </div>
       </div>

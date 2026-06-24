@@ -90,10 +90,10 @@
             >
               <button 
                 @click="selectHistoryDirectory(dir)"
-                class="flex-1 text-left px-2 py-1 text-xs text-slate-700 rounded hover:text-indigo-600 transition-colors truncate flex items-center gap-1.5 cursor-pointer"
+                class="flex-1 text-left px-2 py-1 text-xs text-slate-700 rounded hover:text-primary transition-colors truncate flex items-center gap-1.5 cursor-pointer"
               >
-                <Folder class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-500 shrink-0" />
-                <span class="truncate" :class="workspaceStore.dirHandle?.name === dir.name && !workspaceStore.needsPermission ? 'font-semibold text-indigo-600' : 'font-medium'">{{ dir.name }}</span>
+                <Folder class="w-3.5 h-3.5 text-slate-400 group-hover:text-primary shrink-0" />
+                <span class="truncate" :class="workspaceStore.dirHandle?.name === dir.name && !workspaceStore.needsPermission ? 'font-semibold text-primary' : 'font-medium'">{{ dir.name }}</span>
               </button>
               
               <button 
@@ -111,7 +111,7 @@
           <!-- Connect New Button -->
           <button 
             @click="connectNewDirectory"
-            class="w-full text-left px-4 py-1.5 text-xs text-indigo-600 hover:bg-indigo-50 font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+            class="w-full text-left px-4 py-1.5 text-xs text-primary hover:bg-primary/5 font-semibold flex items-center gap-2 transition-colors cursor-pointer"
           >
             <FolderPlus class="w-4 h-4" />
             Connect New Directory
@@ -124,7 +124,7 @@
         <button
           @click="documentStore.saveActiveFile"
           :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName"
-          class="inline-flex items-center gap-1.5 rounded-l-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          class="inline-flex items-center gap-1.5 rounded-l-md bg-primary px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <Save class="w-3.5 h-3.5" />
           Save (Ctrl+S)
@@ -132,7 +132,7 @@
         <button
           @click="toggleSaveDropdown"
           :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName"
-          class="inline-flex items-center rounded-r-md bg-indigo-600 px-2 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-indigo-700 border-l border-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          class="inline-flex items-center rounded-r-md bg-primary px-2 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-primary/90 border-l border-primary/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           title="Save options: backup & version"
         >
           <ChevronDown class="w-3.5 h-3.5" />
@@ -156,7 +156,7 @@
                 Backup on every save
               </span>
               <span
-                :class="workspaceStore.autoBackup ? 'bg-indigo-600' : 'bg-slate-300'"
+                :class="workspaceStore.autoBackup ? 'bg-primary' : 'bg-slate-300'"
                 class="relative inline-flex h-4 w-7 items-center rounded-full transition-colors shrink-0"
               >
                 <span
@@ -181,13 +181,13 @@
                   :href="documentStore.specificationUrl"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-indigo-400 hover:text-indigo-600 transition-colors cursor-pointer"
+                  class="text-primary/60 hover:text-primary transition-colors cursor-pointer"
                   title="How FORMAT uses Semantic Versioning & file naming rules (spec §8). Opens the specification."
                 >
                   <Info class="w-3.5 h-3.5" />
                 </a>
               </span>
-              <span class="font-mono text-xs font-semibold text-indigo-600">{{ documentStore.modelVersion }}</span>
+              <span class="font-mono text-xs font-semibold text-primary">{{ documentStore.modelVersion }}</span>
             </div>
             <p v-if="bumpError" class="text-[10px] text-red-600 mb-1.5 leading-tight">{{ bumpError }}</p>
             <div class="grid grid-cols-3 gap-1.5">
@@ -195,7 +195,7 @@
                 v-for="lvl in (['major', 'minor', 'patch'] as const)"
                 :key="lvl"
                 @click="bumpVersion(lvl)"
-                class="rounded-md bg-slate-100 px-2 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors cursor-pointer capitalize"
+                class="rounded-md bg-slate-100 px-2 py-1.5 text-[11px] font-semibold text-slate-700 hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer capitalize"
               >
                 {{ lvl }}
               </button>
@@ -207,12 +207,12 @@
         </div>
       </div>
 
-      <button 
-        @click="documentStore.selectConcept('info')"
-        :class="documentStore.activeConceptName === 'info' ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-700'"
-        class="p-1.5 rounded transition-colors cursor-pointer"
-        title="View Model Status & Workspace Files"
-      >
+        <button 
+          @click="documentStore.selectConcept('info')"
+          :class="documentStore.activeConceptName === 'info' ? 'text-primary' : 'text-slate-500 hover:text-slate-700'"
+          class="p-1.5 rounded transition-colors cursor-pointer"
+          title="View Model Status & Workspace Files"
+        >
         <Info class="w-4 h-4" />
       </button>
     </div>

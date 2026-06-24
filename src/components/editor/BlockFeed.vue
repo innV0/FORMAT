@@ -24,7 +24,7 @@
     <!-- Instance Sheets (list concept only) -->
     <div v-if="isListConcept" class="pl-4 space-y-3">
       <div v-if="items.length === 0" class="text-center py-12 text-slate-400 italic text-xs bg-slate-50 rounded-lg border border-dashed border-slate-200">
-        No instances found. Use "+ Add Item" or create bullet points (- Name: Description) to begin.
+        No instances yet. Add one with the button above or create bullet points in the description.
       </div>
 
       <BlockSheet
@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import BlockSheet from './BlockSheet.vue';
 import type { BlockKind } from '../../utils/conceptVisuals';
 import type { ParsedItem } from '../../types';
@@ -73,11 +73,13 @@ const props = withDefaults(defineProps<{
   items: ParsedItem[];
   isListConcept: boolean;
   hasMarkers?: boolean;
+  selectedItemName?: string;
 }>(), {
   conceptColor: '',
   conceptIcon: '',
   conceptFields: () => [],
   hasMarkers: false,
+  selectedItemName: '',
 });
 
 defineEmits<{
@@ -105,4 +107,20 @@ const toggleEdit = (key: string) => {
 const setInstanceCollapsed = (id: string, val: boolean) => {
   instanceCollapsed[id] = val;
 };
+
+// When a specific element is selected from the sidebar, expand it and collapse all others.
+watch(() => props.selectedItemName, (name) => {
+  if (!name) return;
+  // Collapse all instances first
+  for (const key of Object.keys(instanceCollapsed)) {
+    instanceCollapsed[key] = true;
+  }
+  // Expand the selected one
+  const selected = props.items.find(item => item.name === name);
+  if (selected) {
+    instanceCollapsed[selected.id] = false;
+  }
+  // Also collapse the concept header when viewing a specific element
+  conceptCollapsed.value = true;
+});
 </script>

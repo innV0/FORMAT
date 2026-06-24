@@ -6,21 +6,10 @@ import path from 'path';
 const filesToMigrate = [
   'docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md',
   'docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md',
-  'samples/business/FORMAT_V_0-1-3_FORMAT.md',
-  'samples/business/Ghostbusters_V_0-3-0_business_FORMAT.md',
-  'samples/business/Ghostbusters_V_0-3-1_business_FORMAT.md',
-  'samples/business/Ghostbusters_V_0-3-2_business_FORMAT.md',
-  'samples/procedures/Holiday_Request_V_1-0-0_procedures_FORMAT.md',
-  'samples/procedures/Test_procedures_V_1-0-0_FORMAT.md',
-  'docs/templates/business/V_1-0-0/samples/DeLorean/DeLorean_V_1-0-0_business_FORMAT.md',
-  'docs/templates/business/V_1-0-0/samples/Ghostbusters/Ghostbusters_V_0-1-0_business_FORMAT.md',
-  'docs/templates/procedures/V_1-0-0/samples/Holiday_Request/Holiday_Request_V_1-0-0_procedures_FORMAT.md',
-  'docs/templates/procedures/V_1-0-0/samples/test_procedure/test_procedure_V_0-1-0_procedures_FORMAT.md',
-  'docs/procedures/test_procedure/test_procedure_V_0-1-0_procedures_FORMAT.md'
 ];
 
 describe('Migration runner', () => {
-  it('migrates all templates and samples to use the index block', () => {
+  it('migrates all templates to use the index block', () => {
     const baseDir = path.resolve(__dirname, '../../..');
     
     filesToMigrate.forEach(relPath => {

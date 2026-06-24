@@ -305,21 +305,36 @@ The full filename is composed as:
 
 Example: `Ghostbusters_V_0-3-0_business_FORMAT.md`
 
-### 8.1.1 Recommended File Location
+### 8.1.1 Recommended Repository Structure
 
-The recommended location for a model file within a repository is:
+The recommended directory layout for a FORMAT repository is:
 
 ```
-_FORMAT/<TemplateName>/<ModelName>_V_<Version>_<TemplateName>_FORMAT.md
+docs/templates/
+├── <TemplateName>/
+│   └── V_x-y-z/
+│       ├── <TemplateName>_V_x-y-z_FORMAT.md   # Template definition
+│       ├── documentation.md                     # Template documentation
+│       └── samples/                             # Sample models using this template
+│           ├── <ModelName>_V_x-y-z_<TemplateName>_FORMAT.md
+│           └── ...
 ```
 
-- `_FORMAT/`: A top-level directory that groups all FORMAT documents in the repository.
-- `<TemplateName>/`: A subdirectory named after the template the model conforms to.
-- The filename follows the convention defined in §8.1.
+- **Template**: The canonical schema file at `docs/templates/<TemplateName>/V_x-y-z/<TemplateName>_V_x-y-z_FORMAT.md`.
+- **Samples**: Example models demonstrating the template, stored alongside it in the `samples/` subdirectory.
+- **Documentation**: Optional template documentation file (`documentation.md`).
 
-Example: `_FORMAT/business/Ghostbusters_V_0-3-0_business_FORMAT.md`
+This structure keeps templates, their documentation, and their samples co-located and self-describing. Samples are tracked in version control alongside the template they demonstrate.
 
-This structure keeps models organized by template type and makes the FORMAT directory self-describing at a glance.
+Example:
+```
+docs/templates/business/V_1-0-0/
+├── business_V_1-0-0_FORMAT.md
+├── documentation.md
+└── samples/
+    ├── Acme_V_1-0-0_business_FORMAT.md
+    └── Ghostbusters_V_0-3-0_business_FORMAT.md
+```
 
 ### 8.2 Versioning Format
 

@@ -11,7 +11,7 @@
       >
         <!-- Header -->
         <div class="px-6 py-4 border-b border-slate-100 flex items-start gap-3 bg-slate-50">
-          <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg shrink-0">
+          <div class="p-2 bg-primary/5 text-primary rounded-lg shrink-0">
             <FolderOpen class="w-5 h-5" />
           </div>
           <div>
@@ -60,14 +60,14 @@
 
           <!-- Visual Diagram -->
           <div class="border border-slate-200 rounded-lg bg-slate-50 p-4 font-mono text-[11px] text-slate-700">
-            <div class="flex items-center gap-1.5 font-semibold text-indigo-600 mb-2">
+            <div class="flex items-center gap-1.5 font-semibold text-primary mb-2">
               <CheckCircle class="w-3.5 h-3.5" />
               <span>Correct Selection Structure</span>
             </div>
             
             <div class="space-y-1 bg-white p-3 rounded border border-slate-100">
               <div class="flex items-center gap-1.5 font-semibold text-slate-800">
-                <FolderOpen class="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                <FolderOpen class="w-3.5 h-3.5 text-primary shrink-0" />
                 <span>[📁 Select this workspace folder]</span>
               </div>
               <div class="pl-4 border-l border-slate-200 ml-1.5 py-0.5 space-y-1">
@@ -85,12 +85,12 @@
           </div>
 
           <!-- Native Behavior Reminder -->
-          <div class="bg-indigo-50/40 rounded-lg p-3 text-[11px] text-indigo-900 border border-indigo-100/50">
+          <div class="bg-primary/5 rounded-lg p-3 text-[11px] text-primary border border-primary/10">
             <p class="font-semibold mb-0.5">💡 Windows Explorer Notice</p>
             <p>
               In the file dialog window, individual files inside the folder might be invisible or grayed out. Don't worry—just select the parent directory, and the app will load all models immediately.
             </p>
-            <p class="italic mt-1 text-indigo-800/80">
+            <p class="italic mt-1 text-primary/80">
               Es normal que no vea los archivos individuales o que aparezcan atenuados en el selector de Windows. Solo elija la carpeta.
             </p>
           </div>
@@ -107,7 +107,7 @@
           
           <button 
             @click="proceedToPicker" 
-            class="px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+            class="px-4 py-2 rounded-md bg-primary hover:bg-primary/90 text-white text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
           >
             <FolderOpen class="w-3.5 h-3.5" />
             Select Folder / Elegir Carpeta

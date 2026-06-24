@@ -11,7 +11,7 @@
       @focus="showDropdown = true"
       @blur="onBlur"
       placeholder="Search..."
-      class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+      class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-primary outline-none disabled:opacity-50 disabled:cursor-not-allowed"
     />
     <ul
       v-if="showDropdown && filteredSuggestions.length > 0"
@@ -21,7 +21,7 @@
         v-for="suggestion in filteredSuggestions"
         :key="suggestion"
         @mousedown.prevent="selectSuggestion(suggestion)"
-        class="px-3 py-1.5 cursor-pointer hover:bg-indigo-50 text-slate-700"
+        class="px-3 py-1.5 cursor-pointer hover:bg-primary/5 text-slate-700"
       >
         {{ suggestion }}
       </li>

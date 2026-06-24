@@ -26,10 +26,16 @@
         :icon="node.icon"
         :selected="activeName === node.name"
         :interactive="true"
+        :instance-count="elementCount"
         full-width
         class="flex-1"
         @click="emitSelect(node.name)"
       />
+      <span
+        v-if="elementCount > 0"
+        class="text-[10px] text-muted-foreground tabular-nums shrink-0 pr-1"
+        :title="`${elementCount} instance${elementCount === 1 ? '' : 's'}`"
+      >{{ elementCount }}</span>
     </div>
 
     <div
@@ -107,6 +113,8 @@ const conceptBlockId = computed(() =>
 
 const elementNodes = computed(() => props.elementsMap?.[props.node.name] ?? []);
 
+const elementCount = computed(() => elementNodes.value.length);
+
 const hasChildren = computed(() =>
   (props.node.children && props.node.children.length > 0) || elementNodes.value.length > 0
 );
@@ -118,6 +126,9 @@ watch(() => props.expandedGeneration, (newVal) => {
 }, { immediate: true });
 
 const emitSelect = (name: string) => {
+  if (hasChildren.value) {
+    isCollapsed.value = !isCollapsed.value;
+  }
   emit('select', name);
 };
 

@@ -42,7 +42,7 @@ export function deriveChain(
     }
   });
 
-  let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
+  let hierarchyConcepts: string[] = [];
   if (chains.length > 0) {
     const chainRoot = chains[0][0];
     const chainRootCategoryParents = taxonomyEdges

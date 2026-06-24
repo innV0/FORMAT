@@ -14,7 +14,7 @@
     >
       <!-- Perspective header -->
       <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-        <IconRenderer :icon="n.perspective.icon" custom-class="w-3 h-3 text-indigo-500" />
+        <IconRenderer :icon="n.perspective.icon" custom-class="w-3 h-3 text-primary" />
         <span>{{ n.perspective.name }}</span>
       </div>
 
@@ -42,7 +42,7 @@
       <div class="perspective-tier">
         <span class="perspective-tier__label perspective-tier__label--active">Active</span>
         <span class="perspective-chip perspective-chip--active">
-          <IconRenderer :icon="iconFor(conceptName)" custom-class="w-3 h-3 shrink-0 text-indigo-600" />
+          <IconRenderer :icon="iconFor(conceptName)" custom-class="w-3 h-3 shrink-0 text-primary" />
           <span class="truncate">{{ conceptName }}</span>
         </span>
       </div>

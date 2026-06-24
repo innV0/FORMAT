@@ -4,7 +4,7 @@
       <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Dynamic Relational Matrices Definitions</h3>
       <button 
         @click="documentStore.addMetamatrixRow" 
-        class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-2.5 py-1.5 rounded font-semibold cursor-pointer"
+        class="bg-primary hover:bg-primary/90 text-white text-xs px-2.5 py-1.5 rounded font-semibold cursor-pointer"
       >
         + Add New Matrix Config
       </button>
@@ -29,14 +29,14 @@
               <input 
                 v-model="row.name" 
                 @input="documentStore.triggerUnsavedChanges"
-                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
               >
             </td>
             <td class="px-4 py-2.5">
               <select 
                 v-model="row.source" 
                 @change="documentStore.triggerUnsavedChanges"
-                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
               >
                 <option v-for="c in instantiableConcepts" :key="c" :value="c">{{ c }}</option>
               </select>
@@ -45,7 +45,7 @@
               <select 
                 v-model="row.target" 
                 @change="documentStore.triggerUnsavedChanges"
-                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
               >
                 <option v-for="c in listConcepts" :key="c" :value="c">{{ c }}</option>
               </select>
@@ -54,7 +54,7 @@
               <select 
                 v-model="row.widgetType" 
                 @change="documentStore.triggerUnsavedChanges"
-                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
               >
                 <option value="boolean">Boolean Checkbox</option>
                 <option value="cycle">Options Cycle Button</option>
@@ -68,7 +68,7 @@
                 v-model="row.params" 
                 @input="documentStore.triggerUnsavedChanges"
                 placeholder="e.g. min:1;max:5 or Low;Medium;High" 
-                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
               >
             </td>
             <td class="px-4 py-2.5 text-right">

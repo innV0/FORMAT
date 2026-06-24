@@ -6,7 +6,7 @@ template:
   name: "procedures"
   version: "V_1-1-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-24T08:57:02.081Z"
+  last_updated: "2026-06-24T11:58:33.157Z"
   concepts:
     - name: "procedure summary"
       icon: "file-text"
@@ -50,11 +50,20 @@ template:
             - "artifact"
         - name: "output_status"
           type: "string"
+        - name: "tool"
+          type: "reference"
+          target_concepts:
+            - "tools"
     - name: "artifact"
       icon: "package"
       type: "list"
       color: "blue"
       weight: 75
+    - name: "tools"
+      icon: "wrench"
+      type: "list"
+      color: "orange"
+      weight: 70
     - name: "position"
       icon: "briefcase"
       type: "list"
@@ -83,11 +92,19 @@ template:
       source: "person"
       target: "position"
       params: "Occupies"
+    - name: "steps-tools matrix"
+      source: "steps"
+      target: "tools"
+      params: "Uses"
+    - name: "steps-artifacts matrix"
+      source: "steps"
+      target: "artifact"
+      params: "Creates;Modifies;Validates;Reviews"
     - name: "item-markers matrix"
       source: "elements"
       target: "markers"
 title: "procedures"
-last_saved: "2026-06-24T08:57:02.081Z"
+last_saved: "2026-06-24T11:58:33.157Z"
 ---
 
 # <!-- block: concepts --> procedure summary
@@ -112,6 +129,7 @@ Brief explanation of the procedure's goals and scope.
    input: Related Artifact Name
    output: Produced Artifact Name
    output_status: draft
+   tool: Tool Name
    ```
    Detailed explanation of what needs to be done.
 
@@ -119,6 +137,11 @@ Brief explanation of the procedure's goals and scope.
 
 * <!-- block: artifact --> Artifact Name
   Description of this artifact — a tangible or digital output that flows through the procedure (e.g. document, form, report, certificate).
+
+# <!-- block: concepts --> tools
+
+* <!-- block: tools --> Tool Name
+  Description of this tool — a software application, instrument, or resource used to modify, generate, or process artifacts during a step (e.g. IDE, spreadsheet, design tool, CI pipeline).
 
 # <!-- block: concepts --> position
 
@@ -134,6 +157,12 @@ Brief explanation of the procedure's goals and scope.
 
 | Item \ Marker | complexity |
 | :--- | :---: |
+| Role Name | - |
+| Step Name | - |
+| Artifact Name | - |
+| Tool Name | - |
+| Position Name | - |
+| Person Name | - |
 
 # <!-- block: matrices --> metamatrix
 
@@ -142,6 +171,8 @@ Brief explanation of the procedure's goals and scope.
 | steps-roles matrix | steps | roles | cycle | Responsible;Accountable;Consulted;Informed |
 | positions-roles matrix | position | roles | cycle | Assumes |
 | persons-positions matrix | person | position | cycle | Occupies |
+| steps-tools matrix | steps | tools | cycle | Uses |
+| steps-artifacts matrix | steps | artifact | cycle | Creates;Modifies;Validates;Reviews |
 | item-markers matrix | elements | markers | cycle | - |
 
 # <!-- block: matrices --> steps-roles matrix
@@ -161,6 +192,18 @@ Brief explanation of the procedure's goals and scope.
 | person \ position | Position Name |
 | :--- | :---: |
 | Person Name | Occupies |
+
+# <!-- block: matrices --> steps-tools matrix
+
+| steps \ tools | Tool Name |
+| :--- | :---: |
+| Step Name | Uses |
+
+# <!-- block: matrices --> steps-artifacts matrix
+
+| steps \ artifacts | Artifact Name |
+| :--- | :---: |
+| Step Name | Creates |
 
 # <!-- block: matrices --> item-markers matrix
 

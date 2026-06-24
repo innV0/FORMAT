@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>08 — Table Row Density</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-100 min-h-screen p-8 flex items-start justify-center">
+  <div class="w-full max-w-3xl">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">08 — Table Row Density</p>
+
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+      <!-- Table header -->
+      <div class="grid grid-cols-[2fr_3fr_2fr_80px] gap-2 px-4 py-2 border-b border-slate-200 bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+        <div>Concept</div>
+        <div>Name</div>
+        <div>Fields</div>
+        <div class="text-right">Actions</div>
+      </div>
+
+      <!-- Row 1 -->
+      <div class="grid grid-cols-[2fr_3fr_2fr_80px] gap-2 px-4 py-3 border-b border-slate-100 hover:bg-slate-50 transition-colors group items-center">
+        <!-- Concept -->
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+          <span class="text-xs font-bold text-indigo-600 truncate">Actor</span>
+        </div>
+
+        <!-- Name -->
+        <div class="text-sm font-semibold text-slate-800 truncate">Protagonista</div>
+
+        <!-- Fields -->
+        <div class="flex flex-wrap gap-1 min-w-0">
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-50 text-[10px] text-slate-500 border border-slate-100 truncate">role: lead</span>
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-50 text-[10px] text-slate-500 border border-slate-100 truncate">arc: redemption</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-0.5 justify-end shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span class="flex items-center gap-1 mr-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          </span>
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </button>
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2 (expanded) -->
+      <div class="border-b border-slate-100 hover:bg-slate-50 transition-colors group">
+        <div class="grid grid-cols-[2fr_3fr_2fr_80px] gap-2 px-4 py-3 items-center">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+            <span class="text-xs font-bold text-emerald-600 truncate">Escena</span>
+          </div>
+          <div class="text-sm font-semibold text-slate-800 truncate">Apertura del tercer acto</div>
+          <div class="flex flex-wrap gap-1 min-w-0">
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-50 text-[10px] text-slate-500 border border-slate-100 truncate">location: castillo</span>
+          </div>
+          <div class="flex items-center gap-0.5 justify-end shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span class="flex items-center gap-1 mr-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+            </span>
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            </button>
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </div>
+        <!-- Expanded detail -->
+        <div class="px-4 pb-3 pt-0 border-t border-slate-100 ml-[calc(2fr+1rem)]">
+          <p class="text-xs text-slate-600 leading-relaxed py-2">La protagonista entra al castillo abandonado. La luz de la luna se filtra por las ventanas rotas.</p>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="grid grid-cols-[2fr_3fr_2fr_80px] gap-2 px-4 py-3 hover:bg-slate-50 transition-colors group items-center">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="w-2 h-2 rounded-full bg-violet-500 shrink-0"></span>
+          <span class="text-xs font-bold text-violet-600 truncate">Elemento</span>
+        </div>
+        <div class="text-sm font-semibold text-slate-800 truncate">Llave antigua</div>
+        <div class="flex flex-wrap gap-1 min-w-0">
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-50 text-[10px] text-slate-500 border border-slate-100 truncate">type: key</span>
+        </div>
+        <div class="flex items-center gap-0.5 justify-end shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </button>
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-[10px] text-slate-400 mt-8 text-center">Table Row Density — Alta densidad en formato tabla. Ideal para listas largas y vistas de gestión.</p>
+  </div>
+</body>
+</html>
