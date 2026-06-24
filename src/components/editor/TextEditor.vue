@@ -7,7 +7,7 @@
       </h4>
       <button
         @click="addListItem"
-        class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-md font-bold flex items-center gap-1 cursor-pointer transition shadow-xs"
+        class="text-xs bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-md font-bold flex items-center gap-1 cursor-pointer transition shadow-xs"
       >
         <Plus class="w-3.5 h-3.5" />
         Add Item
@@ -25,10 +25,11 @@
       :concept-color="conceptColor"
       :concept-icon="conceptIcon"
       :concept-block="textBlock"
-      :items="parsedItems"
+      :items="filteredItems"
       :is-list-concept="isListConcept"
       :has-markers="true"
       :concept-fields="conceptFields"
+      :selected-item-name="selectedNode?.name"
       @change-concept="updateSingleBlockText"
       @change-item="syncToMarkdown"
       @add-item="addListItem"
@@ -139,6 +140,14 @@ const syncFromMarkdown = () => {
     blockType: inst.type
   }));
 };
+
+// When a specific element is selected in the sidebar, filter to show only that element.
+// When no element is selected (concept click), show all items.
+const selectedNode = computed(() => documentStore.selectedNode);
+const filteredItems = computed(() => {
+  if (!selectedNode.value) return parsedItems.value;
+  return parsedItems.value.filter(item => item.name === selectedNode.value!.name);
+});
 
 // Sync from structured items back to markdown text
 const syncToMarkdown = () => {

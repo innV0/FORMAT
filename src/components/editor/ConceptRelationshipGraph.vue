@@ -29,7 +29,7 @@
               v-for="parent in n.parents"
               :key="parent"
               @click="navigateToConcept(parent)"
-              class="w-full truncate text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/10 transition-all duration-150 shadow-3xs text-right cursor-pointer font-medium hover:scale-[1.02]"
+              class="w-full truncate text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-primary/60 hover:text-primary hover:bg-primary/5 transition-all duration-150 shadow-3xs text-right cursor-pointer font-medium hover:scale-[1.02]"
               :title="`Navigate to ${parent}`"
             >
               {{ parent }}
@@ -67,7 +67,7 @@
               v-for="child in n.children"
               :key="child"
               @click="navigateToConcept(child)"
-              class="w-full truncate text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/10 transition-all duration-150 shadow-3xs text-left cursor-pointer font-medium hover:scale-[1.02]"
+              class="w-full truncate text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-primary/60 hover:text-primary hover:bg-primary/5 transition-all duration-150 shadow-3xs text-left cursor-pointer font-medium hover:scale-[1.02]"
               :title="`Navigate to ${child}`"
             >
               {{ child }}

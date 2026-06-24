@@ -2,35 +2,42 @@
   <div
     class="rounded-lg bg-slate-50 transition-all duration-200 flex flex-col relative"
   >
-    <!-- Header: identity pill + controls -->
+    <!-- Header: concept label + markers + controls -->
     <div
-      class="flex items-center rounded-xl p-3 transition-all duration-150 gap-2 select-none text-slate-700"
+      class="flex items-center rounded-lg px-3 py-2.5 transition-all duration-150 gap-2 select-none text-slate-700"
     >
-      <!-- Chevron expand/collapse -->
-      <button
-        @click.stop="$emit('update:collapsed', !collapsed)"
-        aria-label="Toggle expand"
-        class="p-0.5 hover:bg-current/10 rounded transition-colors cursor-pointer flex items-center justify-center shrink-0"
+      <!-- Concept identity: icon + name -->
+      <div
+        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-bold shrink-0"
+        :class="[palette.bg, palette.text, palette.border]"
       >
-        <ChevronDown
-          class="w-3.5 h-3.5 transition-transform duration-200"
-          :class="{ '-rotate-90': collapsed }"
+        <IconRenderer
+          :icon="conceptIcon || 'layers'"
+          custom-class="w-3.5 h-3.5"
         />
-      </button>
+        <span>{{ cleanConceptName }}</span>
+        <span v-if="index !== undefined" class="font-normal opacity-60">#{{ index }}</span>
+      </div>
 
-      <!-- Identity pill -->
-      <BlockPill
-        :kind="kind"
-        :concept-type="conceptName"
-        :color="conceptColor"
-        :icon="conceptIcon"
-        :name="`${cleanConceptName}${index !== undefined ? ' #' + index : ''}`"
-        class="flex-1"
-      />
+      <!-- Block name (large, prominent) -->
+      <div class="flex-1 min-w-0 px-1">
+        <div v-if="!isEditing">
+          <h3 class="text-base font-bold break-words whitespace-normal leading-tight text-slate-800 truncate" :title="block.name || '(Empty)'">
+            {{ block.name || '(Empty)' }}
+          </h3>
+        </div>
+        <div v-else>
+          <input
+            :value="block.name"
+            @input="onNameInput"
+            class="w-full border border-slate-200 rounded-md p-1.5 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
+            placeholder="Enter block name"
+          >
+        </div>
+      </div>
 
       <!-- Marker cycling toolbar -->
       <template v-if="hasMarkers && block.id">
-        <span class="w-px h-3.5 bg-current/20 mx-0.5"></span>
         <MarkerTooltip
           v-for="marker in allMarkers"
           :key="marker.name"
@@ -77,7 +84,7 @@
         </button>
       </template>
 
-      <!-- Pencil edit button (sole edit entry point) -->
+      <!-- Pencil edit button -->
       <button
         @click.stop="$emit('edit-toggle')"
         aria-label="Edit"
@@ -96,35 +103,29 @@
       >
         <Trash2 class="w-3.5 h-3.5" />
       </button>
-    </div>
 
-    <!-- Block name (read or edit) -->
-    <div class="px-4 pt-3 pb-1">
-      <div v-if="!isEditing">
-        <h3 class="text-lg font-bold break-words whitespace-normal leading-tight text-slate-800" :title="block.name || '(Empty)'">
-          {{ block.name || '(Empty)' }}
-        </h3>
-      </div>
-      <div v-else>
-        <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Name</label>
-        <input
-          :value="block.name"
-          @input="onNameInput"
-          class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
-          placeholder="Enter block name"
-        >
-      </div>
+      <!-- Chevron expand/collapse (far right) -->
+      <button
+        @click.stop="$emit('update:collapsed', !collapsed)"
+        aria-label="Toggle expand"
+        class="p-0.5 hover:bg-current/10 rounded transition-colors cursor-pointer flex items-center justify-center shrink-0"
+      >
+        <ChevronDown
+          class="w-3.5 h-3.5 transition-transform duration-200"
+          :class="{ '-rotate-90': collapsed }"
+        />
+      </button>
     </div>
 
     <!-- Fields breadcrumbs (always visible when there are fields) -->
     <div
       v-if="hasVisibleFields && !isEditing"
-      class="px-4 py-1 flex flex-wrap gap-1.5 text-[10px] text-slate-500"
+      class="px-3 pb-1 flex flex-wrap gap-1.5 text-[10px] text-slate-500"
     >
       <span
         v-for="field in visibleFields"
         :key="field.name"
-        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-50 text-slate-600 font-medium border border-slate-200/60"
+        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-white text-slate-600 font-medium border border-slate-200/60"
       >
         <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
         <span v-if="field.isWikiLink" class="text-indigo-600 underline decoration-dotted">[[{{ field.value }}]]</span>
@@ -137,7 +138,7 @@
       v-show="!collapsed || isEditing"
       class="overflow-hidden transition-all duration-300"
     >
-      <div class="px-4 pb-4 pt-2 space-y-3 flex flex-col">
+      <div class="px-3 pb-3 pt-1 space-y-3 flex flex-col">
 
         <!-- Edit-mode field inputs -->
         <template v-if="isEditing">
@@ -176,6 +177,11 @@
             :concept-name="conceptName"
             :concept-color="conceptColor"
           />
+          <BlockMatrixSummary
+            :block-name="block.name"
+            :concept-name="conceptName"
+            @navigate-to-matrix="navigateToMatrix"
+          />
           <ConceptRelationshipGraph
             :concept-name="conceptName"
             :concept-color="conceptColor"
@@ -189,10 +195,11 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
 import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2, PlusCircle } from 'lucide-vue-next';
-import BlockPill from './BlockPill.vue';
+import IconRenderer from './IconRenderer.vue';
 import MarkerTooltip from './MarkerTooltip.vue';
 import ConceptRelationshipGraph from './ConceptRelationshipGraph.vue';
 import BlockRelationships from './BlockRelationships.vue';
+import BlockMatrixSummary from './BlockMatrixSummary.vue';
 import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { renderInlineMarkdown } from '../../utils/renderMarkdown';
@@ -200,6 +207,7 @@ import { useDocumentStore } from '../../stores/document';
 import { UpdateFieldKey } from './widgets/injection';
 import { resolveWidget } from './widgets';
 import { MARKER_CYCLE_COUNT } from '../../utils/constants';
+import { getColorClasses } from '../../utils/colors';
 import type { BlockKind } from '../../utils/conceptVisuals';
 
 const props = withDefaults(defineProps<{
@@ -246,6 +254,8 @@ const emit = defineEmits<{
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
+
+const palette = computed(() => getColorClasses(props.conceptColor));
 
 const allMarkers = computed(() => metamodelStore.markers);
 
@@ -298,7 +308,6 @@ const onNameInput = (event: Event) => {
   const oldName = props.block.name;
   props.block.name = newName;
 
-  // Determine rename context from component props
   const context: 'tree-node' | 'list-item' | 'concept' =
     props.kind === 'concept'
       ? 'concept'
@@ -317,6 +326,11 @@ const updateField = (fieldName: string, value: any) => {
   props.block.fields![fieldName] = value;
   onInput();
   emit('update:field', fieldName, value);
+};
+
+const navigateToMatrix = (matrixIndex: number) => {
+  documentStore.activeGeneratedMatrixIndex = matrixIndex;
+  documentStore.selectConcept('matrices');
 };
 
 provide(UpdateFieldKey, updateField);

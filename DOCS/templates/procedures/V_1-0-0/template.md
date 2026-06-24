@@ -57,6 +57,10 @@ template:
             - "artifact"
         - name: "output_status"
           type: "string"
+        - name: "tool"
+          type: "reference"
+          target_concepts:
+            - "tools"
 
     - name: "artifact"
       icon: "package"
@@ -65,6 +69,14 @@ template:
       color: "blue"
       weight: 75
       ai_applicability: 7
+
+    - name: "tools"
+      icon: "wrench"
+      type: "list"
+      mode: "basic"
+      color: "orange"
+      weight: 70
+      ai_applicability: 8
 
     - name: "position"
       icon: "briefcase"
@@ -106,6 +118,16 @@ template:
       target: "position"
       params: "Occupies"
 
+    - name: "steps-tools matrix"
+      source: "steps"
+      target: "tools"
+      params: "Uses"
+
+    - name: "steps-artifacts matrix"
+      source: "steps"
+      target: "artifact"
+      params: "Creates;Modifies;Validates;Reviews"
+
     - name: "item-markers matrix"
       source: "elements"
       target: "markers"
@@ -118,7 +140,8 @@ This is the expanded template for document-driven procedures, modeling workflows
 ## Concepts
 - **procedure summary**: Brief explanation of the procedure goals.
 - **roles**: The functional responsibilities/actors in the workflow (e.g. Developer, QA).
-- **steps**: Sequence of actions, decisions, and events in the workflow. Steps can reference artifacts as inputs and outputs.
-- **artifact**: Tangible or digital outputs that flow through the procedure (e.g. documents, forms, reports, certificates).
+- **steps**: Sequence of actions, decisions, and events in the workflow. Steps can reference artifacts as inputs and outputs, and tools as resources.
+- **artifact**: Tangible or digital outputs that flow through the procedure (e.g. documents, forms, reports, certificates). Steps interact with artifacts via the steps-artifacts matrix (Creates, Modifies, Validates, Reviews).
+- **tools**: Software applications, instruments, or resources used to modify, generate, or process artifacts during a step (e.g. IDE, spreadsheet, design tool, CI pipeline). Connected to steps via the steps-tools matrix.
 - **position**: Job roles or titles within the organization (e.g. Senior Developer).
 - **person**: The actual team members occupying those positions.

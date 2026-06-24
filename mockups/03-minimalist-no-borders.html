@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03 — Minimalista Sin Bordes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8 flex items-start justify-center">
+  <div class="w-full max-w-2xl space-y-1">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">03 — Minimalista Sin Bordes</p>
+
+    <!-- Block Sheet 1 (collapsed) -->
+    <div class="group rounded-lg hover:bg-white transition-colors px-3 py-2.5">
+      <div class="flex items-center gap-2.5">
+        <!-- Chevron -->
+        <button class="text-slate-300 group-hover:text-slate-500 transition-colors cursor-pointer shrink-0">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+
+        <!-- Concept dot + Name -->
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 shrink-0">Actor</span>
+          <span class="text-sm font-semibold text-slate-800 truncate">Protagonista</span>
+        </div>
+
+        <!-- Fields as text -->
+        <span class="hidden md:inline text-[10px] text-slate-400 shrink-0">role: lead, arc: redemption</span>
+
+        <!-- Markers -->
+        <div class="flex items-center gap-1 shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        </div>
+
+        <!-- Actions (appear on hover) -->
+        <div class="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </button>
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-slate-200/50 mx-3"></div>
+
+    <!-- Block Sheet 2 (expanded) -->
+    <div class="group rounded-lg bg-white shadow-sm transition-colors px-3 py-2.5">
+      <div class="flex items-center gap-2.5">
+        <button class="text-slate-500 transition-colors cursor-pointer shrink-0">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 shrink-0">Escena</span>
+          <span class="text-sm font-semibold text-slate-800 truncate">Apertura del tercer acto</span>
+        </div>
+        <span class="hidden md:inline text-[10px] text-slate-400 shrink-0">location: castillo</span>
+        <div class="flex items-center gap-1 shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+        </div>
+        <div class="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </button>
+          <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Expanded body -->
+      <div class="ml-5 mt-2 space-y-2">
+        <p class="text-xs text-slate-600 leading-relaxed">La protagonista entra al castillo abandonado. La luz de la luna se filtra por las ventanas rotas.</p>
+        <div class="flex flex-wrap gap-1">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded bg-emerald-50 text-emerald-600 font-medium cursor-pointer hover:bg-emerald-100 transition-colors">
+            <svg class="w-2.5 h-2.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            Protagonista
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded bg-emerald-50 text-emerald-600 font-medium cursor-pointer hover:bg-emerald-100 transition-colors">
+            <svg class="w-2.5 h-2.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            Castillo
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-slate-200/50 mx-3"></div>
+
+    <p class="text-[10px] text-slate-400 mt-8 text-center">Minimalista Sin Bordes — Sin bordes ni backgrounds. Sepadores sutiles. Solo dot de color como identificador.</p>
+  </div>
+</body>
+</html>

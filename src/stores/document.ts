@@ -246,7 +246,8 @@ export const useDocumentStore = defineStore('document', () => {
   };
 
   const addTreeRoot = () => {
-    const rootConcept = metamodelStore.hierarchyConcepts[0] || 'Stakeholders';
+    const rootConcept = metamodelStore.hierarchyConcepts[0];
+    if (!rootConcept) return;
     const cleanName = rootConcept.endsWith('s') ? rootConcept.slice(0, -1) : rootConcept;
     const id = 'sh-' + generateId();
     const newSH: TreeNode = {
@@ -327,10 +328,13 @@ export const useDocumentStore = defineStore('document', () => {
 
   // Metamatrix setup table
   const addMetamatrixRow = () => {
+    const concepts = metamodelStore.concepts.filter(c => c.type !== 'category');
+    const firstConcept = concepts[0]?.name || '';
+    const secondConcept = concepts[1]?.name || '';
     const newRow: MetamatrixRow = {
       name: 'New-Matrix',
-      source: 'Profiles',
-      target: 'Channels',
+      source: firstConcept,
+      target: secondConcept,
       widgetType: 'cycle',
       params: 'Neutral;High;Critical'
     };
@@ -565,6 +569,43 @@ export const useDocumentStore = defineStore('document', () => {
 
   const getSetOptionsList = (paramsStr: string): string[] => {
     return paramsStr.split(';').map(o => o.trim());
+  };
+
+  const getBlockMatrixSummary = (blockName: string, conceptName: string) => {
+    const results: { matrixName: string; matrixIndex: number; role: 'source' | 'target'; cells: { counterpart: string; value: string | number | boolean }[] }[] = [];
+
+    for (let i = 0; i < metamatrix.value.length; i++) {
+      const m = metamatrix.value[i];
+      let role: 'source' | 'target' | null = null;
+      let counterpartList: string[] = [];
+
+      if (m.source === conceptName) {
+        role = 'source';
+        counterpartList = getMatrixColsList(m.target);
+      } else if (m.target === conceptName) {
+        role = 'target';
+        counterpartList = getMatrixRowsList(m.source);
+      }
+
+      if (!role) continue;
+
+      const cells: { counterpart: string; value: string | number | boolean }[] = [];
+      for (const counterpart of counterpartList) {
+        const row = role === 'source' ? blockName : counterpart;
+        const col = role === 'source' ? counterpart : blockName;
+        const key = `${m.name}||${row}||${col}`;
+        const val = matrixValues.value[key];
+        if (val !== undefined && val !== '-') {
+          cells.push({ counterpart, value: val });
+        }
+      }
+
+      if (cells.length > 0) {
+        results.push({ matrixName: m.name, matrixIndex: i, role, cells });
+      }
+    }
+
+    return results;
   };
 
   const getCleanPrompts = (conceptName: string): string[] => {
@@ -819,6 +860,7 @@ export const useDocumentStore = defineStore('document', () => {
     rotateMatrixCellCycle,
     getCycleBgColor,
     getSetOptionsList,
+    getBlockMatrixSummary,
     getCleanPrompts,
     getActiveConceptGuidance,
     serializeActiveFile,

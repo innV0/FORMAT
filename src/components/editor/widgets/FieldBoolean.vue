@@ -6,7 +6,7 @@
       :checked="!!value"
       :disabled="readonly"
       @change="updateField(field.name, ($event.target as HTMLInputElement).checked)"
-      class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      class="w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
     />
     <label
       :for="'field-' + field.name"

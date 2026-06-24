@@ -65,7 +65,12 @@
               :icon="visuals.resolvedIcon.value"
               custom-class="shrink-0 w-4 h-4 text-slate-500"
             />
-            <span class="font-semibold text-sm text-slate-800 break-words">{{ name || '(Empty)' }}</span>
+            <button
+              class="font-semibold text-sm text-slate-800 break-words hover:text-primary transition-colors cursor-pointer text-left"
+              @click="navigateToBlock"
+            >
+              {{ name || '(Empty)' }}
+            </button>
           </div>
 
           <!-- Fields -->
@@ -76,7 +81,7 @@
               class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 text-[10px] font-medium border border-slate-200/60"
             >
         <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
-        <span v-if="field.isWikiLink" class="text-indigo-600 underline decoration-dotted">[[{{ field.value }}]]</span>
+        <span v-if="field.isWikiLink" class="text-primary underline decoration-dotted">[[{{ field.value }}]]</span>
         <span v-else>{{ field.value }}</span>
             </span>
           </div>
@@ -120,6 +125,8 @@ import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
 import { useBlockVisuals } from '../../composables/useBlockVisuals';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
+import { findNodeByName } from '../../utils/tree';
+import { slugify } from '../../utils/sanitize';
 import { MARKER_CYCLE_COUNT } from '../../utils/constants';
 import type { BlockKind, ConceptType } from '../../utils/conceptVisuals';
 
@@ -206,6 +213,21 @@ const cycleMarker = (markerName: string) => {
 const markerClassesFor = (markerName: string) =>
   getMarkerClasses(markerName, documentStore.getNodeMarkerValue(props.blockId ?? '', markerName));
 
+// ── Navigation ────────────────────────────────────────────────────────────────
+const navigateToBlock = () => {
+  if (!props.name || !props.conceptType) return;
+  const isHierarchy = metamodelStore.hierarchyConcepts.includes(props.conceptType);
+  if (isHierarchy) {
+    const node = findNodeByName(documentStore.modelTree, props.name);
+    if (node) {
+      documentStore.selectTreeNode(node, node.type);
+    }
+  } else {
+    documentStore.selectConcept(props.conceptType);
+  }
+  scheduleHide();
+};
+
 // ── Popup ────────────────────────────────────────────────────────────────────
 const triggerEl = ref<HTMLElement | null>(null);
 const popupVisible = ref(false);
@@ -268,18 +290,17 @@ const pillClasses = computed(() => {
   const baseClasses = [
     props.fullWidth ? 'flex w-full items-center' : 'inline-flex items-center max-w-full',
     'px-3 py-1.5 text-xs gap-1.5',
-    'border rounded-lg font-normal whitespace-normal break-words transition-all duration-200 select-none min-w-0',
-    props.interactive ? 'cursor-pointer active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1' : '',
-    isEmpty.value ? 'opacity-50' : '',
+    'rounded-lg font-normal whitespace-normal break-words transition-all duration-200 select-none min-w-0',
+    props.interactive ? 'cursor-pointer active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1' : '',
+    isEmpty.value ? '' : '',
   ];
 
   if (props.selected) {
     const p = visuals.palette.value;
     return [
       ...baseClasses,
-      p.bg,
       p.text,
-      'border-indigo-600 ring-1 ring-indigo-600 shadow-xs',
+      'border-primary ring-1 ring-primary shadow-xs',
     ];
   }
 

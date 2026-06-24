@@ -77,7 +77,7 @@ const hasAnyRelationships = computed(() => {
 const chipClasses = computed(() => {
   const color = (props.conceptColor || 'indigo').toLowerCase();
   const base = 'border-slate-200 bg-white text-slate-700';
-  const hover = 'hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50/10';
+  const hover = 'hover:border-primary/60 hover:text-primary hover:bg-primary/5';
   return `${base} ${hover}`;
 });
 

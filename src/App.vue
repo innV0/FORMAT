@@ -29,19 +29,16 @@
           <ModelInfoPanel v-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
           <!-- 2. TEXT CONCEPT EDITOR -->
-          <TextEditor v-else-if="workspaceStore.activeFileName && isMarkdownEditor && !isAnalysisMode" />
+          <TextEditor v-else-if="workspaceStore.activeFileName && isMarkdownEditor" />
 
           <!-- 3. UNIFIED TREE VIEW -->
-          <TreeEditor v-else-if="workspaceStore.activeFileName && conceptType === 'instantiable' && !isAnalysisMode" />
+          <TreeEditor v-else-if="workspaceStore.activeFileName && conceptType === 'instantiable'" />
 
           <!-- 4. METAMATRIX SETUP CONFIG -->
           <MetamatrixConfig v-else-if="workspaceStore.activeFileName && activeConcept === 'metamatrix'" />
 
           <!-- 5. RELATIONAL MATRICES DATA -->
           <MatricesGrid v-else-if="workspaceStore.activeFileName && activeConcept === 'matrices'" />
-
-          <!-- 6. BUSINESS ANALYSIS VIEW -->
-          <AnalysisPanel v-else-if="workspaceStore.activeFileName && isAnalysisMode" />
 
           <!-- FALLBACK/EMPTY STATE -->
           <div v-else class="text-slate-400 text-xs italic text-center my-auto">
@@ -68,7 +65,6 @@ import TextEditor from './components/editor/TextEditor.vue';
 import TreeEditor from './components/editor/TreeEditor.vue';
 import MetamatrixConfig from './components/editor/MetamatrixConfig.vue';
 import MatricesGrid from './components/editor/MatricesGrid.vue';
-import AnalysisPanel from './components/editor/AnalysisPanel.vue';
 import ModelInfoPanel from './components/editor/ModelInfoPanel.vue';
 
 import { useWorkspaceStore } from './stores/workspace';
@@ -80,10 +76,6 @@ const documentStore = useDocumentStore();
 
 const activeConcept = computed(() => documentStore.activeConceptName);
 const conceptType = computed(() => documentStore.getConceptType());
-
-const isAnalysisMode = computed(() => {
-  return activeConcept.value === 'analysis';
-});
 
 const isMarkdownEditor = computed(() => {
   return ['text', 'weight', 'steps', 'sequence', 'category', 'list'].includes(conceptType.value);

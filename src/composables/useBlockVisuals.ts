@@ -63,9 +63,9 @@ export function useBlockVisuals(opts: BlockVisualsOptions): BlockVisuals {
   const containerClasses = computed<string[]>(() => {
     const p = palette.value;
     if (toValue(opts.kind) === 'concept') {
-      return [p.bg, 'border-solid', p.text, p.border];
+      return [p.bg, 'border', 'border-solid', p.text, p.border];
     }
-    return [p.bg, 'border-dashed', p.text, p.border];
+    return [p.text];
   });
 
   return { resolvedColor, resolvedIcon, resolvedType, typeIcon, palette, iconToShow, containerClasses };

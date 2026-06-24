@@ -8,7 +8,7 @@
       :value="value"
       :disabled="readonly"
       @input="updateField(field.name, ($event.target as HTMLInputElement).value)"
-      class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+      class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-primary outline-none disabled:opacity-50 disabled:cursor-not-allowed"
     />
   </div>
 </template>

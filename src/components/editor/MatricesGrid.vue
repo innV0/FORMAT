@@ -7,7 +7,7 @@
         <div v-if="documentStore.metamatrix.length" ref="dropdownRef" class="relative">
           <button 
             @click="isOpen = !isOpen"
-            class="min-w-[200px] flex items-center justify-between gap-2 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-md text-xs font-semibold text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer transition-all"
+            class="min-w-[200px] flex items-center justify-between gap-2 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-md text-xs font-semibold text-slate-700 shadow-2xs hover:border-slate-300 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer transition-all"
           >
             <span class="truncate">{{ activeMatrix ? activeMatrix.name : 'Select Matrix' }}</span>
             <ChevronDown class="w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200" :class="{ 'rotate-180': isOpen }" />
@@ -23,13 +23,13 @@
               :key="matrix.name"
               @click="selectMatrix(idx)"
               class="w-full flex flex-col px-3 py-2 text-left hover:bg-slate-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0"
-              :class="{ 'bg-indigo-50/30 text-indigo-600': documentStore.activeGeneratedMatrixIndex === idx }"
+              :class="{ 'bg-primary/10 text-primary': documentStore.activeGeneratedMatrixIndex === idx }"
             >
               <div class="flex items-center justify-between w-full">
-                <span class="text-xs font-semibold truncate" :class="{ 'text-indigo-600': documentStore.activeGeneratedMatrixIndex === idx, 'text-slate-700': documentStore.activeGeneratedMatrixIndex !== idx }">
+                <span class="text-xs font-semibold truncate" :class="{ 'text-primary': documentStore.activeGeneratedMatrixIndex === idx, 'text-slate-700': documentStore.activeGeneratedMatrixIndex !== idx }">
                   {{ matrix.name }}
                 </span>
-                <Check v-if="documentStore.activeGeneratedMatrixIndex === idx" class="w-3.5 h-3.5 text-indigo-600 shrink-0 ml-2" />
+                <Check v-if="documentStore.activeGeneratedMatrixIndex === idx" class="w-3.5 h-3.5 text-primary shrink-0 ml-2" />
               </div>
               <div class="flex items-center gap-1 text-[10px] text-slate-400 mt-0.5">
                 <span>{{ matrix.source }}</span>
@@ -86,7 +86,7 @@
                 :key="col"
                 class="px-3 py-3 text-center min-w-[100px] border-r border-slate-100"
               >
-                <BlockPill kind="instance" :concept-type="activeMatrix.target" :name="col" :interactive="true" />
+                <BlockPill kind="instance" :concept-type="activeMatrix.target" :name="col" :interactive="true" :block-id="resolveBlockId(col, activeMatrix.target)" />
               </th>
               <th v-if="!columns.length" class="px-3 py-3 text-center font-bold text-slate-400">
                 No items defined in {{ activeMatrix.target }}
@@ -96,7 +96,7 @@
           <tbody class="bg-white divide-y divide-slate-100">
             <tr v-for="row in rows" :key="row">
               <td class="border-r border-slate-200 px-4 py-2.5 sticky left-0 bg-white shadow-2xs min-w-[150px]">
-                <BlockPill kind="instance" :concept-type="activeMatrix.source" :name="row" :interactive="true" />
+                <BlockPill kind="instance" :concept-type="activeMatrix.source" :name="row" :interactive="true" :block-id="resolveBlockId(row, activeMatrix.source)" />
               </td>
               
               <td 
@@ -110,7 +110,7 @@
                     type="checkbox" 
                     :checked="getVal(row, col) === 'X' || getVal(row, col) === true"
                     @change="setVal(row, col, ($event.target as HTMLInputElement).checked ? 'X' : '-')"
-                    class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                    class="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
                   >
                 </div>
 
@@ -131,7 +131,7 @@
                   v-else-if="activeMatrix.widgetType === 'scale'"
                   :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
                   @change="setVal(row, col, ($event.target as HTMLSelectElement).value || '-')"
-                  class="border rounded px-1.5 py-1 text-[10px] w-full text-center outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                  class="border rounded px-1.5 py-1 text-[10px] w-full text-center outline-none focus:ring-1 focus:ring-primary border-slate-200"
                 >
                   <option value="">-</option>
                   <option v-for="num in scaleRange" :key="num" :value="num">{{ num }}</option>
@@ -142,7 +142,7 @@
                   v-else-if="activeMatrix.widgetType === 'set'"
                   :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
                   @change="setVal(row, col, ($event.target as HTMLSelectElement).value || '-')"
-                  class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                  class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
                 >
                   <option value="">-</option>
                   <option v-for="opt in documentStore.getSetOptionsList(activeMatrix.params)" :key="opt" :value="opt">{{ opt }}</option>
@@ -155,7 +155,7 @@
                   :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
                   @input="setVal(row, col, ($event.target as HTMLInputElement).value || '-')"
                   placeholder="-"
-                  class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-indigo-500 border-slate-200"
+                  class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
                 >
               </td>
             </tr>
@@ -176,11 +176,24 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Copy, ChevronDown, Check } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
+import { findNodeByName } from '../../utils/tree';
+import { slugify } from '../../utils/sanitize';
 import BlockPill from './BlockPill.vue';
 import Badge from '../ui/Badge.vue';
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
+
+const isHierarchyConcept = (conceptName: string) =>
+  metamodelStore.hierarchyConcepts.includes(conceptName);
+
+const resolveBlockId = (name: string, conceptType: string): string | undefined => {
+  if (isHierarchyConcept(conceptType)) {
+    const node = findNodeByName(documentStore.modelTree, name);
+    return node?.id;
+  }
+  return `li-${slugify(conceptType)}-${slugify(name)}`;
+};
 
 const isOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);

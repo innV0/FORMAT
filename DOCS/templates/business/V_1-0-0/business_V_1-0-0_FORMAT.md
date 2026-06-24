@@ -6,7 +6,7 @@ template:
   name: "business"
   version: "V_1-0-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-24T08:57:02.062Z"
+  last_updated: "2026-06-24T11:58:33.125Z"
   concepts:
     - name: "Business summary"
       icon: "file-text"
@@ -531,7 +531,7 @@ template:
       source: "elements"
       target: "markers"
 title: "business"
-last_saved: "2026-06-24T08:57:02.062Z"
+last_saved: "2026-06-24T11:58:33.125Z"
 ---
 
 # <!-- block: concepts --> index
@@ -1041,6 +1041,49 @@ Free-form notes, context, or content that does not fit any other concept.
 | Stakeholder name | - | - | - | - | - |
 | Segment name | - | - | - | - | - |
 | Profile name | - | - | - | - | - |
+| Segmentation criterion | - | - | - | - | - |
+| Trend name | - | - | - | - | - |
+| Competitor name | - | - | - | - | - |
+| Role name | - | - | - | - | - |
+| Problem name | - | - | - | - | - |
+| Value proposition name | - | - | - | - | - |
+| Message name | - | - | - | - | - |
+| Channel name | - | - | - | - | - |
+| Perception name | - | - | - | - | - |
+| Emotion name | - | - | - | - | - |
+| Behavior name | - | - | - | - | - |
+| Product or service name | - | - | - | - | - |
+| Component name | - | - | - | - | - |
+| Feature name | - | - | - | - | - |
+| Offering name | - | - | - | - | - |
+| Inspiration source | - | - | - | - | - |
+| Opportunity name | - | - | - | - | - |
+| Challenge name | - | - | - | - | - |
+| Value name | - | - | - | - | - |
+| Goal name | - | - | - | - | - |
+| Activity name | - | - | - | - | - |
+| Function name | - | - | - | - | - |
+| Resource name | - | - | - | - | - |
+| Skill name | - | - | - | - | - |
+| Contribution name | - | - | - | - | - |
+| Compensation name | - | - | - | - | - |
+| Position name | - | - | - | - | - |
+| Metric name | - | - | - | - | - |
+| Revenue stream name | - | - | - | - | - |
+| Cost item name | - | - | - | - | - |
+| Funding source name | - | - | - | - | - |
+| Shareholder name | - | - | - | - | - |
+| Projection name | - | - | - | - | - |
+| Legal issue name | - | - | - | - | - |
+| Contract name | - | - | - | - | - |
+| Matrix name | - | - | - | - | - |
+| Assumption name | - | - | - | - | - |
+| Risk name | - | - | - | - | - |
+| Suggestion name | - | - | - | - | - |
+| Key name | - | - | - | - | - |
+| Coherence check name | - | - | - | - | - |
+| Experiment name | - | - | - | - | - |
+|  | - | - | - | - | - |
 
 # <!-- block: matrices --> metamatrix
 

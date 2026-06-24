@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04 — Split Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-100 min-h-screen p-8 flex items-start justify-center">
+  <div class="w-full max-w-2xl space-y-4">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">04 — Split Panel</p>
+
+    <!-- Block Sheet 1 (collapsed) -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-sm transition-all group">
+      <div class="flex">
+        <!-- Left: Name panel -->
+        <div class="w-48 shrink-0 bg-slate-50 border-r border-slate-100 px-4 py-3 flex flex-col justify-center">
+          <div class="text-[9px] font-bold uppercase tracking-widest text-indigo-400 mb-0.5">Actor</div>
+          <div class="text-sm font-bold text-slate-800 leading-tight">Protagonista</div>
+        </div>
+
+        <!-- Right: Info + Actions -->
+        <div class="flex-1 px-4 py-3 flex items-center gap-3">
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap gap-1.5">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-medium border border-indigo-100">role: lead</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-medium border border-indigo-100">arc: redemption</span>
+            </div>
+          </div>
+
+          <!-- Markers -->
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            </button>
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block Sheet 2 (expanded) -->
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-sm transition-all group">
+      <div class="flex">
+        <!-- Left: Name panel -->
+        <div class="w-48 shrink-0 bg-emerald-50/50 border-r border-slate-100 px-4 py-3 flex flex-col justify-center">
+          <div class="text-[9px] font-bold uppercase tracking-widest text-emerald-400 mb-0.5">Escena</div>
+          <div class="text-sm font-bold text-slate-800 leading-tight">Apertura del tercer acto</div>
+        </div>
+
+        <!-- Right: Info + Actions -->
+        <div class="flex-1 px-4 py-3 flex items-center gap-3">
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap gap-1.5">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-medium border border-emerald-100">location: castillo</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+          </div>
+          <div class="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            </button>
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+            <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Expanded body below -->
+      <div class="px-4 pb-4 pt-2 border-t border-slate-100 space-y-3">
+        <p class="text-xs text-slate-600 leading-relaxed">La protagonista entra al castillo abandonado. La luz de la luna se filtra por las ventanas rotas, creando patrones de sombras en el suelo de mármol.</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="inline-flex items-center gap-1 px-2 py-1 text-[11px] rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:text-emerald-600 transition-all cursor-pointer">
+            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            <span class="font-medium">Actor:</span> Protagonista
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-1 text-[11px] rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:text-emerald-600 transition-all cursor-pointer">
+            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            <span class="font-medium">Escenario:</span> Castillo
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-[10px] text-slate-400 mt-8 text-center">Split Panel — Panel izquierdo con nombre fijo, derecho con campos y acciones. Good for sidebars.</p>
+  </div>
+</body>
+</html>

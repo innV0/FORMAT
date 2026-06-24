@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06 — Bento Grid</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-100 min-h-screen p-8 flex items-start justify-center">
+  <div class="w-full max-w-3xl">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">06 — Bento Grid</p>
+
+    <div class="grid grid-cols-2 gap-3">
+      <!-- Block 1: Large -->
+      <div class="col-span-2 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-all group overflow-hidden">
+        <div class="p-4">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <div class="text-[9px] font-bold uppercase tracking-widest text-indigo-400 mb-1">Actor</div>
+              <div class="text-base font-bold text-slate-800">Protagonista</div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+                <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                </button>
+                <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors cursor-pointer">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 leading-relaxed mb-3">El héroe principal de la historia. Busca redención a través de sus acciones en el tercer acto.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-medium border border-indigo-100">role: lead</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-medium border border-indigo-100">arc: redemption</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-medium border border-indigo-100">age: 35</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 2: Small -->
+      <div class="bg-white rounded-xl border border-slate-200 hover:shadow-md transition-all group overflow-hidden">
+        <div class="p-3">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[9px] font-bold uppercase tracking-widest text-emerald-400">Escena</div>
+            <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="text-sm font-semibold text-slate-800 mb-1">Apertura del tercer acto</div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+            <span class="text-[10px] text-slate-400">location: castillo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 3: Small -->
+      <div class="bg-white rounded-xl border border-slate-200 hover:shadow-md transition-all group overflow-hidden">
+        <div class="p-3">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[9px] font-bold uppercase tracking-widest text-violet-400">Elemento</div>
+            <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="text-sm font-semibold text-slate-800 mb-1">Llave antigua</div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] text-slate-400">Abre la puerta principal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 4: Wide -->
+      <div class="col-span-2 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-all group overflow-hidden">
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[9px] font-bold uppercase tracking-widest text-amber-400">Relación</div>
+            <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="text-sm font-semibold text-slate-800">Protagonista → Llave antigua</div>
+          <div class="text-[10px] text-slate-400 mt-1">Encuentra la llave en la escena 3, la usa para abrir el castillo</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-[10px] text-slate-400 mt-8 text-center">Bento Grid — Layout de cuadrícula con bloques de diferente tamaño. Good for overview / dashboard views.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>07 — Accordion Premium</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-100 min-h-screen p-8 flex items-start justify-center">
+  <div class="w-full max-w-2xl space-y-3">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">07 — Accordion Premium</p>
+
+    <!-- Block Sheet 1 (collapsed) -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all overflow-hidden group">
+      <!-- Header with subtle gradient -->
+      <div class="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-slate-50 to-white">
+        <!-- Concept icon large -->
+        <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Actor</div>
+          <div class="text-base font-bold text-slate-800 truncate">Protagonista</div>
+        </div>
+
+        <!-- Markers -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-amber-100"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-emerald-100"></span>
+        </div>
+
+        <!-- Chevron + Actions -->
+        <div class="flex items-center gap-1 shrink-0">
+          <button class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer opacity-0 group-hover:opacity-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </button>
+          <button class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block Sheet 2 (expanded) -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-md transition-all overflow-hidden group">
+      <div class="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-emerald-50/50 to-white">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Escena</div>
+          <div class="text-base font-bold text-slate-800 truncate">Apertura del tercer acto</div>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-400 ring-2 ring-rose-100"></span>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer opacity-0 group-hover:opacity-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </button>
+          <button class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="px-5 pb-5 pt-1 border-t border-slate-100 space-y-4">
+        <p class="text-sm text-slate-600 leading-relaxed">La protagonista entra al castillo abandonado. La luz de la luna se filtra por las ventanas rotas, creando patrones de sombras en el suelo de mármol.</p>
+
+        <!-- Fields as pills -->
+        <div class="flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:text-emerald-600 transition-all cursor-pointer shadow-xs">
+            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            <span class="font-semibold">Actor:</span> Protagonista
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:text-emerald-600 transition-all cursor-pointer shadow-xs">
+            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            <span class="font-semibold">Escenario:</span> Castillo
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-[10px] text-slate-400 mt-8 text-center">Accordion Premium — Rounded-2xl, gradient headers, larger touch targets. Premium feel.</p>
+  </div>
+</body>
+</html>
