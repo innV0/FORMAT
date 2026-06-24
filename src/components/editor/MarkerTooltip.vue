@@ -89,16 +89,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import IconRenderer from './IconRenderer.vue';
-
-interface Marker {
-  name: string;
-  symbol: string;
-  icon: string;
-  description: string;
-  guidelines?: string;
-  examples_high_score?: string;
-  examples_low_score?: string;
-}
+import type { Marker } from '../../types';
 
 const props = defineProps<{
   marker: Marker;

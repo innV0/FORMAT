@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { useDocumentStore } from '../stores/document';
 import { useMetamodelStore } from '../stores/metamodel';
-import type { TreeNode, Concept } from '../types';
+import type { TreeNode, BlockData } from '../types';
 
 /**
  * Extract wikilinks from text using the [[BlockName]] pattern.
@@ -15,17 +15,6 @@ export function extractWikiLinks(text: string): string[] {
     links.push(match[1]);
   }
   return links;
-}
-
-/**
- * Flexible block type that matches what BlockSheet.vue provides.
- */
-interface BlockData {
-  id?: string;
-  name: string;
-  description: string;
-  type?: string;
-  fields?: Record<string, any>;
 }
 
 /**

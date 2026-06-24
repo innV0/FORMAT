@@ -1,5 +1,9 @@
 import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore, PerspectiveEdge } from '../types';
 import { parseFormatFilename } from './version';
+import { generateId } from './id';
+import { findNodeByName, findParentNodeOfType } from './tree';
+import { deriveChain } from './chain';
+import { stripMarkdownFormatting } from './sanitize';
 
 /**
  * Parses a YAML-like indentation-based frontmatter block into a JS object.
@@ -422,68 +426,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
   }
 
   // Derive hierarchyConcepts (Chain) from taxonomy edges and concept types.
-  // The Chain is the sequence of non-category concepts linked parent→child
-  // through the taxonomy, where the chain root's parent is a category concept.
-  const preTaxEdges: PerspectiveEdge[] = parsed.taxonomyEdges || [];
-  const conceptNameSet = new Set(conceptsList.filter(c => c.type !== 'category').map(c => c.name));
-  const categoryNameSet = new Set(conceptsList.filter(c => c.type === 'category').map(c => c.name));
-
-  const parentMap = new Map<string, string>();
-  preTaxEdges.forEach(e => {
-    if (conceptNameSet.has(e.child) && conceptNameSet.has(e.parent)) {
-      parentMap.set(e.child, e.parent);
-    }
-  });
-
-  const chains: string[][] = [];
-  conceptsList.filter(c => c.type !== 'category' && c.type !== null).forEach(c => {
-    const hasChildren = Array.from(parentMap.values()).includes(c.name);
-    const taxonomyParents = preTaxEdges.filter(e => e.child === c.name).map(e => e.parent);
-    const parentIsCategory = taxonomyParents.length === 0 || taxonomyParents.some(p => categoryNameSet.has(p));
-    if (hasChildren && parentIsCategory) {
-      const chain = [c.name];
-      let current = c.name;
-      while (true) {
-        const childName = Array.from(parentMap.keys()).find(k => parentMap.get(k) === current);
-        if (childName) {
-          chain.push(childName);
-          current = childName;
-        } else {
-          break;
-        }
-      }
-      chains.push(chain);
-    }
-  });
-
-  let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
-  if (chains.length > 0) {
-    const chainRoot = chains[0][0];
-    // Sibling-prepend: find non-category concepts that share a category parent with
-    // the chain root but are NOT themselves in the chain (e.g. Stakeholders shares
-    // "Market" with Segments but has no concept-type children → excluded from chain).
-    const chainRootCategoryParents = preTaxEdges
-      .filter(e => e.child === chainRoot && categoryNameSet.has(e.parent))
-      .map(e => e.parent);
-    const siblings: string[] = [];
-    if (chainRootCategoryParents.length > 0) {
-      conceptsList
-        .filter(c => c.type !== 'category' && c.type !== null && !chains[0].includes(c.name))
-        .forEach(c => {
-          const parentsOfC = preTaxEdges.filter(e => e.child === c.name).map(e => e.parent);
-          const sharesCategoryParent = parentsOfC.some(p => chainRootCategoryParents.includes(p));
-          if (sharesCategoryParent) {
-            siblings.push(c.name);
-          }
-        });
-    }
-    hierarchyConcepts = [...siblings, ...chains[0]];
-  }
-
-  hierarchyConcepts = hierarchyConcepts.map(hc => {
-    const found = conceptsList.find(c => c.name.toLowerCase() === hc.toLowerCase());
-    return found ? found.name : hc;
-  });
+  let hierarchyConcepts = deriveChain(conceptsList, parsed.taxonomyEdges || []);
 
   // Pre-generate expected hierarchy matrices name list
   const hierarchyMatrixPairs: { name: string, source: string, target: string }[] = [];
@@ -497,18 +440,8 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     });
   }
 
-  // Helper to find node by name in the tree
-  const findNodeByName = (nodes: TreeNode[], name: string): TreeNode | null => {
-    const clean = (s: string) => s.replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim().toLowerCase();
-    for (const n of nodes) {
-      if (clean(n.name) === clean(name)) return n;
-      if (n.children && n.children.length) {
-        const found = findNodeByName(n.children, name);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
+  // Helper to find node by name in the tree (uses shared utility)
+  // findNodeByName is imported from ./tree
 
   const cleanTitle = (title: string): { name: string; type: 'concept' | 'matrix' | 'unknown' } => {
     const conceptMatch = title.match(/<!--\s*block:\s*concepts\s*-->\s*(.*)/i);
@@ -568,7 +501,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
           if (source === hierarchyConcepts[0]) {
             let parentNode = parsedTree.find(item => item.name.replace(/\*\*|\*|__/g, '').trim().toLowerCase() === sourceName.toLowerCase());
             if (!parentNode) {
-              parentNode = { id: 'sh-' + Math.random().toString(36).substr(2, 9), name: sourceName, type: source, description: '', children: [] };
+              parentNode = { id: 'sh-' + generateId(), name: sourceName, type: source, description: '', children: [] };
               parsedTree.push(parentNode);
             }
             
@@ -577,7 +510,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
               if (cleanColKey.toLowerCase() !== rowKey.toLowerCase() && val === 'X') {
                 if (!parentNode!.children.some(c => c.name.replace(/\*\*|\*|__/g, '').trim().toLowerCase() === cleanColKey.toLowerCase())) {
                   parentNode!.children.push({
-                    id: 'seg-' + Math.random().toString(36).substr(2, 9),
+                    id: 'seg-' + generateId(),
                     name: cleanColKey,
                     type: target,
                     description: '',
@@ -595,7 +528,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
                 if (cleanColKey.toLowerCase() !== rowKey.toLowerCase() && val === 'X') {
                   if (!foundParent!.children.some(c => c.name.replace(/\*\*|\*|__/g, '').trim().toLowerCase() === cleanColKey.toLowerCase())) {
                     foundParent!.children.push({
-                      id: prefix + Math.random().toString(36).substr(2, 9),
+                      id: prefix + generateId(),
                       name: cleanColKey,
                       type: target,
                       description: '',
@@ -696,7 +629,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
           const actualType = hierarchyConcepts.find(hc => hc.toLowerCase() === inst.type.toLowerCase()) || conceptName;
           if (actualType === hierarchyConcepts[0]) {
             node = {
-              id: 'sh-' + Math.random().toString(36).substr(2, 9),
+              id: 'sh-' + generateId(),
               name: inst.name,
               type: actualType,
               description: inst.description,
@@ -708,21 +641,11 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
             const childIdx = hierarchyConcepts.indexOf(actualType);
             if (childIdx > 0) {
               const parentType = hierarchyConcepts[childIdx - 1];
-              const findParentNodeOfType = (nodesList: TreeNode[], typeName: string): TreeNode | null => {
-                for (const n of nodesList) {
-                  if (n.type === typeName) return n;
-                  if (n.children && n.children.length) {
-                    const found = findParentNodeOfType(n.children, typeName);
-                    if (found) return found;
-                  }
-                }
-                return null;
-              };
               const parentNode = findParentNodeOfType(parsedTree, parentType);
               if (parentNode) {
                 const prefix = actualType.substring(0, 3).toLowerCase() + '-';
                 node = {
-                  id: prefix + Math.random().toString(36).substr(2, 9),
+                  id: prefix + generateId(),
                   name: inst.name,
                   type: actualType,
                   description: inst.description,
@@ -750,7 +673,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
         const actualType = hierarchyConcepts.find(hc => hc.toLowerCase() === conceptName.toLowerCase()) || conceptName;
         if (actualType === hierarchyConcepts[0]) {
           const node = {
-            id: 'sh-' + Math.random().toString(36).substr(2, 9),
+            id: 'sh-' + generateId(),
             name: name,
             type: actualType,
             description: desc,
@@ -761,21 +684,11 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
           const childIdx = hierarchyConcepts.indexOf(actualType);
           if (childIdx > 0) {
             const parentType = hierarchyConcepts[childIdx - 1];
-            const findParentNodeOfType = (nodesList: TreeNode[], typeName: string): TreeNode | null => {
-              for (const n of nodesList) {
-                if (n.type === typeName) return n;
-                if (n.children && n.children.length) {
-                  const found = findParentNodeOfType(n.children, typeName);
-                  if (found) return found;
-                }
-              }
-              return null;
-            };
             const parentNode = findParentNodeOfType(parsedTree, parentType);
             if (parentNode) {
               const prefix = actualType.substring(0, 3).toLowerCase() + '-';
               const node = {
-                id: prefix + Math.random().toString(36).substr(2, 9),
+                id: prefix + generateId(),
                 name: name,
                 type: actualType,
                 description: desc,
@@ -967,71 +880,10 @@ last_saved: "${lastSaved}"
   }
 
   const updatedModelTextData = { ...params.modelTextData };
-  const cleanName = (n: string) => n.replace(/\*\*|\*|__/g, '').trim();
+  const cleanName = (n: string) => stripMarkdownFormatting(n);
 
   // Derive hierarchyConcepts (Chain) from taxonomy edges and concept types.
-  // The Chain is the sequence of non-category concepts linked parent→child
-  // through the taxonomy, where the chain root's parent is a category concept.
-  const list = params.concepts;
-  const taxEdges = params.taxonomyEdges || [];
-  const conceptNames = new Set(list.filter(c => c.type !== 'category').map(c => c.name));
-  const categoryNames = new Set(list.filter(c => c.type === 'category').map(c => c.name));
-
-  // Build parentMap for concept→concept edges (both non-category)
-  const parentMap = new Map<string, string>();
-  taxEdges.forEach(e => {
-    if (conceptNames.has(e.child) && conceptNames.has(e.parent)) {
-      parentMap.set(e.child, e.parent);
-    }
-  });
-
-  const genChains: string[][] = [];
-  list.filter(c => c.type !== 'category' && c.type !== null).forEach(c => {
-    const hasChildren = Array.from(parentMap.values()).includes(c.name);
-    const taxonomyParents = taxEdges.filter(e => e.child === c.name).map(e => e.parent);
-    const parentIsCategory = taxonomyParents.length === 0 || taxonomyParents.some(p => categoryNames.has(p));
-    if (hasChildren && parentIsCategory) {
-      const chain = [c.name];
-      let current = c.name;
-      while (true) {
-        const childName = Array.from(parentMap.keys()).find(k => parentMap.get(k) === current);
-        if (childName) {
-          chain.push(childName);
-          current = childName;
-        } else {
-          break;
-        }
-      }
-      genChains.push(chain);
-    }
-  });
-
-  let hierarchyConcepts: string[] = ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
-  if (genChains.length > 0) {
-    const genChainRoot = genChains[0][0];
-    // Sibling-prepend: same logic as parseMarkdownModel.
-    const genChainRootCategoryParents = taxEdges
-      .filter(e => e.child === genChainRoot && categoryNames.has(e.parent))
-      .map(e => e.parent);
-    const genSiblings: string[] = [];
-    if (genChainRootCategoryParents.length > 0) {
-      list
-        .filter(c => c.type !== 'category' && c.type !== null && !genChains[0].includes(c.name))
-        .forEach(c => {
-          const parentsOfC = taxEdges.filter(e => e.child === c.name).map(e => e.parent);
-          const sharesCategoryParent = parentsOfC.some(p => genChainRootCategoryParents.includes(p));
-          if (sharesCategoryParent) {
-            genSiblings.push(c.name);
-          }
-        });
-    }
-    hierarchyConcepts = [...genSiblings, ...genChains[0]];
-  }
-
-  hierarchyConcepts = hierarchyConcepts.map(hc => {
-    const found = list.find(c => c.name.toLowerCase() === hc.toLowerCase());
-    return found ? found.name : hc;
-  });
+  const hierarchyConcepts = deriveChain(params.concepts, params.taxonomyEdges || []);
 
   const hierarchyMatrixPairs: { name: string, source: string, target: string }[] = [];
   for (let i = 0; i < hierarchyConcepts.length - 1; i++) {

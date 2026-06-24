@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Concept, Marker, AnalysisKey, Perspective, PerspectiveEdge, PerspectiveNeighborhood } from '../types';
 import defaultMasterData from '../../innV0_master_data.json';
 import { DocumentationEntry } from '../utils/documentationParser';
+import { deriveChain } from '../utils/chain';
 
 export const useMetamodelStore = defineStore('metamodel', () => {
   const metamodelSource = ref<string>('Built-in Default');
@@ -109,66 +110,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     if (_hierarchyConceptsOverride.value !== null) {
       return _hierarchyConceptsOverride.value;
     }
-    // Derive Chain from taxonomy edges: find the sequence of non-category concepts
-    // that are linked parent→child through category-type parents.
-    const list = concepts.value;
-    const edges = taxonomyEdges.value;
-    const conceptNames = new Set(list.filter(c => c.type !== 'category').map(c => c.name));
-    const categoryNames = new Set(list.filter(c => c.type === 'category').map(c => c.name));
-
-    // Build a parentMap for concept→concept edges (parent is non-category)
-    const parentMap = new Map<string, string>();
-    edges.forEach(e => {
-      if (conceptNames.has(e.child) && conceptNames.has(e.parent)) {
-        parentMap.set(e.child, e.parent);
-      }
-    });
-
-    // Find roots: non-category concepts whose parent in taxonomy is a category
-    const chains: string[][] = [];
-    list.filter(c => c.type !== 'category' && c.type !== null).forEach(c => {
-      const hasChildren = Array.from(parentMap.values()).includes(c.name);
-      const taxonomyParents = edges.filter(e => e.child === c.name).map(e => e.parent);
-      const parentIsCategory = taxonomyParents.length === 0 || taxonomyParents.some(p => categoryNames.has(p));
-      if (hasChildren && parentIsCategory) {
-        const chain = [c.name];
-        let current = c.name;
-        while (true) {
-          const childName = Array.from(parentMap.keys()).find(k => parentMap.get(k) === current);
-          if (childName) {
-            chain.push(childName);
-            current = childName;
-          } else {
-            break;
-          }
-        }
-        chains.push(chain);
-      }
-    });
-
-    if (chains.length > 0) {
-      const chainRoot = chains[0][0];
-      // Sibling-prepend: find non-category concepts that share a category parent
-      // with the chain root but are not in the chain (e.g. Stakeholders shares
-      // "Market" with Segments but has no concept-type children → excluded).
-      const chainRootCategoryParents = edges
-        .filter(e => e.child === chainRoot && categoryNames.has(e.parent))
-        .map(e => e.parent);
-      const siblings: string[] = [];
-      if (chainRootCategoryParents.length > 0) {
-        list
-          .filter(c => c.type !== 'category' && c.type !== null && !chains[0].includes(c.name))
-          .forEach(c => {
-            const parentsOfC = edges.filter(e => e.child === c.name).map(e => e.parent);
-            if (parentsOfC.some(p => chainRootCategoryParents.includes(p))) {
-              siblings.push(c.name);
-            }
-          });
-      }
-      return [...siblings, ...chains[0]];
-    }
-
-    return ['Stakeholders', 'Segments', 'Profiles', 'Persona'];
+    return deriveChain(concepts.value, taxonomyEdges.value);
   });
 
   // Allow parser to push the instance-chain from parsed hierarchy matrices.

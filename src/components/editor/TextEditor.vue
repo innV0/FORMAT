@@ -47,6 +47,8 @@ import { Plus } from 'lucide-vue-next';
 import BlockFeed from './BlockFeed.vue';
 import { slugify } from '../../utils/sanitize';
 import { parseNodeInstances, stringifyYaml } from '../../utils/markdownParser';
+import { generateId } from '../../utils/id';
+import type { ParsedItem } from '../../types';
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
@@ -111,14 +113,6 @@ const updateSingleBlockText = () => {
 };
 
 // Structural representations of list items
-interface ParsedItem {
-  id: string;
-  name: string;
-  description: string;
-  fields?: Record<string, any>;
-  blockType?: string;
-}
-
 const parsedItems = ref<ParsedItem[]>([]);
 
 // Build a deterministic, content-derived id so re-parsing on every keystroke
@@ -203,7 +197,7 @@ const addListItem = () => {
                        (documentStore.modelTextData[activeConcept.value] || '').includes('<!-- block:');
 
   parsedItems.value.push({
-    id: Math.random().toString(36).substr(2, 9),
+    id: generateId(),
     name: 'New Concept Instance',
     description: 'Description of the concept instance.',
     fields: {},

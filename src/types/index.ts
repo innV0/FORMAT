@@ -116,22 +116,25 @@ export interface AnalysisScores {
   [keyName: string]: EvaluatorScore[];
 }
 
-export interface PerspectiveEdge {
-  parent: string;
-  child: string;
+/**
+ * Flexible block type that matches what BlockSheet.vue provides.
+ */
+export interface BlockData {
+  id?: string;
+  name: string;
+  description: string;
+  type?: string;
+  fields?: Record<string, any>;
 }
 
-export interface Perspective {
+/**
+ * Parsed item from markdown text (used in BlockFeed and TextEditor).
+ */
+export interface ParsedItem {
   id: string;
   name: string;
-  icon: string;
-  edges: PerspectiveEdge[];
+  description: string;
+  fields?: Record<string, any>;
+  blockType?: string;
 }
-
-export interface PerspectiveNeighborhood {
-  perspective: Perspective;
-  parents: string[];
-  children: string[];
-}
-
 

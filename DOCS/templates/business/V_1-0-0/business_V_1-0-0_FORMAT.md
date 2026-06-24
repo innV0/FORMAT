@@ -6,7 +6,7 @@ template:
   name: "business"
   version: "V_1-0-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-23T21:10:29.534Z"
+  last_updated: "2026-06-24T08:57:02.062Z"
   concepts:
     - name: "Business summary"
       icon: "file-text"
@@ -531,7 +531,7 @@ template:
       source: "elements"
       target: "markers"
 title: "business"
-last_saved: "2026-06-23T21:10:29.534Z"
+last_saved: "2026-06-24T08:57:02.062Z"
 ---
 
 # <!-- block: concepts --> index

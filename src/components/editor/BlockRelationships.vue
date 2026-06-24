@@ -48,15 +48,8 @@ import { computed } from 'vue';
 import { ArrowDownToLine, ArrowUpFromLine, GitBranch } from 'lucide-vue-next';
 import { useBlockRelationships } from '../../composables/useBlockRelationships';
 import { useDocumentStore } from '../../stores/document';
-import type { TreeNode } from '../../types';
-
-interface BlockData {
-  id?: string;
-  name: string;
-  description: string;
-  type?: string;
-  fields?: Record<string, any>;
-}
+import { findNodeByName } from '../../utils/tree';
+import type { BlockData, TreeNode } from '../../types';
 
 const props = defineProps<{
   block: BlockData;
@@ -98,19 +91,7 @@ const navigateToBlock = (block: TreeNode) => {
 
 // Navigate to a block by name (for outgoing links that may be in different concepts)
 const navigateByName = (name: string) => {
-  // Find the block in modelTree
-  const findNode = (nodes: TreeNode[]): TreeNode | null => {
-    for (const node of nodes) {
-      if (node.name === name) return node;
-      if (node.children) {
-        const found = findNode(node.children);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
-
-  const node = findNode(documentStore.modelTree);
+  const node = findNodeByName(documentStore.modelTree, name);
   if (node) {
     documentStore.selectTreeNode(node, node.type);
   }

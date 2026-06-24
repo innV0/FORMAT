@@ -1,16 +1,34 @@
 <template>
   <header class="flex items-center justify-between border-b border-border bg-card text-card-foreground px-6 py-3 shrink-0 fixed top-0 left-0 right-0 z-10">
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-4">
       <div class="flex items-center gap-2.5">
         <span class="font-mono text-lg font-black text-primary select-none leading-none" style="-webkit-text-stroke: 1px hsl(var(--primary)); paint-order: stroke fill;">_F</span>
-        <div>
-          <h1 class="text-sm font-semibold tracking-tight">FORMAT Modeler</h1>
-          <p class="text-xs text-muted-foreground">
-          Workspace: 
-          <span v-if="workspaceStore.dirHandle" class="font-mono text-emerald-600 font-semibold">{{ workspaceStore.dirHandle.name }}</span>
-          <span v-else class="text-muted-foreground italic">Not Connected (Demo Mode)</span>
-        </p>
+        <h1 class="text-sm font-semibold tracking-tight">FORMAT Modeler</h1>
+      </div>
+
+      <!-- Model Info Section -->
+      <div v-if="workspaceStore.activeFileName && !workspaceStore.isDemoMode" class="flex items-center gap-3 pl-3 border-l border-slate-200 text-xs text-slate-500">
+        <!-- Template Info -->
+        <div class="flex items-center gap-1">
+          <span>{{ documentStore.templateName }}</span>
+          <span>{{ documentStore.templateVersion }}</span>
         </div>
+
+        <span class="text-slate-300">|</span>
+
+        <!-- Version Info -->
+        <div class="flex items-center gap-1">
+          <span>Format:</span>
+          <span class="font-mono">{{ documentStore.formatVersion }}</span>
+          <span class="text-slate-300">|</span>
+          <span>Model:</span>
+          <span class="font-mono">{{ documentStore.modelVersion }}</span>
+        </div>
+
+        <span class="text-slate-300">|</span>
+
+        <!-- File Path (full, no truncation) -->
+        <span class="font-mono">{{ fullFilePath }}</span>
       </div>
     </div>
     
@@ -202,7 +220,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useDocumentStore } from '../../stores/document';
@@ -218,6 +236,11 @@ const dropdownRef = ref<HTMLElement | null>(null);
 const saveDropdownOpen = ref(false);
 const saveDropdownRef = ref<HTMLElement | null>(null);
 const bumpError = ref('');
+
+const fullFilePath = computed(() => {
+  if (!workspaceStore.dirHandle || !workspaceStore.activeFileName) return '';
+  return `${workspaceStore.dirHandle.name}/${workspaceStore.activeFileName}`;
+});
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;

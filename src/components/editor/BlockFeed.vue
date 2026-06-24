@@ -61,14 +61,7 @@
 import { ref, reactive } from 'vue';
 import BlockSheet from './BlockSheet.vue';
 import type { BlockKind } from '../../utils/conceptVisuals';
-
-interface ParsedItem {
-  id: string;
-  name: string;
-  description: string;
-  fields?: Record<string, any>;
-  blockType?: string;
-}
+import type { ParsedItem } from '../../types';
 
 const props = withDefaults(defineProps<{
   conceptName: string;

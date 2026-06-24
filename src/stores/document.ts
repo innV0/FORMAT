@@ -6,6 +6,9 @@ import { parseFormatFilename, buildFormatFilename, bumpVersion, formatVersionStr
 import { useWorkspaceStore } from './workspace';
 import { useMetamodelStore } from './metamodel';
 import { parseMetamodelDocumentation } from '../utils/documentationParser';
+import { generateId } from '../utils/id';
+import { slugify } from '../utils/sanitize';
+import { DEFAULT_FORMAT_VERSION, DEFAULT_TEMPLATE_NAME, DEFAULT_TEMPLATE_VERSION } from '../utils/constants';
 
 export const useDocumentStore = defineStore('document', () => {
   const workspaceStore = useWorkspaceStore();
@@ -23,11 +26,11 @@ export const useDocumentStore = defineStore('document', () => {
   const matrixValues = ref<MatrixValues>({});
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
-  const formatVersion = ref<string>('V_0-1-4');
+  const formatVersion = ref<string>(DEFAULT_FORMAT_VERSION);
   const modelVersion = ref<string>('V_0-1-0');
-  const templateName = ref<string>('business');
-  const templateVersion = ref<string>('V_1-0-0');
-  const specificationUrl = ref<string>('https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/format-spec.md');
+  const templateName = ref<string>(DEFAULT_TEMPLATE_NAME);
+  const templateVersion = ref<string>(DEFAULT_TEMPLATE_VERSION);
+  const specificationUrl = ref<string>(`https://raw.githubusercontent.com/innV0/FORMAT/main/docs/${DEFAULT_FORMAT_VERSION}/format-spec.md`);
   const documentationLocation = ref<string>('');
   const analysisScores = ref<AnalysisScores>({});
 
@@ -49,16 +52,16 @@ export const useDocumentStore = defineStore('document', () => {
     }
     
     metamodelPath.value = parsed.metamodelPath;
-    templateName.value = parsed.templateName || 'business';
-    templateVersion.value = parsed.templateVersion || 'V_1-0-0';
-    formatVersion.value = parsed.formatVersion || 'V_0-1-4';
+    templateName.value = parsed.templateName || DEFAULT_TEMPLATE_NAME;
+    templateVersion.value = parsed.templateVersion || DEFAULT_TEMPLATE_VERSION;
+    formatVersion.value = parsed.formatVersion || DEFAULT_FORMAT_VERSION;
     // Model version: prefer frontmatter, then the version segment of a
     // compliant file name (§8.1), then a sensible default.
     const parsedName = parseFormatFilename(workspaceStore.activeFileName || '');
     modelVersion.value =
       parsed.modelVersion ||
       (parsedName ? formatVersionString(parsedName.version) : 'V_0-1-0');
-    specificationUrl.value = parsed.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/format-spec.md';
+    specificationUrl.value = parsed.specificationUrl || `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/${DEFAULT_FORMAT_VERSION}/format-spec.md`;
     documentationLocation.value = parsed.documentationLocation || '';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
@@ -177,7 +180,6 @@ export const useDocumentStore = defineStore('document', () => {
 
     // ── 5. nodeMarkers keys ────────────────────────────────────────────
     if (context === 'concept') {
-      const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
       const oldKey = `concept:${slugify(oldName)}`;
       const newKey = `concept:${slugify(newName)}`;
       if (nodeMarkers.value[oldKey]) {
@@ -246,7 +248,7 @@ export const useDocumentStore = defineStore('document', () => {
   const addTreeRoot = () => {
     const rootConcept = metamodelStore.hierarchyConcepts[0] || 'Stakeholders';
     const cleanName = rootConcept.endsWith('s') ? rootConcept.slice(0, -1) : rootConcept;
-    const id = 'sh-' + Math.random().toString(36).substr(2, 9);
+    const id = 'sh-' + generateId();
     const newSH: TreeNode = {
       id,
       name: 'New ' + cleanName,
@@ -263,7 +265,7 @@ export const useDocumentStore = defineStore('document', () => {
   const addChildTreeNode = (parent: TreeNode, childType: string) => {
     const cleanName = childType.endsWith('s') ? childType.slice(0, -1) : childType;
     const prefix = childType.substring(0, 3).toLowerCase() + '-';
-    const id = prefix + Math.random().toString(36).substr(2, 9);
+    const id = prefix + generateId();
     const newChild: TreeNode = {
       id,
       name: 'New ' + cleanName,

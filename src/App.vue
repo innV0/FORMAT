@@ -73,12 +73,10 @@ import ModelInfoPanel from './components/editor/ModelInfoPanel.vue';
 
 import { useWorkspaceStore } from './stores/workspace';
 import { useDocumentStore } from './stores/document';
-import { useMetamodelStore } from './stores/metamodel';
-import { TreeNode } from './types';
+import { findNodeByName } from './utils/tree';
 
 const workspaceStore = useWorkspaceStore();
 const documentStore = useDocumentStore();
-const metamodelStore = useMetamodelStore();
 
 const activeConcept = computed(() => documentStore.activeConceptName);
 const conceptType = computed(() => documentStore.getConceptType());
@@ -108,15 +106,6 @@ function buildHash(concept: string, nodeName?: string | null): string {
   params.set('concept', concept);
   if (nodeName) params.set('node', nodeName);
   return params.toString();
-}
-
-function findNodeByName(nodes: TreeNode[], name: string): TreeNode | null {
-  for (const node of nodes) {
-    if (node.name === name) return node;
-    const found = findNodeByName(node.children, name);
-    if (found) return found;
-  }
-  return null;
 }
 
 function restoreFromHash() {
