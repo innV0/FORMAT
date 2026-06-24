@@ -127,7 +127,8 @@
         class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-50 text-slate-600 font-medium border border-slate-200/60"
       >
         <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
-        <span>{{ field.value }}</span>
+        <span v-if="field.isWikiLink" class="text-indigo-600 underline decoration-dotted">[[{{ field.value }}]]</span>
+        <span v-else>{{ field.value }}</span>
       </span>
     </div>
 
@@ -142,51 +143,12 @@
         <template v-if="isEditing">
           <div v-if="conceptFields && conceptFields.length" class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div v-for="field in conceptFields" :key="field.name">
-              <!-- Boolean -->
-              <div v-if="field.type === 'boolean'" class="flex items-center gap-2 py-2">
-                <input
-                  type="checkbox"
-                  :id="'field-' + field.name"
-                  :checked="block.fields && block.fields[field.name] !== undefined ? !!block.fields[field.name] : (field.default !== undefined ? !!field.default : false)"
-                  @change="updateField(field.name, ($event.target as HTMLInputElement).checked)"
-                  class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 cursor-pointer"
-                >
-                <label :for="'field-' + field.name" class="text-xs font-semibold text-slate-700 cursor-pointer capitalize">
-                  {{ field.name.replace(/_/g, ' ') }}
-                </label>
-              </div>
-              <!-- Select -->
-              <div v-else-if="field.type === 'select' || field.options">
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 capitalize">{{ field.name.replace(/_/g, ' ') }}</label>
-                <select
-                  :value="block.fields && block.fields[field.name] !== undefined ? block.fields[field.name] : (field.default !== undefined ? field.default : '')"
-                  @change="updateField(field.name, ($event.target as HTMLSelectElement).value)"
-                  class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none bg-white cursor-pointer"
-                >
-                  <option value="">- Select -</option>
-                  <option v-for="opt in field.options" :key="opt" :value="opt">{{ opt }}</option>
-                </select>
-              </div>
-              <!-- Number -->
-              <div v-else-if="field.type === 'number'">
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 capitalize">{{ field.name.replace(/_/g, ' ') }}</label>
-                <input
-                  type="number"
-                  :value="block.fields && block.fields[field.name] !== undefined ? block.fields[field.name] : (field.default !== undefined ? field.default : '')"
-                  @input="updateField(field.name, ($event.target as HTMLInputElement).value === '' ? '' : Number(($event.target as HTMLInputElement).value))"
-                  class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
-                >
-              </div>
-              <!-- String -->
-              <div v-else>
-                <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 capitalize">{{ field.name.replace(/_/g, ' ') }}</label>
-                <input
-                  type="text"
-                  :value="block.fields && block.fields[field.name] !== undefined ? block.fields[field.name] : (field.default !== undefined ? field.default : '')"
-                  @input="updateField(field.name, ($event.target as HTMLInputElement).value)"
-                  class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
-                >
-              </div>
+              <component
+                :is="resolveWidget(field.type || 'string')"
+                :field="field"
+                :value="block.fields && block.fields[field.name] !== undefined ? block.fields[field.name] : (field.default !== undefined ? field.default : (field.type === 'boolean' ? false : ''))"
+                :readonly="false"
+              />
             </div>
           </div>
 
@@ -209,6 +171,11 @@
             class="prose prose-slate max-w-none text-xs text-slate-600 leading-relaxed break-words"
             v-html="renderedDescription"
           ></div>
+          <BlockRelationships
+            :block="block"
+            :concept-name="conceptName"
+            :concept-color="conceptColor"
+          />
           <ConceptRelationshipGraph
             :concept-name="conceptName"
             :concept-color="conceptColor"
@@ -220,15 +187,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, provide } from 'vue';
 import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2, PlusCircle } from 'lucide-vue-next';
 import BlockPill from './BlockPill.vue';
 import MarkerTooltip from './MarkerTooltip.vue';
 import ConceptRelationshipGraph from './ConceptRelationshipGraph.vue';
+import BlockRelationships from './BlockRelationships.vue';
 import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { renderInlineMarkdown } from '../../utils/renderMarkdown';
 import { useDocumentStore } from '../../stores/document';
+import { UpdateFieldKey } from './widgets/injection';
+import { resolveWidget } from './widgets';
 import type { BlockKind } from '../../utils/conceptVisuals';
 
 const props = withDefaults(defineProps<{
@@ -305,12 +275,14 @@ const visibleFields = computed(() => {
     .map(field => {
       const val = props.block.fields?.[field.name];
       if (val === undefined || val === '' || val === null || val === false) return null;
+      const isReference = field.type === 'reference';
       return {
         name: field.name,
         value: typeof val === 'boolean' ? (val ? 'Yes' : 'No') : val,
+        isWikiLink: isReference,
       };
     })
-    .filter((f): f is { name: string; value: any } => f !== null);
+    .filter((f): f is { name: string; value: any; isWikiLink: boolean } => f !== null);
 });
 
 const hasVisibleFields = computed(() => visibleFields.value.length > 0);
@@ -345,4 +317,6 @@ const updateField = (fieldName: string, value: any) => {
   onInput();
   emit('update:field', fieldName, value);
 };
+
+provide(UpdateFieldKey, updateField);
 </script>

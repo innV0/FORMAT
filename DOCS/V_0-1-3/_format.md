@@ -113,7 +113,7 @@ For a document to be **FORMAT-compliant**, the frontmatter MUST declare which sp
 ```yaml
 ---
 specification_version: "V_0-1-3"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md"
 title: "Project Ghostbusters Model"
 model_version: "V_0-3-0"
 last_saved: "2026-06-23T15:12:19.852Z"

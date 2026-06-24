@@ -28,6 +28,7 @@
       :items="parsedItems"
       :is-list-concept="isListConcept"
       :has-markers="true"
+      :concept-fields="conceptFields"
       @change-concept="updateSingleBlockText"
       @change-item="syncToMarkdown"
       @add-item="addListItem"
@@ -45,6 +46,7 @@ import { useMetamodelStore } from '../../stores/metamodel';
 import { Plus } from 'lucide-vue-next';
 import BlockFeed from './BlockFeed.vue';
 import { slugify } from '../../utils/sanitize';
+import { parseNodeInstances, stringifyYaml } from '../../utils/markdownParser';
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
@@ -58,6 +60,10 @@ const conceptColor = computed(() => {
 
 const conceptIcon = computed(() => {
   return metamodelStore.getConceptByName(activeConcept.value)?.icon || '';
+});
+
+const conceptFields = computed(() => {
+  return metamodelStore.getConceptByName(activeConcept.value)?.fields || [];
 });
 
 // Check if this is an instantiable list-like concept
@@ -109,6 +115,7 @@ interface ParsedItem {
   id: string;
   name: string;
   description: string;
+  fields?: Record<string, any>;
   blockType?: string;
 }
 
@@ -127,44 +134,16 @@ const stableItemId = (name: string, seen: Map<string, number>) => {
 // Sync from text markdown content to structured parsed items
 const syncFromMarkdown = () => {
   const text = documentStore.modelTextData[activeConcept.value] || '';
-  const lines = text.split('\n');
-  const items: ParsedItem[] = [];
+  const instances = parseNodeInstances(text);
   const seenIds = new Map<string, number>();
 
-  lines.forEach(line => {
-    const trimmed = line.trim();
-    if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
-      let bulletContent = trimmed.substring(1).trim();
-
-      // Match optional <!-- block: [type] --> tag at the start of the bullet content
-      let blockType: string | undefined = undefined;
-      const markerMatch = bulletContent.match(/^<!--\s*block:\s*([a-zA-Z0-9_\s-]+)\s*-->\s*(.*)$/i);
-      if (markerMatch) {
-        blockType = markerMatch[1].trim();
-        bulletContent = markerMatch[2].trim();
-      }
-
-      const colonIdx = bulletContent.indexOf(':');
-      let name = '';
-      let description = '';
-
-      if (colonIdx !== -1) {
-        name = bulletContent.substring(0, colonIdx).trim();
-        description = bulletContent.substring(colonIdx + 1).trim();
-      } else {
-        name = bulletContent;
-      }
-
-      items.push({
-        id: stableItemId(name, seenIds),
-        name,
-        description,
-        blockType
-      });
-    }
-  });
-
-  parsedItems.value = items;
+  parsedItems.value = instances.map(inst => ({
+    id: stableItemId(inst.name, seenIds),
+    name: inst.name,
+    description: inst.description,
+    fields: inst.fields || {},
+    blockType: inst.type
+  }));
 };
 
 // Sync from structured items back to markdown text
@@ -173,20 +152,41 @@ const syncToMarkdown = () => {
   const match = rawText.match(HEADER_REGEX);
   const header = match ? match[0] : '';
 
-  const mdLines = parsedItems.value.map(item => {
+  const mdLines = parsedItems.value.map((item, idx) => {
     const cleanName = item.name.trim();
     const cleanDesc = item.description.trim();
     const prefix = item.blockType ? `<!-- block: ${item.blockType} --> ` : '';
 
-    if (cleanName && cleanDesc) {
-      return `- ${prefix}${cleanName}: ${cleanDesc}`;
-    } else if (cleanName) {
-      return `- ${prefix}${cleanName}`;
-    } else if (cleanDesc) {
-      return `- ${prefix}${cleanDesc}`;
+    const isSequence = ['steps', 'sequence'].includes(conceptType.value);
+    const listMarker = isSequence ? `${idx + 1}.` : '*';
+
+    let itemText = `${listMarker} ${prefix}${cleanName}\n`;
+
+    let hasFields = false;
+    if (item.fields && Object.keys(item.fields).length > 0) {
+      const activeFields: Record<string, any> = {};
+      Object.entries(item.fields).forEach(([k, v]) => {
+        if (v !== undefined && v !== null && v !== '') {
+          activeFields[k] = v;
+        }
+      });
+      if (Object.keys(activeFields).length > 0) {
+        itemText += '  ```yaml\n';
+        itemText += stringifyYaml(activeFields, 2) + '\n';
+        itemText += '  ```\n';
+        hasFields = true;
+      }
     }
-    return '';
-  }).filter(line => line !== '');
+
+    if (cleanDesc) {
+      if (hasFields) {
+        itemText += '\n';
+      }
+      itemText += cleanDesc + '\n';
+    }
+
+    return itemText;
+  });
 
   documentStore.modelTextData[activeConcept.value] = header + mdLines.join('\n');
   documentStore.triggerUnsavedChanges();
@@ -206,6 +206,7 @@ const addListItem = () => {
     id: Math.random().toString(36).substr(2, 9),
     name: 'New Concept Instance',
     description: 'Description of the concept instance.',
+    fields: {},
     blockType: hasBlockTags ? activeLower : undefined
   });
   syncToMarkdown();

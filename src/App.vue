@@ -25,23 +25,23 @@
             </div>
           </div>
 
-          <!-- 1. TEXT CONCEPT EDITOR -->
-          <TextEditor v-if="workspaceStore.activeFileName && isMarkdownEditor && !isAnalysisMode" />
+          <!-- 1. MODEL INFO VIEW (Rendered if 'info' selected OR if no file is active) -->
+          <ModelInfoPanel v-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
-          <!-- 2. UNIFIED TREE VIEW -->
+          <!-- 2. TEXT CONCEPT EDITOR -->
+          <TextEditor v-else-if="workspaceStore.activeFileName && isMarkdownEditor && !isAnalysisMode" />
+
+          <!-- 3. UNIFIED TREE VIEW -->
           <TreeEditor v-else-if="workspaceStore.activeFileName && conceptType === 'instantiable' && !isAnalysisMode" />
 
-          <!-- 3. METAMATRIX SETUP CONFIG -->
+          <!-- 4. METAMATRIX SETUP CONFIG -->
           <MetamatrixConfig v-else-if="workspaceStore.activeFileName && activeConcept === 'metamatrix'" />
 
-          <!-- 4. RELATIONAL MATRICES DATA -->
+          <!-- 5. RELATIONAL MATRICES DATA -->
           <MatricesGrid v-else-if="workspaceStore.activeFileName && activeConcept === 'matrices'" />
 
-          <!-- 5. BUSINESS ANALYSIS VIEW -->
+          <!-- 6. BUSINESS ANALYSIS VIEW -->
           <AnalysisPanel v-else-if="workspaceStore.activeFileName && isAnalysisMode" />
-
-          <!-- 6. MODEL INFO VIEW (Rendered if 'info' selected OR if no file is active) -->
-          <ModelInfoPanel v-else-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
           <!-- FALLBACK/EMPTY STATE -->
           <div v-else class="text-slate-400 text-xs italic text-center my-auto">

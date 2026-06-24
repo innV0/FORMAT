@@ -4,29 +4,29 @@
       v-if="!neighborhoods.length"
       class="text-muted-foreground text-xs italic text-center p-4"
     >
-      This concept is not part of any lens.
+      This concept is not part of any perspective.
     </div>
 
     <div
       v-for="n in neighborhoods"
-      :key="n.lens.id"
+      :key="n.perspective.id"
       class="rounded-lg border border-border bg-background/60 p-2.5 space-y-1.5"
     >
-      <!-- Lens header -->
+      <!-- Perspective header -->
       <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-        <IconRenderer :icon="n.lens.icon" custom-class="w-3 h-3 text-indigo-500" />
-        <span>{{ n.lens.name }}</span>
+        <IconRenderer :icon="n.perspective.icon" custom-class="w-3 h-3 text-indigo-500" />
+        <span>{{ n.perspective.name }}</span>
       </div>
 
       <!-- Stacked tiers: parents ▲ / active ● / children ▼ -->
       <!-- Parent tier -->
-      <div v-if="n.parents.length" class="lens-tier">
-        <span class="lens-tier__label">Parent</span>
+      <div v-if="n.parents.length" class="perspective-tier">
+        <span class="perspective-tier__label">Parent</span>
         <div class="flex items-center flex-wrap gap-1">
           <button
             v-for="p in n.parents"
             :key="'p-' + p"
-            class="lens-chip"
+            class="perspective-chip"
             @click="$emit('select', p)"
           >
             <IconRenderer :icon="iconFor(p)" custom-class="w-3 h-3 shrink-0 text-muted-foreground" />
@@ -36,28 +36,28 @@
       </div>
 
       <!-- Connector -->
-      <div v-if="n.parents.length" class="lens-connector"></div>
+      <div v-if="n.parents.length" class="perspective-connector"></div>
 
       <!-- Active tier -->
-      <div class="lens-tier">
-        <span class="lens-tier__label lens-tier__label--active">Active</span>
-        <span class="lens-chip lens-chip--active">
+      <div class="perspective-tier">
+        <span class="perspective-tier__label perspective-tier__label--active">Active</span>
+        <span class="perspective-chip perspective-chip--active">
           <IconRenderer :icon="iconFor(conceptName)" custom-class="w-3 h-3 shrink-0 text-indigo-600" />
           <span class="truncate">{{ conceptName }}</span>
         </span>
       </div>
 
       <!-- Connector -->
-      <div v-if="n.children.length" class="lens-connector"></div>
+      <div v-if="n.children.length" class="perspective-connector"></div>
 
       <!-- Children tier -->
-      <div v-if="n.children.length" class="lens-tier">
-        <span class="lens-tier__label">Children</span>
+      <div v-if="n.children.length" class="perspective-tier">
+        <span class="perspective-tier__label">Children</span>
         <div class="flex items-center flex-wrap gap-1">
           <button
             v-for="c in n.children"
             :key="'c-' + c"
-            class="lens-chip"
+            class="perspective-chip"
             @click="$emit('select', c)"
           >
             <IconRenderer :icon="iconFor(c)" custom-class="w-3 h-3 shrink-0 text-muted-foreground" />
@@ -84,19 +84,19 @@ defineEmits<{
 
 const metamodelStore = useMetamodelStore();
 
-const neighborhoods = computed(() => metamodelStore.getConceptLenses(props.conceptName));
+const neighborhoods = computed(() => metamodelStore.getConceptPerspectives(props.conceptName));
 
 const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon || '';
 </script>
 
 <style scoped>
 /* ── Tiers: each level (parent / active / children) is its own row ──── */
-.lens-tier {
+.perspective-tier {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
 }
-.lens-tier__label {
+.perspective-tier__label {
   flex-shrink: 0;
   width: 3.5rem;
   padding-top: 0.1875rem;
@@ -106,19 +106,19 @@ const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon ||
   letter-spacing: 0.05em;
   color: var(--muted-foreground);
 }
-.lens-tier__label--active {
+.perspective-tier__label--active {
   color: rgb(79 70 229);
 }
 
 /* Vertical connector linking the tiers, aligned under the labels */
-.lens-connector {
+.perspective-connector {
   width: 1px;
   height: 0.5rem;
   margin-left: 1.5rem;
   background: var(--border);
 }
 
-.lens-chip {
+.perspective-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -133,10 +133,10 @@ const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon ||
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
-.lens-chip:hover {
+.perspective-chip:hover {
   background: var(--accent);
 }
-.lens-chip--active {
+.perspective-chip--active {
   cursor: default;
   font-weight: 600;
   border-color: rgb(165 180 252);

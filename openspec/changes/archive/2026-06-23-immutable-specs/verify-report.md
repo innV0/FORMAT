@@ -18,8 +18,8 @@ A critical compliance issue concerning modifications to the `V_0-1-1` historical
 | **REQ-01** | Immutable Canonical URL Structure | V_0-1-2 MUST use raw GitHub tag URL with folder `V_0-1-2`. | **PASS** | Verified in `document.ts`, `ModelInfoPanel.vue`, and draft spec `format-spec.md`. |
 | **REQ-02** | Store Default and Fallback | `document` store initializes default and fallbacks to canonical raw GitHub URL. | **PASS** | Checked `src/stores/document.ts` and verified with unit tests. |
 | **REQ-03** | Model Template Normalization | Inline creation template uses canonical raw GitHub URL. | **PASS** | Checked `src/components/editor/ModelInfoPanel.vue`. |
-| **REQ-04** | Draft Spec Example Alignment | Example in `DOCS/spec/V_0-1-2/format-spec.md` line 123 uses canonical URL. | **PASS** | Verified line 123 of draft specification. |
-| **REQ-05** | Legacy Specs Preservation | `V_0-1-0` and `V_0-1-1` must remain completely unmodified. | **PASS** (Remediated) | Verified that all files under `DOCS/spec/V_0-1-0/` and `DOCS/spec/V_0-1-1/` are textually identical to their HEAD counterparts. |
+| **REQ-04** | Draft Spec Example Alignment | Example in `docs/spec/V_0-1-2/format-spec.md` line 123 uses canonical URL. | **PASS** | Verified line 123 of draft specification. |
+| **REQ-05** | Legacy Specs Preservation | `V_0-1-0` and `V_0-1-1` must remain completely unmodified. | **PASS** (Remediated) | Verified that all files under `docs/spec/V_0-1-0/` and `docs/spec/V_0-1-1/` are textually identical to their HEAD counterparts. |
 | **REQ-06** | FORMAT Agent Skill | Create `.agents/skills/FORMAT-skill/SKILL.md` with index and guidelines. | **PASS** | Verified skill file exist at target path with correct metadata and guidelines. |
 
 ---
@@ -28,9 +28,9 @@ A critical compliance issue concerning modifications to the `V_0-1-1` historical
 
 | File Path | Component | Evaluation | Details |
 |---|---|---|---|
-| `src/stores/document.ts` | Document Store | **Correct** | State `specificationUrl` and fallback inside `loadDocument` both point to `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/V_0-1-2/format-spec.md`. |
+| `src/stores/document.ts` | Document Store | **Correct** | State `specificationUrl` and fallback inside `loadDocument` both point to `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/V_0-1-2/format-spec.md`. |
 | `src/components/editor/ModelInfoPanel.vue` | Model Creation Template | **Correct** | `specification_url` in inline markdown template matches canonical raw GitHub URL. |
-| `DOCS/spec/V_0-1-2/format-spec.md` | Draft Spec | **Correct** | Line 123 YAML frontmatter example matches canonical raw GitHub URL. |
+| `docs/spec/V_0-1-2/format-spec.md` | Draft Spec | **Correct** | Line 123 YAML frontmatter example matches canonical raw GitHub URL. |
 | `.agents/skills/FORMAT-skill/SKILL.md` | Agent Skill | **Correct** | Manifest metadata, index mapping, reference directory, and rules comply exactly with agent-teams-lite standards. |
 | `src/stores/__tests__/document.test.ts` | Unit Tests | **Correct** | Added unit tests to assert default value and fallback parser value. |
 
@@ -62,8 +62,8 @@ Unit tests were executed using Vitest. All test cases passed successfully.
 
 ### CRITICAL
 - **Historical Specification Alteration (Remediated):** 
-  - *Description:* During audit, `DOCS/spec/V_0-1-1/format-spec.md` and `DOCS/spec/V_0-1-1/metamodel_documentation.md` in the workspace differed from their committed equivalents in HEAD (containing newer `V_0-1-2` spec rules and formatting adjustments). This violated the immutable specs policy (REQ-05).
-  - *Remediation:* The verification phase successfully restored `DOCS/spec/V_0-1-1/format-spec.md` and `DOCS/spec/V_0-1-1/metamodel_documentation.md` to their exact byte-for-byte state in HEAD. Re-running the verification diff confirmed complete textual identity (normalized for line endings) for all V_0-1-0 and V_0-1-1 files.
+  - *Description:* During audit, `docs/spec/V_0-1-1/format-spec.md` and `docs/spec/V_0-1-1/metamodel_documentation.md` in the workspace differed from their committed equivalents in HEAD (containing newer `V_0-1-2` spec rules and formatting adjustments). This violated the immutable specs policy (REQ-05).
+  - *Remediation:* The verification phase successfully restored `docs/spec/V_0-1-1/format-spec.md` and `docs/spec/V_0-1-1/metamodel_documentation.md` to their exact byte-for-byte state in HEAD. Re-running the verification diff confirmed complete textual identity (normalized for line endings) for all V_0-1-0 and V_0-1-1 files.
 
 ### WARNING
 *None*

@@ -84,7 +84,7 @@ THEN `useBlockVisuals` delegates to `getMarkerIcon` and `getMarkerClasses` from 
 
 ### REQ-04 — `BlockPill` (Reference / Slim Display)
 
-`BlockPill` is the reference display: icon + name, optionally markers, optionally a hover toolbar. It is used in the concepts sidebar and as matrix row/column/axis headers.
+`BlockPill` is the reference display: icon + name, optionally markers, optionally a hover toolbar. It is used in the concepts sidebar and as matrix row/column/axis headers. When `BlockPill` renders a value that is a reference field, it MUST display the value as a wiki-link (styled `[[Name]]`).
 
 **Scenarios:**
 
@@ -99,6 +99,15 @@ THEN `kind="concept"` is passed by the sidebar call site
 
 WHEN `BlockPill` receives a `size` prop  
 THEN no such prop exists — the legacy `sm`/`md`/`lg`/`xs` size axis is absent from `BlockPill`
+
+WHEN `BlockPill` receives a reference field value  
+THEN it displays the value wrapped in `[[` and `]]` delimiters with wiki-link styling
+
+WHEN `BlockPill` renders a non-reference value  
+THEN it displays the value without wiki-link formatting
+
+WHEN the user clicks a wiki-link rendered by `BlockPill`  
+THEN the application navigates to or selects the referenced block
 
 ---
 
@@ -127,18 +136,23 @@ THEN each button has an `aria-label` describing its action (e.g., "Move up", "Ad
 
 ### REQ-06 — `BlockSheet` (Work Display — Collapsed / Expanded / Edit States)
 
-`BlockSheet` is the work display, replacing `BlockViewer`. It has three mutually exclusive visual states: **Collapsed**, **Expanded**, and **Edit**.
+`BlockSheet` is the work display, replacing `BlockViewer`. It has three mutually exclusive visual states: **Collapsed**, **Expanded**, and **Edit**. In Edit state, `BlockSheet` MUST render each field through the corresponding widget component from the field-widget-system instead of inline `v-if/v-else-if/v-else` chains. Each widget receives `field`, `value`, and `readonly` props. In Expanded (non-edit) state, `BlockSheet` MUST render a `BlockRelationships` section between the rendered description and the `ConceptRelationshipGraph`.
 
 **Scenarios:**
 
 WHEN a `BlockSheet` is in the Collapsed state  
-THEN it displays: header pill (icon/emoji + name) + fields list only (no body/description)
+THEN it displays: header pill (icon/emoji + name) + fields list only (no body/description, no relationships)
+
+WHEN a `BlockSheet` is in the Expanded state (not Edit)  
+AND the current block has incoming or outgoing wikilink relationships  
+THEN the `BlockRelationships` component is rendered between the `renderedDescription` div and the `ConceptRelationshipGraph`
 
 WHEN a `BlockSheet` is in the Expanded state  
-THEN it displays: header pill + fields list + full body/description content
+AND the current block has no incoming or outgoing relationships  
+THEN no `BlockRelationships` section is rendered (no empty placeholder)
 
 WHEN a user clicks to expand a Collapsed `BlockSheet`  
-THEN the Sheet transitions to Expanded state — it does NOT enter Edit state
+THEN the Sheet transitions to Expanded state — it does NOT enter Edit state, and the relationship section becomes visible if relationships exist
 
 WHEN a user clicks the pencil (edit) button on a `BlockSheet`  
 THEN the Sheet enters Edit state, enabling inline editing of name, fields, and body
@@ -157,6 +171,22 @@ THEN a save/confirm action and a cancel action are available
 
 WHEN a `BlockSheet` renders the body section  
 THEN the first paragraph of the body is rendered as normal body content — there is no "derived summary" field auto-generated from it
+
+WHEN a `BlockSheet` is in Edit state with a reference field  
+THEN it delegates to the reference widget component — no inline type-checking logic
+
+WHEN a `BlockSheet` is in Edit state with a string field  
+THEN it delegates to the string widget component with `field`, `value`, and `readonly` props
+
+WHEN a `BlockSheet` is in Collapsed or Expanded state  
+THEN the display is identical to pre-widget-system behavior — widgets are only used in Edit state
+
+WHEN a `BlockSheet` is in Expanded state (not Edit)  
+AND a widget is rendered for display purposes  
+THEN `readonly` is `true` and the widget renders as read-only
+
+WHEN a `BlockSheet` is in Edit state  
+THEN no `BlockRelationships` section is rendered — editing shows field inputs and description textarea only
 
 ---
 
@@ -282,6 +312,26 @@ THEN it has an `aria-label` attribute describing the action
 
 WHEN focus-visible styling is applied  
 THEN all interactive elements in `BlockPill`, `BlockCard`, `BlockSheet`, and `BlockFeed` show a visible focus ring
+
+---
+
+### REQ-14 — Reference Field Display in Sheets
+
+Reference fields rendered inside `BlockSheet` (Collapsed or Expanded state) MUST display their value as a clickable wiki-link. The wiki-link MUST use the `[[Name]]` delimiter pattern and MUST be visually distinct from plain string values.
+
+**Scenarios:**
+
+WHEN a `BlockSheet` is in Collapsed state with a reference field  
+AND the field is rendered  
+THEN the value appears as a clickable `[[Name]]` link
+
+WHEN a `BlockSheet` is in Expanded state with a reference field  
+AND the field is rendered  
+THEN the value appears as a clickable `[[Name]]` link
+
+WHEN a `BlockSheet` displays a reference field as a wiki-link  
+AND the user clicks the link  
+THEN the application selects or navigates to the referenced block in the feed
 
 ---
 

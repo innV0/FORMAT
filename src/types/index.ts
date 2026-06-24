@@ -7,6 +7,8 @@ export interface Concept {
   color?: string | null;
   methodologies?: string | null;
   prompts?: string[] | string | null;
+  fields?: any[];
+  weight?: number;
 }
 
 export interface Marker {
@@ -30,26 +32,36 @@ export interface MetamatrixRow {
   max_color?: string;
 }
 
-// A directed concept→concept edge within a lens (parent contains/precedes child).
-export interface LensEdge {
+// A directed concept→concept edge within a perspective (parent contains/precedes child).
+export interface PerspectiveEdge {
   parent: string; // concept name
   child: string;  // concept name
 }
 
-// A lens is a named projection of the concepts, backed by a hierarchy matrix.
-// Concepts have no intrinsic hierarchy; each lens is one view over them.
-export interface Lens {
+// A perspective is a named projection of the concepts, backed by a hierarchy matrix.
+// Concepts have no intrinsic hierarchy; each perspective is one view over them.
+export interface Perspective {
   id: string;
   name: string;
   icon: string;
-  edges: LensEdge[];
+  edges: PerspectiveEdge[];
 }
 
-// The local neighborhood of a concept within a single lens.
-export interface LensNeighborhood {
-  lens: Lens;
+// The local neighborhood of a concept within a single perspective.
+export interface PerspectiveNeighborhood {
+  perspective: Perspective;
   parents: string[];
   children: string[];
+}
+
+export type FieldType = 'string' | 'boolean' | 'number' | 'select' | 'reference';
+
+export interface FieldDefinition {
+  name: string;
+  type: FieldType;
+  default?: any;
+  options?: string[];
+  target_concepts?: string[];
 }
 
 export interface TreeNode {
@@ -104,20 +116,20 @@ export interface AnalysisScores {
   [keyName: string]: EvaluatorScore[];
 }
 
-export interface LensEdge {
+export interface PerspectiveEdge {
   parent: string;
   child: string;
 }
 
-export interface Lens {
+export interface Perspective {
   id: string;
   name: string;
   icon: string;
-  edges: LensEdge[];
+  edges: PerspectiveEdge[];
 }
 
-export interface LensNeighborhood {
-  lens: Lens;
+export interface PerspectiveNeighborhood {
+  perspective: Perspective;
   parents: string[];
   children: string[];
 }

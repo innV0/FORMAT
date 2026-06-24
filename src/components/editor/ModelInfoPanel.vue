@@ -2,8 +2,8 @@
   <div class="space-y-6 max-w-4xl mx-auto p-1">
     <!-- Header Section -->
     <div class="flex items-center gap-3 pb-4 border-b border-border">
-      <div class="h-10 w-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-xs">
-        <Info class="w-5 h-5" />
+      <div class="h-10 w-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shadow-xs">
+        <span class="font-mono text-lg font-black text-primary select-none leading-none" style="-webkit-text-stroke: 1px hsl(var(--primary)); paint-order: stroke fill;">_F</span>
       </div>
       <div>
         <h2 class="text-lg font-bold text-foreground">Model Information & Workspace</h2>
@@ -208,7 +208,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { Info, FolderOpen, FileText, Settings, Plus, Copy, Check } from 'lucide-vue-next';
+import { FolderOpen, FileText, Settings, Plus, Copy, Check } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
@@ -238,7 +238,8 @@ const openFile = async (file: FileItem) => {
     workspaceStore.activeFileHandle = file.handle;
     documentStore.loadDocument(content);
     // Switch to first concept naturally
-    documentStore.selectConcept('Business summary');
+    const firstConcept = metamodelStore.concepts[0];
+    documentStore.selectConcept(firstConcept ? firstConcept.name : '');
   } catch (err) {
     console.error('Error opening file:', err);
     alert('Failed to load file content.');

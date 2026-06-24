@@ -621,7 +621,7 @@ Description of Hotel Managers.
     const serialized = generateMarkdownFileContent({
       activeFileName: 'ghostbusters_model.md',
       formatVersion: parsedTemplate.formatVersion || 'V_0-1-2',
-      specificationUrl: parsedTemplate.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md',
+      specificationUrl: parsedTemplate.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/spec.md',
       documentationLocation: parsedTemplate.documentationLocation || 'docs/spec/V_0-1-2/',
       modelTextData: parsed.modelTextData,
       modelTree: parsed.modelTree,

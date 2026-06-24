@@ -75,8 +75,9 @@
               :key="field.name"
               class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 text-[10px] font-medium border border-slate-200/60"
             >
-              <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
-              <span>{{ field.value }}</span>
+        <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
+        <span v-if="field.isWikiLink" class="text-indigo-600 underline decoration-dotted">[[{{ field.value }}]]</span>
+        <span v-else>{{ field.value }}</span>
             </span>
           </div>
 
@@ -251,12 +252,14 @@ const visibleFields = computed(() => {
     .map(field => {
       const val = props.fields?.[field.name];
       if (val === undefined || val === '' || val === null || val === false) return null;
+      const isReference = field.type === 'reference';
       return {
         name: field.name,
         value: typeof val === 'boolean' ? (val ? 'Yes' : 'No') : val,
+        isWikiLink: isReference,
       };
     })
-    .filter((f): f is { name: string; value: any } => f !== null);
+    .filter((f): f is { name: string; value: any; isWikiLink: boolean } => f !== null);
 });
 
 // ── Pill classes ─────────────────────────────────────────────────────────────

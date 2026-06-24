@@ -8,13 +8,13 @@
 
 ## What Shipped
 
-The **Immutable Specs** change normalizes specification URLs and version strings inside the codebase. It replaces the custom domain `https://format.innv0.com/spec/v0-1-2/format-spec.md` with raw GitHub URLs pointing to immutable git tags (`https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/V_0-1-2/format-spec.md`) to guarantee absolute immutability. It maintains the folder segment as `V_0-1-2` rather than `v0-1-2` and creates a dedicated agent skill referencing these canonical URLs.
+The **Immutable Specs** change normalizes specification URLs and version strings inside the codebase. It replaces the custom domain `https://format.innv0.com/spec/v0-1-2/format-spec.md` with raw GitHub URLs pointing to immutable git tags (`https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/V_0-1-2/format-spec.md`) to guarantee absolute immutability. It maintains the folder segment as `V_0-1-2` rather than `v0-1-2` and creates a dedicated agent skill referencing these canonical URLs.
 
 ### File Modifications & Creations
 
 1. **`src/stores/document.ts`** (MODIFIED) — Updated default state and parser fallback for `specificationUrl` to point to the canonical raw GitHub URL.
 2. **`src/components/editor/ModelInfoPanel.vue`** (MODIFIED) — Updated inline creation template `specification_url` field value to point to the canonical raw GitHub URL.
-3. **`DOCS/V_0-1-2/format-spec.md`** (MODIFIED) — Corrected YAML frontmatter example URL at line 123 to match the canonical raw GitHub URL.
+3. **`docs/V_0-1-2/format-spec.md`** (MODIFIED) — Corrected YAML frontmatter example URL at line 123 to match the canonical raw GitHub URL.
 4. **`.agents/skills/FORMAT-skill/SKILL.md`** (NEW) — Created agent skill file mapping canonical spec URLs and enforcing English default and spec immutability instructions.
 5. **`src/stores/__tests__/document.test.ts`** (MODIFIED) — Added unit tests verifying store initialization and parser fallback logic.
 
@@ -24,7 +24,7 @@ The **Immutable Specs** change normalizes specification URLs and version strings
 
 **Build & Test Evidence**:
 - `npm test` — Vitest run completed successfully: 2 test files, 17/17 tests passing.
-- Legacy specs under `DOCS/V_0-1-0/` and `DOCS/V_0-1-1/` verified to be completely unmodified.
+- Legacy specs under `docs/V_0-1-0/` and `docs/V_0-1-1/` verified to be completely unmodified.
 
 **Task Completeness**:
 - All 9 tasks across Phases 1–3 marked `[x]` in `tasks.md`.
@@ -75,7 +75,7 @@ After archiving, the following main specs were updated with delta spec content:
 ## Golden Rule: Enforced
 
 After this archive:
-- ✅ Default specification URL points to `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/V_0-1-2/format-spec.md`.
+- ✅ Default specification URL points to `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/V_0-1-2/format-spec.md`.
 - ✅ Model creation template points to the canonical raw GitHub URL.
 - ✅ Draft specification frontmatter example points to the canonical raw GitHub URL.
 - ✅ Historical specifications are completely unmodified.

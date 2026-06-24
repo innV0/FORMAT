@@ -1,21 +1,16 @@
 <template>
   <header class="flex items-center justify-between border-b border-border bg-card text-card-foreground px-6 py-3 shrink-0 fixed top-0 left-0 right-0 z-10">
     <div class="flex items-center gap-3">
-      <button 
-        @click="documentStore.selectConcept('info')"
-        :class="documentStore.activeConceptName === 'info' ? 'bg-primary text-primary-foreground border-primary shadow-xs' : 'bg-primary/10 border-primary/20 text-primary hover:bg-primary/20 hover:text-primary'"
-        class="h-8 w-8 rounded-md flex items-center justify-center border transition-all cursor-pointer shadow-2xs"
-        title="View Model Status & Workspace Files"
-      >
-        <Info class="w-4.5 h-4.5" />
-      </button>
-      <div>
-        <h1 class="text-sm font-semibold tracking-tight">FORMAT Business Modeler</h1>
-        <p class="text-xs text-muted-foreground">
+      <div class="flex items-center gap-2.5">
+        <span class="font-mono text-lg font-black text-primary select-none leading-none" style="-webkit-text-stroke: 1px hsl(var(--primary)); paint-order: stroke fill;">_F</span>
+        <div>
+          <h1 class="text-sm font-semibold tracking-tight">FORMAT Modeler</h1>
+          <p class="text-xs text-muted-foreground">
           Workspace: 
           <span v-if="workspaceStore.dirHandle" class="font-mono text-emerald-600 font-semibold">{{ workspaceStore.dirHandle.name }}</span>
           <span v-else class="text-muted-foreground italic">Not Connected (Demo Mode)</span>
         </p>
+        </div>
       </div>
     </div>
     
@@ -90,8 +85,8 @@
               >
                 <Trash2 class="w-3.5 h-3.5" />
               </button>
-            </div>
-          </div>
+      </div>
+    </div>
 
           <div class="border-t border-slate-100 my-1.5"></div>
 
@@ -193,6 +188,15 @@
           </div>
         </div>
       </div>
+
+      <button 
+        @click="documentStore.selectConcept('info')"
+        :class="documentStore.activeConceptName === 'info' ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-700'"
+        class="p-1.5 rounded transition-colors cursor-pointer"
+        title="View Model Status & Workspace Files"
+      >
+        <Info class="w-4 h-4" />
+      </button>
     </div>
   </header>
 </template>

@@ -1,16 +1,17 @@
 project: FORMAT
 context: |
-  This project contains mockups (HTML/JS) and master data in JSON format for the innV0 project.
-  It is a data-driven frontend mockup application without backend or compiled sources.
-strict_tdd: false
+  Vue 3 + TypeScript application for business model specification using a custom
+  FORMAT format (Business and Procedures templates). Data-driven frontend with
+  Pinia state management, Tailwind CSS, and Vite build tooling.
+strict_tdd: true
 delivery_strategy: ask-on-risk
 execution_mode: auto
 testing:
-  strict_tdd: false
-  runner: null
-  framework: null
+  strict_tdd: true
+  runner: vitest
+  framework: vitest@1.6.0
   layers:
-    unit: { available: false, tool: null }
+    unit: { available: true, tool: vitest + @vue/test-utils + happy-dom }
     integration: { available: false, tool: null }
     e2e: { available: false, tool: null }
   coverage:
@@ -18,7 +19,7 @@ testing:
     command: null
   quality:
     linter: { available: false, command: null }
-    type_checker: { available: false, command: null }
+    type_checker: { available: true, command: "vue-tsc --noEmit" }
     formatter: { available: false, command: null }
 phase_rules:
   proposal: "Define goals, user stories, and acceptance criteria."

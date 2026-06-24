@@ -40,7 +40,7 @@
           <!-- List state: flat concept list (mirrors the Markdown body) -->
           <template v-if="conceptView === 'list'">
           <div class="flex items-center justify-between px-2">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Business Model</h2>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Model</h2>
           </div>
 
           <div class="space-y-1.5">
@@ -54,11 +54,11 @@
           </div>
           </template>
 
-          <!-- Lens state: stacked neighborhoods for the selected concept -->
+          <!-- Perspective state: stacked neighborhoods for the selected concept -->
           <template v-else>
           <div class="hierarchy-anchor flex items-center gap-2 px-2 py-1.5 bg-indigo-50 border border-indigo-100 rounded-lg">
             <button
-              @click="closeLens"
+              @click="closePerspective"
               class="shrink-0 p-1 rounded hover:bg-indigo-100 text-indigo-400 hover:text-indigo-600 transition-colors cursor-pointer"
               title="Back to Concepts"
             >
@@ -74,7 +74,7 @@
             </span>
           </div>
 
-          <ConceptLensPanel
+          <ConceptPerspectivePanel
             :concept-name="documentStore.activeConceptName"
             @select="openConcept"
           />
@@ -197,7 +197,7 @@ import { useWorkspaceStore } from '../../stores/workspace';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import ConceptTreeNode from './ConceptTreeNode.vue';
-import ConceptLensPanel from '../editor/ConceptLensPanel.vue';
+import ConceptPerspectivePanel from '../editor/ConceptPerspectivePanel.vue';
 import TreeNodeItem from '../editor/TreeNodeItem.vue';
 import { Concept } from '../../types';
 import { useResizablePanel } from '../../composables/useResizablePanel';
@@ -217,8 +217,8 @@ const documentStore = useDocumentStore();
 const sidebarTab = ref<'concepts' | 'hierarchy'>('concepts');
 const slideDirection = ref<'slide-right' | 'slide-left'>('slide-right');
 
-// Concepts tab sub-state: flat list vs. lens neighborhoods for the selected concept.
-const conceptView = ref<'list' | 'lens'>('list');
+// Concepts tab sub-state: flat list vs. perspective neighborhoods for the selected concept.
+const conceptView = ref<'list' | 'perspective'>('list');
 
 interface ConceptNode extends Concept {
   children: ConceptNode[];
@@ -252,10 +252,10 @@ const conceptTree = computed((): ConceptNode[] => {
 
 const openConcept = (name: string) => {
   documentStore.selectConcept(name);
-  conceptView.value = 'lens';
+  conceptView.value = 'perspective';
 };
 
-const closeLens = () => {
+const closePerspective = () => {
   conceptView.value = 'list';
 };
 
