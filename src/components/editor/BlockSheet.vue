@@ -199,6 +199,7 @@ import { renderInlineMarkdown } from '../../utils/renderMarkdown';
 import { useDocumentStore } from '../../stores/document';
 import { UpdateFieldKey } from './widgets/injection';
 import { resolveWidget } from './widgets';
+import { MARKER_CYCLE_COUNT } from '../../utils/constants';
 import type { BlockKind } from '../../utils/conceptVisuals';
 
 const props = withDefaults(defineProps<{
@@ -255,7 +256,7 @@ const cycleMarker = (markerName: string) => {
   const id = props.block.id;
   if (!id) return;
   const current = documentStore.getNodeMarkerValue(id, markerName);
-  documentStore.setNodeMarkerValue(id, markerName, (current + 1) % 4);
+  documentStore.setNodeMarkerValue(id, markerName, (current + 1) % MARKER_CYCLE_COUNT);
   documentStore.triggerUnsavedChanges();
 };
 

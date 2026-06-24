@@ -1,12 +1,12 @@
 ---
 specification_version: "V_0-1-3"
-model_version: "V_1-0-0"
+model_version: "V_1-1-0"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md"
 template:
   name: "procedures"
-  version: "V_1-0-0"
+  version: "V_1-1-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-23T21:10:29.555Z"
+  last_updated: "2026-06-24T08:57:02.081Z"
   concepts:
     - name: "procedure summary"
       icon: "file-text"
@@ -40,6 +40,21 @@ template:
           type: "string"
         - name: "condition"
           type: "string"
+        - name: "input"
+          type: "reference"
+          target_concepts:
+            - "artifact"
+        - name: "output"
+          type: "reference"
+          target_concepts:
+            - "artifact"
+        - name: "output_status"
+          type: "string"
+    - name: "artifact"
+      icon: "package"
+      type: "list"
+      color: "blue"
+      weight: 75
     - name: "position"
       icon: "briefcase"
       type: "list"
@@ -72,7 +87,7 @@ template:
       source: "elements"
       target: "markers"
 title: "procedures"
-last_saved: "2026-06-23T21:10:29.555Z"
+last_saved: "2026-06-24T08:57:02.081Z"
 ---
 
 # <!-- block: concepts --> procedure summary
@@ -94,8 +109,16 @@ Brief explanation of the procedure's goals and scope.
    step_type: task
    next: Next Step Name
    condition: Optional rule activation condition
+   input: Related Artifact Name
+   output: Produced Artifact Name
+   output_status: draft
    ```
    Detailed explanation of what needs to be done.
+
+# <!-- block: concepts --> artifact
+
+* <!-- block: artifact --> Artifact Name
+  Description of this artifact — a tangible or digital output that flows through the procedure (e.g. document, form, report, certificate).
 
 # <!-- block: concepts --> position
 

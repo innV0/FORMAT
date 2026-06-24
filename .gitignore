@@ -47,6 +47,3 @@ coverage/
 # Agent tooling
 .atl/
 .agents - Copy/
-
-# Samples (local-only content)
-samples/

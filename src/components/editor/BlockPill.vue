@@ -120,6 +120,7 @@ import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
 import { useBlockVisuals } from '../../composables/useBlockVisuals';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
+import { MARKER_CYCLE_COUNT } from '../../utils/constants';
 import type { BlockKind, ConceptType } from '../../utils/conceptVisuals';
 
 const props = withDefaults(defineProps<{
@@ -198,7 +199,7 @@ const markerValue = (markerName: string) =>
 const cycleMarker = (markerName: string) => {
   if (!props.blockId) return;
   const current = documentStore.getNodeMarkerValue(props.blockId, markerName);
-  documentStore.setNodeMarkerValue(props.blockId, markerName, (current + 1) % 4);
+  documentStore.setNodeMarkerValue(props.blockId, markerName, (current + 1) % MARKER_CYCLE_COUNT);
   documentStore.triggerUnsavedChanges();
 };
 
