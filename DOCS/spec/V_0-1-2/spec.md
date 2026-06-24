@@ -120,7 +120,7 @@ Business Model documents (Â§8.1) MUST carry `specification_version` so that th
 ```yaml
 ---
 specification_version: "V_0-1-2"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/spec.md"
 title: "Project Ghostbusters Model"
 model_version: "V_0-1-2"
 last_saved: "2026-06-20T09:55:17.941Z"

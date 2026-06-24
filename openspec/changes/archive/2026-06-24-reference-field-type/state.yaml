@@ -1,0 +1,13 @@
+change: reference-field-type
+status: archived
+current_phase: archive
+phases:
+  explore: completed
+  propose: completed
+  spec: completed
+  design: completed
+  tasks: completed
+  apply: completed
+  verify: completed
+  archive: completed
+delivery_strategy: ask-on-risk

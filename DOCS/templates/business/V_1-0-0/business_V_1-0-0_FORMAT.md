@@ -1,7 +1,7 @@
 ---
 specification_version: "V_0-1-3"
 model_version: "V_1-0-0"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md"
 template:
   name: "business"
   version: "V_1-0-0"

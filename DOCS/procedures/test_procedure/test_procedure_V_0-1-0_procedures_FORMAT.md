@@ -1,7 +1,7 @@
 ---
 specification_version: "V_0-1-2"
 model_version: "V_0-1-0"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/spec.md"
 template:
   name: "procedures"
   version: "V_1-0-0"

@@ -2,22 +2,22 @@
   <div v-if="hasRelationships" class="mt-6 border-t border-slate-200/60 pt-4">
     <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1">
       <GitFork class="w-3.5 h-3.5 text-slate-400" />
-      Lenses & Relationships (Neighborhood)
+      Perspectives & Relationships (Neighborhood)
     </h4>
     
     <div class="space-y-4">
       <div 
         v-for="n in neighborhoods" 
-        :key="n.lens.id" 
+        :key="n.perspective.id" 
         class="border border-slate-200/60 rounded-xl p-3.5 bg-slate-50/30 flex flex-col gap-2.5 transition-all duration-200 hover:bg-slate-50/60"
       >
-        <!-- Lens Header -->
+        <!-- Perspective Header -->
         <div class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
           <IconRenderer 
-            :icon="n.lens.icon || 'layers'" 
+            :icon="n.perspective.icon || 'layers'" 
             custom-class="w-3.5 h-3.5 text-slate-400" 
           />
-          <span>Lente: {{ n.lens.name }}</span>
+          <span>Perspective: {{ n.perspective.name }}</span>
         </div>
         
         <!-- Graph Visualization (Grid 3 Columns + Connectors) -->
@@ -100,7 +100,7 @@ const metamodelStore = useMetamodelStore();
 const documentStore = useDocumentStore();
 
 const neighborhoods = computed(() => {
-  return metamodelStore.getConceptLenses(props.conceptName);
+  return metamodelStore.getConceptPerspectives(props.conceptName);
 });
 
 const hasRelationships = computed(() => {

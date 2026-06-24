@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Concept, Marker, AnalysisKey, Lens, LensEdge, LensNeighborhood } from '../types';
+import { Concept, Marker, AnalysisKey, Perspective, PerspectiveEdge, PerspectiveNeighborhood } from '../types';
 import defaultMasterData from '../../innV0_master_data.json';
 import { DocumentationEntry } from '../utils/documentationParser';
 
@@ -11,8 +11,8 @@ export const useMetamodelStore = defineStore('metamodel', () => {
   const metamodelMatrices = ref<any[]>([]);
   const documentation = ref<Record<string, DocumentationEntry>>({});
   // Taxonomy edges: parent→child concept name pairs loaded from sheets.taxonomy.
-  // These back the Taxonomy lens.
-  const taxonomyEdges = ref<LensEdge[]>([]);
+  // These back the Taxonomy perspective.
+  const taxonomyEdges = ref<PerspectiveEdge[]>([]);
 
   const analysisKeys = ref<AnalysisKey[]>([]);
 
@@ -45,7 +45,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     markers.value = (defaultMasterData.sheets.markers as any[]).map(withIcon) as Marker[];
     metamodelMatrices.value = defaultMasterData.sheets.matrices || [];
     const sheetsAny = defaultMasterData.sheets as any;
-    taxonomyEdges.value = Array.isArray(sheetsAny.taxonomy) ? (sheetsAny.taxonomy as LensEdge[]) : [];
+    taxonomyEdges.value = Array.isArray(sheetsAny.taxonomy) ? (sheetsAny.taxonomy as PerspectiveEdge[]) : [];
     
     // Load keys if defined in sheets, otherwise provide default ones
     const sheetsData = defaultMasterData.sheets as any;
@@ -70,7 +70,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
       const data = metamodelObj.sheets ? metamodelObj.sheets : metamodelObj;
       if (data.concepts) {
         concepts.value = (data.concepts as any[]).map(withIcon) as Concept[];
-        taxonomyEdges.value = Array.isArray(data.taxonomy) ? (data.taxonomy as LensEdge[]) : [];
+        taxonomyEdges.value = Array.isArray(data.taxonomy) ? (data.taxonomy as PerspectiveEdge[]) : [];
       }
       if (data.markers) {
         markers.value = (data.markers as any[]).map(withIcon) as Marker[];
@@ -99,7 +99,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
   // Initialize with defaults
   loadDefaultMetamodel();
 
-  // hierarchyConcepts: the instance Chain lens concept sequence (Stakeholders→Segments→…).
+  // hierarchyConcepts: the instance Chain perspective concept sequence (Stakeholders→Segments→…).
   // Derived from instance hierarchy matrices parsed at model-load time (passed via
   // setHierarchyConcepts). Falls back to the taxonomy-edge chain when no instance
   // hierarchy data is present.
@@ -178,15 +178,15 @@ export const useMetamodelStore = defineStore('metamodel', () => {
 
   // setTaxonomyEdges: called by the parser when it finds a concept-taxonomy matrix
   // section in a .md file. The taxonomy is a first-class edge list.
-  const setTaxonomyEdges = (edges: LensEdge[]) => {
+  const setTaxonomyEdges = (edges: PerspectiveEdge[]) => {
     taxonomyEdges.value = edges;
   };
 
-  // Lenses: named projections of the concepts, each backed by a hierarchy matrix.
+  // Perspectives: named projections of the concepts, each backed by a hierarchy matrix.
   // - Taxonomy: loaded from sheets.taxonomy edges.
   // - Chain: the instance hierarchy sequence (Stakeholders→Segments→Profiles→Persona).
-  const lenses = computed<Lens[]>(() => {
-    const result: Lens[] = [];
+  const perspectives = computed<Perspective[]>(() => {
+    const result: Perspective[] = [];
 
     if (taxonomyEdges.value.length > 0) {
       result.push({ id: 'taxonomy', name: 'Taxonomy', icon: 'layers', edges: taxonomyEdges.value });
@@ -194,7 +194,7 @@ export const useMetamodelStore = defineStore('metamodel', () => {
 
     const hc = hierarchyConcepts.value;
     if (hc.length > 1) {
-      const chainEdges: LensEdge[] = [];
+      const chainEdges: PerspectiveEdge[] = [];
       for (let i = 0; i < hc.length - 1; i++) {
         chainEdges.push({ parent: hc[i], child: hc[i + 1] });
       }
@@ -204,13 +204,13 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     return result;
   });
 
-  // For a concept, the local neighborhood (parents + children) in every lens that contains it.
-  const getConceptLenses = (name: string): LensNeighborhood[] => {
-    return lenses.value
-      .map(lens => ({
-        lens,
-        parents: lens.edges.filter(e => e.child === name).map(e => e.parent),
-        children: lens.edges.filter(e => e.parent === name).map(e => e.child),
+  // For a concept, the local neighborhood (parents + children) in every perspective that contains it.
+  const getConceptPerspectives = (name: string): PerspectiveNeighborhood[] => {
+    return perspectives.value
+      .map(perspective => ({
+        perspective,
+        parents: perspective.edges.filter(e => e.child === name).map(e => e.parent),
+        children: perspective.edges.filter(e => e.parent === name).map(e => e.child),
       }))
       .filter(n => n.parents.length > 0 || n.children.length > 0);
   };
@@ -268,8 +268,8 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     metamodelMatrices,
     taxonomyEdges,
     hierarchyConcepts,
-    lenses,
-    getConceptLenses,
+    perspectives,
+    getConceptPerspectives,
     setHierarchyConcepts,
     setTaxonomyEdges,
     loadDefaultMetamodel,

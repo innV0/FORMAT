@@ -10,7 +10,7 @@ import { parseMetamodelDocumentation } from '../utils/documentationParser';
 export const useDocumentStore = defineStore('document', () => {
   const workspaceStore = useWorkspaceStore();
   const metamodelStore = useMetamodelStore();
-  const activeConceptName = ref<string>('Business summary');
+  const activeConceptName = ref<string>('');
   const unsavedChanges = ref<boolean>(false);
   const selectedNode = ref<TreeNode | null>(null);
   const selectedNodeType = ref<string>('');
@@ -23,11 +23,11 @@ export const useDocumentStore = defineStore('document', () => {
   const matrixValues = ref<MatrixValues>({});
   const activeGeneratedMatrixIndex = ref<number>(0);
   const metamodelPath = ref<string | null>(null);
-  const formatVersion = ref<string>('V_0-1-3');
+  const formatVersion = ref<string>('V_0-1-4');
   const modelVersion = ref<string>('V_0-1-0');
   const templateName = ref<string>('business');
   const templateVersion = ref<string>('V_1-0-0');
-  const specificationUrl = ref<string>('https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md');
+  const specificationUrl = ref<string>('https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/format-spec.md');
   const documentationLocation = ref<string>('');
   const analysisScores = ref<AnalysisScores>({});
 
@@ -51,14 +51,14 @@ export const useDocumentStore = defineStore('document', () => {
     metamodelPath.value = parsed.metamodelPath;
     templateName.value = parsed.templateName || 'business';
     templateVersion.value = parsed.templateVersion || 'V_1-0-0';
-    formatVersion.value = parsed.formatVersion || 'V_0-1-3';
+    formatVersion.value = parsed.formatVersion || 'V_0-1-4';
     // Model version: prefer frontmatter, then the version segment of a
     // compliant file name (§8.1), then a sensible default.
     const parsedName = parseFormatFilename(workspaceStore.activeFileName || '');
     modelVersion.value =
       parsed.modelVersion ||
       (parsedName ? formatVersionString(parsedName.version) : 'V_0-1-0');
-    specificationUrl.value = parsed.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md';
+    specificationUrl.value = parsed.specificationUrl || 'https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/format-spec.md';
     documentationLocation.value = parsed.documentationLocation || '';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
@@ -68,8 +68,9 @@ export const useDocumentStore = defineStore('document', () => {
     analysisScores.value = (parsed as any).analysisScores || {};
     unsavedChanges.value = false;
     
-    // Select first concept
-    activeConceptName.value = 'Business summary';
+    // Select first concept from metamodel
+    const firstConcept = metamodelStore.concepts[0];
+    activeConceptName.value = firstConcept ? firstConcept.name : '';
     selectedNode.value = null;
     selectedNodeType.value = '';
 
@@ -212,6 +213,26 @@ export const useDocumentStore = defineStore('document', () => {
       });
     };
     updateTreeNodesWikiLinks(modelTree.value);
+
+    // ── 7. Reference field values in modelTree nodes ──────────────────
+    const updateTreeNodesReferences = (nodes: TreeNode[]) => {
+      for (const node of nodes) {
+        if (node.fields && Object.keys(node.fields).length > 0) {
+          const concept = metamodelStore.getConceptByName(node.type);
+          if (concept?.fields && Array.isArray(concept.fields)) {
+            for (const fieldDef of concept.fields) {
+              if (fieldDef.type === 'reference' && node.fields[fieldDef.name] === oldName) {
+                node.fields[fieldDef.name] = newName;
+              }
+            }
+          }
+        }
+        if (node.children?.length) {
+          updateTreeNodesReferences(node.children);
+        }
+      }
+    };
+    updateTreeNodesReferences(modelTree.value);
 
     triggerUnsavedChanges();
   };
@@ -727,7 +748,7 @@ export const useDocumentStore = defineStore('document', () => {
       let content = '';
       const name = templateName.value || 'business';
       const version = templateVersion.value || 'V_1-0-0';
-      const docPath = `DOCS/templates/${name}/${version}/documentation.md`;
+      const docPath = `docs/templates/${name}/${version}/documentation.md`;
 
       // 1. Try reading from workspace if directory handle is present
       if (workspaceStore.dirHandle) {

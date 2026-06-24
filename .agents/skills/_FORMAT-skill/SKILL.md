@@ -7,14 +7,60 @@ description: "Use when creating, editing, or validating business models and spec
 
 This skill guides LLMs and agents in authoring, editing, and validating FORMAT-compliant files and working within the FORMAT codebase.
 
+## Core Concepts
+
+### Templates vs Specializations
+
+- **Template**: The official schema defining structure (concepts, markers, matrices). Stored in `docs/templates/<name>/V_x-y-z/`.
+- **Specialization**: A self-contained template derived from an official one. Fully autonomous — no runtime inheritance.
+
+### Naming Convention
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| Official template | `<template>_V_x-y-z_FORMAT.md` | `business_V_1-0-0_FORMAT.md` |
+| Specialization | `<spec>_<template>_V_x-y-z_FORMAT.md` | `healthcare_business_V_1-0-0_FORMAT.md` |
+
+### File Location
+
+```
+docs/templates/
+├── business/
+│   ├── V_1-0-0/                              # Official
+│   ├── healthcare_business_V_1-0-0_FORMAT.md # Specialization
+│   └── fintech_business_V_1-0-0_FORMAT.md    # Specialization
+└── procedures/
+    └── V_1-0-0/
+```
+
+### Provenance Traceability
+
+Specializations document their origin in the `description` field of frontmatter. Include the parent template name and canonical URL for traceability:
+
+```yaml
+---
+description: |
+  Specialization of business_V_1-0-0 template.
+  Parent: https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md
+  Adapted for healthcare sector compliance.
+template:
+  name: "healthcare_business"
+  version: "V_1-0-0"
+  concepts: [...]  # Complete, self-contained
+---
+```
+
+> [!IMPORTANT]
+> Specializations are self-contained. They MUST define their own complete schema. The `description` field is purely informational for human traceability.
+
 ## Canonical Specification Index
 
 All historical and current specifications are immutable. The canonical specifications must be referenced via their raw GitHub tags to ensure immutability:
 
-- **V_0-1-0**: [format-spec.md (v0.1.0)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/spec/V_0-1-0/format-spec.md)
-- **V_0-1-1**: [format-spec.md (v0.1.1)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/spec/V_0-1-1/format-spec.md)
-- **V_0-1-2** (Previous): [format-spec.md (v0.1.2)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/format-spec.md)
-- **V_0-1-3** (Current): [_format.md (v0.1.3)](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md)
+- **V_0-1-0**: [format-spec.md (v0.1.0)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/spec/V_0-1-0/format-spec.md)
+- **V_0-1-1**: [format-spec.md (v0.1.1)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/spec/V_0-1-1/format-spec.md)
+- **V_0-1-2** (Previous): [format-spec.md (v0.1.2)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/format-spec.md)
+- **V_0-1-3** (Current): [_format.md (v0.1.3)](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md)
 
 ## Reference Directory
 
@@ -24,7 +70,7 @@ Agents working on model serialization, grammar validation, or language parsing s
 ## Core Rules
 
 1. **Spec Immutability**:
-   - Published specifications (e.g., inside `DOCS/spec/V_0-1-0/` or `DOCS/spec/V_0-1-1/`) are completely frozen.
+   - Published specifications (e.g., inside `docs/spec/V_0-1-0/` or `docs/spec/V_0-1-1/`) are completely frozen.
    - Do NOT edit, "fix", or migrate files within historical spec directories. Apply changes only to the current/active spec directory.
 
 2. **Spec over Tolerant Code**:
@@ -56,11 +102,11 @@ All FORMAT-compliant files use the `.md` extension and follow a specific naming 
 To keep this skill lightweight and maintain a single source of truth, do not duplicate specification files locally in the skill. Instead, when validation or generation is requested, use your web-reading tools (e.g., `read_url_content`) to load the following canonical sources on-demand:
 
 * **Official _FORMAT Specification (V_0-1-3):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md`
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md`
 * **Business Template (V_1-0-0):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md`
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md`
 * **Procedures Template (V_1-0-0):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md`
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md`
 
 ## 2. Supported Templates
 There are currently two official templates:
@@ -74,7 +120,7 @@ Every compliant file must start with a YAML block containing:
 ```yaml
 ---
 specification_version: "V_0-1-3"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-3/_format.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md"
 title: "Document Title"
 model_version: "V_x-y-z"
 documentation_location: "docs/spec/V_0-1-3/"

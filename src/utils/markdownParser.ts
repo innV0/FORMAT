@@ -1,4 +1,4 @@
-import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore, LensEdge } from '../types';
+import { TreeNode, NodeMarkers, MetamatrixRow, MatrixValues, Concept, Marker, AnalysisScores, EvaluatorScore, PerspectiveEdge } from '../types';
 import { parseFormatFilename } from './version';
 
 /**
@@ -182,7 +182,7 @@ export function parseNodeInstances(text: string): ParsedInstance[] {
     const trimmed = line.trim();
     
     // Match optional * or - followed by <!-- block: [type] --> then the name
-    const markerMatch = line.match(/^[-*]?\s*<!--\s*block:\s*([a-zA-Z0-9_\s-]+)\s*-->\s*(.*)$/i);
+    const markerMatch = line.match(/^\s*(?:[-*+]|\d+\.)?\s*<!--\s*block:\s*([a-zA-Z0-9_\s-]+)\s*-->\s*(.*)$/i);
     
     if (markerMatch) {
       if (currentInstance) {
@@ -287,7 +287,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     nodeMarkers: {} as NodeMarkers,
     modelTree: [] as TreeNode[],
     analysisScores: {} as AnalysisScores,
-    taxonomyEdges: null as LensEdge[] | null,
+    taxonomyEdges: null as PerspectiveEdge[] | null,
     hierarchyConcepts: null as string[] | null,
     metamodel: null as {
       title?: string;
@@ -370,7 +370,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
   const nodeMarkers: NodeMarkers = parsed.nodeMarkers;
   const parsedTree: TreeNode[] = parsed.modelTree;
 
-  // Pre-pass: scan sections for the concept-taxonomy hierarchy matrix or the reserved 'index' block
+  // Pre-pass: scan sections for the reserved 'index' block
   // so we can use its edges when deriving the instance Chain (hierarchyConcepts).
   const cleanSectionTitle = (t: string): string => {
     const conceptMatch = t.match(/<!--\s*block:\s*concepts\s*-->\s*(.*)/i);
@@ -380,7 +380,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     return t;
   };
 
-  // Normalize a raw name from a taxonomy matrix or index list to the canonical concept name
+  // Normalize a raw name from the index block to the canonical concept name
   // (case-insensitive match against the concept list). Falls back to the raw name
   // as-is when no concept matches — preserves edges for category nodes too.
   const normalizeTaxonomyName = (rawName: string): string => {
@@ -396,7 +396,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     const secName = cleanSectionTitle(titleText).toLowerCase();
     if (secName === 'index') {
       const body = lines.slice(1).join('\n');
-      const edges: LensEdge[] = [];
+      const edges: PerspectiveEdge[] = [];
       const stack: Array<{ name: string; indent: number }> = [];
       for (const line of body.split(/\r?\n/)) {
         const trimmed = line.trim();
@@ -419,33 +419,12 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
       }
       break;
     }
-    if (secName === 'concept-taxonomy hierarchy matrix') {
-      const body = lines.slice(1).join('\n').trim();
-      const table = parseMarkdownTable(body);
-      const edges: LensEdge[] = [];
-      table.forEach(row => {
-        const firstKey = Object.keys(row)[0] || '';
-        const rawParent = (row[firstKey] || '').replace(/\*\*|\*|__/g, '').trim();
-        const parentName = normalizeTaxonomyName(rawParent);
-        if (!parentName) return;
-        Object.entries(row).forEach(([colKey, val]) => {
-          const rawCol = colKey.replace(/\*\*|\*|__/g, '').trim();
-          if (rawCol.toLowerCase() !== firstKey.toLowerCase() && val === 'X') {
-            edges.push({ parent: parentName, child: normalizeTaxonomyName(rawCol) });
-          }
-        });
-      });
-      if (edges.length > 0) {
-        parsed.taxonomyEdges = edges;
-      }
-      break;
-    }
   }
 
   // Derive hierarchyConcepts (Chain) from taxonomy edges and concept types.
   // The Chain is the sequence of non-category concepts linked parent→child
   // through the taxonomy, where the chain root's parent is a category concept.
-  const preTaxEdges: LensEdge[] = parsed.taxonomyEdges || [];
+  const preTaxEdges: PerspectiveEdge[] = parsed.taxonomyEdges || [];
   const conceptNameSet = new Set(conceptsList.filter(c => c.type !== 'category').map(c => c.name));
   const categoryNameSet = new Set(conceptsList.filter(c => c.type === 'category').map(c => c.name));
 
@@ -864,7 +843,7 @@ export function generateMarkdownFileContent(params: {
   metamatrix: MetamatrixRow[];
   matrixValues: MatrixValues;
   concepts: Concept[];
-  taxonomyEdges?: LensEdge[];
+  taxonomyEdges?: PerspectiveEdge[];
   analysisScores?: AnalysisScores;
   getMatrixRowsList: (source: string, tree: TreeNode[]) => string[];
   getMatrixColsList: (target: string) => string[];

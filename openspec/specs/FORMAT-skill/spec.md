@@ -22,9 +22,9 @@ THEN it MUST locate the frontmatter containing the name and description.
 
 ### REQ-02 — Canonical Specification Index
 The skill file MUST contain an index table referencing the canonical, raw GitHub URLs for all historical and draft specifications:
-- V_0-1-0: `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/V_0-1-0/format-spec.md`
-- V_0-1-1: `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/V_0-1-1/format-spec.md`
-- V_0-1-2: `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/V_0-1-2/format-spec.md`
+- V_0-1-0: `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/V_0-1-0/format-spec.md`
+- V_0-1-1: `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/V_0-1-1/format-spec.md`
+- V_0-1-2: `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/V_0-1-2/format-spec.md`
 
 **Scenarios:**
 WHEN an agent reads the specification index in the skill file  

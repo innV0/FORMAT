@@ -283,7 +283,7 @@ Every _FORMAT file is a single UTF-8 document with two parts:
 
 ```yaml
 specification_version: "V_0-1-2"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/spec.md"
 title: "My Business Model"
 template:
   name: "business"
@@ -339,11 +339,11 @@ template:
 
 | Version | Status | Link |
 | :--- | :--- | :--- |
-| **V_0-1-2** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md) |
-| **V_0-1-1** | Stable | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/spec/V_0-1-1/format-spec.md) |
-| **V_0-1-0** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/spec/V_0-1-0/format-spec.md) |
+| **V_0-1-2** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
+| **V_0-1-1** | Stable | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/spec/V_0-1-1/format-spec.md) |
+| **V_0-1-0** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/spec/V_0-1-0/format-spec.md) |
 
-[Read the full specification →](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md)
+[Read the full specification →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md)
 
 ---
 
@@ -436,10 +436,10 @@ This matrix reveals which value propositions solve which problems — and where 
 
 | Resource | Link |
 | :--- | :--- |
-| Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/template.md) |
-| Full documentation | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/business/V_1-0-0/documentation.md) |
-| GitHub directory | [DOCS/templates/business/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/DOCS/templates/business/V_1-0-0) |
-| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md) |
+| Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/template.md) |
+| Full documentation | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/documentation.md) |
+| GitHub directory | [docs/templates/business/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/business/V_1-0-0) |
+| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
 
 ---
 
@@ -555,6 +555,6 @@ Both templates use the same _FORMAT specification — they're just different sch
 
 | Resource | Link |
 | :--- | :--- |
-| Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/templates/procedures/V_1-0-0/template.md) |
-| GitHub directory | [DOCS/templates/procedures/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/DOCS/templates/procedures/V_1-0-0) |
-| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/DOCS/V_0-1-2/_format.md) |
+| Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/template.md) |
+| GitHub directory | [docs/templates/procedures/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/procedures/V_1-0-0) |
+| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |

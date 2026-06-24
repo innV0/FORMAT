@@ -10,7 +10,7 @@ Additionally, a dedicated agent skill `FORMAT-skill` is created at `.agents/skil
 
 | Decision | Option | Tradeoff | Decision |
 |---|---|---|---|
-| **Spec URL Target** | Raw GitHub release tag | Restricts dynamic updates without git tags, but guarantees absolute immutability. | Use `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/V_0-1-2/format-spec.md`. |
+| **Spec URL Target** | Raw GitHub release tag | Restricts dynamic updates without git tags, but guarantees absolute immutability. | Use `https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/V_0-1-2/format-spec.md`. |
 | **Legacy Support** | No migrations/URL rewriting | Old models are left with old URLs. Avoids modifying immutable released specs. | Leave `V_0-1-0` and `V_0-1-1` byte-for-byte identical. |
 | **Agent Skill Path** | `.agents/skills/FORMAT-skill/SKILL.md` | Follows standard Agent Teams Lite structure. | Create `.agents/skills/FORMAT-skill/SKILL.md`. |
 
@@ -40,7 +40,7 @@ When creating a new model document, the UI templates populate the `specification
 |---|---|---|
 | `src/stores/document.ts` | Modify | Update default and parser fallback `specificationUrl` references to point to raw GitHub URL. |
 | `src/components/editor/ModelInfoPanel.vue` | Modify | Update default creation template frontmatter schema `specification_url` to raw GitHub URL. |
-| `DOCS/V_0-1-2/format-spec.md` | Modify | Update the frontmatter example at line 123 to use raw GitHub URL. |
+| `docs/V_0-1-2/format-spec.md` | Modify | Update the frontmatter example at line 123 to use raw GitHub URL. |
 | `.agents/skills/FORMAT-skill/SKILL.md` | Create | Author skill file containing agent guidelines and immutable specifications index. |
 
 ## Interfaces / Contracts
@@ -67,16 +67,16 @@ This skill provides instructions, constraints, and specification links for AI ag
 ## Specification Index
 | Version | Canonical Spec URL |
 |---|---|
-| V_0-1-0 | https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/DOCS/V_0-1-0/format-spec.md |
-| V_0-1-1 | https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/DOCS/V_0-1-1/format-spec.md |
-| V_0-1-2 | https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/V_0-1-2/format-spec.md |
+| V_0-1-0 | https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/V_0-1-0/format-spec.md |
+| V_0-1-1 | https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/V_0-1-1/format-spec.md |
+| V_0-1-2 | https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/V_0-1-2/format-spec.md |
 
 ## Modeling Reference
 All syntax, structure, and grammar rules for building/modifying FORMAT model documents are documented in `references/modeling-spec.md`. Agents MUST read and follow guidelines in that file when editing models.
 
 ## Core Rules for Agents
 1. **English Default**: All generated technical outputs, frontmatter keys, and file contents MUST default to English.
-2. **Immutability Guard**: Strictly respect specification immutability. DO NOT modify any files or directories in historical folders (e.g., `DOCS/V_0-1-0`, `DOCS/V_0-1-1`).
+2. **Immutability Guard**: Strictly respect specification immutability. DO NOT modify any files or directories in historical folders (e.g., `docs/V_0-1-0`, `docs/V_0-1-1`).
 ```
 
 ## Testing Strategy
