@@ -1,9 +1,9 @@
 /**
- * FORMAT versioning & file-naming helpers (spec V_0-1-3 §8).
+ * FORMAT versioning & file-naming helpers (spec V_0-1-4 §8).
  *
  * Every version string in the FORMAT ecosystem uses Semantic Versioning,
  * rendered with a `V_` prefix and hyphen separators instead of dots:
- *   V_MAJOR-MINOR-PATCH   (e.g. V_0-1-3)
+ *   V_MAJOR-MINOR-PATCH   (e.g. V_0-1-4)
  *
  * A FORMAT-compliant file name MUST end with `_FORMAT.md` (§8.1):
  *   - Model document:    <ModelName>_V_x-y-z_<TemplateName>_FORMAT.md
@@ -30,7 +30,7 @@ export interface ParsedFormatName {
   version: SemVer;
 }
 
-/** Renders a SemVer as the FORMAT version string, e.g. `V_0-1-3`. */
+/** Renders a SemVer as the FORMAT version string, e.g. `V_0-1-4`. */
 export function formatVersionString(v: SemVer): string {
   return `V_${v.major}-${v.minor}-${v.patch}`;
 }

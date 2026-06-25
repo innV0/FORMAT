@@ -8,7 +8,7 @@ import { useMetamodelStore } from './metamodel';
 import { parseMetamodelDocumentation } from '../utils/documentationParser';
 import { generateId } from '../utils/id';
 import { slugify } from '../utils/sanitize';
-import { DEFAULT_FORMAT_VERSION, DEFAULT_TEMPLATE_NAME, DEFAULT_TEMPLATE_VERSION } from '../utils/constants';
+import { DEFAULT_FORMAT_VERSION, DEFAULT_TEMPLATE_NAME, DEFAULT_TEMPLATE_VERSION, buildSpecificationUrl } from '../utils/constants';
 
 export const useDocumentStore = defineStore('document', () => {
   const workspaceStore = useWorkspaceStore();
@@ -30,7 +30,7 @@ export const useDocumentStore = defineStore('document', () => {
   const modelVersion = ref<string>('V_0-1-0');
   const templateName = ref<string>(DEFAULT_TEMPLATE_NAME);
   const templateVersion = ref<string>(DEFAULT_TEMPLATE_VERSION);
-  const specificationUrl = ref<string>(`https://raw.githubusercontent.com/innV0/FORMAT/main/docs/${DEFAULT_FORMAT_VERSION}/format-spec.md`);
+  const specificationUrl = ref<string>(buildSpecificationUrl());
   const documentationLocation = ref<string>('');
   const analysisScores = ref<AnalysisScores>({});
 
@@ -61,7 +61,7 @@ export const useDocumentStore = defineStore('document', () => {
     modelVersion.value =
       parsed.modelVersion ||
       (parsedName ? formatVersionString(parsedName.version) : 'V_0-1-0');
-    specificationUrl.value = parsed.specificationUrl || `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/${DEFAULT_FORMAT_VERSION}/format-spec.md`;
+    specificationUrl.value = parsed.specificationUrl || buildSpecificationUrl();
     documentationLocation.value = parsed.documentationLocation || '';
     modelTextData.value = parsed.modelTextData;
     modelTree.value = parsed.modelTree;
@@ -71,9 +71,8 @@ export const useDocumentStore = defineStore('document', () => {
     analysisScores.value = (parsed as any).analysisScores || {};
     unsavedChanges.value = false;
     
-    // Select first concept from metamodel
-    const firstConcept = metamodelStore.concepts[0];
-    activeConceptName.value = firstConcept ? firstConcept.name : '';
+    // Select dashboard as the default view when a model is loaded.
+    activeConceptName.value = 'dashboard';
     selectedNode.value = null;
     selectedNodeType.value = '';
 
@@ -81,6 +80,9 @@ export const useDocumentStore = defineStore('document', () => {
     loadDocumentation();
   };
   const getConceptType = () => {
+    if (activeConceptName.value === 'dashboard') {
+      return 'dashboard';
+    }
     if (activeConceptName.value === 'metamatrix' || activeConceptName.value === 'matrices') {
       return 'setup';
     }

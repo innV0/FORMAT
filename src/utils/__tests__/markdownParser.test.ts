@@ -97,3 +97,43 @@ title: "Taxonomy Test"
     expect(serialized).toContain(`# <!-- block: concepts --> index\n\n* [[Market]]\n  * [[Stakeholders]]\n    * [[Segments]]\n  * [[Value propositions]]\n    * [[Offerings]]`);
   });
 });
+
+describe('Document Notice (§3.1)', () => {
+  it('serializes the GFM [!NOTE] admonition as the first block of the body', () => {
+    const serialized = generateMarkdownFileContent({
+      activeFileName: 'Notice Test.md',
+      modelTextData: {},
+      modelTree: [],
+      nodeMarkers: {},
+      markers: [],
+      metamatrix: [],
+      matrixValues: {},
+      concepts: [],
+      getMatrixRowsList: () => [],
+      getMatrixColsList: () => []
+    });
+
+    expect(serialized).toMatch(/^> \[!NOTE\]\n> This is a \*\*FORMAT document\*\*/m);
+    expect(serialized).toContain('https://format.innv0.com');
+  });
+
+  it('is ignored by the parser and does not pollute modelTextData or modelTree', () => {
+    const markdown = `---
+template:
+  name: "business"
+  version: "V_1-0-0"
+title: "Notice Parse Test"
+---
+
+> [!NOTE]
+> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. You can edit it as raw text in any editor, or open it in the [FORMAT app](https://format.innv0.com) for a guided visual editor.
+
+# <!-- block: concepts --> index
+
+* [[Market]]
+`;
+    const parsed = parseMarkdownModel(markdown, []);
+    expect(Object.keys(parsed.modelTextData)).toHaveLength(0);
+    expect(parsed.modelTree).toHaveLength(0);
+  });
+});

@@ -14,7 +14,7 @@ A complete step-by-step guide to modeling your business strategy in a single Mar
 
 ## Step 1 — Open the Editor
 
-Go to **[format.innv0.com](https://format.innv0.com/)**
+Go to **[format.innv0.com](https://format.innv0.com/)** — opens in a new tab.
 
 No installation. No account. The editor runs entirely in your browser.
 

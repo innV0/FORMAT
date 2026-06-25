@@ -11,6 +11,16 @@
     ></div>
     <div class="px-4 py-4 space-y-4">
       <div class="space-y-3">
+        <!-- Dashboard button (above concept tree) -->
+        <button
+          @click="documentStore.selectConcept('dashboard')"
+          :class="documentStore.activeConceptName === 'dashboard' ? 'bg-primary/10 text-primary font-semibold border border-primary/30 shadow-xs' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground border border-transparent'"
+          class="w-full flex items-center gap-2 rounded-md px-3 py-2 text-xs transition-all text-left cursor-pointer"
+        >
+          <LayoutDashboard class="w-4 h-4" />
+          <span>Dashboard</span>
+        </button>
+
         <!-- Header with expand/collapse all -->
         <div class="flex items-center justify-between px-2">
           <h2 class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Model</h2>
@@ -78,7 +88,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { ChevronsDown, ChevronsUp, Settings, BarChart2 } from 'lucide-vue-next';
+import { ChevronsDown, ChevronsUp, Settings, BarChart2, LayoutDashboard } from 'lucide-vue-next';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import ConceptTreeNode from './ConceptTreeNode.vue';

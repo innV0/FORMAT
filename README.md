@@ -207,7 +207,7 @@ Every _FORMAT file has two parts:
 
 **1. YAML Frontmatter** — Schema definition and metadata:
 ```yaml
-specification_version: "V_0-1-3"
+specification_version: "V_0-1-4"
 template:
   name: "business"
   version: "V_1-0-0"
@@ -232,7 +232,8 @@ title: "My Business Model"
 
 | Version | Status | Link |
 | :--- | :--- | :--- |
-| **V_0-1-3** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md) |
+| **V_0-1-4** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md) |
+| **V_0-1-3** | Stable | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md) |
 | **V_0-1-2** | Stable | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
 | **V_0-1-1** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/spec/V_0-1-1/format-spec.md) |
 | **V_0-1-0** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/spec/V_0-1-0/format-spec.md) |
@@ -352,7 +353,7 @@ See [LICENSE](LICENSE) for details.
 | :--- | :--- |
 | **Editor** | [format.innv0.com](https://format.innv0.com/) |
 | **Documentation & How-To** | [format.innv0.com/docs](https://format.innv0.com/docs/) |
-| **Specification** | [docs/V_0-1-3/_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md) |
+| **Specification** | [docs/V_0-1-4/_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md) |
 | **Business Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md) |
 | **Procedures Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md) |
 | **Sample Model** | [Ghostbusters](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) |

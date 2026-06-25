@@ -213,6 +213,7 @@ import { useWorkspaceStore } from '../../stores/workspace';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import { FileItem } from '../../types';
+import { DEFAULT_FORMAT_VERSION, DEFAULT_TEMPLATE_NAME, DEFAULT_TEMPLATE_VERSION, buildSpecificationUrl, buildDocumentationLocation } from '../../utils/constants';
 
 const workspaceStore = useWorkspaceStore();
 const metamodelStore = useMetamodelStore();
@@ -253,12 +254,12 @@ const handleCreateFile = async () => {
   
   const defaultText = `---
 template:
-  name: "business"
-  version: "V_1-0-0"
+  name: "${DEFAULT_TEMPLATE_NAME}"
+  version: "${DEFAULT_TEMPLATE_VERSION}"
   path: "./innV0_master_data.json"
 title: "${filename.replace('.md', '')}"
-specification_version: "V_0-1-2"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/DOCS/spec/V_0-1-2/spec.md"
+specification_version: "${DEFAULT_FORMAT_VERSION}"
+specification_url: "${buildSpecificationUrl()}"
 last_saved: "${new Date().toISOString()}"
 ---
 

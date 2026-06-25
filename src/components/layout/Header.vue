@@ -215,13 +215,36 @@
         >
         <Info class="w-4 h-4" />
       </button>
+
+      <!-- External links -->
+      <div class="flex items-center gap-1 pl-2 border-l border-slate-200">
+        <a
+          href="https://innv0.com/FORMAT"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-2 py-1.5 rounded text-xs font-semibold text-slate-500 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
+          title="Visit project website"
+        >
+          <Globe class="w-4 h-4" />
+          <span>Website</span>
+        </a>
+        <a
+          href="https://github.com/innV0/FORMAT"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="p-1.5 rounded text-slate-500 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
+          title="View on GitHub"
+        >
+          <Github class="w-4 h-4" />
+        </a>
+      </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive } from 'lucide-vue-next';
+import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive, Github, Globe } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useDocumentStore } from '../../stores/document';
 import type { BumpLevel } from '../../utils/version';

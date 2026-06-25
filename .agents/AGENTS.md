@@ -24,3 +24,27 @@
 
 ## English-Only Documentation and Codebase
 - Absolutely all documentation files, code files, codebase comments, specifications, sample files, master data, and user interface (UI) text/copy MUST be written in English. No Spanish or other languages are permitted in any files of this repository.
+
+## Spec Version Propagation (MANDATORY)
+- The single source of truth for the FORMAT specification version is `DEFAULT_FORMAT_VERSION` in `src/utils/constants.ts`.
+- **Code files (.ts/.vue):** MUST import `DEFAULT_FORMAT_VERSION` and `buildSpecificationUrl()` from `constants.ts`. Hardcoding a `V_x-y-z` string literal anywhere outside `constants.ts` is PROHIBITED. The only exception is `version.ts` (uses the version in JSDoc comments only).
+- **Non-code files (.md, skills, sample models):** MUST carry an HTML comment marker `<!-- @spec-version V_x-y-z -->` near the top of the file, set to the current spec version.
+
+### Spec-Version Tracked Files Registry
+The following non-code files MUST be updated when the spec version changes. This list is the canonical registry — `MARKER_FILES` in `scripts/check-spec-version.mjs` MUST be kept in byte-for-byte sync with it:
+
+| Path | Type | Why it depends on the spec version |
+|------|------|------------------------------------|
+| `.agents/skills/_FORMAT-skill/SKILL.md` | Skill | Embeds spec version, canonical URL, and frontmatter examples |
+| `docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_1-0-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+
+When a new non-code artifact that references the spec version is added to the repo, append its path to this table AND to `MARKER_FILES` in the same commit. The `check:spec-version` script will fail if the two lists diverge or if a listed file is missing its marker.
+
+- **When bumping the spec version:**
+  1. Update `DEFAULT_FORMAT_VERSION` in `src/utils/constants.ts`.
+  2. Run `npm run check:spec-version` — it lists every stale file.
+  3. Update each stale file: code imports the constant; markdown/skills/models update their `@spec-version` marker AND any inline `specification_version` / `specification_url` values in examples.
+  4. Never leave a file behind. The script is the safety net, not a substitute for diligence.
