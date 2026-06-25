@@ -1,5 +1,8 @@
 * [Home](README.md)
 
+* **Getting Started**
+  * [How To Use _FORMAT](how-to.md)
+
 * **Version 0.1.2 (Latest)**
   * [Core Spec](spec/V_0-1-2/spec.md)
 

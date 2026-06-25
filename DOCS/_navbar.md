@@ -1,4 +1,5 @@
 * [**FORMAT**](/)
-* [Get started](#get-started)
-* [Spec](#/V_0-1-2/format-spec)
+* [**How To**](how-to.md)
+* [Spec](spec/V_0-1-2/spec.md)
+* [**Open App →**](https://innv0.github.io/FORMAT/)
 * [GitHub](https://github.com/innV0/FORMAT)

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>_FORMAT — Business Strategy as Code</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="One structured Markdown file gives any AI model instant, complete context of your entire business.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  <style>
+    :root {
+      --base-font-size: 15px;
+      --theme-color: #7c3aed;
+      --link-color: #7c3aed;
+      --sidebar-width: 260px;
+      --sidebar-nav-link-color--active: #7c3aed;
+      --sidebar-nav-link-border-color--active: #7c3aed;
+      --cover-background-color: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      --cover-heading-color: #fff;
+      --cover-color: #ccc;
+      --cover-link-color: #a78bfa;
+    }
+    .app-nav { position: fixed; top: 0; right: 0; z-index: 100; padding: 10px 20px; }
+    .app-nav a { color: var(--theme-color); font-weight: 600; margin-left: 18px; text-decoration: none; font-size: 14px; }
+    .app-nav a:hover { text-decoration: underline; }
+    .markdown-section h1 { border-bottom: 2px solid var(--theme-color); padding-bottom: 8px; }
+    .markdown-section h2 { border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; margin-top: 2em; }
+    .markdown-section table { display: table; width: 100%; }
+    .markdown-section code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 90%; }
+    .markdown-section pre > code { background: transparent; padding: 0; }
+    .how-to-step { background: #f9fafb; border-left: 4px solid var(--theme-color); padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    .how-to-step h3 { margin-top: 0; color: var(--theme-color); }
+    .tip-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+    .tip-box::before { content: "💡 "; font-size: 16px; }
+    .warning-box { background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 14px 18px; margin: 14px 0; }
+    .warning-box::before { content: "⚠️ "; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <nav class="app-nav">
+    <a href="how-to">How To</a>
+    <a href="spec/V_0-1-2/spec.md">Spec</a>
+    <a href="https://innv0.github.io/FORMAT/">Open App</a>
+    <a href="https://github.com/innV0/FORMAT">GitHub</a>
+  </nav>
+  <script>
+    window.$docsify = {
+      name: '_FORMAT',
+      repo: 'https://github.com/innV0/FORMAT',
+      loadSidebar: true,
+      loadNavbar: true,
+      coverpage: false,
+      subMaxLevel: 3,
+      search: 'auto',
+      auto2top: true,
+      homepage: 'README.md',
+      alias: {
+        '/how-to': 'how-to.md',
+        '/V_0-1-2/.*': 'V_0-1-2/_format.md'
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+</body>
+</html>

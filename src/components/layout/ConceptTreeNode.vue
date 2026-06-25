@@ -126,9 +126,6 @@ watch(() => props.expandedGeneration, (newVal) => {
 }, { immediate: true });
 
 const emitSelect = (name: string) => {
-  if (hasChildren.value) {
-    isCollapsed.value = !isCollapsed.value;
-  }
   emit('select', name);
 };
 
