@@ -14,7 +14,7 @@ A complete step-by-step guide to modeling your business strategy in a single Mar
 
 ## Step 1 — Open the Editor
 
-Go to **[innv0.github.io/FORMAT](https://innv0.github.io/FORMAT/)**
+Go to **[format.innv0.com](https://format.innv0.com/)**
 
 No installation. No account. The editor runs entirely in your browser.
 
@@ -267,7 +267,7 @@ git commit -m "Updated value propositions and problem weights"
 
 | Action | How |
 | :--- | :--- |
-| Open the editor | Go to [innv0.github.io/FORMAT](https://innv0.github.io/FORMAT/) |
+| Open the editor | Go to [format.innv0.com](https://format.innv0.com/) |
 | Download template | Right-click link → Save link as... |
 | Connect folder | Click "Connect Directory" → select folder → Allow |
 | Save | Ctrl+S / Cmd+S |

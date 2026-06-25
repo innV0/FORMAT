@@ -13,7 +13,7 @@ _FORMAT reads a single structured `.md` file that holds your complete business s
 segments, problems, value propositions, roadmap, finances, team — all interconnected.
 Drop it as context into any AI model or agent and get strategic answers. Commit it to Git and get a living, visual, version-controlled business model.
 
-[Try it free →](https://innv0.github.io/FORMAT/) [How-To Guide →](how-to.md) [Read the spec →](#format)
+[Try it free →](/) [How-To Guide →](how-to.md) [Read the spec →](#format)
 
 <div class="template-cards">
   <a href="#business" class="template-card">
