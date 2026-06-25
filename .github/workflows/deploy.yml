@@ -31,8 +31,11 @@ jobs:
       - name: Copy docs into dist/docs
         run: cp -r docs dist/docs
 
-      - name: Remove CNAME from dist (docs subfolder)
+      - name: Remove CNAME from dist/docs (only root CNAME needed)
         run: rm -f dist/docs/CNAME
+
+      - name: Write CNAME for custom domain
+        run: echo "format.innv0.com" > dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
         with:

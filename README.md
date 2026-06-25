@@ -10,11 +10,11 @@ One structured Markdown file gives any AI model instant, complete context of you
 
 ### 1. Open the Editor
 
-**[Launch _FORMAT →](https://innv0.github.io/FORMAT/)**
+**[Launch _FORMAT →](https://format.innv0.com/)**
 
 No installation required. The editor runs entirely in your browser.
 
-> **New here?** Read the [step-by-step How-To Guide →](https://format.innv0.com/how-to) for a complete walkthrough.
+> **New here?** Read the [step-by-step How-To Guide →](https://format.innv0.com/docs/#/how-to) for a complete walkthrough.
 
 ### 2. Download a Template
 
@@ -350,8 +350,8 @@ See [LICENSE](LICENSE) for details.
 
 | Resource | Link |
 | :--- | :--- |
-| **Editor** | [innv0.github.io/FORMAT](https://innv0.github.io/FORMAT/) |
-| **Documentation & How-To** | [format.innv0.com](https://format.innv0.com/) |
+| **Editor** | [format.innv0.com](https://format.innv0.com/) |
+| **Documentation & How-To** | [format.innv0.com/docs](https://format.innv0.com/docs/) |
 | **Specification** | [docs/V_0-1-3/_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md) |
 | **Business Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md) |
 | **Procedures Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md) |
