@@ -1,13 +1,12 @@
-<!-- @spec-version V_0-1-4 -->
 ---
 specification_version: "V_0-1-4"
-model_version: "V_0-1-0"
+model_version: "V_0-1-1"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 template:
   name: "business"
   version: "V_1-0-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-25T19:19:44.620Z"
+  last_updated: "2026-06-25T19:19:54.428Z"
   concepts:
     - name: "Business summary"
       icon: "file-text"
@@ -532,7 +531,7 @@ template:
       source: "elements"
       target: "markers"
 title: "Ghostbusters"
-last_saved: "2026-06-25T19:19:44.620Z"
+last_saved: "2026-06-25T19:19:54.428Z"
 ---
 
 # <!-- block: concepts --> Business summary

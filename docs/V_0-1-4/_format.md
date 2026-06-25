@@ -2,7 +2,7 @@
 
 *Flat, Omnipotent, Readable, Model, Annotated, Template*
 
-**Version V_0-1-3 — Draft**
+**Version V_0-1-4 — Draft**
 
 FORMAT is a human-readable, agent-friendly, and version-controlled format for representing business models. It is designed to be easily authored by humans, generated/analyzed by AI agents, and versioned cleanly in Git.
 
@@ -126,13 +126,13 @@ The frontmatter MUST be a valid YAML block delimited by `---` lines.
 
 For a document to be **FORMAT-compliant**, the frontmatter MUST declare which specification it conforms to, by version AND by URL:
 
-- `specification_version` (Required): The version of the FORMAT specification this document conforms to, in SemVer rendered as `V_MAJOR-MINOR-PATCH`. Example: `"V_0-1-3"`.
+- `specification_version` (Required): The version of the FORMAT specification this document conforms to, in SemVer rendered as `V_MAJOR-MINOR-PATCH`. Example: `"V_0-1-4"`.
 - `specification_url` (Required): The canonical URL where that exact specification version is published. A document without a resolvable spec URL is NOT compliant.
 
 ```yaml
 ---
-specification_version: "V_0-1-3"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md"
+specification_version: "V_0-1-4"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 title: "Project Ghostbusters Model"
 model_version: "V_0-3-0"
 last_saved: "2026-06-23T15:12:19.852Z"
@@ -397,4 +397,4 @@ When FORMAT describes itself, its own primitives map as concepts and relationshi
 - `BLOCK → marker` (blocks are evaluated by markers) is a **relational matrix** (N-to-N).
 - `Matrix` links a source `concept` to a target `concept` — a **relational matrix** over concepts.
 
-A self-describing document is itself subject to §8: it is named e.g. `FORMAT_V_0-1-3_FORMAT.md` and declares its own `specification_version` and `specification_url`.
+A self-describing document is itself subject to §8: it is named e.g. `FORMAT_V_0-1-4_FORMAT.md` and declares its own `specification_version` and `specification_url`.

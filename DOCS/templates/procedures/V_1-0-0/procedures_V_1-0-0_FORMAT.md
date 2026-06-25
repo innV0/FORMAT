@@ -1,84 +1,11 @@
 ---
-specification_version: "V_0-1-3"
-model_version: "V_1-1-0"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md"
 template:
-  name: "procedures"
-  version: "V_1-1-0"
+  name: "business"
+  version: "V_1-0-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-24T11:58:33.157Z"
-  concepts:
-    - name: "procedure summary"
-      icon: "file-text"
-      type: "text"
-      color: "green"
-      weight: 90
-    - name: "roles"
-      icon: "users"
-      type: "list"
-      color: "green"
-      weight: 80
-      fields:
-        - name: "scope"
-          type: "select"
-          options:
-            - "internal"
-            - "external"
-    - name: "steps"
-      icon: "list-ordered"
-      type: "sequence"
-      color: "green"
-      weight: 90
-      fields:
-        - name: "step_type"
-          type: "select"
-          options:
-            - "task"
-            - "decision"
-            - "event"
-        - name: "next"
-          type: "string"
-        - name: "condition"
-          type: "string"
-        - name: "input"
-          type: "reference"
-          target_concepts:
-            - "artifact"
-        - name: "output"
-          type: "reference"
-          target_concepts:
-            - "artifact"
-        - name: "output_status"
-          type: "string"
-        - name: "tool"
-          type: "reference"
-          target_concepts:
-            - "tools"
-    - name: "artifact"
-      icon: "package"
-      type: "list"
-      color: "blue"
-      weight: 75
-    - name: "tools"
-      icon: "wrench"
-      type: "list"
-      color: "orange"
-      weight: 70
-    - name: "position"
-      icon: "briefcase"
-      type: "list"
-      color: "green"
-      weight: 70
-    - name: "person"
-      icon: "user"
-      type: "list"
-      color: "green"
-      weight: 60
-  markers:
-    - name: "complexity"
-      icon: "gauge"
-      color: "green"
-      weight: 50
+  last_updated: "2026-06-25T19:37:01.835Z"
+  concepts: []
+  markers: []
   matrices:
     - name: "steps-roles matrix"
       source: "steps"
@@ -104,65 +31,15 @@ template:
       source: "elements"
       target: "markers"
 title: "procedures"
-last_saved: "2026-06-24T11:58:33.157Z"
+last_saved: "2026-06-25T19:37:01.835Z"
 ---
-
-# <!-- block: concepts --> procedure summary
-
-Brief explanation of the procedure's goals and scope.
-
-# <!-- block: concepts --> roles
-
-* <!-- block: roles --> Role Name
-  ```yaml
-  scope: internal
-  ```
-  Description of this role's general responsibilities.
-
-# <!-- block: concepts --> steps
-
-1. <!-- block: steps --> Step Name
-   ```yaml
-   step_type: task
-   next: Next Step Name
-   condition: Optional rule activation condition
-   input: Related Artifact Name
-   output: Produced Artifact Name
-   output_status: draft
-   tool: Tool Name
-   ```
-   Detailed explanation of what needs to be done.
-
-# <!-- block: concepts --> artifact
-
-* <!-- block: artifact --> Artifact Name
-  Description of this artifact — a tangible or digital output that flows through the procedure (e.g. document, form, report, certificate).
-
-# <!-- block: concepts --> tools
-
-* <!-- block: tools --> Tool Name
-  Description of this tool — a software application, instrument, or resource used to modify, generate, or process artifacts during a step (e.g. IDE, spreadsheet, design tool, CI pipeline).
-
-# <!-- block: concepts --> position
-
-* <!-- block: position --> Position Name
-  Description of this job position or title.
-
-# <!-- block: concepts --> person
-
-* <!-- block: person --> Person Name
-  Details about the individual occupying a position.
+> [!NOTE]
+> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. You can edit it as raw text in any editor, or open it in the [FORMAT app](https://format.innv0.com) for a guided visual editor.
 
 # <!-- block: matrices --> item-markers matrix
 
-| Item \ Marker | complexity |
-| :--- | :---: |
-| Role Name | - |
-| Step Name | - |
-| Artifact Name | - |
-| Tool Name | - |
-| Position Name | - |
-| Person Name | - |
+| Item \ Marker |  |
+| :--- |  |
 
 # <!-- block: matrices --> metamatrix
 
@@ -201,7 +78,7 @@ Brief explanation of the procedure's goals and scope.
 
 # <!-- block: matrices --> steps-artifacts matrix
 
-| steps \ artifacts | Artifact Name |
+| steps \ artifact | Artifact Name |
 | :--- | :---: |
 | Step Name | Creates |
 

@@ -28,16 +28,19 @@
           <!-- 1. MODEL INFO VIEW (Rendered if 'info' selected OR if no file is active) -->
           <ModelInfoPanel v-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
-          <!-- 2. TEXT CONCEPT EDITOR -->
+          <!-- 2. DASHBOARD VIEW (default view when a model is loaded) -->
+          <ModelDashboard v-else-if="workspaceStore.activeFileName && activeConcept === 'dashboard'" class="flex-1 min-h-0" />
+
+          <!-- 3. TEXT CONCEPT EDITOR -->
           <TextEditor v-else-if="workspaceStore.activeFileName && isMarkdownEditor" />
 
-          <!-- 3. UNIFIED TREE VIEW -->
+          <!-- 4. UNIFIED TREE VIEW -->
           <TreeEditor v-else-if="workspaceStore.activeFileName && conceptType === 'instantiable'" />
 
-          <!-- 4. METAMATRIX SETUP CONFIG -->
+          <!-- 5. METAMATRIX SETUP CONFIG -->
           <MetamatrixConfig v-else-if="workspaceStore.activeFileName && activeConcept === 'metamatrix'" />
 
-          <!-- 5. RELATIONAL MATRICES DATA -->
+          <!-- 6. RELATIONAL MATRICES DATA -->
           <MatricesGrid v-else-if="workspaceStore.activeFileName && activeConcept === 'matrices'" />
 
           <!-- FALLBACK/EMPTY STATE -->
@@ -46,8 +49,8 @@
           </div>
         </div>
 
-        <!-- Right Guidance Sidebar (Only when active concept is not 'info' and a file is active) -->
-        <RightGuidanceSidebar v-if="workspaceStore.activeFileName && activeConcept !== 'info'" />
+        <!-- Right Guidance Sidebar (Only when active concept is not 'info'/'dashboard' and a file is active) -->
+        <RightGuidanceSidebar v-if="workspaceStore.activeFileName && activeConcept !== 'info' && activeConcept !== 'dashboard'" />
       </main>
     </div>
     <!-- Directory selection guidance modal -->
@@ -66,6 +69,7 @@ import TreeEditor from './components/editor/TreeEditor.vue';
 import MetamatrixConfig from './components/editor/MetamatrixConfig.vue';
 import MatricesGrid from './components/editor/MatricesGrid.vue';
 import ModelInfoPanel from './components/editor/ModelInfoPanel.vue';
+import ModelDashboard from './components/editor/ModelDashboard.vue';
 
 import { useWorkspaceStore } from './stores/workspace';
 import { useDocumentStore } from './stores/document';
@@ -83,6 +87,7 @@ const isMarkdownEditor = computed(() => {
 
 const headerTitle = computed(() => {
   if (!workspaceStore.activeFileName || activeConcept.value === 'info') return 'Model Information & Workspace';
+  if (activeConcept.value === 'dashboard') return 'Dashboard';
   if (activeConcept.value === 'metamatrix') return 'Metamatrix Configuration';
   if (activeConcept.value === 'matrices') return 'Relational Matrices Grid';
   return activeConcept.value;

@@ -462,6 +462,13 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     
     if (!titleText) return;
     
+    // §3.1 Document Notice: the frontmatter closing delimiter and the required
+    // GFM [!NOTE] admonition appear before the first concept H1, so they land
+    // in sections[0] as non-concept content. Skip them — they carry no model
+    // data. The frontmatter itself was already parsed above; its trailing
+    // `---` delimiter leaks into this section's titleText.
+    if (titleText === '---' || /^>\s*\[!NOTE\]/.test(titleText)) return;
+    
     const cleaned = cleanTitle(titleText);
     const name = cleaned.name;
     const nameLower = name.toLowerCase();
@@ -856,9 +863,14 @@ ${stringifyYaml(inlineTemplate, 2)}
 title: "${title}"
 last_saved: "${lastSaved}"
 ---
-
 `;
+
   }
+
+  // §3.1 Document Notice: required first block of the Markdown body. Parsers
+  // ignore it (no H1 with `block:`), so it carries no model data. Emitted on
+  // every serialize so the notice survives round-trips through the app.
+  md += `> [!NOTE]\n> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. You can edit it as raw text in any editor, or open it in the [FORMAT app](https://format.innv0.com) for a guided visual editor.\n\n`;
 
   const taxEdgesToSerialize = params.taxonomyEdges || [];
   if (taxEdgesToSerialize.length > 0) {
