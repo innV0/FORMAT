@@ -28,8 +28,8 @@
           <!-- 1. MODEL INFO VIEW (Rendered if 'info' selected OR if no file is active) -->
           <ModelInfoPanel v-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
-          <!-- 2. DASHBOARD VIEW (default view when a model is loaded) -->
-          <ModelDashboard v-else-if="workspaceStore.activeFileName && activeConcept === 'dashboard'" class="flex-1 min-h-0" />
+          <!-- 2. GRAPH VIEW (default view when a model is loaded) -->
+          <GraphViewer v-else-if="workspaceStore.activeFileName && activeConcept === 'dashboard'" />
 
           <!-- 3. TEXT CONCEPT EDITOR -->
           <TextEditor v-else-if="workspaceStore.activeFileName && isMarkdownEditor" />
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
 import Header from './components/layout/Header.vue';
 import LeftSidebar from './components/layout/LeftSidebar.vue';
 import RightGuidanceSidebar from './components/layout/RightGuidanceSidebar.vue';
@@ -69,7 +69,7 @@ import TreeEditor from './components/editor/TreeEditor.vue';
 import MetamatrixConfig from './components/editor/MetamatrixConfig.vue';
 import MatricesGrid from './components/editor/MatricesGrid.vue';
 import ModelInfoPanel from './components/editor/ModelInfoPanel.vue';
-import ModelDashboard from './components/editor/ModelDashboard.vue';
+import GraphViewer from './components/editor/GraphViewer.vue';
 
 import { useWorkspaceStore } from './stores/workspace';
 import { useDocumentStore } from './stores/document';
@@ -87,7 +87,7 @@ const isMarkdownEditor = computed(() => {
 
 const headerTitle = computed(() => {
   if (!workspaceStore.activeFileName || activeConcept.value === 'info') return 'Model Information & Workspace';
-  if (activeConcept.value === 'dashboard') return 'Dashboard';
+  if (activeConcept.value === 'dashboard') return 'Graph View';
   if (activeConcept.value === 'metamatrix') return 'Metamatrix Configuration';
   if (activeConcept.value === 'matrices') return 'Relational Matrices Grid';
   return activeConcept.value;
@@ -128,7 +128,7 @@ watch(
     if (updatingHash) return;
     const newHash = buildHash(concept, node?.name);
     if (window.location.hash.slice(1) !== newHash) {
-      history.replaceState(null, '', '#' + newHash);
+      history.pushState(null, '', '#' + newHash);
     }
   }
 );
@@ -152,16 +152,27 @@ watch(
 );
 
 // Setup keyboard shortcuts and auto-load last directory
+const onPopState = () => {
+    updatingHash = true;
+    restoreFromHash();
+    nextTick(() => { updatingHash = false; });
+  };
+
 onMounted(async () => {
   await workspaceStore.loadLastDirectory();
   restoreFromHash();
 
+  window.addEventListener('popstate', onPopState);
   window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
       e.preventDefault();
       documentStore.saveActiveFile();
     }
   });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('popstate', onPopState);
 });
 </script>
 

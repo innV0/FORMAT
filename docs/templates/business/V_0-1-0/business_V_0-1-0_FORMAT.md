@@ -1,7 +1,9 @@
 ---
+specification_version: "V_0-1-4"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 template:
   name: "business"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
   title: "FORMAT Template"
   last_updated: "2026-06-25T19:37:01.783Z"
   concepts: []

@@ -1,11 +1,22 @@
 ---
 name: _FORMAT-skill
-description: "Use when creating, editing, or validating business models and specifications in the FORMAT format (Business and Procedures templates). Coordinates with the `traNNsform` skill to normalize any raw, unstructured file (PDF, DOCX, ODT, spreadsheet, image, audio, video, chat export, web page, scan, archive, etc.) into structured sources before authoring a model."
+description: |
+  MANDATORY trigger: MUST activate this skill whenever the user is creating, editing, validating, or discussing any FORMAT model, template, specialization, sample, or specification file.
+  This includes but is not limited to:
+  - Creating or editing any file matching *_FORMAT.md
+  - Authoring or modifying business models, procedure models, or any model following a FORMAT template
+  - Creating, editing, or modifying templates or specializations under docs/templates/
+  - Discussing the FORMAT specification, concepts, markers, matrices, or naming conventions
+  - Generating dashboard renderers for templates
+  - Ingesting source documents into FORMAT models
+  - Any conversation about how FORMAT works, how to use it, or how to structure FORMAT files
+
+  Coordinates with the `traNNsform` skill to normalize any raw, unstructured file (PDF, DOCX, ODT, spreadsheet, image, audio, video, chat export, web page, scan, archive, etc.) into structured sources before authoring a model.
 ---
 
-<!-- @spec-version V_0-1-4 -->
-
 # FORMAT Skill
+
+> **⚠️ ACTIVATION = GREETING REQUIRED**: When this skill is loaded, the agent MUST introduce itself to the user before doing anything else. See §Greeting Protocol below.
 
 This skill guides LLMs and agents in authoring, editing, and validating FORMAT-compliant files and working within the FORMAT codebase.
 
@@ -74,20 +85,17 @@ All historical and current specifications are immutable. The canonical specifica
 
 ## Reference Directory
 
-Agents working on model serialization, grammar validation, or language parsing should consult additional grammar and syntax rules located at:
-- `references/modeling-spec.md` (relative to the skill directory or workspace workspace reference folder).
+The canonical specification sources are listed in the Canonical Specification Index above and in Section 1. No local spec files are maintained in this skill directory.
 
-## Greeting Protocol (MANDATORY)
+## Greeting Protocol (MANDATORY — DO NOT SKIP)
 
-When this skill is activated and the agent begins responding to the user for the first time in a session, the **first response** MUST include a brief self-introduction in the user's active language:
+**CRITICAL RULE:** When this skill is activated (loaded via the `skill` tool), the agent's VERY FIRST response to the user MUST begin with the self-introduction below. This is NOT optional. Do NOT skip it, do NOT go straight to work, do NOT start coding without presenting first.
+
+The greeting is **session-scoped**: only once per conversation, not on every reply. If the agent was already introduced in the current session (e.g. after a compaction), skip the greeting.
 
 > **Template:** "Estás hablando con el skill de FORMAT. Puedo ayudarte a [capabilities relevant to the current request]."
 
-**Rules:**
-- The greeting is **session-scoped**: only once per conversation, not on every reply.
-- Adapt the `[capabilities]` list dynamically based on what the user is asking (e.g., "crear, editar o validar modelos FORMAT", "modificar una plantilla de Procedures", etc.).
-- Keep it short — 1-2 sentences max. No walls of text.
-- If the agent was already introduced in the current session (e.g. after a compaction), skip the greeting.
+Adapt the `[capabilities]` list dynamically based on what the user is asking. Keep it to 1-2 sentences. No walls of text.
 
 ---
 
@@ -111,6 +119,12 @@ When this skill is activated and the agent begins responding to the user for the
 5. **Language Domain Contract**:
    - Generated technical artifacts (code, documentation, specs, issues, commits) default to English.
    - Keep direct conversation with the user in the user's active language, but respect English as the default for all code-level and documentation artifacts.
+
+6. **Referential Integrity on Rename (MANDATORY)**:
+   - Every concept and element name in a FORMAT document is a **globally unique identifier** referenced from multiple locations (wikilinks, matrices, block comments, taxonomy tree, frontmatter).
+   - When renaming ANY named entity (concept or element), the agent MUST locate and update EVERY reference to the old name before writing the change. A rename that leaves stale references is a **broken document**.
+   - The agent MUST NOT apply a rename as a single find-and-replace without verifying each reference's context (e.g., a matrix cell value might be a data value, not a name reference — context matters).
+   - Use the checklist in §7 (Rename Safety) before finalizing any rename operation.
 
 ---
 
@@ -179,6 +193,93 @@ Element fields are expressed as fenced YAML blocks (` ```yaml `) immediately aft
 ## 4. Operational Instructions for the Agent
 * **When Asked to Generate a Model:** Fetch the correct template raw file using the URLs in Section 1, parse the concepts, and prompt the user step-by-step or auto-generate the file content adhering strictly to the naming and layout conventions.
 * **When Asked to Validate a Model:** Compare the local file contents against the template schema and the core FORMAT specification rules (H1 headers, block comments, correct lowercase concept names, correct list formatting, matrix headers match element names).
+* **When Asked to Rename a Concept or Element:** Follow the Rename Safety procedure in §7 before writing any change. Do NOT apply a rename until all references have been identified and updated.
+
+---
+
+## 5. Rename Safety & Referential Integrity (MANDATORY)
+
+### 5.1 Why This Exists
+
+In a FORMAT document, every concept and element name is a **globally unique identifier** (§5.2 of the spec). Renaming one without updating all its references breaks:
+- Wikilinks (`[[Old Name]]`) — they become dead links
+- Matrix source/target bindings — matrices lose their mapping
+- Block comment markers (`<!-- block: old_name -->`) — parsers cannot find the concept
+- The taxonomy tree (`index` block) — hierarchy edges become orphans
+
+This section defines a mandatory procedure that agents MUST follow when renaming any named entity.
+
+### 5.2 Reference Map
+
+#### If renaming a **CONCEPT** (e.g., `Problems` → `Issues`):
+
+| # | Location in the document | What to update |
+|---|--------------------------|----------------|
+| 1 | Frontmatter `template.concepts[].name` | The concept's `name` field |
+| 2 | Frontmatter `matrices[].source` / `matrices[].target` | Any matrix whose source or target is this concept |
+| 3 | Concept H1 header: `# <!-- block: concepts --> Problems` | The name after the block comment |
+| 4 | Every element line: `* <!-- block: Problems --> Element Name` | The `<!-- block: Problems -->` part |
+| 5 | Matrix tables in body (headers and rows) | Column/row headers or data cells referencing this concept or its elements |
+| 6 | `index` block (taxonomy tree): `* [[Problems]]` | Any wikilink whose target is this concept |
+| 7 | Wikilinks `[[Problems]]` in ANY narrative text across all concept blocks | Every `[[Problems]]` reference |
+| 8 | Matrix names in frontmatter and body headers that embed the concept name | e.g. `Problems-Value propositions Matrix` → `Issues-Value propositions Matrix` |
+
+#### If renaming an **ELEMENT** (instance) (e.g., `Alice the Librarian` → `Alice`):
+
+| # | Location in the document | What to update |
+|---|--------------------------|----------------|
+| 1 | The element line: `* <!-- block: persona --> Alice the Librarian` | The label after the block comment |
+| 2 | Matrix tables: row headers or cell values that match the element name | Every occurrence as a row/column header |
+| 3 | `item-markers matrix`: the row header for this element | The first column value |
+| 4 | Wikilinks `[[Alice the Librarian]]` in ANY narrative text | Every `[[Alice the Librarian]]` reference |
+
+### 5.3 Mandatory Procedure
+
+Before writing ANY rename, the agent MUST execute this checklist in order:
+
+**Step 1 — Identify all references.** Search the ENTIRE document for every occurrence of the old name, including:
+- Plain text occurrences (not just wikilinks — narrative text may reference the entity by name)
+- Wikilinks: `[[Old Name]]`
+- Block comments: `<!-- block: old name -->`
+- Frontmatter YAML values (concept names, matrix source/target, matrix names)
+- Matrix headers and row/column labels
+- The `index` block taxonomy tree
+
+**Step 2 — Classify each occurrence.** Not every match is a reference. Skip:
+- YAML keys or structural syntax (e.g., `name: "Problems"` in a different concept's field definition)
+- Matrix cell VALUES that happen to contain the same substring but are data, not references
+- Mentions in the Document Notice or explanatory text that are NOT wikilinks and do NOT identify the entity
+
+**Step 3 — Update all references.** Apply the new name to every classified reference. For wikilinks, update only the target: `[[New Name]]`. For block comments, preserve the lowercase slug convention: `<!-- block: new name -->`.
+
+**Step 4 — Verify integrity.** After applying the rename, re-read the document and confirm:
+- Every `[[New Name]]` points to an entity that actually exists in the document
+- No `[[Old Name]]` remains anywhere
+- Every `<!-- block:` comment matches an existing concept name
+- Every matrix `source` and `target` in frontmatter maps to a concept that exists
+- All matrix row/column headers reference elements or concepts that exist
+
+### 5.4 What NOT to Update
+
+Do NOT touch:
+- The `specification_version`, `model_version`, or `last_saved` frontmatter fields (these are version data, not references)
+- The Document Notice: `> [!NOTE] ...` (generic text, no entity references)
+- Matrix cell VALUES that are purely data (e.g., scale values like `Max`, `Neutral`, `-`) unless they are also element/concept name headers
+- External URLs or file paths that happen to contain the name
+
+### 5.5 Example
+
+Renaming concept `Problems` → `Issues` in a business model:
+
+| Before | After | Why |
+|--------|-------|-----|
+| `name: "Problems"` in frontmatter concepts[] | `name: "Issues"` | Concept definition |
+| `source: "Problems"` in frontmatter matrices[] | `source: "Issues"` | Matrix binding |
+| `# <!-- block: concepts --> Problems` | `# <!-- block: concepts --> Issues` | Concept header |
+| `* <!-- block: Problems --> Uncontained Paranormal Activity` | `* <!-- block: Issues --> Uncontained Paranormal Activity` | Element block |
+| `* [[Problems]]` in `index` block | `* [[Issues]]` | Taxonomy tree |
+| `\| Problems \ Competition \|` matrix header | `\| Issues \ Competition \|` | Matrix column header |
+| `see [[Problems]] for details` in narrative | `see [[Issues]] for details` | Wikilink in text |
 
 ---
 

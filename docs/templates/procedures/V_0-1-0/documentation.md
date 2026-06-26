@@ -3,37 +3,23 @@ specification_version: "V_0-1-4"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 template:
   name: "procedures"
-  version: "V_1-1-0"
+  version: "V_0-1-0"
   title: "FORMAT Procedures Template"
   last_updated: "2026-06-24T00:00:00.000Z"
   concepts:
-    - name: "procedure summary"
+    - name: "procedure"
       icon: "file-text"
       type: "text"
       mode: "basic"
-      color: "green"
-      weight: 90
+      color: "purple"
+      weight: 100
       ai_applicability: 9
 
-    - name: "roles"
-      icon: "users"
-      type: "list"
-      mode: "basic"
-      color: "green"
-      weight: 80
-      ai_applicability: 8
-      fields:
-        - name: "scope"
-          type: "select"
-          options:
-            - "internal"
-            - "external"
-
-    - name: "steps"
+    - name: "work"
       icon: "list-ordered"
       type: "sequence"
       mode: "basic"
-      color: "green"
+      color: "purple"
       weight: 90
       ai_applicability: 9
       fields:
@@ -67,7 +53,7 @@ template:
       type: "list"
       mode: "basic"
       color: "blue"
-      weight: 75
+      weight: 80
       ai_applicability: 7
 
     - name: "tools"
@@ -78,12 +64,26 @@ template:
       weight: 70
       ai_applicability: 8
 
+    - name: "roles"
+      icon: "users"
+      type: "list"
+      mode: "basic"
+      color: "green"
+      weight: 60
+      ai_applicability: 8
+      fields:
+        - name: "scope"
+          type: "select"
+          options:
+            - "internal"
+            - "external"
+
     - name: "position"
       icon: "briefcase"
       type: "list"
       mode: "basic"
       color: "green"
-      weight: 70
+      weight: 50
       ai_applicability: 7
 
     - name: "person"
@@ -91,7 +91,7 @@ template:
       type: "list"
       mode: "basic"
       color: "green"
-      weight: 60
+      weight: 40
       ai_applicability: 6
 
   markers:
@@ -103,8 +103,8 @@ template:
       weight: 50
 
   matrices:
-    - name: "steps-roles matrix"
-      source: "steps"
+    - name: "work-roles matrix"
+      source: "work"
       target: "roles"
       params: "Responsible;Accountable;Consulted;Informed"
 
@@ -118,13 +118,13 @@ template:
       target: "position"
       params: "Occupies"
 
-    - name: "steps-tools matrix"
-      source: "steps"
+    - name: "work-tools matrix"
+      source: "work"
       target: "tools"
       params: "Uses"
 
-    - name: "steps-artifacts matrix"
-      source: "steps"
+    - name: "work-artifacts matrix"
+      source: "work"
       target: "artifact"
       params: "Creates;Modifies;Validates;Reviews"
 
@@ -138,10 +138,10 @@ template:
 This is the expanded template for document-driven procedures, modeling workflows, roles, positions, and operational personnel mapping.
 
 ## Concepts
-- **procedure summary**: Brief explanation of the procedure goals.
+- **procedure**: Brief explanation of the procedure goals.
+- **work**: Sequence of actions, decisions, and events in the workflow. Work items can reference artifacts as inputs and outputs, and tools as resources.
+- **artifact**: Tangible or digital outputs that flow through the procedure (e.g. documents, forms, reports, certificates). Work items interact with artifacts via the work-artifacts matrix (Creates, Modifies, Validates, Reviews).
+- **tools**: Software applications, instruments, or resources used to modify, generate, or process artifacts during a work item (e.g. IDE, spreadsheet, design tool, CI pipeline). Connected to work via the work-tools matrix.
 - **roles**: The functional responsibilities/actors in the workflow (e.g. Developer, QA).
-- **steps**: Sequence of actions, decisions, and events in the workflow. Steps can reference artifacts as inputs and outputs, and tools as resources.
-- **artifact**: Tangible or digital outputs that flow through the procedure (e.g. documents, forms, reports, certificates). Steps interact with artifacts via the steps-artifacts matrix (Creates, Modifies, Validates, Reviews).
-- **tools**: Software applications, instruments, or resources used to modify, generate, or process artifacts during a step (e.g. IDE, spreadsheet, design tool, CI pipeline). Connected to steps via the steps-tools matrix.
 - **position**: Job roles or titles within the organization (e.g. Senior Developer).
 - **person**: The actual team members occupying those positions.

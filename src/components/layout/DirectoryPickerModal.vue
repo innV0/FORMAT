@@ -18,9 +18,6 @@
             <h3 class="text-sm font-bold text-slate-900">
               Connect Workspace Folder
             </h3>
-            <p class="text-xs text-slate-500 mt-0.5">
-              Conectar Directorio de Trabajo
-            </p>
           </div>
           <button 
             @click="closeModal" 
@@ -42,9 +39,6 @@
               <p class="text-[11px] text-amber-800">
                 Select the <strong>parent directory/folder</strong> containing your model, not the model file itself. Windows will not let you select files in a folder picker.
               </p>
-              <p class="text-[11px] text-amber-800 italic border-t border-amber-200/50 pt-1 mt-1">
-                Debe elegir la <strong>carpeta contenedora</strong> donde se encuentra el modelo, no el fichero en sí.
-              </p>
             </div>
           </div>
 
@@ -52,9 +46,6 @@
           <div class="space-y-2">
             <p>
               When the native file dialog opens, navigate to the folder that contains your <code>.md</code> business model files and click <strong>"Select Folder"</strong>.
-            </p>
-            <p class="text-slate-500 italic">
-              Al abrirse el selector, navegue hasta la carpeta que contiene sus modelos de negocio y pulse <strong>"Seleccionar carpeta"</strong>.
             </p>
           </div>
 
@@ -85,13 +76,10 @@
           </div>
 
           <!-- Native Behavior Reminder -->
-          <div class="bg-primary/5 rounded-lg p-3 text-[11px] text-primary border border-primary/10">
-            <p class="font-semibold mb-0.5">💡 Windows Explorer Notice</p>
+<div class="bg-primary/5 rounded-lg p-3 text-[11px] text-primary border border-primary/10">
+            <p class="font-semibold mb-0.5">Windows Explorer Notice</p>
             <p>
               In the file dialog window, individual files inside the folder might be invisible or grayed out. Don't worry—just select the parent directory, and the app will load all models immediately.
-            </p>
-            <p class="italic mt-1 text-primary/80">
-              Es normal que no vea los archivos individuales o que aparezcan atenuados en el selector de Windows. Solo elija la carpeta.
             </p>
           </div>
         </div>
@@ -102,7 +90,7 @@
             @click="closeModal" 
             class="px-4 py-2 rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-xs font-semibold cursor-pointer transition-colors"
           >
-            Cancel / Cancelar
+            Cancel
           </button>
           
           <button 
@@ -110,7 +98,7 @@
             class="px-4 py-2 rounded-md bg-primary hover:bg-primary/90 text-white text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
           >
             <FolderOpen class="w-3.5 h-3.5" />
-            Select Folder / Elegir Carpeta
+            Select Folder
           </button>
         </div>
       </div>

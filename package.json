@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "d3": "^7.9.0",
+    "d3-sankey": "^0.12.3",
+    "dagre": "^0.8.5",
     "lucide-vue-next": "^0.395.0",
     "mustache": "^4.2.0",
     "pinia": "^2.1.7",
@@ -21,6 +24,9 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
+    "@types/d3": "^7.4.3",
+    "@types/d3-sankey": "^0.12.5",
+    "@types/dagre": "^0.7.54",
     "@types/filesystem": "^0.0.36",
     "@types/filewriter": "^0.0.33",
     "@types/mustache": "^4.2.6",

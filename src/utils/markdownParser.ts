@@ -306,7 +306,7 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
     parsed.metamatrix.push(...metamatrixList);
   }
 
-  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---/);
+  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---/m);
   if (fmMatch) {
     let frontmatter: any;
     try {

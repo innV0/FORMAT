@@ -1,39 +1,25 @@
-<!-- @spec-version V_0-1-4 -->
 ---
 specification_version: "V_0-1-4"
 model_version: "V_1-0-0"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 template:
   name: "procedures"
-  version: "V_1-1-0"
+  version: "V_0-1-0"
   title: "Comprehensive Test Procedure"
   last_updated: "2026-06-24T00:00:00.000Z"
   concepts:
-    - name: "procedure summary"
+    - name: "procedure"
       icon: "file-text"
       type: "text"
       mode: "basic"
-      color: "green"
-      weight: 90
+      color: "purple"
+      weight: 100
       ai_applicability: 9
-    - name: "roles"
-      icon: "users"
-      type: "list"
-      mode: "basic"
-      color: "green"
-      weight: 80
-      ai_applicability: 8
-      fields:
-        - name: "scope"
-          type: "select"
-          options:
-            - "internal"
-            - "external"
-    - name: "steps"
+    - name: "work"
       icon: "list-ordered"
       type: "sequence"
       mode: "basic"
-      color: "green"
+      color: "purple"
       weight: 90
       ai_applicability: 9
       fields:
@@ -66,7 +52,7 @@ template:
       type: "list"
       mode: "basic"
       color: "blue"
-      weight: 75
+      weight: 80
       ai_applicability: 7
     - name: "tools"
       icon: "wrench"
@@ -75,19 +61,32 @@ template:
       color: "orange"
       weight: 70
       ai_applicability: 8
+    - name: "roles"
+      icon: "users"
+      type: "list"
+      mode: "basic"
+      color: "green"
+      weight: 60
+      ai_applicability: 8
+      fields:
+        - name: "scope"
+          type: "select"
+          options:
+            - "internal"
+            - "external"
     - name: "position"
       icon: "briefcase"
       type: "list"
       mode: "basic"
       color: "green"
-      weight: 70
+      weight: 50
       ai_applicability: 7
     - name: "person"
       icon: "user"
       type: "list"
       mode: "basic"
       color: "green"
-      weight: 60
+      weight: 40
       ai_applicability: 6
   markers:
     - name: "complexity"
@@ -97,8 +96,8 @@ template:
       color: "green"
       weight: 50
   matrices:
-    - name: "steps-roles matrix"
-      source: "steps"
+    - name: "work-roles matrix"
+      source: "work"
       target: "roles"
       params: "Responsible;Accountable;Consulted;Informed"
     - name: "positions-roles matrix"
@@ -109,12 +108,12 @@ template:
       source: "person"
       target: "position"
       params: "Occupies"
-    - name: "steps-tools matrix"
-      source: "steps"
+    - name: "work-tools matrix"
+      source: "work"
       target: "tools"
       params: "Uses"
-    - name: "steps-artifacts matrix"
-      source: "steps"
+    - name: "work-artifacts matrix"
+      source: "work"
       target: "artifact"
       params: "Creates;Modifies;Validates;Reviews"
     - name: "item-markers matrix"
@@ -130,13 +129,13 @@ last_saved: "2026-06-24T12:00:00.000Z"
 # <!-- block: concepts --> index
 
 * [[roles]]
-* [[steps]]
+* [[work]]
 * [[artifact]]
 * [[tools]]
 * [[position]]
 * [[person]]
 
-# <!-- block: concepts --> procedure summary
+# <!-- block: concepts --> procedure
 
 This procedure is a comprehensive functional test suite for the FORMAT application. Each element is intentionally named to describe the specific functionality it exercises. The goal is to validate rendering, editing, referencing, sequencing, and matrix interactions across all template concepts. Run through each section to confirm the application handles every combination of fields, references, and relationships correctly.
 
@@ -161,21 +160,21 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
   ```yaml
   scope: internal
   ```
-  A role that appears in every RACI matrix row across multiple steps. Tests that role-step relationships render and update correctly in the steps-roles matrix.
+  A role that appears in every RACI matrix row across multiple steps. Tests that role-step relationships render and update correctly in the work-roles matrix.
 
 * <!-- block: roles --> Role as Orphan
   A role that is defined but never referenced in any step or position matrix. Tests that the application handles unreferenced roles gracefully without rendering errors.
 
 # <!-- block: concepts --> steps
 
-1. <!-- block: steps --> Basic Step
+1. <!-- block: work --> Basic Step
    ```yaml
    step_type: task
    next: Step with All References
    ```
    A task step with only step_type and next — no input, output, condition, or output_status. Tests that the minimal required fields render correctly and that the next-pointer links to the following step.
 
-2. <!-- block: steps --> Step with All References
+2. <!-- block: work --> Step with All References
    ```yaml
    step_type: task
    next: Decision Step with Branching
@@ -187,14 +186,14 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
    ```
    A task step that populates every available field: step_type, next, condition, input, output, output_status, and tool. Tests that all seven field types render and that reference fields correctly resolve to artifact and tool names.
 
-3. <!-- block: steps --> Decision Step with Branching
+3. <!-- block: work --> Decision Step with Branching
    ```yaml
    step_type: decision
    condition: approval granted
    ```
    A decision step that branches. When the condition is met, flow continues to the next step; otherwise it loops back. Tests that decision-type steps render with branching indicators and that condition logic is visible.
 
-4. <!-- block: steps --> Step Outputting Final Artifact
+4. <!-- block: work --> Step Outputting Final Artifact
    ```yaml
    step_type: task
    output: Artifact with Fields
@@ -202,14 +201,14 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
    ```
    A task step that produces a final-status artifact. Tests that output_status accepts non-draft values and that the artifact reference resolves.
 
-5. <!-- block: steps --> Event Step External Trigger
+5. <!-- block: work --> Event Step External Trigger
    ```yaml
    step_type: event
    condition: external system callback received
    ```
    An event-type step triggered by an external condition. Tests that event steps render differently from task steps and that condition text is displayed.
 
-6. <!-- block: steps --> Step with Multiple Inputs
+6. <!-- block: work --> Step with Multiple Inputs
    ```yaml
    step_type: task
    input: Basic Artifact
@@ -218,7 +217,7 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
    ```
    A task step that consumes an artifact and uses a design tool. Tests that the input and tool references resolve and that the step connects to the next step via the next pointer.
 
-7. <!-- block: steps --> Step with No Next (Terminal)
+7. <!-- block: work --> Step with No Next (Terminal)
    ```yaml
    step_type: task
    output: Artifact with Fields
@@ -226,7 +225,7 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
    ```
    A terminal task step with no next pointer. Tests that the application correctly renders a step that ends the sequence.
 
-8. <!-- block: steps --> Step Referencing Nonexistent Artifact
+8. <!-- block: work --> Step Referencing Nonexistent Artifact
    ```yaml
    step_type: task
    input: Ghost Artifact
@@ -234,7 +233,7 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
    ```
    A task step whose input references an artifact that does not exist in the model. Tests that the application surfaces a clear warning or error for broken references.
 
-9. <!-- block: steps --> Step with Self-Reference Loop
+9. <!-- block: work --> Step with Self-Reference Loop
    ```yaml
    step_type: task
    next: Step with Self-Reference Loop
@@ -329,16 +328,16 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
 
 | Matrix Name | Source | Target | Widget Type | Widget Parameters |
 | :--- | :--- | :--- | :--- | :--- |
-| steps-roles matrix | steps | roles | cycle | Responsible;Accountable;Consulted;Informed |
+| work-roles matrix | steps | roles | cycle | Responsible;Accountable;Consulted;Informed |
 | positions-roles matrix | position | roles | cycle | Assumes |
 | persons-positions matrix | person | position | cycle | Occupies |
-| steps-tools matrix | steps | tools | cycle | Uses |
-| steps-artifacts matrix | steps | artifact | cycle | Creates;Modifies;Validates;Reviews |
+| work-tools matrix | steps | tools | cycle | Uses |
+| work-artifacts matrix | steps | artifact | cycle | Creates;Modifies;Validates;Reviews |
 | item-markers matrix | elements | markers | cycle | - |
 
-# <!-- block: matrices --> steps-roles matrix
+# <!-- block: matrices --> work-roles matrix
 
-| steps \ roles | Role with No Fields | Role with Scope Internal | Role with Scope External | Role with Relations | Role as Orphan |
+| work \ roles | Role with No Fields | Role with Scope Internal | Role with Scope External | Role with Relations | Role as Orphan |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | Basic Step | - | - | - | Responsible | - |
 | Step with All References | - | Accountable | - | Consulted | - |
@@ -366,9 +365,9 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
 | Jane Doe | - | Occupies | - |
 | Unassigned Person | - | - | - |
 
-# <!-- block: matrices --> steps-tools matrix
+# <!-- block: matrices --> work-tools matrix
 
-| steps \ tools | Test Runner | Mockup Editor | Code Review Platform |
+| work \ tools | Test Runner | Mockup Editor | Code Review Platform |
 | :--- | :---: | :---: | :---: |
 | Basic Step | - | - | - |
 | Step with All References | Uses | - | - |
@@ -380,9 +379,9 @@ This procedure is a comprehensive functional test suite for the FORMAT applicati
 | Step Referencing Nonexistent Artifact | - | - | - |
 | Step with Self-Reference Loop | - | - | - |
 
-# <!-- block: matrices --> steps-artifacts matrix
+# <!-- block: matrices --> work-artifacts matrix
 
-| steps \ artifacts | Basic Artifact | Artifact with Fields | Artifact as Input Only | Artifact as Output Only | Artifact Referenced by Decision | Artifact Never Referenced |
+| work \ artifacts | Basic Artifact | Artifact with Fields | Artifact as Input Only | Artifact as Output Only | Artifact Referenced by Decision | Artifact Never Referenced |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | Basic Step | - | - | - | - | - | - |
 | Step with All References | Modifies | Creates | - | - | - | - |

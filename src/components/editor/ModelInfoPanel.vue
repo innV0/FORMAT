@@ -256,7 +256,6 @@ const handleCreateFile = async () => {
 template:
   name: "${DEFAULT_TEMPLATE_NAME}"
   version: "${DEFAULT_TEMPLATE_VERSION}"
-  path: "./innV0_master_data.json"
 title: "${filename.replace('.md', '')}"
 specification_version: "${DEFAULT_FORMAT_VERSION}"
 specification_url: "${buildSpecificationUrl()}"

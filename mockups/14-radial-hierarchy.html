@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>14 — Radial / Concentric</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }
+.concentric-ring { fill: none; stroke: #e2e8f0; stroke-width: 1; }
+.node-circle { cursor: pointer; transition: r 0.2s; }
+.node-circle:hover { r: 24 !important; }
+.connector { stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 3,3; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8">
+  <div class="max-w-5xl mx-auto">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">14 — Radial / Concentric Hierarchy</p>
+    <p class="text-[11px] text-slate-400 mb-4">Concentric rings: Persons (outer) → Positions → Roles → Steps → Artifacts/Tools (inner). Outward = dependency.</p>
+
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6">
+      <!-- Legend -->
+      <div class="flex flex-wrap items-center justify-center gap-4 text-[10px] mb-3 text-slate-500">
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> Persons (3)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Positions (3)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span> Roles (5)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Steps (9)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Artifacts (6)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span> Tools (3)</span>
+      </div>
+      <svg id="radial-svg" width="100%" height="620" style="display:block;margin:0 auto;max-width:620px;"></svg>
+    </div>
+    <p class="text-[10px] text-slate-400 mt-3 text-center">Hover nodes to see relationships. Edges = matrix connections between layers. Orphans have a dashed outline.</p>
+  </div>
+
+  <script>
+  const rings = [
+    { name: "Persons", r: 270, color: "#14b8a6", nodes: [
+      { id: "John Smith", orphan: false },
+      { id: "Jane Doe", orphan: false },
+      { id: "Unassigned Person", orphan: true },
+    ]},
+    { name: "Positions", r: 200, color: "#f59e0b", nodes: [
+      { id: "Test Manager", orphan: false },
+      { id: "Senior Tester", orphan: false },
+      { id: "Position with No Role", orphan: true },
+    ]},
+    { name: "Roles", r: 130, color: "#22c55e", nodes: [
+      { id: "Role with No Fields", orphan: false },
+      { id: "Role with Scope Internal", orphan: false },
+      { id: "Role with Scope External", orphan: false },
+      { id: "Role with Relations", orphan: false },
+      { id: "Role as Orphan", orphan: true },
+    ]},
+    { name: "Steps", r: 55, color: "#3b82f6", nodes: [
+      { id: "Basic Step", orphan: false },
+      { id: "Step with All References", orphan: false },
+      { id: "Decision Step with Branching", orphan: false },
+      { id: "Step Outputting Final Artifact", orphan: false },
+      { id: "Event Step External Trigger", orphan: false },
+      { id: "Step with Multiple Inputs", orphan: false },
+      { id: "Step with No Next (Terminal)", orphan: false },
+      { id: "Step Referencing Nonexistent Artifact", orphan: true },
+      { id: "Step with Self-Reference Loop", orphan: true },
+    ]},
+  ];
+
+  // Outer floating nodes for Artifacts and Tools
+  const outerGroups = [
+    { name: "Artifacts", color: "#a855f7", cx: 490, cy: 100, nodes: [
+      "Basic Artifact", "Artifact with Fields", "Artifact as Input Only",
+      "Artifact as Output Only", "Artifact Referenced by Decision", "Artifact Never Referenced"
+    ]},
+    { name: "Tools", color: "#f97316", cx: 490, cy: 380, nodes: [
+      "Test Runner", "Mockup Editor", "Code Review Platform"
+    ]},
+  ];
+
+  const W = 620, H = 620, cx = 280, cy = 310;
+  const svg = d3.select("#radial-svg").attr("viewBox", `0 0 ${W} ${H}`);
+  const g = svg.append("g");
+
+  // Draw concentric rings
+  rings.forEach(ring => {
+    g.append("circle").attr("cx", cx).attr("cy", cy).attr("r", ring.r).attr("class", "concentric-ring");
+    g.append("text").attr("x", cx + ring.r + 5).attr("y", cy).attr("font-size", 8).attr("fill", ring.color).attr("font-weight", 700).attr("dominant-baseline", "middle").text(ring.name);
+  });
+
+  // Place nodes on rings
+  const nodePos = {};
+  rings.forEach(ring => {
+    const count = ring.nodes.length;
+    const angleStep = (2 * Math.PI) / count;
+    const startAngle = -Math.PI / 2 - (count - 1) * angleStep / 2;
+    ring.nodes.forEach((n, i) => {
+      const angle = startAngle + i * angleStep;
+      const x = cx + ring.r * Math.cos(angle);
+      const y = cy + ring.r * Math.sin(angle);
+      n.x = x; n.y = y; n.color = ring.color; n.ring = ring;
+      nodePos[n.id] = n;
+    });
+  });
+
+  // Draw outer groups
+  outerGroups.forEach(grp => {
+    g.append("text").attr("x", grp.cx).attr("y", grp.cy - 30).attr("font-size", 8).attr("fill", grp.color).attr("font-weight", 700).attr("text-anchor", "middle").text(grp.name.toUpperCase() + ` (${grp.nodes.length})`);
+    grp.nodes.forEach((id, i) => {
+      const x = grp.cx + (i - (grp.nodes.length - 1) / 2) * 85;
+      const y = grp.cy;
+      nodePos[id] = { id, x, y, color: grp.color, group: grp.name };
+    });
+  });
+
+  // Edges: connect related nodes
+  const edges = [
+    // Persons → Positions
+    { from: "John Smith", to: "Test Manager" },
+    { from: "Jane Doe", to: "Senior Tester" },
+    // Positions → Roles
+    { from: "Test Manager", to: "Role with Relations" },
+    { from: "Senior Tester", to: "Role with Scope Internal" },
+    { from: "Senior Tester", to: "Role with Relations" },
+    // Roles → Steps (only key connections to avoid clutter)
+    { from: "Role with Relations", to: "Basic Step" },
+    { from: "Role with Scope Internal", to: "Step with All References" },
+    { from: "Role with Scope External", to: "Decision Step with Branching" },
+    { from: "Role with Relations", to: "Step Outputting Final Artifact" },
+    { from: "Role with Scope Internal", to: "Event Step External Trigger" },
+    { from: "Role with Relations", to: "Step with Multiple Inputs" },
+    { from: "Role with Relations", to: "Step Referencing Nonexistent Artifact" },
+    // Steps → Artifacts
+    { from: "Step with All References", to: "Basic Artifact" },
+    { from: "Step with All References", to: "Artifact with Fields" },
+    { from: "Decision Step with Branching", to: "Artifact Referenced by Decision" },
+    { from: "Step Outputting Final Artifact", to: "Artifact with Fields" },
+    { from: "Event Step External Trigger", to: "Artifact as Output Only" },
+    { from: "Step with Multiple Inputs", to: "Basic Artifact" },
+    // Steps → Tools
+    { from: "Step with All References", to: "Test Runner" },
+    { from: "Step with Multiple Inputs", to: "Mockup Editor" },
+  ];
+
+  edges.forEach(e => {
+    const s = nodePos[e.from], t = nodePos[e.to];
+    if (s && t) {
+      g.append("line").attr("x1", s.x).attr("y1", s.y).attr("x2", t.x).attr("y2", t.y)
+        .attr("class", "connector").attr("stroke-opacity", 0.4)
+        .attr("stroke", d3.interpolateRgb(s.color || "#94a3b8", t.color || "#94a3b8")(0.5));
+    }
+  });
+
+  // Draw nodes
+  Object.values(nodePos).forEach(n => {
+    const isOrphan = rings.some(r => r.nodes.some(rn => rn.id === n.id && rn.orphan));
+    const grp = g.append("g");
+    grp.append("circle").attr("cx", n.x).attr("cy", n.y).attr("r", isOrphan ? 9 : 12)
+      .attr("fill", n.color).attr("class", "node-circle")
+      .attr("stroke", isOrphan ? "#f43f5e" : "white").attr("stroke-width", isOrphan ? 2.5 : 2)
+      .attr("stroke-dasharray", isOrphan ? "4,3" : "none");
+    const label = n.id.length > 22 ? n.id.slice(0, 20) + "…" : n.id;
+    grp.append("text").attr("x", n.x).attr("y", n.y + 4).attr("text-anchor", "middle")
+      .attr("font-size", 6).attr("fill", "white").attr("font-weight", 700).attr("pointer-events", "none")
+      .text(n.id === "Role with Relations" ? "R. Relations" : n.id === "Step with All References" ? "Full Ref" : n.id === "Step Referencing Nonexistent Artifact" ? "Broken Ref" : n.id === "Step with Self-Reference Loop" ? "Self-Loop" : n.id === "Artifact Referenced by Decision" ? "Decision Ref" : n.id.length > 16 ? n.id.slice(0, 14) + "…" : n.id);
+    grp.append("title").text(`${n.id}${isOrphan ? ' (orphan)' : ''}`);
+  });
+  </script>
+</body>
+</html>

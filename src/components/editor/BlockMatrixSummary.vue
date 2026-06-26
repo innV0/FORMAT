@@ -1,18 +1,15 @@
 <template>
   <div v-if="participations.length > 0" class="mt-4 border-t border-slate-200/60 pt-4 space-y-3">
-    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-      <Table2 class="w-3.5 h-3.5 text-slate-400" />
-      Matrix Relationships
-    </h4>
 
     <div v-for="part in participations" :key="part.matrixName" class="space-y-1">
-      <!-- Matrix name (clickable) -->
-      <button
+      <MatrixPill
+        :name="part.matrixName"
+        :source="getMatrixSource(part.matrixName)"
+        :target="getMatrixTarget(part.matrixName)"
+        interactive
+        show-source-target
         @click="$emit('navigate-to-matrix', part.matrixIndex)"
-        class="text-[10px] font-bold text-slate-500 hover:text-primary transition-colors cursor-pointer uppercase tracking-wider"
-      >
-        {{ part.matrixName }}
-      </button>
+      />
 
       <!-- Connections -->
       <div
@@ -49,12 +46,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Table2, ArrowRight } from 'lucide-vue-next';
+import { ArrowRight } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { findNodeByName } from '../../utils/tree';
 import { slugify } from '../../utils/sanitize';
 import BlockPill from './BlockPill.vue';
+import MatrixPill from './MatrixPill.vue';
 
 const props = defineProps<{
   blockName: string;
@@ -84,8 +82,17 @@ const participations = computed(() =>
   documentStore.getBlockMatrixSummary(props.blockName, props.conceptName)
 );
 
+const getMatrixMeta = (matrixName: string) =>
+  documentStore.metamatrix.find(m => m.name === matrixName);
+
+const getMatrixSource = (matrixName: string) =>
+  getMatrixMeta(matrixName)?.source ?? '';
+
+const getMatrixTarget = (matrixName: string) =>
+  getMatrixMeta(matrixName)?.target ?? '';
+
 const counterpartConcept = (part: { role: 'source' | 'target'; matrixName: string }) => {
-  const m = documentStore.metamatrix.find(m => m.name === part.matrixName);
+  const m = getMatrixMeta(part.matrixName);
   if (!m) return '';
   return part.role === 'source' ? m.target : m.source;
 };

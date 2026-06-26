@@ -3,8 +3,8 @@
     :is="as"
     ref="triggerEl"
     :class="pillClasses"
-    @mouseenter="blockId ? scheduleShow() : undefined"
-    @mouseleave="blockId ? scheduleHide() : undefined"
+    @mouseenter="showInfoIcon = true"
+    @mouseleave="showInfoIcon = false"
   >
     <!-- Identity row: icon + name + active markers -->
     <div class="flex items-center gap-1.5 w-full min-w-0">
@@ -29,6 +29,11 @@
       </span>
 
       <!-- Active markers, read-only, rendered inside the pill -->
+      <Info
+        v-if="blockId && showInfoIcon"
+        class="shrink-0 w-3.5 h-3.5 text-slate-400 hover:text-primary cursor-pointer transition-colors"
+        @click.stop="togglePopup"
+      />
       <span
         v-if="activeMarkers.length > 0"
         class="flex items-center gap-1 shrink-0"
@@ -43,16 +48,19 @@
       </span>
     </div>
 
-    <!-- Hover popup (only when blockId is provided) -->
+    <!-- Info popup (only when blockId is provided) -->
     <Teleport v-if="blockId" to="body">
       <Transition name="fade-fast">
         <div
           v-if="popupVisible"
           :style="popupStyle"
           class="fixed z-[998] w-80 bg-white border border-slate-200 rounded-xl shadow-2xl p-4 text-xs select-none"
-          @mouseenter="cancelHide"
-          @mouseleave="scheduleHide"
         >
+          <!-- Close button -->
+          <X
+            class="absolute top-2 right-2 w-4 h-4 text-slate-400 hover:text-slate-700 cursor-pointer transition-colors"
+            @click.stop="popupVisible = false"
+          />
           <!-- Header -->
           <div class="flex items-center gap-1.5 mb-2">
             <component
@@ -118,7 +126,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onBeforeUnmount } from 'vue';
+import { computed, ref } from 'vue';
+import { Info, X } from 'lucide-vue-next';
 import IconRenderer from './IconRenderer.vue';
 import MarkerTooltip from './MarkerTooltip.vue';
 import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
@@ -126,7 +135,6 @@ import { useBlockVisuals } from '../../composables/useBlockVisuals';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { findNodeByName } from '../../utils/tree';
-import { slugify } from '../../utils/sanitize';
 import { MARKER_CYCLE_COUNT } from '../../utils/constants';
 import type { BlockKind, ConceptType } from '../../utils/conceptVisuals';
 
@@ -225,43 +233,23 @@ const navigateToBlock = () => {
   } else {
     documentStore.selectConcept(props.conceptType);
   }
-  scheduleHide();
+  popupVisible.value = false;
 };
 
 // ── Popup ────────────────────────────────────────────────────────────────────
 const triggerEl = ref<HTMLElement | null>(null);
 const popupVisible = ref(false);
+const showInfoIcon = ref(false);
 const coords = ref({ top: 0, left: 0 });
-let showTimer: ReturnType<typeof setTimeout> | null = null;
-let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
-const cancelShow = () => {
-  if (showTimer) { clearTimeout(showTimer); showTimer = null; }
-};
-
-const cancelHide = () => {
-  if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-};
-
-const scheduleShow = () => {
-  cancelHide();
-  if (showTimer) return;
-  showTimer = setTimeout(() => {
-    showTimer = null;
+const togglePopup = () => {
+  if (!popupVisible.value) {
     const rect = triggerEl.value?.getBoundingClientRect();
     if (!rect) return;
     coords.value = { left: rect.left, top: rect.bottom + 6 };
-    popupVisible.value = true;
-  }, 400);
+  }
+  popupVisible.value = !popupVisible.value;
 };
-
-const scheduleHide = () => {
-  cancelShow();
-  cancelHide();
-  hideTimer = setTimeout(() => { popupVisible.value = false; }, 120);
-};
-
-onBeforeUnmount(() => { cancelShow(); cancelHide(); });
 
 const popupStyle = computed(() => ({
   top: `${coords.value.top}px`,
