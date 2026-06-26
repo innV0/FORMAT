@@ -1,6 +1,6 @@
 ---
 name: _FORMAT-skill
-description: "Use when creating, editing, or validating business models and specifications in the FORMAT format (Business and Procedures templates)."
+description: "Use when creating, editing, or validating business models and specifications in the FORMAT format (Business and Procedures templates). Coordinates with the `traNNsform` skill to normalize any raw, unstructured file (PDF, DOCX, ODT, spreadsheet, image, audio, video, chat export, web page, scan, archive, etc.) into structured sources before authoring a model."
 ---
 
 <!-- @spec-version V_0-1-4 -->
@@ -35,8 +35,8 @@ docs/templates/
 │           ├── Acme_V_1-0-0_business_FORMAT.md
 │           └── Ghostbusters_V_0-3-0_business_FORMAT.md
 └── procedures/
-    └── V_1-0-0/
-        ├── procedures_V_1-0-0_FORMAT.md         # Official template
+    └── V_1-1-0/
+        ├── procedures_V_1-1-0_FORMAT.md         # Official template
         ├── template.md
         └── samples/
             └── Holiday_Request_V_1-0-0_procedures_FORMAT.md
@@ -129,8 +129,8 @@ To keep this skill lightweight and maintain a single source of truth, do not dup
   `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md`
 * **Business Template (V_1-0-0):**
   `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md`
-* **Procedures Template (V_1-0-0):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md`
+* **Procedures Template (V_1-1-0):**
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md`
 
 ## 2. Supported Templates
 There are currently two official templates:
@@ -211,7 +211,7 @@ Examples:
 
 ```
 docs/templates/business/V_1-0-0/dashboard.html
-docs/templates/procedures/V_1-0-0/dashboard.html
+docs/templates/procedures/V_1-1-0/dashboard.html
 docs/templates/healthcare_business/V_1-0-0/dashboard.html
 ```
 
@@ -389,3 +389,132 @@ inline CSS, Mustache placeholders only (no triple-mustache, no partials,
 no delimiter changes), template-agnostic keys. See the FORMAT skill for
 the full specification.
 ```
+
+---
+
+## 6. Source Ingestion Pipeline (traNNsform Coordination)
+
+### 6.1 Purpose
+
+The FORMAT skill is the final stage of a pipeline that turns raw,
+unstructured knowledge into a self-contained FORMAT model:
+
+```
+raw/  ──►  traNNsform  ──►  sources/  ──►  _FORMAT  ──►  model_V_x-y-z_TEMPLATE_FORMAT.md
+```
+
+| Stage | Tool / Folder         | Role                                                                                  |
+|------:|-----------------------|---------------------------------------------------------------------------------------|
+| 1     | `raw/`                | User deposits original files (any format — text, PDF, DOCX, audio, video, chats…).    |
+| 2     | `traNNsform`          | Reads every file in `raw/` and normalizes it into structured Markdown + CSV.          |
+| 3     | `sources/`            | Contains the normalized, machine-readable output ready for incorporation.             |
+| 4     | `_FORMAT`             | Reads `sources/`, applies the template, produces the final FORMAT-compliant model.    |
+
+`traNNsform` (https://github.com/innV0/traNNsform) is a sibling skill that
+owns Stage 2. The FORMAT skill owns Stages 3–4 (via the
+`_FORMAT-source-incorporator` sub-skill) and DOES NOT reimplement Stage 2.
+
+### 6.2 When to Suggest Installing traNNsform
+
+The trigger is **format-agnostic**: any file the agent cannot ingest as
+plain text qualifies. The FORMAT skill MUST offer to install `traNNsform`
+when the user wants to build a model from **any unstructured or binary
+content**, including but not limited to:
+
+- **Any attached file or folder of files** — PDF, DOCX, ODT, RTF,
+  spreadsheet (XLSX, CSV that is not already a `.sources/` file), image
+  (PNG, JPG, scanned PDF), audio (MP3, WAV, M4A), video (MP4, MOV), chat
+  export (JSON, TXT, HTML), web page (HTML, MHTML), email archive (mbox,
+  EML), source code archive (ZIP), or any other binary / non-Markdown file.
+- A **`raw/`** folder (or any folder of unstructured files) and asks the
+  agent to turn it into a FORMAT model.
+- A **heterogeneous mix** of web content, transcripts, screenshots, or
+  downloaded files as the source for a new model.
+- An **explicit ask** to "analyze", "extract", "process", "ingest",
+  "summarize", "convert", or "build a model from" attached files.
+
+The key signal is: **the user is asking the agent to derive facts from files
+that are not already FORMAT-compliant Markdown.** That is the boundary
+between needing `traNNsform` and not needing it. PDFs are one example among
+many, not a special case.
+
+### 6.3 Installation Prompt (MANDATORY)
+
+When any §6.2 trigger is met AND `traNNsform` is NOT already installed, the
+agent MUST ask before proceeding. Use this exact prompt template:
+
+> **I can analyze the attached file(s) to build a FORMAT model. To extract
+> structured content from raw files (PDF, DOCX, audio, video, chats, web,
+> etc.), I recommend installing the `traNNsform` skill
+> (https://github.com/innV0/traNNsform). Shall I install it and proceed?**
+
+Rules for the prompt:
+- Present it as a **yes/no question**, not an open-ended menu.
+- Wait for explicit user confirmation before installing.
+- If the user declines, fall back to manual ingestion (see §6.6) — DO NOT
+  silently attempt to parse raw files yourself.
+
+### 6.4 Coordination Protocol (Sub-Agent Pattern)
+
+Once `traNNsform` is installed and the user agrees, the FORMAT skill
+coordinates it as a sub-agent:
+
+1. **Locate the input.** Ask the user for the absolute path of the `raw/`
+   folder (or the folder where the attached files were saved by the UI).
+2. **Delegate normalization.** Invoke the `traNNsform` skill, passing the
+   `raw/` path. `traNNsform` writes its normalized Markdown + CSV output
+   into a `sources/` folder (typically `[ModelDirectory]/.sources/`).
+3. **Wait for completion.** Do not proceed to authoring until `traNNsform`
+   reports completion. Surface any errors from `traNNsform` to the user
+   verbatim.
+4. **Hand off to source-incorporator.** Once `sources/` is populated, invoke
+   the `_FORMAT-source-incorporator` skill to ingest the files into a draft
+   FORMAT model. The incorporation step MUST:
+   - Copy original files to `[ModelDirectory]/.sources/` with their exact
+     filenames.
+   - Tag every AI-written element with `#AI`.
+   - Reference each source via `(Source: [filename.ext](.sources/filename.ext))`.
+   - Refuse to invent facts not present in the sources (no hallucination).
+5. **Author the final model.** Apply the standard FORMAT authoring workflow
+   (Section 4) to produce the final `<Model>_V_x-y-z_<Template>_FORMAT.md`
+   file.
+
+### 6.5 Provenance Chain
+
+Every element authored via this pipeline MUST carry a complete provenance
+chain, even when intermediate steps are not run by the current agent:
+
+```
+#AI  (Source: [filename.ext](.sources/filename.ext))  — normalized by traNNsform from [raw/filename.ext]
+```
+
+The `traNNsform` step is recorded only when it actually ran. For elements
+authored without `traNNsform` (e.g., direct user input), omit the
+`normalized by traNNsform from ...` suffix.
+
+### 6.6 When NOT to Install or Invoke traNNsform
+
+Skip the installation prompt and invoke `_FORMAT-source-incorporator` directly
+when:
+
+- The user provides content inline in the chat (no files attached).
+- The user already has a populated `sources/` folder and only wants the
+  model built.
+- The user is editing an existing FORMAT model (not creating from sources).
+- `traNNsform` is already installed in the current agent.
+- The user explicitly opts out of `traNNsform` (e.g., wants to do extraction
+  manually).
+
+### 6.7 Fallback: Manual Ingestion
+
+If the user declines `traNNsform` but still wants to build a model from raw
+files, the FORMAT skill:
+
+1. Asks the user to manually copy the relevant excerpts (or to point to a
+   `sources/` folder they will populate themselves).
+2. Once a `sources/` folder exists, invokes `_FORMAT-source-incorporator`
+   as normal.
+
+The agent MUST NOT attempt to read PDF, audio, video, or any other binary
+file directly to extract facts. `traNNsform` (or manual copy/paste by the
+user) is the only sanctioned path.

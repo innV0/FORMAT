@@ -555,6 +555,6 @@ Both templates use the same _FORMAT specification — they're just different sch
 
 | Resource | Link |
 | :--- | :--- |
-| Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/template.md) |
-| GitHub directory | [docs/templates/procedures/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/procedures/V_1-0-0) |
+| Template spec (V_1-1-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/template.md) |
+| GitHub directory | [docs/templates/procedures/V_1-1-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/procedures/V_1-1-0) |
 | _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |

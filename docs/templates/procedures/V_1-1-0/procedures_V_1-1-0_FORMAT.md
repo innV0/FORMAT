@@ -1,8 +1,9 @@
+<!-- @spec-version V_0-1-4 -->
 ---
 template:
-  name: "business"
-  version: "V_1-0-0"
-  title: "FORMAT Template"
+  name: "procedures"
+  version: "V_1-1-0"
+  title: "FORMAT Procedures Template"
   last_updated: "2026-06-25T19:37:01.835Z"
   concepts: []
   markers: []
