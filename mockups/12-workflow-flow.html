@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12 — Workflow Flow (dagre)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }
+.node-rect { rx: 10; ry: 10; stroke-width: 2; cursor: pointer; transition: filter 0.2s; }
+.node-rect:hover { filter: brightness(1.08); }
+.edge-path { fill: none; stroke-width: 2; }
+.edge-arrow { fill: #94a3b8; }
+.edge-label { font-size: 8px; fill: #64748b; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">12 — Workflow Flow (DAG Layout)</p>
+    <p class="text-[11px] text-slate-400 mb-4">Step sequence as a directed acyclic graph. Highlights branching, conditions, terminal nodes.</p>
+
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6">
+      <!-- Legend -->
+      <div class="flex flex-wrap items-center gap-4 text-[10px] mb-5 text-slate-500">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-blue-500 border-2 border-blue-500"></span> Task</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500 border-2 border-amber-500"></span> Decision</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-violet-500 border-2 border-violet-500"></span> Event</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-slate-300" style="height:2px;width:16px;"></span> next pointer</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-rose-300" style="height:2px;width:16px;border-top:2px dashed #fda4af;"></span> self-loop</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-orange-300" style="height:2px;width:16px;border-top:2px dashed #fdba74;"></span> broken ref</span>
+      </div>
+
+      <svg id="dagre-svg" width="100%" height="620"></svg>
+    </div>
+    <p class="text-[10px] text-slate-400 mt-3 text-center">Hover nodes for details. Step type = color. Empty circles = no next pointer (terminal).</p>
+  </div>
+
+  <script>
+  // Build step graph with explicit positioning for clarity
+  const steps = [
+    { id: "Basic Step", type: "task", complexity: 1, desc: "Minimal step with only step_type and next" },
+    { id: "Step with All References", type: "task", complexity: 3, desc: "Populates every available field" },
+    { id: "Decision Step with Branching", type: "decision", complexity: 2, desc: "Branches on approval condition" },
+    { id: "Step Outputting Final Artifact", type: "task", complexity: 1, desc: "Produces final-status artifact" },
+    { id: "Event Step External Trigger", type: "event", complexity: 2, desc: "Triggered by external system callback" },
+    { id: "Step with Multiple Inputs", type: "task", complexity: 2, desc: "Consumes artifact, uses design tool" },
+    { id: "Step with No Next (Terminal)", type: "task", complexity: 1, desc: "Terminal step, ends the sequence" },
+    { id: "Step Referencing Nonexistent Artifact", type: "task", complexity: 3, desc: "References 'Ghost Artifact' — broken ref" },
+    { id: "Step with Self-Reference Loop", type: "task", complexity: 3, desc: "next points to itself — circular ref" },
+  ];
+
+  const edges = [
+    { from: "Basic Step", to: "Step with All References" },
+    { from: "Step with All References", to: "Decision Step with Branching" },
+    { from: "Decision Step with Branching", to: "Step Outputting Final Artifact" },
+    { from: "Decision Step with Branching", to: "Event Step External Trigger" },
+    { from: "Step with Multiple Inputs", to: "Step with All References" },
+    { from: "Step Referencing Nonexistent Artifact", to: "Basic Step" },
+  ];
+
+  const colors = { task: { fill: "#eff6ff", stroke: "#3b82f6", text: "#1d4ed8" }, decision: { fill: "#fffbeb", stroke: "#f59e0b", text: "#b45309" }, event: { fill: "#faf5ff", stroke: "#a855f7", text: "#7e22ce" } };
+
+  const nodeW = 190, nodeH = 54, gapX = 80, gapY = 30;
+  const positions = {
+    "Basic Step": { x: 120, y: 60 },
+    "Step with All References": { x: 120, y: 160 },
+    "Decision Step with Branching": { x: 120, y: 260 },
+    "Step Outputting Final Artifact": { x: 50, y: 370 },
+    "Event Step External Trigger": { x: 190, y: 370 },
+    "Step with Multiple Inputs": { x: 400, y: 60 },
+    "Step with No Next (Terminal)": { x: 400, y: 160 },
+    "Step Referencing Nonexistent Artifact": { x: 400, y: 260 },
+    "Step with Self-Reference Loop": { x: 570, y: 260 },
+  };
+
+  const svg = d3.select("#dagre-svg");
+  const g = svg.append("g");
+
+  // Arrow marker
+  svg.append("defs").append("marker").attr("id", "arrow").attr("viewBox", "0 0 10 10").attr("refX", 10).attr("refY", 5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("fill", "#94a3b8");
+
+  svg.append("defs").append("marker").attr("id", "arrow-rose").attr("viewBox", "0 0 10 10").attr("refX", 10).attr("refY", 5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("fill", "#f43f5e");
+
+  svg.append("defs").append("marker").attr("id", "arrow-orange").attr("viewBox", "0 0 10 10").attr("refX", 10).attr("refY", 5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,0 L10,5 L0,10 Z").attr("fill", "#f97316");
+
+  function renderEdge(from, to, special) {
+    const s = positions[from], t = positions[to];
+    if (!s || !t) return;
+    const sx = s.x + nodeW/2, sy = s.y + nodeH;
+    const tx = t.x + nodeW/2, ty = t.y;
+    const cy = (sy + ty) / 2;
+    const isSelf = from === to;
+    let stroke = "#94a3b8", dash = "none", marker = "url(#arrow)";
+    if (special === "self") { stroke = "#f43f5e"; marker = "url(#arrow-rose)"; }
+    if (special === "broken") { stroke = "#f97316"; dash = "5,4"; marker = "url(#arrow-orange)"; }
+
+    if (isSelf) {
+      const r = 40;
+      g.append("path").attr("d", `M${sx},${sy} C${sx + r},${sy} ${sx + r},${sy - 60} ${sx},${sy - 60}`)
+        .attr("class", "edge-path").attr("stroke", stroke).attr("stroke-dasharray", dash).attr("marker-end", marker);
+      return;
+    }
+
+    g.append("path").attr("d", `M${sx},${sy} Q${sx},${cy} ${tx},${ty}`)
+      .attr("class", "edge-path").attr("stroke", stroke).attr("stroke-dasharray", dash).attr("marker-end", marker);
+  }
+
+  // Self-loop
+  renderEdge("Step with Self-Reference Loop", "Step with Self-Reference Loop", "self");
+  // Broken ref via dashed
+  renderEdge("Step Referencing Nonexistent Artifact", "Basic Step", "broken");
+
+  // Normal edges
+  edges.forEach(e => renderEdge(e.from, e.to));
+
+  // Nodes
+  steps.forEach(s => {
+    const pos = positions[s.id]; if (!pos) return;
+    const c = colors[s.type];
+    const gNode = g.append("g").attr("transform", `translate(${pos.x},${pos.y})`);
+
+    gNode.append("rect").attr("width", nodeW).attr("height", nodeH).attr("class", "node-rect")
+      .attr("fill", c.fill).attr("stroke", c.stroke);
+
+    // Type badge
+    gNode.append("rect").attr("width", 42).attr("height", 16).attr("x", 8).attr("y", 7).attr("rx", 4).attr("ry", 4)
+      .attr("fill", c.stroke).attr("opacity", 0.15);
+    gNode.append("text").attr("x", 29).attr("y", 18).attr("text-anchor", "middle").attr("font-size", 8).attr("font-weight", 600).attr("fill", c.text).text(s.type.toUpperCase());
+
+    // Name
+    gNode.append("text").attr("x", nodeW/2).attr("y", 36).attr("text-anchor", "middle").attr("font-size", 10).attr("font-weight", 600).attr("fill", "#1e293b").text(s.id.length > 24 ? s.id.slice(0, 22)+"…" : s.id);
+
+    // Complexity dot
+    for (let i = 0; i < s.complexity; i++) {
+      gNode.append("circle").attr("cx", nodeW - 16 + i * 9).attr("cy", 13).attr("r", 3).attr("fill", s.complexity >= 3 ? "#f43f5e" : s.complexity >= 2 ? "#f59e0b" : "#22c55e").attr("opacity", 0.7);
+    }
+
+    // Tooltip
+    gNode.append("title").text(`${s.id}\n${s.desc}\nComplexity: ${s.complexity}`);
+  });
+
+  // Terminal indicator for Step with No Next
+  const term = positions["Step with No Next (Terminal)"];
+  if (term) {
+    g.append("circle").attr("cx", term.x + nodeW/2).attr("cy", term.y + nodeH + 16).attr("r", 8).attr("fill", "none").attr("stroke", "#94a3b8").attr("stroke-width", 2);
+    g.append("line").attr("x1", term.x + nodeW/2 - 5).attr("y1", term.y + nodeH + 16).attr("x2", term.x + nodeW/2 + 5).attr("y2", term.y + nodeH + 16).attr("stroke", "#94a3b8").attr("stroke-width", 2);
+  }
+
+  // Branch label
+  const dc = positions["Decision Step with Branching"];
+  if (dc) {
+    g.append("text").attr("x", dc.x + nodeW + 5).attr("y", dc.y + 40).attr("font-size", 7).attr("fill", "#f59e0b").attr("font-weight", 600).text("condition: approval granted");
+    g.append("text").attr("x", dc.x + nodeW + 5).attr("y", dc.y + 52).attr("font-size", 7).attr("fill", "#64748b").text("✓ next → Step Outputting Final Artifact");
+    g.append("text").attr("x", dc.x + nodeW + 5).attr("y", dc.y + 64).attr("font-size", 7).attr("fill", "#64748b").text("✗ next → Event Step External Trigger");
+  }
+
+  const self = positions["Step with Self-Reference Loop"];
+  if (self) {
+    g.append("text").attr("x", self.x + nodeW + 5).attr("y", self.y + 30).attr("font-size", 7).attr("fill", "#f43f5e").attr("font-weight", 600).text("⚠ SELF-REFERENCE LOOP");
+  }
+  </script>
+</body>
+</html>

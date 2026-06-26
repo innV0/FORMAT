@@ -18,25 +18,19 @@
             v-if="isOpen" 
             class="absolute left-0 z-20 mt-1 w-64 bg-white border border-slate-200 rounded-md shadow-lg py-1 max-h-60 overflow-y-auto"
           >
-            <button
+            <MatrixPill
               v-for="(matrix, idx) in documentStore.metamatrix"
               :key="matrix.name"
+              :name="matrix.name"
+              :source="matrix.source"
+              :target="matrix.target"
+              :selected="documentStore.activeGeneratedMatrixIndex === idx"
+              :full-width="true"
+              interactive
+              show-source-target
+              as="button"
               @click="selectMatrix(idx)"
-              class="w-full flex flex-col px-3 py-2 text-left hover:bg-slate-50 cursor-pointer transition-colors border-b border-slate-50 last:border-0"
-              :class="{ 'bg-primary/10 text-primary': documentStore.activeGeneratedMatrixIndex === idx }"
-            >
-              <div class="flex items-center justify-between w-full">
-                <span class="text-xs font-semibold truncate" :class="{ 'text-primary': documentStore.activeGeneratedMatrixIndex === idx, 'text-slate-700': documentStore.activeGeneratedMatrixIndex !== idx }">
-                  {{ matrix.name }}
-                </span>
-                <Check v-if="documentStore.activeGeneratedMatrixIndex === idx" class="w-3.5 h-3.5 text-primary shrink-0 ml-2" />
-              </div>
-              <div class="flex items-center gap-1 text-[10px] text-slate-400 mt-0.5">
-                <span>{{ matrix.source }}</span>
-                <span>➔</span>
-                <span>{{ matrix.target }}</span>
-              </div>
-            </button>
+            />
           </div>
         </div>
         <div v-else class="text-slate-400 text-xs italic">
@@ -173,12 +167,13 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { Copy, ChevronDown, Check } from 'lucide-vue-next';
+import { Copy, ChevronDown } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { findNodeByName } from '../../utils/tree';
 import { slugify } from '../../utils/sanitize';
 import BlockPill from './BlockPill.vue';
+import MatrixPill from './MatrixPill.vue';
 import Badge from '../ui/Badge.vue';
 
 const documentStore = useDocumentStore();

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15 — Adjacency Matrix + Complexity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }
+.cell { stroke: white; stroke-width: 1.5; cursor: pointer; transition: opacity 0.15s; }
+.cell:hover { opacity: 0.7; }
+.cell-label { font-size: 7px; font-weight: 500; fill: #475569; pointer-events: none; }
+.row-label { font-size: 9px; fill: #1e293b; font-weight: 500; }
+.col-label { font-size: 8px; fill: #1e293b; font-weight: 600; transform: rotate(-45deg); transform-origin: left top; }
+.section-header { font-size: 10px; font-weight: 700; fill: #64748b; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">15 — Adjacency Matrix + Complexity Heatmap</p>
+    <p class="text-[11px] text-slate-400 mb-4">All relationships as a matrix. Rows = source instances. Cols = target instances. Cell color = connection density.</p>
+
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6">
+      <!-- Legend -->
+      <div class="flex flex-wrap items-center gap-4 mb-4 text-[10px] text-slate-500">
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background:#e0e7ff;"></span> RACI (Roles)</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background:#fef3c7;"></span> Positions</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background:#ccfbf1;"></span> Persons</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background:#ede9fe;"></span> Artifacts</span>
+        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm" style="background:#ffedd5;"></span> Tools</span>
+        <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Complexity 3</span>
+        <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Complexity 2</span>
+        <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Complexity 1</span>
+      </div>
+      <svg id="matrix-svg" width="100%" height="620"></svg>
+    </div>
+    <p class="text-[10px] text-slate-400 mt-3 text-center">Hover a cell to see the relationship label. Colored dots on rows = complexity score of that item.</p>
+  </div>
+
+  <script>
+  // Matrix data: grouped by relationship type
+  const matrices = [
+    {
+      label: "Steps → Roles (RACI)", color: "#6366f1", bg: "#e0e7ff",
+      rows: ["Basic Step", "Step: All Refs", "Decision Step", "Output Final", "Event Trigger", "Multi Inputs", "Terminal", "Broken Ref", "Self-Loop"],
+      cols: ["No Fields", "Int. Scope", "Ext. Scope", "Relations", "Orphan"],
+      cells: {
+        "Basic Step|Relations": "R",
+        "Step: All Refs|Int. Scope": "A", "Step: All Refs|Relations": "C",
+        "Decision Step|Ext. Scope": "I", "Decision Step|Relations": "R",
+        "Output Final|Relations": "A",
+        "Event Trigger|Int. Scope": "R",
+        "Multi Inputs|Relations": "C",
+        "Terminal|Relations": "I",
+        "Broken Ref|Relations": "R",
+        "Self-Loop|Relations": "A",
+      }
+    },
+    {
+      label: "Positions → Roles", color: "#f59e0b", bg: "#fef3c7",
+      rows: ["Test Manager", "Senior Tester", "No Role"],
+      cols: ["No Fields", "Int. Scope", "Ext. Scope", "Relations", "Orphan"],
+      cells: {
+        "Test Manager|Relations": "●",
+        "Senior Tester|Int. Scope": "●", "Senior Tester|Relations": "●",
+      }
+    },
+    {
+      label: "Persons → Positions", color: "#14b8a6", bg: "#ccfbf1",
+      rows: ["John Smith", "Jane Doe", "Unassigned"],
+      cols: ["Test Manager", "Senior Tester", "No Role"],
+      cells: { "John Smith|Test Manager": "●", "Jane Doe|Senior Tester": "●" }
+    },
+    {
+      label: "Steps → Tools", color: "#f97316", bg: "#ffedd5",
+      rows: ["Basic Step", "Step: All Refs", "Decision Step", "Output Final", "Event Trigger", "Multi Inputs", "Terminal", "Broken Ref", "Self-Loop"],
+      cols: ["Test Runner", "Mockup Editor", "Code Review"],
+      cells: { "Step: All Refs|Test Runner": "●", "Multi Inputs|Mockup Editor": "●" }
+    },
+    {
+      label: "Steps → Artifacts", color: "#a855f7", bg: "#ede9fe",
+      rows: ["Basic Step", "Step: All Refs", "Decision Step", "Output Final", "Event Trigger", "Multi Inputs", "Terminal", "Broken Ref", "Self-Loop"],
+      cols: ["Basic Art.", "Art. w/Flds", "Input Only", "Output Only", "Dec. Ref", "Unref."],
+      cells: {
+        "Step: All Refs|Basic Art.": "mod", "Step: All Refs|Art. w/Flds": "crt",
+        "Decision Step|Dec. Ref": "rev",
+        "Output Final|Art. w/Flds": "crt",
+        "Event Trigger|Output Only": "mod",
+        "Multi Inputs|Basic Art.": "mod",
+        "Terminal|Art. w/Flds": "crt",
+      }
+    },
+  ];
+
+  // Complexity scores for each element
+  const complexity = {
+    "Basic Step": 1, "Step: All Refs": 3, "Decision Step": 2, "Output Final": 1,
+    "Event Trigger": 2, "Multi Inputs": 2, "Terminal": 1, "Broken Ref": 3, "Self-Loop": 3,
+    "Basic Art.": 1, "Art. w/Flds": 2, "Input Only": 1, "Output Only": 1, "Dec. Ref": 2, "Unref.": 1,
+    "Test Runner": 1, "Mockup Editor": 1, "Code Review": 2,
+    "Test Manager": 2, "Senior Tester": 2, "No Role": 1,
+    "John Smith": 1, "Jane Doe": 1, "Unassigned": 1,
+    "No Fields": 1, "Int. Scope": 1, "Ext. Scope": 1, "Relations": 1, "Orphan": 1,
+  };
+
+  const svg = d3.select("#matrix-svg");
+  const g = svg.append("g");
+  const cellW = 48, cellH = 20;
+  const margin = { top: 60, right: 30, bottom: 30, left: 110 };
+
+  let yOffset = margin.top;
+  matrices.forEach((mx, mi) => {
+    const xOffset = margin.left;
+    const headerH = 22;
+    const totalW = mx.cols.length * cellW;
+    const totalH = mx.rows.length * cellH;
+
+    // Section header
+    g.append("text").attr("x", xOffset).attr("y", yOffset - 8).attr("class", "section-header").text(mx.label);
+
+    // Column headers
+    mx.cols.forEach((col, ci) => {
+      g.append("text").attr("x", xOffset + ci * cellW + cellW/2).attr("y", yOffset + headerH - 6)
+        .attr("class", "col-label").attr("text-anchor", "end").text(col);
+    });
+
+    // Row headers + cells
+    mx.rows.forEach((row, ri) => {
+      const y = yOffset + headerH + ri * cellH;
+
+      // Row label
+      g.append("text").attr("x", xOffset - 6).attr("y", y + cellH/2 + 3)
+        .attr("class", "row-label").attr("text-anchor", "end").text(row);
+
+      // Complexity dot
+      const c = complexity[row] || 1;
+      const dotColor = c >= 3 ? "#f43f5e" : c >= 2 ? "#f59e0b" : "#22c55e";
+      g.append("circle").attr("cx", xOffset - 14).attr("cy", y + cellH/2).attr("r", 4).attr("fill", dotColor).attr("opacity", 0.7);
+
+      mx.cols.forEach((col, ci) => {
+        const key = `${row}|${col}`;
+        const val = mx.cells[key];
+        const x = xOffset + ci * cellW;
+
+        const rect = g.append("rect").attr("x", x).attr("y", y).attr("width", cellW).attr("height", cellH)
+          .attr("class", "cell").attr("fill", val ? mx.bg : "#f8fafc").attr("rx", 3).attr("ry", 3);
+
+        if (val) {
+          const labelColor = mx.color;
+          g.append("text").attr("x", x + cellW/2).attr("y", y + cellH/2 + 2.5).attr("text-anchor", "middle")
+            .attr("class", "cell-label").attr("fill", labelColor).text(val);
+        }
+
+        rect.append("title").text(`${row} → ${col}${val ? ': ' + val : ' — no relationship'}`);
+      });
+    });
+
+    yOffset += headerH + mx.rows.length * cellH + 28;
+  });
+
+  // Summaries as annotation
+  const summaryY = yOffset + 10;
+  g.append("text").attr("x", margin.left).attr("y", summaryY).attr("font-size", 9).attr("fill", "#94a3b8").text("● Complexity dots: green=1, amber=2, rose=3");
+
+  // Count total relationships
+  let totalRel = 0;
+  matrices.forEach(mx => { Object.keys(mx.cells).forEach(k => { if (mx.cells[k]) totalRel++; }); });
+  g.append("text").attr("x", margin.left).attr("y", summaryY + 16).attr("font-size", 9).attr("fill", "#94a3b8")
+    .text(`● ${totalRel} relationships across ${matrices.length} matrix types`);
+  </script>
+</body>
+</html>

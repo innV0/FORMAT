@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>13 — Sankey Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=true" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }
+.node-bg { stroke: #fff; stroke-width: 2; cursor: pointer; }
+.node-bg:hover { filter: brightness(1.1); }
+.node-text { font-size: 10px; font-weight: 600; }
+.flow-path { stroke-opacity: 0.35; cursor: pointer; }
+.flow-path:hover { stroke-opacity: 0.7; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-8">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">13 — Sankey / Layer Flow</p>
+    <p class="text-[11px] text-slate-400 mb-4">Layered flow from Persons → Positions → Roles → Steps → Artifacts/Tools. Band width = relationship count.</p>
+
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6">
+      <div class="flex flex-wrap items-center gap-3 mb-5 text-[10px] text-slate-500">
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-teal-500"></span> Persons</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-amber-500"></span> Positions</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-green-500"></span> Roles</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-blue-500"></span> Steps</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-purple-500"></span> Artifacts</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-orange-500"></span> Tools</span>
+      </div>
+      <svg id="sankey-svg" width="100%" height="580"></svg>
+    </div>
+    <p class="text-[10px] text-slate-400 mt-3 text-center">Horizontal flow reads left→right. Hover a band to see the relationship. Gap size = hierarchy depth.</p>
+  </div>
+
+  <script>
+  const data = {
+    layers: [
+      {
+        name: "Persons", color: "#14b8a6", nodes: [
+          { id: "John Smith", h: 28, label: "John Smith" },
+          { id: "Jane Doe", h: 28, label: "Jane Doe" },
+          { id: "Unassigned Person", h: 28, label: "Unassigned" },
+        ]
+      },
+      {
+        name: "Positions", color: "#f59e0b", nodes: [
+          { id: "Test Manager", h: 32, label: "Test Manager" },
+          { id: "Senior Tester", h: 32, label: "Senior Tester" },
+          { id: "Position with No Role", h: 32, label: "No Role" },
+        ]
+      },
+      {
+        name: "Roles", color: "#22c55e", nodes: [
+          { id: "Role with No Fields", h: 22, label: "No Fields" },
+          { id: "Role with Scope Internal", h: 22, label: "Scope Internal" },
+          { id: "Role with Scope External", h: 22, label: "Scope External" },
+          { id: "Role with Relations", h: 40, label: "Role Relations" },
+          { id: "Role as Orphan", h: 22, label: "Orphan" },
+        ]
+      },
+      {
+        name: "Steps", color: "#3b82f6", nodes: [
+          { id: "Basic Step", h: 20, label: "Basic Step" },
+          { id: "Step with All References", h: 40, label: "Full Ref Step" },
+          { id: "Decision Step with Branching", h: 20, label: "Decision" },
+          { id: "Step Outputting Final Artifact", h: 20, label: "Final Artifact" },
+          { id: "Event Step External Trigger", h: 20, label: "Event Trigger" },
+          { id: "Step with Multiple Inputs", h: 20, label: "Multi Input" },
+          { id: "Step with No Next (Terminal)", h: 20, label: "Terminal" },
+          { id: "Step Referencing Nonexistent Artifact", h: 20, label: "Broken Ref" },
+          { id: "Step with Self-Reference Loop", h: 20, label: "Self-Loop" },
+        ]
+      },
+      {
+        name: "Artifacts", color: "#a855f7", nodes: [
+          { id: "Basic Artifact", h: 22, label: "Basic" },
+          { id: "Artifact with Fields", h: 42, label: "Artifact w/Fields" },
+          { id: "Artifact as Input Only", h: 22, label: "Input Only" },
+          { id: "Artifact as Output Only", h: 22, label: "Output Only" },
+          { id: "Artifact Referenced by Decision", h: 22, label: "Decision Ref" },
+          { id: "Artifact Never Referenced", h: 22, label: "Unreferenced" },
+        ]
+      },
+      {
+        name: "Tools", color: "#f97316", nodes: [
+          { id: "Test Runner", h: 24, label: "Test Runner" },
+          { id: "Mockup Editor", h: 24, label: "Mockup Editor" },
+          { id: "Code Review Platform", h: 24, label: "Code Review" },
+        ]
+      },
+    ],
+    flows: [
+      // Persons → Positions
+      { from: "John Smith", to: "Test Manager", v: 1, label: "occupies" },
+      { from: "Jane Doe", to: "Senior Tester", v: 1, label: "occupies" },
+      // Positions → Roles
+      { from: "Test Manager", to: "Role with Relations", v: 1, label: "assumes" },
+      { from: "Senior Tester", to: "Role with Scope Internal", v: 1, label: "assumes" },
+      { from: "Senior Tester", to: "Role with Relations", v: 1, label: "assumes" },
+      // Roles → Steps (RACI connections)
+      { from: "Role with Relations", to: "Basic Step", v: 1, label: "R" },
+      { from: "Role with Scope Internal", to: "Step with All References", v: 1, label: "A" },
+      { from: "Role with Relations", to: "Step with All References", v: 1, label: "C" },
+      { from: "Role with Scope External", to: "Decision Step with Branching", v: 1, label: "I" },
+      { from: "Role with Relations", to: "Decision Step with Branching", v: 1, label: "R" },
+      { from: "Role with Relations", to: "Step Outputting Final Artifact", v: 1, label: "A" },
+      { from: "Role with Scope Internal", to: "Event Step External Trigger", v: 1, label: "R" },
+      { from: "Role with Relations", to: "Step with Multiple Inputs", v: 1, label: "C" },
+      { from: "Role with Relations", to: "Step with No Next (Terminal)", v: 1, label: "I" },
+      { from: "Role with Relations", to: "Step Referencing Nonexistent Artifact", v: 1, label: "R" },
+      { from: "Role with Relations", to: "Step with Self-Reference Loop", v: 1, label: "A" },
+      // Steps → Artifacts
+      { from: "Step with All References", to: "Basic Artifact", v: 1, label: "modifies" },
+      { from: "Step with All References", to: "Artifact with Fields", v: 1, label: "creates" },
+      { from: "Decision Step with Branching", to: "Artifact Referenced by Decision", v: 1, label: "reviews" },
+      { from: "Step Outputting Final Artifact", to: "Artifact with Fields", v: 1, label: "creates" },
+      { from: "Event Step External Trigger", to: "Artifact as Output Only", v: 1, label: "modifies" },
+      { from: "Step with Multiple Inputs", to: "Basic Artifact", v: 1, label: "modifies" },
+      { from: "Step with No Next (Terminal)", to: "Artifact with Fields", v: 1, label: "creates" },
+      // Steps → Tools
+      { from: "Step with All References", to: "Test Runner", v: 1, label: "uses" },
+      { from: "Step with Multiple Inputs", to: "Mockup Editor", v: 1, label: "uses" },
+    ]
+  };
+
+  const svg = d3.select("#sankey-svg");
+  const margin = { top: 20, bottom: 20, left: 10, right: 10 };
+  const W = 1120, H = 580;
+  svg.attr("viewBox", `0 0 ${W} ${H}`);
+
+  // Layout: compute positions
+  const layerCount = data.layers.length;
+  const layerGap = (W - margin.left - margin.right) / (layerCount - 1);
+
+  // Position nodes per layer
+  const nodeMap = {};
+  data.layers.forEach((layer, li) => {
+    const x = margin.left + li * layerGap;
+    const totalH = layer.nodes.reduce((s, n) => s + n.h, 0);
+    const gaps = (layer.nodes.length - 1) * 8;
+    const startY = (H - totalH - gaps) / 2;
+    let y = startY;
+    layer.nodes.forEach(n => {
+      n.x = x; n.y = y; n.w = 14;
+      nodeMap[n.id] = n;
+      y += n.h + 8;
+    });
+  });
+
+  // Draw flows (bezier curves)
+  data.flows.forEach(f => {
+    const from = nodeMap[f.from], to = nodeMap[f.to];
+    if (!from || !to) return;
+    const x1 = from.x + from.w, y1 = from.y + from.h / 2;
+    const x2 = to.x, y2 = to.y + to.h / 2;
+    const cx1 = x1 + (x2 - x1) * 0.5, cx2 = x1 + (x2 - x1) * 0.5;
+    const layer = data.layers.find(l => l.nodes.some(n => n.id === f.to));
+    const color = layer ? layer.color : "#94a3b8";
+    const w = Math.max(2, f.v * 6);
+
+    svg.append("path")
+      .attr("d", `M${x1},${y1} C${cx1},${y1} ${cx2},${y2} ${x2},${y2}`)
+      .attr("class", "flow-path")
+      .attr("stroke", color).attr("stroke-width", w).attr("fill", "none")
+      .append("title").text(`${f.from} → ${f.to}: ${f.label}`);
+  });
+
+  // Draw nodes
+  data.layers.forEach(layer => {
+    layer.nodes.forEach(n => {
+      const g = svg.append("g");
+
+      // Background rect
+      g.append("rect").attr("x", n.x).attr("y", n.y).attr("width", n.w).attr("height", n.h)
+        .attr("rx", 3).attr("ry", 3).attr("fill", layer.color).attr("class", "node-bg");
+
+      // Label
+      g.append("text").attr("x", n.x + n.w + 6).attr("y", n.y + n.h / 2 + 3.5)
+        .attr("class", "node-text").attr("fill", "#1e293b").text(n.label);
+
+      // Layer tag on first node of each layer
+      if (n === layer.nodes[0]) {
+        g.append("text").attr("x", n.x + n.w / 2).attr("y", n.y - 10)
+          .attr("text-anchor", "middle").attr("font-size", 9).attr("font-weight", 700)
+          .attr("fill", layer.color).attr("text-transform", "uppercase").text(layer.name.toUpperCase());
+      }
+
+      g.append("title").text(`${n.id} (${layer.name})`);
+    });
+  });
+
+  // Orphan indicators
+  ["Role as Orphan", "Unassigned Person", "Position with No Role", "Artifact Never Referenced"].forEach(id => {
+    const n = nodeMap[id];
+    if (n) {
+      svg.append("text").attr("x", n.x + n.w + 6).attr("y", n.y + n.h / 2 + 10)
+        .attr("font-size", 7).attr("fill", "#f43f5e").attr("font-weight", 500).text("(orphan)");
+    }
+  });
+  </script>
+</body>
+</html>

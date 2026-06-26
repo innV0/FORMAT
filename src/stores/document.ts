@@ -39,8 +39,6 @@ export const useDocumentStore = defineStore('document', () => {
     
     if (parsed.metamodel) {
       metamodelStore.loadMetamodelFromObject(parsed.metamodel, 'Inline YAML Frontmatter');
-    } else {
-      metamodelStore.loadDefaultMetamodel();
     }
 
     // C1 fix: wire taxonomy edges parsed from the document body (concept-taxonomy

@@ -23,7 +23,7 @@
             
             <!-- Score Visualizer (0-3 dots) -->
             <div class="flex items-center gap-1">
-              <span class="text-[10px] text-slate-400 mr-1">Valor: {{ score }}/3</span>
+              <span class="text-[10px] text-slate-400 mr-1">Value: {{ score }}/3</span>
               <div 
                 v-for="i in 3" 
                 :key="i"
@@ -39,7 +39,7 @@
           
           <!-- Score Meaning (Text) -->
           <div class="text-[11px] text-slate-400 font-medium mb-2">
-            Valoración: <span class="text-slate-300 font-semibold">{{ getScoreLabel(score) }}</span>
+            Rating: <span class="text-slate-300 font-semibold">{{ getScoreLabel(score) }}</span>
           </div>
 
           <!-- Divider -->
@@ -50,10 +50,10 @@
             {{ marker.description }}
           </p>
 
-          <!-- Guidelines / Criterios de Evaluación -->
+          <!-- Guidelines -->
           <div v-if="formattedGuidelines && formattedGuidelines.length" class="mb-3">
             <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1.5">
-              Criterios de Evaluación
+              Evaluation Criteria
             </div>
             <ul class="space-y-1 text-slate-300 pl-3.5 list-disc text-[11px]">
               <li v-for="(g, idx) in formattedGuidelines" :key="idx" class="leading-normal">
@@ -65,12 +65,12 @@
           <!-- Examples High/Low -->
           <div v-if="examples && examples.length" class="mt-2 border-t border-slate-800/60 pt-2.5">
             <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1.5">
-              Ejemplos de Referencia
+              Reference Examples
             </div>
             <div class="space-y-2">
               <div v-for="(exampleGroup, idx) in examples" :key="idx" class="text-[11px]">
                 <div class="text-[10px] font-semibold mb-0.5" :class="exampleGroup.type === 'high' ? 'text-emerald-400' : 'text-rose-400'">
-                  {{ exampleGroup.type === 'high' ? 'Alta valoración (3/3):' : 'Baja valoración (1/3):' }}
+                  {{ exampleGroup.type === 'high' ? 'High score (3/3):' : 'Low score (1/3):' }}
                 </div>
                 <ul class="space-y-0.5 text-slate-400 pl-3 list-disc text-[10.5px]">
                   <li v-for="(ex, exIdx) in exampleGroup.items" :key="exIdx" class="leading-normal">
@@ -129,11 +129,11 @@ const tooltipStyle = computed(() => ({
 
 const getScoreLabel = (score: number) => {
   switch (score) {
-    case 0: return 'Sin asignar / No relevante';
-    case 1: return 'Bajo';
-    case 2: return 'Medio';
-    case 3: return 'Alto';
-    default: return 'No especificado';
+    case 0: return 'Not set / N/A';
+    case 1: return 'Low';
+    case 2: return 'Medium';
+    case 3: return 'High';
+    default: return 'Not specified';
   }
 };
 

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { Concept, Marker, AnalysisKey, Perspective, PerspectiveEdge, PerspectiveNeighborhood } from '../types';
-import defaultMasterData from '../../innV0_master_data.json';
 import { DocumentationEntry } from '../utils/documentationParser';
 import { deriveChain } from '../utils/chain';
 
@@ -11,59 +10,13 @@ export const useMetamodelStore = defineStore('metamodel', () => {
   const markers = ref<Marker[]>([]);
   const metamodelMatrices = ref<any[]>([]);
   const documentation = ref<Record<string, DocumentationEntry>>({});
-  // Taxonomy edges: parent→child concept name pairs loaded from sheets.taxonomy.
-  // These back the Taxonomy perspective.
   const taxonomyEdges = ref<PerspectiveEdge[]>([]);
-
   const analysisKeys = ref<AnalysisKey[]>([]);
-
-  // An element's icon is a property of the bm_format TEMPLATE (the built-in
-  // metamodel), not of any individual model. Loaded models are instances and
-  // must NOT carry their own concept icons — the template defines them by name.
-  // Precedence: explicit frontmatter `icon` > canonical template icon (by name)
-  // > legacy `emoji` field (still resolved by IconRenderer) > none.
-  const canonicalIcon: Record<string, string> = {};
-  [
-    ...(defaultMasterData.sheets.concepts as any[]),
-    ...(defaultMasterData.sheets.markers as any[]),
-  ].forEach(item => {
-    if (item?.name) canonicalIcon[item.name.toLowerCase()] = item.icon || item.emoji || '';
-  });
 
   const withIcon = <T extends { name?: string; icon?: string; emoji?: string }>(item: T): T => ({
     ...item,
-    icon:
-      item.icon ||
-      (item.name ? canonicalIcon[item.name.toLowerCase()] : '') ||
-      item.emoji ||
-      '',
+    icon: item.icon || item.emoji || '',
   });
-
-  // Default fallback loader
-  const loadDefaultMetamodel = () => {
-    metamodelSource.value = 'Built-in Default';
-    concepts.value = (defaultMasterData.sheets.concepts as any[]).map(withIcon) as Concept[];
-    markers.value = (defaultMasterData.sheets.markers as any[]).map(withIcon) as Marker[];
-    metamodelMatrices.value = defaultMasterData.sheets.matrices || [];
-    const sheetsAny = defaultMasterData.sheets as any;
-    taxonomyEdges.value = Array.isArray(sheetsAny.taxonomy) ? (sheetsAny.taxonomy as PerspectiveEdge[]) : [];
-    
-    // Load keys if defined in sheets, otherwise provide default ones
-    const sheetsData = defaultMasterData.sheets as any;
-    if (sheetsData.keys) {
-      analysisKeys.value = (sheetsData.keys as AnalysisKey[]).map(k => {
-        // Enforce default relation fields if empty
-        return {
-          ...k,
-          target_concepts: k.target_concepts || [k.domain],
-          depends_on_keys: k.depends_on_keys || [],
-          type: k.type || ((k.target_concepts && k.target_concepts.length > 1) ? 'relational' : 'pure')
-        };
-      });
-    } else {
-      analysisKeys.value = [];
-    }
-  };
 
   const loadMetamodelFromObject = (metamodelObj: any, sourceName: string) => {
     try {
@@ -96,9 +49,6 @@ export const useMetamodelStore = defineStore('metamodel', () => {
   const setDocumentation = (docs: Record<string, DocumentationEntry>) => {
     documentation.value = docs;
   };
-
-  // Initialize with defaults
-  loadDefaultMetamodel();
 
   // hierarchyConcepts: the instance Chain perspective concept sequence (Stakeholders→Segments→…).
   // Derived from instance hierarchy matrices parsed at model-load time (passed via
@@ -214,7 +164,6 @@ export const useMetamodelStore = defineStore('metamodel', () => {
     getConceptPerspectives,
     setHierarchyConcepts,
     setTaxonomyEdges,
-    loadDefaultMetamodel,
     loadCustomMetamodel,
     loadMetamodelFromObject,
     getConceptByName,

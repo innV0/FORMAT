@@ -1,15 +1,16 @@
-<!-- @spec-version V_0-1-4 -->
 ---
+specification_version: "V_0-1-4"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 template:
   name: "procedures"
-  version: "V_1-1-0"
+  version: "V_0-1-0"
   title: "FORMAT Procedures Template"
   last_updated: "2026-06-25T19:37:01.835Z"
   concepts: []
   markers: []
   matrices:
-    - name: "steps-roles matrix"
-      source: "steps"
+    - name: "work-roles matrix"
+      source: "work"
       target: "roles"
       params: "Responsible;Accountable;Consulted;Informed"
     - name: "positions-roles matrix"
@@ -20,12 +21,12 @@ template:
       source: "person"
       target: "position"
       params: "Occupies"
-    - name: "steps-tools matrix"
-      source: "steps"
+    - name: "work-tools matrix"
+      source: "work"
       target: "tools"
       params: "Uses"
-    - name: "steps-artifacts matrix"
-      source: "steps"
+    - name: "work-artifacts matrix"
+      source: "work"
       target: "artifact"
       params: "Creates;Modifies;Validates;Reviews"
     - name: "item-markers matrix"
@@ -46,18 +47,18 @@ last_saved: "2026-06-25T19:37:01.835Z"
 
 | Matrix Name | Source | Target | Widget Type | Widget Parameters |
 | :--- | :--- | :--- | :--- | :--- |
-| steps-roles matrix | steps | roles | cycle | Responsible;Accountable;Consulted;Informed |
+| work-roles matrix | work | roles | cycle | Responsible;Accountable;Consulted;Informed |
 | positions-roles matrix | position | roles | cycle | Assumes |
 | persons-positions matrix | person | position | cycle | Occupies |
-| steps-tools matrix | steps | tools | cycle | Uses |
-| steps-artifacts matrix | steps | artifact | cycle | Creates;Modifies;Validates;Reviews |
+| work-tools matrix | work | tools | cycle | Uses |
+| work-artifacts matrix | work | artifact | cycle | Creates;Modifies;Validates;Reviews |
 | item-markers matrix | elements | markers | cycle | - |
 
-# <!-- block: matrices --> steps-roles matrix
+# <!-- block: matrices --> work-roles matrix
 
-| steps \ roles | Role Name |
+| work \ roles | Role Name |
 | :--- | :---: |
-| Step Name | Responsible |
+| Work Name | Responsible |
 
 # <!-- block: matrices --> positions-roles matrix
 
@@ -71,17 +72,17 @@ last_saved: "2026-06-25T19:37:01.835Z"
 | :--- | :---: |
 | Person Name | Occupies |
 
-# <!-- block: matrices --> steps-tools matrix
+# <!-- block: matrices --> work-tools matrix
 
-| steps \ tools | Tool Name |
+| work \ tools | Tool Name |
 | :--- | :---: |
-| Step Name | Uses |
+| Work Name | Uses |
 
-# <!-- block: matrices --> steps-artifacts matrix
+# <!-- block: matrices --> work-artifacts matrix
 
-| steps \ artifact | Artifact Name |
+| work \ artifact | Artifact Name |
 | :--- | :---: |
-| Step Name | Creates |
+| Work Name | Creates |
 
 # <!-- block: matrices --> item-markers matrix
 

@@ -25,34 +25,3 @@ export const sanitizeId = (name: string): string => {
 export const stripMarkdownFormatting = (s: string): string => {
   return s.replace(/\*\*|\*|__|\[\[|\]\]/g, '').trim();
 };
-
-/**
- * Sanitizes a dashboard renderer HTML fragment by removing prohibited tags
- * and attributes (skill §5.6). This is a defense-in-depth layer that runs
- * BEFORE Mustache rendering, in addition to the renderer validator and the
- * sandboxed iframe at runtime.
- *
- * Removes: <script>, <iframe>, <object>, <embed>, <link>, <meta>,
- *          all on* attributes, and javascript: URIs.
- */
-export function sanitizeDashboardHtml(html: string): string {
-  let result = html;
-
-  result = result.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
-  result = result.replace(/<script\b[^>]*\/>/gi, '');
-  result = result.replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe\s*>/gi, '');
-  result = result.replace(/<object\b[^>]*>[\s\S]*?<\/object\s*>/gi, '');
-  result = result.replace(/<embed\b[^>]*>/gi, '');
-  result = result.replace(/<link\b[^>]*>/gi, '');
-  result = result.replace(/<meta\b[^>]*>/gi, '');
-
-  result = result.replace(/\son\w+\s*=\s*"[^"]*"/gi, '');
-  result = result.replace(/\son\w+\s*=\s*'[^']*'/gi, '');
-  result = result.replace(/\son\w+\s*=\s*[^\s>]+/gi, '');
-
-  result = result.replace(/(href|src)\s*=\s*"\s*javascript:[^"]*"/gi, '$1="#"');
-  result = result.replace(/(href|src)\s*=\s*'\s*javascript:[^']*'/gi, '$1="#"');
-  result = result.replace(/(href|src)\s*=\s*javascript:[^\s>]*/gi, '$1="#"');
-
-  return result;
-}

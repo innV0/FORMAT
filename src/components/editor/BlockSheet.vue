@@ -182,9 +182,9 @@
             :concept-name="conceptName"
             @navigate-to-matrix="navigateToMatrix"
           />
-          <ConceptRelationshipGraph
-            :concept-name="conceptName"
-            :concept-color="conceptColor"
+          <GraphViewer
+            :local-node-id="block.name"
+            class="mt-3"
           />
         </template>
       </div>
@@ -197,7 +197,7 @@ import { computed, provide } from 'vue';
 import { ChevronDown, ArrowUp, ArrowDown, Pencil, Check, Trash2, PlusCircle } from 'lucide-vue-next';
 import IconRenderer from './IconRenderer.vue';
 import MarkerTooltip from './MarkerTooltip.vue';
-import ConceptRelationshipGraph from './ConceptRelationshipGraph.vue';
+import GraphViewer from './GraphViewer.vue';
 import BlockRelationships from './BlockRelationships.vue';
 import BlockMatrixSummary from './BlockMatrixSummary.vue';
 import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';

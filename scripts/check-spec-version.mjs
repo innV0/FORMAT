@@ -47,11 +47,10 @@ const CURRENT_VERSION = versionMatch[1];
 // ---- 2. Define the tracked files ----
 
 /**
- * Markdown / non-code files that carry an @spec-version marker.
- * Extend this list when new non-code artifacts are added to the repo.
+ * Non-code files that declare a `specification_version` in their YAML frontmatter.
+ * Extend this list when new templates/samples are added to the repo.
  */
 const MARKER_FILES = [
-  '.agents/skills/_FORMAT-skill/SKILL.md',
   'docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md',
   'docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md',
   'docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md',
@@ -115,7 +114,7 @@ if (existsSync(AGENTS_PATH)) {
   }
 }
 
-// 3b. Validate each marker file exists and carries the correct version.
+// 3b. Validate each file's specification_version in YAML frontmatter.
 for (const relPath of MARKER_FILES) {
   const absPath = join(ROOT, relPath);
   if (!existsSync(absPath)) {
@@ -124,17 +123,25 @@ for (const relPath of MARKER_FILES) {
     continue;
   }
   const content = readFileSync(absPath, 'utf8');
-  const markerMatch = content.match(/@spec-version\s+(V_\d+-\d+-\d+)/);
-  if (!markerMatch) {
+  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---/m);
+  if (!fmMatch) {
     errors.push(
-      `[NO-MARKER] ${relPath} — expected "<!-- @spec-version ${CURRENT_VERSION} -->" but marker not found`,
+      `[NO-FRONTMATTER] ${relPath} — no YAML frontmatter block found`,
     );
     drift = true;
     continue;
   }
-  const fileVersion = markerMatch[1];
+  const versionMatch = fmMatch[1].match(/specification_version:\s*"?(V_\d+-\d+-\d+)"?\s*$/m);
+  if (!versionMatch) {
+    errors.push(
+      `[NO-VERSION] ${relPath} — expected "specification_version: ${CURRENT_VERSION}" in frontmatter but not found`,
+    );
+    drift = true;
+    continue;
+  }
+  const fileVersion = versionMatch[1];
   if (fileVersion !== CURRENT_VERSION) {
-    errors.push(`[STALE] ${relPath} — marker says ${fileVersion}, expected ${CURRENT_VERSION}`);
+    errors.push(`[STALE] ${relPath} — frontmatter says ${fileVersion}, expected ${CURRENT_VERSION}`);
     drift = true;
   }
 }

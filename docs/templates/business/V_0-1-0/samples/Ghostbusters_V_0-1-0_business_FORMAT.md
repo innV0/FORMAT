@@ -1,4 +1,3 @@
-<!-- @spec-version V_0-1-4 -->
 ---
 specification_version: "V_0-1-4"
 model_version: "V_0-1-0"
