@@ -17,7 +17,7 @@
     * [Definition](templates/business/V_1-0-0/template.md)
     * [Documentation](templates/business/V_1-0-0/documentation.md)
   * **Procedures (V1.0.0)**
-    * [Definition](templates/procedures/V_1-0-0/template.md)
+    * [Definition](templates/procedures/V_1-1-0/template.md)
 
 * **App Reference**
   * [User Guide](app/user_guide.md)

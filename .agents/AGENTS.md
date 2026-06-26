@@ -38,8 +38,8 @@ The following non-code files MUST be updated when the spec version changes. This
 | `.agents/skills/_FORMAT-skill/SKILL.md` | Skill | Embeds spec version, canonical URL, and frontmatter examples |
 | `docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
 | `docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
-| `docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
-| `docs/templates/procedures/V_1-0-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_1-1-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
 
 When a new non-code artifact that references the spec version is added to the repo, append its path to this table AND to `MARKER_FILES` in the same commit. The `check:spec-version` script will fail if the two lists diverge or if a listed file is missing its marker.
 

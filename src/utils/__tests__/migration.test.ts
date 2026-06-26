@@ -5,7 +5,7 @@ import path from 'path';
 
 const filesToMigrate = [
   'docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md',
-  'docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md',
+  'docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md',
 ];
 
 describe('Migration runner', () => {

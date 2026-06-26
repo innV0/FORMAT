@@ -5,19 +5,24 @@ model_version: "V_1-0-0"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
 template:
   name: "procedures"
-  version: "V_1-0-0"
+  version: "V_1-1-0"
   title: "Comprehensive Test Procedure"
+  last_updated: "2026-06-24T00:00:00.000Z"
   concepts:
     - name: "procedure summary"
       icon: "file-text"
       type: "text"
+      mode: "basic"
       color: "green"
       weight: 90
+      ai_applicability: 9
     - name: "roles"
       icon: "users"
       type: "list"
+      mode: "basic"
       color: "green"
       weight: 80
+      ai_applicability: 8
       fields:
         - name: "scope"
           type: "select"
@@ -27,8 +32,10 @@ template:
     - name: "steps"
       icon: "list-ordered"
       type: "sequence"
+      mode: "basic"
       color: "green"
       weight: 90
+      ai_applicability: 9
       fields:
         - name: "step_type"
           type: "select"
@@ -57,26 +64,36 @@ template:
     - name: "artifact"
       icon: "package"
       type: "list"
+      mode: "basic"
       color: "blue"
       weight: 75
+      ai_applicability: 7
     - name: "tools"
       icon: "wrench"
       type: "list"
+      mode: "basic"
       color: "orange"
       weight: 70
+      ai_applicability: 8
     - name: "position"
       icon: "briefcase"
       type: "list"
+      mode: "basic"
       color: "green"
       weight: 70
+      ai_applicability: 7
     - name: "person"
       icon: "user"
       type: "list"
+      mode: "basic"
       color: "green"
       weight: 60
+      ai_applicability: 6
   markers:
     - name: "complexity"
       icon: "gauge"
+      description: "How complex is the procedure to execute"
+      mode: "basic"
       color: "green"
       weight: 50
   matrices:

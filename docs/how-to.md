@@ -36,7 +36,7 @@ Right-click → **Save link as...** → save to your chosen folder.
 ### Procedures Template
 For documenting workflows, SOPs, and step-by-step processes.
 
-**[Download procedures template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md)**
+**[Download procedures template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md)**
 
 Right-click → **Save link as...** → save to the same folder.
 

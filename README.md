@@ -23,7 +23,7 @@ Choose a template and save it to a folder on your computer:
 | Template | Concepts | Best for | Download |
 | :--- | :---: | :--- | :---: |
 | **Business** | 70+ | Complete business strategy modeling | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md) |
-| **Procedures** | 3 | Workflows, SOPs, process documentation | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md) |
+| **Procedures** | 3 | Workflows, SOPs, process documentation | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md) |
 
 > **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) to see a filled-in example.
 
@@ -138,7 +138,7 @@ A lightweight template for documenting processes, workflows, and standard operat
 | **Roles** | `list` | Actors participating in the procedure |
 | **Steps** | `sequence` | Ordered steps to complete the procedure |
 
-**Download:** [procedures_V_1-0-0_FORMAT.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md)
+**Download:** [procedures_V_1-1-0_FORMAT.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md)
 
 ### Which Template Should I Use?
 
@@ -355,7 +355,7 @@ See [LICENSE](LICENSE) for details.
 | **Documentation & How-To** | [format.innv0.com/docs](https://format.innv0.com/docs/) |
 | **Specification** | [docs/V_0-1-4/_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md) |
 | **Business Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md) |
-| **Procedures Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-0-0/procedures_V_1-0-0_FORMAT.md) |
+| **Procedures Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md) |
 | **Sample Model** | [Ghostbusters](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) |
 | **Business Documentation** | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/documentation.md) |
 | **GitHub** | [github.com/innV0/FORMAT](https://github.com/innV0/FORMAT) |
