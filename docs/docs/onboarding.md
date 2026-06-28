@@ -29,15 +29,15 @@ A FORMAT document is a structured Markdown file that represents a **business or 
 
 ## Step-by-Step: Opening Your Document in the FORMAT App
 
-### 1. Open the Website
+### 1. Open the Project Website
 
 Go to **[format.innv0.com](https://format.innv0.com)** in any modern browser (Chrome, Edge, Firefox, Safari).
 
-This is the entry point to the FORMAT ecosystem. No installation required — everything runs in the browser.
+This is the project website. It explains what FORMAT is and links to everything you need.
 
-### 2. Open the App
+### 2. Go to the App
 
-Click **"Open App"** on the landing page. The app loads instantly — it's a client-side web application. Nothing is uploaded to a server; your files stay on your machine.
+Open **[format.innv0.com/app](https://format.innv0.com/app)** or click **"App"** in the navigation bar. The app loads instantly — it's a client-side web application. Nothing is uploaded to a server; your files stay on your machine.
 
 The app shows an empty workspace ready to load a document.
 
