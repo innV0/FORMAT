@@ -13,7 +13,7 @@
     />
     <span v-if="showSourceTarget && source && target" class="truncate min-w-0 leading-tight flex items-center gap-1">
       <span :class="sourceText">{{ source }}</span>
-      <span v-if="label" class="text-[10px] text-slate-400 font-normal italic">{{ label }}</span>
+      <span v-if="label" class="text-xs text-slate-400 font-normal italic">{{ label }}</span>
       <span class="text-slate-300 font-normal">→</span>
       <span :class="targetText">{{ target }}</span>
     </span>

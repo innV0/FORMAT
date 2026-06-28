@@ -12,19 +12,6 @@
       <main class="flex-1 flex overflow-hidden bg-background">
         <!-- Center/Left: Editor Workspace -->
         <div class="flex-1 flex flex-col overflow-y-auto border-r border-border p-8 scrollbar-discreet">
-          
-          <!-- Concept Title Header -->
-          <div class="border-b border-border pb-4 mb-6 flex justify-between items-center shrink-0">
-            <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded-md">
-                Type: {{ workspaceStore.activeFileName ? conceptType : 'setup' }}
-              </span>
-              <h2 class="text-xl font-bold tracking-tight text-slate-900 mt-1.5">
-                {{ headerTitle }}
-              </h2>
-            </div>
-          </div>
-
           <!-- 1. MODEL INFO VIEW (Rendered if 'info' selected OR if no file is active) -->
           <ModelInfoPanel v-if="activeConcept === 'info' || !workspaceStore.activeFileName" />
 
@@ -83,14 +70,6 @@ const conceptType = computed(() => documentStore.getConceptType());
 
 const isMarkdownEditor = computed(() => {
   return ['text', 'weight', 'steps', 'sequence', 'category', 'list'].includes(conceptType.value);
-});
-
-const headerTitle = computed(() => {
-  if (!workspaceStore.activeFileName || activeConcept.value === 'info') return 'Model Information & Workspace';
-  if (activeConcept.value === 'dashboard') return 'Graph View';
-  if (activeConcept.value === 'metamatrix') return 'Metamatrix Configuration';
-  if (activeConcept.value === 'matrices') return 'Relational Matrices Grid';
-  return activeConcept.value;
 });
 
 // URL hash sync

@@ -23,7 +23,7 @@
           </h3>
           <span 
             :class="workspaceStore.dirHandle ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/10' : 'bg-amber-50 text-amber-700 ring-amber-600/10'" 
-            class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset"
+            class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset"
           >
             {{ workspaceStore.dirHandle ? 'Connected' : 'Demo Mode' }}
           </span>
@@ -35,14 +35,14 @@
             <span class="truncate font-mono font-semibold text-foreground">{{ workspaceStore.dirHandle.name }}</span>
             <button 
               @click="workspaceStore.openConnectDialog" 
-              class="text-[10px] text-primary hover:text-primary/80 font-semibold cursor-pointer underline transition-all shrink-0 ml-2"
+              class="text-xs text-primary hover:text-primary/80 font-semibold cursor-pointer underline transition-all shrink-0 ml-2"
             >
               Change
             </button>
           </div>
 
           <div class="space-y-1.5">
-            <label class="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block px-1">Markdown Files</label>
+            <label class="text-xs font-bold text-muted-foreground uppercase tracking-wider block px-1">Markdown Files</label>
             <div class="max-h-60 overflow-y-auto border border-border rounded-md bg-background/50 divide-y divide-border">
               <div 
                 v-for="file in workspaceStore.mdFiles" 
@@ -107,17 +107,17 @@
 
         <div class="space-y-3.5 text-xs">
           <div class="flex flex-col gap-1 p-2.5 rounded-md bg-muted/30 border border-border/50">
-            <span class="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Source FORMAT Template File</span>
-            <strong class="text-foreground truncate font-mono text-[11px]">{{ metamodelStore.metamodelSource }}</strong>
+            <span class="text-xs font-bold text-muted-foreground uppercase tracking-wider">Source FORMAT Template File</span>
+            <strong class="text-foreground truncate font-mono text-xs">{{ metamodelStore.metamodelSource }}</strong>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="p-3 border border-border rounded-md bg-background/50 space-y-1">
-              <span class="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">Concepts Loaded</span>
+              <span class="text-muted-foreground block text-xs uppercase font-bold tracking-wider">Concepts Loaded</span>
               <span class="text-xl font-bold text-foreground">{{ metamodelStore.concepts.length }}</span>
             </div>
             <div class="p-3 border border-border rounded-md bg-background/50 space-y-1">
-              <span class="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">Matrices Loaded</span>
+              <span class="text-muted-foreground block text-xs uppercase font-bold tracking-wider">Matrices Loaded</span>
               <span class="text-xl font-bold text-foreground">{{ metamodelStore.metamodelMatrices.length }}</span>
             </div>
           </div>

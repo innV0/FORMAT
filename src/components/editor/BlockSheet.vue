@@ -6,34 +6,41 @@
     <div
       class="flex items-center rounded-lg px-3 py-2.5 transition-all duration-150 gap-2 select-none text-slate-700"
     >
-      <!-- Concept identity: icon + name -->
-      <div
-        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-bold shrink-0"
-        :class="[palette.bg, palette.text, palette.border]"
-      >
-        <IconRenderer
-          :icon="conceptIcon || 'layers'"
-          custom-class="w-3.5 h-3.5"
-        />
-        <span>{{ cleanConceptName }}</span>
-        <span v-if="index !== undefined" class="font-normal opacity-60">#{{ index }}</span>
-      </div>
-
-      <!-- Block name (large, prominent) -->
-      <div class="flex-1 min-w-0 px-1">
-        <div v-if="!isEditing">
-          <h3 class="text-base font-bold break-words whitespace-normal leading-tight text-slate-800 truncate" :title="block.name || '(Empty)'">
+      <!-- Title: icon + name(s) without pill -->
+      <div class="flex items-center gap-1.5 min-w-0 flex-1">
+        <template v-if="kind === 'concept'">
+          <IconRenderer
+            :icon="conceptIcon || 'layers'"
+            custom-class="w-5 h-5 shrink-0"
+            :class="[palette.text]"
+          />
+          <span class="font-bold text-2xl truncate" :class="[palette.text]">{{ cleanConceptName }}</span>
+          <span class="font-normal text-sm text-slate-500 shrink-0">({{ conceptType }})</span>
+        </template>
+        <template v-else>
+          <IconRenderer
+            :icon="conceptIcon || 'layers'"
+            custom-class="w-4 h-4 shrink-0"
+            :class="[palette.text]"
+          />
+          <span class="font-bold text-sm" :class="[palette.text]">{{ cleanConceptName }}</span>
+          <span class="text-slate-300 mx-0.5">:</span>
+          <button
+            v-if="!isEditing"
+            @click.stop="navigateToInstance"
+            class="font-semibold text-2xl text-slate-800 hover:text-primary hover:underline transition-colors cursor-pointer text-left truncate min-w-0"
+            :title="block.name || '(Empty)'"
+          >
             {{ block.name || '(Empty)' }}
-          </h3>
-        </div>
-        <div v-else>
+          </button>
           <input
+            v-else
             :value="block.name"
             @input="onNameInput"
-            class="w-full border border-slate-200 rounded-md p-1.5 text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
+            class="flex-1 border border-slate-200 rounded-md p-1 text-sm focus:ring-1 focus:ring-indigo-500 outline-none min-w-0"
             placeholder="Enter block name"
           >
-        </div>
+        </template>
       </div>
 
       <!-- Marker cycling toolbar -->
@@ -104,8 +111,9 @@
         <Trash2 class="w-3.5 h-3.5" />
       </button>
 
-      <!-- Chevron expand/collapse (far right) -->
+      <!-- Chevron expand/collapse (far right) — hidden when expansion is disabled -->
       <button
+        v-if="!disableExpand"
         @click.stop="$emit('update:collapsed', !collapsed)"
         aria-label="Toggle expand"
         class="p-0.5 hover:bg-current/10 rounded transition-colors cursor-pointer flex items-center justify-center shrink-0"
@@ -117,10 +125,10 @@
       </button>
     </div>
 
-    <!-- Fields breadcrumbs (always visible when there are fields) -->
+    <!-- Fields breadcrumbs (only when expanded) -->
     <div
-      v-if="hasVisibleFields && !isEditing"
-      class="px-3 pb-1 flex flex-wrap gap-1.5 text-[10px] text-slate-500"
+      v-if="hasVisibleFields && !isEditing && !collapsed"
+      class="px-3 pb-1 flex flex-wrap gap-1.5 text-sm text-slate-500"
     >
       <span
         v-for="field in visibleFields"
@@ -133,12 +141,12 @@
       </span>
     </div>
 
-    <!-- Expandable body / edit form -->
+    <!-- Expandable body / edit form — never shown when expansion is disabled -->
     <div
-      v-show="!collapsed || isEditing"
+      v-show="(!collapsed && !disableExpand) || isEditing"
       class="overflow-hidden transition-all duration-300"
     >
-      <div class="px-3 pb-3 pt-1 space-y-3 flex flex-col">
+      <div class="px-3 pb-4 pt-2 space-y-6 flex flex-col">
 
         <!-- Edit-mode field inputs -->
         <template v-if="isEditing">
@@ -155,12 +163,12 @@
 
           <!-- Description textarea -->
           <div class="flex flex-col min-h-[100px]">
-            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Description / Details</label>
+            <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Description / Details</label>
             <textarea
               v-model="block.description"
               @input="onInput"
               rows="4"
-              class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-indigo-500 outline-none resize-none flex-1"
+              class="w-full mt-1 border border-slate-200 rounded-md p-2 text-sm focus:ring-1 focus:ring-indigo-500 outline-none resize-none flex-1"
               placeholder="Enter description (supports basic markdown)..."
             ></textarea>
           </div>
@@ -168,24 +176,71 @@
 
         <!-- Read-mode expanded body -->
         <template v-else>
-          <div
-            class="prose prose-slate max-w-none text-xs text-slate-600 leading-relaxed break-words"
-            v-html="renderedDescription"
-          ></div>
-          <BlockRelationships
-            :block="block"
-            :concept-name="conceptName"
-            :concept-color="conceptColor"
-          />
-          <BlockMatrixSummary
-            :block-name="block.name"
-            :concept-name="conceptName"
-            @navigate-to-matrix="navigateToMatrix"
-          />
-          <GraphViewer
-            :local-node-id="block.name"
-            class="mt-3"
-          />
+          <!-- Content section -->
+          <div v-if="renderedDescription" class="border-t border-slate-200 pt-5">
+            <div class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 rounded-full bg-slate-400 shrink-0"></span>
+              Content
+            </div>
+            <div
+              class="prose prose-slate max-w-none text-lg text-slate-600 leading-relaxed break-words bg-white rounded-lg p-4 border border-slate-100"
+              v-html="renderedDescription"
+            ></div>
+          </div>
+
+          <!-- Element fields section -->
+          <div v-if="hasVisibleFields" class="border-t border-slate-200 pt-5">
+            <div class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 rounded-full bg-slate-400 shrink-0"></span>
+              Fields
+            </div>
+            <div class="bg-white rounded-lg border border-slate-100 p-4 space-y-2">
+              <div
+                v-for="field in visibleFields"
+                :key="field.name"
+                class="flex items-start gap-2 text-sm"
+              >
+                <span class="font-semibold text-slate-500 shrink-0 min-w-[100px] uppercase tracking-wide">{{ field.name.replace(/_/g, ' ') }}</span>
+                <span v-if="field.isWikiLink" class="text-indigo-600 underline decoration-dotted">[[{{ field.value }}]]</span>
+                <span v-else class="text-slate-700">{{ field.value }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Relationships section -->
+          <div class="border-t border-slate-200 pt-5">
+            <div class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 rounded-full bg-slate-400 shrink-0"></span>
+              Relationships
+            </div>
+            <div class="bg-white rounded-lg border border-slate-100 p-4 space-y-3">
+              <BlockRelationships
+                :block="block"
+                :concept-name="conceptName"
+                :concept-color="conceptColor"
+              />
+              <BlockMatrixSummary
+                :block-name="block.name"
+                :concept-name="conceptName"
+                @navigate-to-matrix="navigateToMatrix"
+              />
+            </div>
+          </div>
+
+          <!-- Graph section -->
+          <div class="border-t border-slate-200 pt-5">
+            <div class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 rounded-full bg-slate-400 shrink-0"></span>
+              Graph
+            </div>
+            <div class="bg-white rounded-lg border border-slate-100 overflow-hidden">
+              <GraphViewer
+                v-if="kind === 'concept'"
+                :auto-select-concept="conceptName"
+              />
+              <GraphViewer v-else :local-node-id="block.name" />
+            </div>
+          </div>
         </template>
       </div>
     </div>
@@ -220,6 +275,7 @@ const props = withDefaults(defineProps<{
   conceptIcon?: string;
   collapsed: boolean;
   isEditing: boolean;
+  disableExpand?: boolean;
   hasMarkers?: boolean;
   index?: number;
   isList?: boolean;
@@ -232,6 +288,7 @@ const props = withDefaults(defineProps<{
   conceptFields: () => [],
   conceptColor: '',
   conceptIcon: '',
+  disableExpand: false,
   hasMarkers: false,
   isList: false,
   showDelete: false,
@@ -278,7 +335,21 @@ const cleanConceptName = computed(() => {
   return name.endsWith('s') ? name.slice(0, -1) : name;
 });
 
-const renderedDescription = computed(() => renderInlineMarkdown(props.block.description));
+// Strip everything from the first <!-- block: marker onwards — prevents instance
+// definitions from leaking into the concept block's rendered description.
+function stripBlockDefinitions(text: string): string {
+  const blockPattern = /^[ \t]*(?:[-*+]|\d+\.)?[ \t]*<!--\s+block:\s*[a-zA-Z0-9_\s-]+\s*-->/m;
+  const idx = text.search(blockPattern);
+  if (idx === -1) return text;
+  return text.substring(0, idx).trim();
+}
+
+const renderedDescription = computed(() => {
+  const text = props.kind === 'concept'
+    ? stripBlockDefinitions(props.block.description)
+    : props.block.description;
+  return renderInlineMarkdown(text);
+});
 
 const visibleFields = computed(() => {
   if (!props.conceptFields || !props.block.fields) return [];
@@ -331,6 +402,12 @@ const updateField = (fieldName: string, value: any) => {
 const navigateToMatrix = (matrixIndex: number) => {
   documentStore.activeGeneratedMatrixIndex = matrixIndex;
   documentStore.selectConcept('matrices');
+};
+
+const navigateToInstance = () => {
+  if (!props.block.name || !props.conceptName) return;
+  documentStore.navigateToElement(props.block.name, props.conceptName);
+  emit('update:collapsed', false);
 };
 
 provide(UpdateFieldKey, updateField);

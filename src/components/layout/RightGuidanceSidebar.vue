@@ -40,7 +40,7 @@
 
       <!-- Associated Matrices Section (above the guidance) -->
       <div v-if="!isCollapsed && associatedMatrices.length" class="space-y-3 mt-8 mb-4 border-b border-slate-200/60 pb-4">
-        <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
           <BarChart2 class="w-3.5 h-3.5 text-primary" />
           Associated Matrices
         </h3>
@@ -53,7 +53,7 @@
           >
             <div class="truncate flex-1">
               <span class="font-bold block truncate group-hover:text-primary transition-colors">{{ matrix.name }}</span>
-              <span class="text-[10px] text-slate-400 block mt-0.5 font-medium">
+              <span class="text-2xs text-slate-400 block mt-0.5 font-medium">
                 {{ matrix.source }} ➔ {{ matrix.target }}
               </span>
             </div>
@@ -82,7 +82,7 @@
 
         <!-- Description -->
         <div v-if="guidance.description" class="space-y-2">
-          <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Methodology Description</h3>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Methodology Description</h3>
           <div 
             class="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap"
             v-html="renderMarkdown(guidance.description)"
@@ -91,7 +91,7 @@
 
         <!-- Methodologies -->
         <div v-if="guidance.methodologies" class="space-y-2 pt-2 border-t border-slate-200/60">
-          <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Related Methodologies</h3>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Related Methodologies</h3>
           <div 
             class="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap bg-white/60 rounded-lg p-3 border border-slate-100"
             v-html="renderMarkdown(guidance.methodologies)"
@@ -100,7 +100,7 @@
 
         <!-- Prompts / AI Guidance Suggestions -->
         <div v-if="prompts && prompts.length" class="space-y-2.5 pt-2 border-t border-slate-200/60">
-          <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Suggested Prompts</h3>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Suggested Prompts</h3>
           <div class="space-y-2">
             <div 
               v-for="(promptText, idx) in prompts" 
@@ -109,7 +109,7 @@
               class="group relative bg-white border border-slate-200 rounded-lg p-2.5 text-xs text-slate-700 hover:border-primary/60 hover:bg-primary/5 transition-all cursor-pointer shadow-2xs"
             >
               <p class="font-mono leading-normal pr-8 select-all">{{ promptText }}</p>
-              <span class="absolute top-2.5 right-2.5 text-[10px] text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+              <span class="absolute top-2.5 right-2.5 text-2xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
                 <Copy class="w-3.5 h-3.5 text-slate-400" />
               </span>
             </div>
@@ -177,7 +177,7 @@ const renderMarkdown = (text: string) => {
   // Bold **text** -> <strong>text</strong>
   let html = text.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold text-slate-800">$1</strong>');
   // Backticks `code` -> <code>code</code>
-  html = html.replace(/`([^`]+)`/g, '<code class="bg-slate-100 px-1 py-0.5 rounded text-[10px] font-mono text-primary font-semibold">$1</code>');
+  html = html.replace(/`([^`]+)`/g, '<code class="bg-slate-100 px-1 py-0.5 rounded text-2xs font-mono text-primary font-semibold">$1</code>');
   return html;
 };
 </script>

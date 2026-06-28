@@ -83,7 +83,7 @@
             <td class="px-4 py-2.5 text-right">
               <button 
                 @click="documentStore.deleteMetamatrixRow(index)" 
-                class="text-[10px] bg-rose-50 text-rose-700 hover:bg-rose-100 font-semibold px-2 py-1 rounded border border-rose-200 cursor-pointer flex items-center gap-1.5 ml-auto"
+                class="text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 font-semibold px-2 py-1 rounded border border-rose-200 cursor-pointer flex items-center gap-1.5 ml-auto"
               >
                 <Trash2 class="w-3 h-3 text-rose-700" />
                 Remove

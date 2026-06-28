@@ -46,9 +46,9 @@
             :has-markers="activeConceptType === 'weight'"
             :index="idx + 1"
             :show-delete="true"
-            :collapsed="collapsedInstances[instance.id] ?? true"
+            :collapsed="true"
+            :disable-expand="true"
             :is-editing="editingInstanceId === instance.id"
-            @update:collapsed="setCollapsed(instance.id, $event)"
             @edit-toggle="toggleEditInstance(instance.id)"
             @delete="documentStore.deleteTreeNode(instance.id)"
             @change="documentStore.triggerUnsavedChanges()"
@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, reactive } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { FolderOpen } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
@@ -79,34 +79,17 @@ const metamodelStore = useMetamodelStore();
 const isCollapsed = ref(false);
 const isEditing = ref(false);
 
-// State for multi-instance view
-const collapsedInstances = reactive<Record<string, boolean>>({});
 const editingInstanceId = ref<string | null>(null);
 
-// Reset edit state when selected node changes
+// Reset edit state and expand sheet when selected node changes
 watch(() => documentStore.selectedNode?.id, () => {
   isEditing.value = false;
   isCollapsed.value = false;
-});
+}, { immediate: true });
 
-// Reset collapse state when active concept changes
+// Reset editing state when active concept changes
 watch(() => documentStore.activeConceptName, () => {
   editingInstanceId.value = null;
-  // Reset all collapse states
-  for (const key of Object.keys(collapsedInstances)) {
-    collapsedInstances[key] = true;
-  }
-});
-
-// When a specific node is selected from sidebar, expand it and collapse others
-watch(() => documentStore.selectedNode, (newNode) => {
-  if (!newNode) return;
-  // Collapse all instances first
-  for (const key of Object.keys(collapsedInstances)) {
-    collapsedInstances[key] = true;
-  }
-  // Expand the selected one
-  collapsedInstances[newNode.id] = false;
 });
 
 const selectedNodeConceptType = computed(() => {
@@ -210,10 +193,6 @@ const conceptFields = computed<MetamodelField[]>(() => {
   }
   return [];
 });
-
-const setCollapsed = (id: string, val: boolean) => {
-  collapsedInstances[id] = val;
-};
 
 const toggleEditInstance = (id: string) => {
   editingInstanceId.value = editingInstanceId.value === id ? null : id;

@@ -33,7 +33,7 @@
       />
       <span
         v-if="elementCount > 0"
-        class="text-[10px] text-muted-foreground tabular-nums shrink-0 pr-1"
+        class="text-2xs text-muted-foreground tabular-nums shrink-0 pr-1"
         :title="`${elementCount} instance${elementCount === 1 ? '' : 's'}`"
       >{{ elementCount }}</span>
     </div>
@@ -130,7 +130,6 @@ const emitSelect = (name: string) => {
 };
 
 const selectElement = (el: TreeNode) => {
-  documentStore.selectConcept(props.node.name);
-  documentStore.selectTreeNode(el, props.node.name);
+  documentStore.navigateToElement(el.name, props.node.name);
 };
 </script>
