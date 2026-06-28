@@ -22,10 +22,10 @@ Choose a template and save it to a folder on your computer:
 
 | Template | Concepts | Best for | Download |
 | :--- | :---: | :--- | :---: |
-| **Business** | 70+ | Complete business strategy modeling | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md) |
-| **Procedures** | 3 | Workflows, SOPs, process documentation | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md) |
+| **Business** | 70+ | Complete business strategy modeling | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md) |
+| **Procedures** | 3 | Workflows, SOPs, process documentation | [`.md` file](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md) |
 
-> **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) to see a filled-in example.
+> **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) to see a filled-in example.
 
 ### 3. Connect and Edit
 
@@ -41,7 +41,7 @@ _FORMAT works with a simple folder structure on your local machine:
 
 ```
 my-business/
-├── MyBusiness_V_1-0-0_business_FORMAT.md    ← your model file
+├── MyBusiness_V_0-1-0_business_FORMAT.md    ← your model file
 ├── backups/                                  ← auto-created on save (optional)
 └── assets/                                   ← images referenced in your model (optional)
 ```
@@ -55,7 +55,7 @@ Model files must follow this pattern:
 ```
 
 Examples:
-- `Acme_V_1-0-0_business_FORMAT.md`
+- `Acme_V_0-1-0_business_FORMAT.md`
 - `Onboarding_V_2-1-0_procedures_FORMAT.md`
 - `Ghostbusters_V_0-1-0_business_FORMAT.md`
 
@@ -124,9 +124,9 @@ The complete business modeling template with **70+ concepts**, **13 relational m
 | **Operations** | Activities, Functions, Resources |
 | **Finance** | Revenue, Costs, CAC, LTV, Unit Economics, Projections |
 
-**Download:** [business_V_1-0-0_FORMAT.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md)
+**Download:** [business_V_0-1-0_FORMAT.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md)
 
-**Full documentation:** [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/documentation.md)
+**Full documentation:** [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/documentation.md)
 
 ### Procedures Template
 
@@ -138,7 +138,7 @@ A lightweight template for documenting processes, workflows, and standard operat
 | **Roles** | `list` | Actors participating in the procedure |
 | **Steps** | `sequence` | Ordered steps to complete the procedure |
 
-**Download:** [procedures_V_1-1-0_FORMAT.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md)
+**Download:** [procedures_V_0-1-0_FORMAT.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md)
 
 ### Which Template Should I Use?
 
@@ -207,10 +207,10 @@ Every _FORMAT file has two parts:
 
 **1. YAML Frontmatter** — Schema definition and metadata:
 ```yaml
-specification_version: "V_0-1-4"
+specification_version: "V_0-1-0"
 template:
   name: "business"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
 title: "My Business Model"
 ```
 
@@ -232,11 +232,7 @@ title: "My Business Model"
 
 | Version | Status | Link |
 | :--- | :--- | :--- |
-| **V_0-1-4** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md) |
-| **V_0-1-3** | Stable | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md) |
-| **V_0-1-2** | Stable | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
-| **V_0-1-1** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/spec/V_0-1-1/format-spec.md) |
-| **V_0-1-0** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/spec/V_0-1-0/format-spec.md) |
+| **V_0-1-0** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md) |
 
 ---
 
@@ -305,8 +301,8 @@ FORMAT/
 │   └── utils/                     # Parsing, versioning, helpers
 ├── docs/                          # Specification and template docs
 │   ├── templates/                 # Downloadable templates
-│   │   ├── business/              # Business template (V_1-0-0)
-│   │   └── procedures/            # Procedures template (V_1-0-0)
+│   │   ├── business/              # Business template (V_0-1-0)
+│   │   └── procedures/            # Procedures template (V_0-1-0)
 │   └── spec/                      # FORMAT specification versions
 ├── .github/workflows/
 │   ├── deploy-app.yml             # GitHub Pages deployment (app)
@@ -353,10 +349,10 @@ See [LICENSE](LICENSE) for details.
 | :--- | :--- |
 | **Editor** | [format.innv0.com](https://format.innv0.com/) |
 | **Documentation & How-To** | [format.innv0.com/docs](https://format.innv0.com/docs/) |
-| **Specification** | [docs/V_0-1-4/_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md) |
-| **Business Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md) |
-| **Procedures Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md) |
-| **Sample Model** | [Ghostbusters](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) |
-| **Business Documentation** | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/documentation.md) |
+| **Specification** | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md) |
+| **Business Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md) |
+| **Procedures Template** | [Download](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md) |
+| **Sample Model** | [Ghostbusters](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) |
+| **Business Documentation** | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/documentation.md) |
 | **GitHub** | [github.com/innV0/FORMAT](https://github.com/innV0/FORMAT) |
 | **Contact** | [lucas@lucascervera.com](mailto:lucas@lucascervera.com) |

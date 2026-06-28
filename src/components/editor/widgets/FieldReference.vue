@@ -10,7 +10,7 @@
       @input="onInput"
       @focus="showDropdown = true"
       @blur="onBlur"
-      placeholder="Search..."
+      :placeholder="placeholderText"
       class="w-full mt-1 border border-slate-200 rounded-md p-2 text-xs focus:ring-1 focus:ring-primary outline-none disabled:opacity-50 disabled:cursor-not-allowed"
     />
     <ul
@@ -45,6 +45,12 @@ const documentStore = useDocumentStore();
 const updateField = inject(UpdateFieldKey, () => {});
 const showDropdown = ref(false);
 const query = ref(props.value || '');
+
+const placeholderText = computed(() => {
+  const targets = props.field.target_concepts || [];
+  if (targets.length === 0) return 'Search...';
+  return targets.join(', ');
+});
 
 const filteredSuggestions = computed(() => {
   const targets = props.field.target_concepts || [];

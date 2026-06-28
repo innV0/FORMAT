@@ -785,7 +785,7 @@ export const useDocumentStore = defineStore('document', () => {
     const nextVersion = bumpVersion(parsedName.version, level);
     const nextFileName = buildFormatFilename(
       parsedName.baseName,
-      parsedName.isBusinessModel,
+      parsedName.templateName,
       nextVersion
     );
 

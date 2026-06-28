@@ -29,18 +29,18 @@ Choose the template that fits your goal and save the `.md` file to a folder on y
 ### Business Template
 For modeling complete business strategies — market, solutions, finance, roadmap, and more.
 
-**[Download business template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md)**
+**[Download business template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md)**
 
 Right-click → **Save link as...** → save to your chosen folder.
 
 ### Procedures Template
 For documenting workflows, SOPs, and step-by-step processes.
 
-**[Download procedures template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md)**
+**[Download procedures template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md)**
 
 Right-click → **Save link as...** → save to the same folder.
 
-> **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) first — it's a filled-in example showing what a complete model looks like.
+> **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) first — it's a filled-in example showing what a complete model looks like.
 
 ---
 
@@ -50,7 +50,7 @@ Your folder should look like this:
 
 ```
 my-business/
-└── MyBusiness_V_1-0-0_business_FORMAT.md
+└── MyBusiness_V_0-1-0_business_FORMAT.md
 ```
 
 That's it. One folder, one file. The editor will create `backups/` and `assets/` subfolders automatically as needed.
@@ -66,12 +66,12 @@ Files **must** follow this pattern:
 | Part | Example | Meaning |
 | :--- | :--- | :--- |
 | `<ModelName>` | `Acme` | Your business or project name |
-| `V_<major>-<minor>-<patch>` | `V_1-0-0` | Version number (SemVer) |
+| `V_<major>-<minor>-<patch>` | `V_0-1-0` | Version number (SemVer) |
 | `<template>` | `business` | Template type: `business` or `procedures` |
 | `_FORMAT.md` | `_FORMAT.md` | Fixed suffix |
 
 **Examples:**
-- `Acme_V_1-0-0_business_FORMAT.md`
+- `Acme_V_0-1-0_business_FORMAT.md`
 - `Onboarding_V_2-1-0_procedures_FORMAT.md`
 - `StartupX_V_0-1-0_business_FORMAT.md`
 
@@ -191,7 +191,7 @@ Click any cell to set the relationship value. Depending on the matrix type, you'
 2. Choose **major**, **minor**, or **patch**.
 3. The editor creates a **new file** with the incremented version number and switches to it.
 
-Example: `Acme_V_1-0-0_business_FORMAT.md` → `Acme_V_1-1-0_business_FORMAT.md`
+Example: `Acme_V_0-1-0_business_FORMAT.md` → `Acme_V_0-1-1_business_FORMAT.md`
 
 ---
 
@@ -243,14 +243,14 @@ _FORMAT files are plain Markdown. They work perfectly with Git.
 ```bash
 cd my-business/
 git init
-git add MyBusiness_V_1-0-0_business_FORMAT.md
+git add MyBusiness_V_0-1-0_business_FORMAT.md
 git commit -m "Initial business model"
 ```
 
 After editing in the app:
 
 ```bash
-git add MyBusiness_V_1-0-0_business_FORMAT.md
+git add MyBusiness_V_0-1-0_business_FORMAT.md
 git commit -m "Updated value propositions and problem weights"
 ```
 
@@ -296,12 +296,12 @@ Follow the naming convention exactly:
 ```
 <ModelName>_V_<major>-<minor>-<patch>_<template>_FORMAT.md
 ```
-Example: `MyStartup_V_1-0-0_business_FORMAT.md`
+Example: `MyStartup_V_0-1-0_business_FORMAT.md`
 
 ---
 
 ## Next Steps
 
-- [Read the full specification →](spec/V_0-1-2/spec.md)
-- [Business template documentation →](templates/business/V_1-0-0/documentation.md)
+- [Read the full specification →](spec/V_0-1-0/_format.md)
+- [Business template documentation →](templates/business/V_0-1-0/documentation.md)
 - [View on GitHub →](https://github.com/innV0/FORMAT)

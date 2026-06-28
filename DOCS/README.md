@@ -282,12 +282,12 @@ Every _FORMAT file is a single UTF-8 document with two parts:
 **1. YAML Frontmatter** — the Template schema, versioning, and metadata:
 
 ```yaml
-specification_version: "V_0-1-2"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/spec.md"
+specification_version: "V_0-1-0"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 title: "My Business Model"
 template:
   name: "business"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
   concepts:
     - name: "problems"
       type: "weight"
@@ -339,11 +339,9 @@ template:
 
 | Version | Status | Link |
 | :--- | :--- | :--- |
-| **V_0-1-2** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
-| **V_0-1-1** | Stable | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/spec/V_0-1-1/format-spec.md) |
-| **V_0-1-0** | Legacy | [format-spec.md](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/spec/V_0-1-0/format-spec.md) |
+| **V_0-1-0** | Current | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md) |
 
-[Read the full specification →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md)
+[Read the full specification →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md)
 
 ---
 
@@ -436,10 +434,10 @@ This matrix reveals which value propositions solve which problems — and where 
 
 | Resource | Link |
 | :--- | :--- |
-| Template spec (V_1-0-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/template.md) |
-| Full documentation | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/documentation.md) |
-| GitHub directory | [docs/templates/business/V_1-0-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/business/V_1-0-0) |
-| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
+| Template spec (V_0-1-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md) |
+| Full documentation | [documentation.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/documentation.md) |
+| GitHub directory | [docs/templates/business/V_0-1-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/business/V_0-1-0) |
+| _FORMAT spec (V_0-1-0) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md) |
 
 ---
 
@@ -480,10 +478,10 @@ The Procedures Template is intentionally simple — **3 concepts, 1 marker, 0 ma
 ## Example: deployment procedure
 
 ```yaml
-specification_version: "V_0-1-2"
+specification_version: "V_0-1-0"
 template:
   name: "procedures"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
 title: "Production Deployment Procedure"
 ```
 
@@ -555,6 +553,6 @@ Both templates use the same _FORMAT specification — they're just different sch
 
 | Resource | Link |
 | :--- | :--- |
-| Template spec (V_1-1-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/template.md) |
-| GitHub directory | [docs/templates/procedures/V_1-1-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/procedures/V_1-1-0) |
-| _FORMAT spec (V_0-1-2) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-2/_format.md) |
+| Template spec (V_0-1-0) | [template.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md) |
+| GitHub directory | [docs/templates/procedures/V_0-1-0/](https://github.com/innV0/FORMAT/tree/main/docs/templates/procedures/V_0-1-0) |
+| _FORMAT spec (V_0-1-0) | [_format.md](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md) |

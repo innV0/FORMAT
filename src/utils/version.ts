@@ -77,11 +77,11 @@ export function parseFormatFilename(fileName: string): ParsedFormatName | null {
 /** Builds a FORMAT-compliant file name from its parts (§8.1). */
 export function buildFormatFilename(
   baseName: string,
-  isBusinessModel: boolean,
+  templateName: string | undefined,
   version: SemVer
 ): string {
-  const suffix = isBusinessModel ? '_business' : '';
-  return `${baseName}_V_${version.major}-${version.minor}-${version.patch}${suffix ? '_' + suffix.replace('_', '') : ''}_FORMAT.md`;
+  const suffix = templateName ? `_${templateName}` : '';
+  return `${baseName}_V_${version.major}-${version.minor}-${version.patch}${suffix}_FORMAT.md`;
 }
 
 /** Returns a new SemVer with the requested level incremented (§8.2 SemVer rules). */

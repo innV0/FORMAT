@@ -1,5 +1,5 @@
 * [**FORMAT**](/)
 * [**How To**](how-to.md)
-* [Spec](spec/V_0-1-2/spec.md)
+* [Spec](spec/V_0-1-0/_format.md)
 * [**Open App →**](https://format.innv0.com)
 * [GitHub](https://github.com/innV0/FORMAT)

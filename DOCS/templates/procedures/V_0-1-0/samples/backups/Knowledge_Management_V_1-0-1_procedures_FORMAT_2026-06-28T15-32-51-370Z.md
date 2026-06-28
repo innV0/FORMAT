@@ -1,12 +1,12 @@
 ---
 specification_version: "V_0-1-0"
-model_version: "V_1-0-0"
+model_version: "V_1-0-1"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 template:
   name: "procedures"
   version: "V_0-1-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-28T15:32:08.325Z"
+  last_updated: "2026-06-28T15:32:51.260Z"
   concepts:
     - name: "procedure"
       icon: "file-text"
@@ -119,7 +119,7 @@ template:
       source: "elements"
       target: "markers"
 title: "Knowledge_Management"
-last_saved: "2026-06-28T15:32:08.325Z"
+last_saved: "2026-06-28T15:32:51.260Z"
 ---
 > [!NOTE]
 > This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. You can edit it as raw text in any editor, or open it in the [FORMAT app](https://format.innv0.com) for a guided visual editor.
