@@ -114,7 +114,7 @@ describe('Document Notice (§3.1)', () => {
     });
 
     expect(serialized).toMatch(/^> \[!NOTE\]\n> This is a \*\*FORMAT document\*\*/m);
-    expect(serialized).toContain('https://format.innv0.com');
+    expect(serialized).toContain('https://format.innv0.com/onboarding');
   });
 
   it('is ignored by the parser and does not pollute modelTextData or modelTree', () => {
@@ -126,7 +126,7 @@ title: "Notice Parse Test"
 ---
 
 > [!NOTE]
-> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. You can edit it as raw text in any editor, or open it in the [FORMAT app](https://format.innv0.com) for a guided visual editor.
+> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/onboarding) walks you through what this is and how to open it in the visual editor.
 
 # <!-- block: concepts --> index
 

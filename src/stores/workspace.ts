@@ -23,6 +23,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   // Guarded for non-browser environments (e.g. the test runner) where
   // localStorage is not defined.
   const hasLocalStorage = typeof localStorage !== 'undefined';
+  const docSource = ref<'local' | 'url'>('local');
+  const setDocSource = (source: 'local' | 'url') => { docSource.value = source; };
+
   const autoBackup = ref<boolean>(
     hasLocalStorage && localStorage.getItem('format.autoBackup') === 'true'
   );
@@ -237,6 +240,8 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     savedDirectories,
     needsPermission,
     isPendingPermission,
+    docSource,
+    setDocSource,
     autoBackup,
     setAutoBackup,
     switchActiveFile,

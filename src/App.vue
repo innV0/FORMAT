@@ -60,6 +60,7 @@ import GraphViewer from './components/editor/GraphViewer.vue';
 
 import { useWorkspaceStore } from './stores/workspace';
 import { useDocumentStore } from './stores/document';
+import { useUrlDocLoader } from './composables/useUrlDocLoader';
 import { findNodeByName } from './utils/tree';
 
 const workspaceStore = useWorkspaceStore();
@@ -138,7 +139,11 @@ const onPopState = () => {
   };
 
 onMounted(async () => {
-  await workspaceStore.loadLastDirectory();
+  const { loadFromUrlParam } = useUrlDocLoader();
+  const loadedFromUrl = await loadFromUrlParam();
+  if (!loadedFromUrl) {
+    await workspaceStore.loadLastDirectory();
+  }
   restoreFromHash();
 
   window.addEventListener('popstate', onPopState);

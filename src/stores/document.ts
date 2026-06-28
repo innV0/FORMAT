@@ -35,6 +35,8 @@ export const useDocumentStore = defineStore('document', () => {
   const documentationLocation = ref<string>('');
   const analysisScores = ref<AnalysisScores>({});
 
+  const isTemplate = computed(() => !modelVersion.value);
+
   const loadDocument = (markdownContent: string) => {
     const parsed = parseMarkdownModel(markdownContent, metamodelStore.concepts);
     
@@ -676,12 +678,12 @@ export const useDocumentStore = defineStore('document', () => {
     return metamodelStore.getConceptByName(conceptName);
   };
 
-  const serializeActiveFile = (): string => {
+  const serializeActiveFile = (overrides?: { modelVersion?: string }): string => {
     return generateMarkdownFileContent({
       activeFileName: workspaceStore.activeFileName || 'model.md',
       metamodelPath: metamodelPath.value || undefined,
       formatVersion: formatVersion.value,
-      modelVersion: modelVersion.value,
+      modelVersion: overrides?.modelVersion ?? modelVersion.value,
       templateName: templateName.value,
       templateVersion: templateVersion.value,
       specificationUrl: specificationUrl.value,
@@ -745,6 +747,34 @@ export const useDocumentStore = defineStore('document', () => {
       level = 'Medium';
     }
     return { level, deviation: Number(stdDev.toFixed(2)) };
+  };
+
+  const saveAsNewModel = async (newFileName: string): Promise<boolean> => {
+    if (!workspaceStore.dirHandle) return false;
+
+    const content = isTemplate.value
+      ? serializeActiveFile({ modelVersion: 'V_1-0-0' })
+      : serializeActiveFile();
+
+    try {
+      const fileHandle = await workspaceStore.fs.createNewFile(
+        workspaceStore.dirHandle,
+        newFileName,
+        content
+      );
+
+      if (fileHandle) {
+        workspaceStore.activeFileName = newFileName;
+        workspaceStore.activeFileHandle = fileHandle;
+        workspaceStore.docSource = 'local';
+        loadDocument(content);
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error('Failed to save as new model:', err);
+      return false;
+    }
   };
 
   const saveActiveFile = async () => {
@@ -864,6 +894,7 @@ export const useDocumentStore = defineStore('document', () => {
     templateVersion,
     specificationUrl,
     documentationLocation,
+    isTemplate,
     loadDocument,
     getConceptType,
     selectConcept,
@@ -888,6 +919,7 @@ export const useDocumentStore = defineStore('document', () => {
     getCleanPrompts,
     getActiveConceptGuidance,
     serializeActiveFile,
+    saveAsNewModel,
     saveActiveFile,
     saveActiveFileWithVersionBump,
     modelVersion,

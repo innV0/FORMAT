@@ -1,6 +1,7 @@
 * [Home](README.md)
 
 * **Getting Started**
+  * [Onboarding (First Time?)](onboarding.md)
   * [How To Use _FORMAT](how-to.md)
 
 * **Specification (V_0-1-0)**

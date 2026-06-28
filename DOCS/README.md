@@ -15,6 +15,8 @@ Drop it as context into any AI model or agent and get strategic answers. Commit 
 
 [Try it free →](https://format.innv0.com) [How-To Guide →](how-to.md) [Read the spec →](#format)
 
+> **👁️ What you're reading right now IS a Markdown file.** This entire page — headings, lists, code blocks, the demo below — is a plain `.md` file rendered by Docsify. A _FORMAT document is the **same format**: plain Markdown with YAML frontmatter. The difference? Load it in the _FORMAT app and it becomes an **interactive visual dashboard** with editable cards, scored matrices, and relational graphs. Same file. Two completely different experiences.
+
 <div class="template-cards">
   <a href="#business" class="template-card">
     <div>
@@ -32,9 +34,15 @@ Drop it as context into any AI model or agent and get strategic answers. Commit 
 
 ---
 
+<div class="contrast-header">
+  <span class="contrast-badge">Same file</span>
+  <span class="contrast-arrow">→</span>
+  <span class="contrast-badge contrast-badge-visual">Two views</span>
+</div>
+
 <div class="demo-split">
   <div class="demo-col demo-source">
-    <div class="demo-label">your <code>.md</code> file</div>
+    <div class="demo-label">📄 your <code>.md</code> file — raw text</div>
     <pre class="demo-code"><span class="dm-comment"># &lt;!-- block: concepts --&gt; problems</span>
 
 <span class="dm-bullet">*</span> <span class="dm-item">AI has no business context</span>
@@ -61,7 +69,7 @@ Drop it as context into any AI model or agent and get strategic answers. Commit 
     <span>_FORMAT</span>
   </div>
   <div class="demo-col demo-visual">
-    <div class="demo-label">interactive visual model</div>
+    <div class="demo-label">🖥️ same file in the _FORMAT app</div>
     <div class="demo-ui">
       <div class="ui-concept">
         <div class="ui-concept-header">
