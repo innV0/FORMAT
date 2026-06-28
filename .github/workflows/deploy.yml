@@ -28,13 +28,16 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Copy docs into dist/docs
-        run: cp -r docs dist/docs
+      - name: Move app to /app subfolder
+        run: |
+          mkdir -p dist/app
+          mv dist/assets dist/app/
+          mv dist/index.html dist/app/
 
-      - name: Remove CNAME from dist/docs (only root CNAME needed)
-        run: rm -f dist/docs/CNAME
+      - name: Copy docs to root
+        run: cp -r docs/* dist/
 
-      - name: Write CNAME for custom domain
+      - name: Ensure CNAME at root
         run: echo "format.innv0.com" > dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3

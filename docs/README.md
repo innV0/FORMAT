@@ -46,4 +46,4 @@ _FORMAT reads a single structured `.md` file that holds your complete business s
 
 ---
 
-> This is documentation for the **FORMAT** project. The visual editor app is available at [format.innv0.com](https://format.innv0.com).
+> This is documentation for the **FORMAT** project. The visual editor app is available at [/app/](/app/).
