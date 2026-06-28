@@ -1,0 +1,24 @@
+# AI Content Index
+site:
+  name: "_FORMAT"
+  url: "https://format.innv0.com"
+  description: "One structured Markdown file gives any AI model instant, complete context of your entire business."
+  generator: "https://skills.innv0.com/innv0-web-design-guide"
+  language: "en"
+  updated: "2026-06-28"
+pages:
+  - path: "/"
+    title: "_FORMAT — Business Strategy as Code"
+    description: "Landing page for _FORMAT"
+    format: markdown
+    url: "https://format.innv0.com/index.md"
+  - path: "/about"
+    title: "About _FORMAT"
+    description: "About the _FORMAT project"
+    format: markdown
+    url: "https://format.innv0.com/about.md"
+  - path: "/docs/"
+    title: "_FORMAT Documentation"
+    description: "Full documentation"
+    format: markdown
+    url: "https://format.innv0.com/docs/README.md"

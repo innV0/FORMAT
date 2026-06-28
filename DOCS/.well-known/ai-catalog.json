@@ -1,0 +1,10 @@
+{
+  "@context": "https://schema.org",
+  "@type": "DataCatalog",
+  "name": "_FORMAT",
+  "description": "One structured Markdown file gives any AI model instant, complete context of your entire business.",
+  "generator": {
+    "@type": "SoftwareApplication",
+    "url": "https://skills.innv0.com/innv0-web-design-guide"
+  }
+}
