@@ -532,8 +532,11 @@ template:
       target: "markers"
 title: "Ghostbusters"
 last_saved: "2026-06-25T19:19:44.620Z"
-
 ---
+
+> [!NOTE]
+> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/docs/onboarding) walks you through what this is and how to open it in the visual editor.
+
 # <!-- block: concepts --> Business summary
 
 Ghostbusters is a professional paranormal investigation and elimination service based in New York City. The company provides rapid-response containment of supernatural entities — ghosts, demons, and other spectral phenomena — for residential, commercial, and governmental clients. Revenue is generated through service fees charged per investigation and containment operation. The business was founded by three former Columbia University parapsychology researchers who leveraged their proprietary nuclear-powered containment technology (the Proton Pack) to create an entirely new industry: commercial paranormal elimination. The brand promise is simple — "Who you gonna call?" — backed by a track record of successful containment and an unmistakable visual identity.
