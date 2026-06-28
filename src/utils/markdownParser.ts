@@ -340,7 +340,8 @@ export function parseMarkdownModel(content: string, conceptsList: Concept[], met
               widgetType: m.widgetType || 'cycle',
               params: m.params || m.values || '',
               min_color: m.min_color || m.minColor || undefined,
-              max_color: m.max_color || m.maxColor || undefined
+              max_color: m.max_color || m.maxColor || undefined,
+              label: m.label || undefined
             });
           });
         }
@@ -853,6 +854,9 @@ ${params.formatVersion ? `specification_version: "${params.formatVersion}"\n` : 
         }
         if (m.max_color) {
           row.max_color = m.max_color;
+        }
+        if (m.label) {
+          row.label = m.label;
         }
         return row;
       })

@@ -59,7 +59,7 @@
       <!-- Fallback when no node is selected and no instances -->
       <div v-else class="text-slate-400 text-xs italic text-center my-auto flex flex-col items-center justify-center gap-2.5">
         <FolderOpen class="w-8 h-8 text-slate-300" />
-        <span>No instances yet. Add one from the left panel or create nodes in the hierarchy tree.</span>
+        <span>No elements yet. Add one from the left panel or create a &lt;!-- block: --&gt; entry in the text editor.</span>
       </div>
     </div>
   </div>

@@ -2,28 +2,40 @@
   <component
     :is="as"
     :class="pillClasses"
+    :title="tooltipText"
     v-bind="$attrs"
     @click="$emit('click', $event)"
   >
-    <Table2 class="shrink-0 w-3.5 h-3.5 text-slate-400" />
-    <div class="min-w-0 flex-1">
-      <span class="font-semibold truncate block leading-tight">{{ name }}</span>
-      <span v-if="showSourceTarget && source && target" class="text-[10px] text-slate-400 font-medium block leading-tight mt-0.5">
-        {{ source }} <span class="text-slate-300">→</span> {{ target }}
-      </span>
-    </div>
-    <ChevronRight v-if="interactive" class="shrink-0 w-3.5 h-3.5 text-slate-300 group-hover:text-primary transition-colors" />
+    <IconRenderer
+      :icon="resolvedSourceIcon"
+      custom-class="shrink-0 w-3.5 h-3.5"
+      :class="sourceAccent"
+    />
+    <span v-if="showSourceTarget && source && target" class="truncate min-w-0 leading-tight flex items-center gap-1">
+      <span :class="sourceText">{{ source }}</span>
+      <span v-if="label" class="text-[10px] text-slate-400 font-normal italic">{{ label }}</span>
+      <span class="text-slate-300 font-normal">→</span>
+      <span :class="targetText">{{ target }}</span>
+    </span>
+    <span v-else class="truncate min-w-0 leading-tight">{{ name }}</span>
+    <ChevronRight v-if="interactive" class="shrink-0 w-3.5 h-3.5 transition-colors" :class="chevronClasses" />
   </component>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Table2, ChevronRight } from 'lucide-vue-next';
+import { useMetamodelStore } from '../../stores/metamodel';
+import { getColorClasses } from '../../utils/colors';
+import IconRenderer from './IconRenderer.vue';
+
+const metamodelStore = useMetamodelStore();
 
 const props = withDefaults(defineProps<{
   name: string;
   source?: string;
   target?: string;
+  label?: string;
   interactive?: boolean;
   selected?: boolean;
   fullWidth?: boolean;
@@ -34,12 +46,51 @@ const props = withDefaults(defineProps<{
   selected: false,
   fullWidth: false,
   showSourceTarget: false,
+  label: '',
   as: 'div',
 });
 
 defineEmits<{
   (e: 'click', event: MouseEvent): void;
 }>();
+
+const resolvedSourceIcon = computed(() => {
+  if (!props.source) return 'table-2';
+  const concept = metamodelStore.getConceptByName(props.source);
+  return concept?.icon || 'table-2';
+});
+
+const sourcePalette = computed(() => {
+  if (!props.source) return null;
+  const concept = metamodelStore.getConceptByName(props.source);
+  return concept?.color ? getColorClasses(concept.color) : null;
+});
+
+const targetPalette = computed(() => {
+  if (!props.target) return null;
+  const concept = metamodelStore.getConceptByName(props.target);
+  return concept?.color ? getColorClasses(concept.color) : null;
+});
+
+const sourceText = computed(() => sourcePalette.value?.text || 'text-slate-600');
+const targetText = computed(() => targetPalette.value?.text || 'text-slate-600');
+const sourceAccent = computed(() => sourcePalette.value?.accent || 'text-slate-400');
+
+const chevronClasses = computed(() => {
+  if (!props.interactive) return 'hidden';
+  return sourcePalette.value?.accent
+    ? `${sourcePalette.value.accent} opacity-0 group-hover:opacity-100`
+    : 'text-slate-300 group-hover:text-primary';
+});
+
+const tooltipText = computed(() => {
+  if (props.showSourceTarget && props.source && props.target) {
+    let t = `${props.name} — ${props.source} → ${props.target}`;
+    if (props.label) t += ` (${props.label})`;
+    return t;
+  }
+  return props.name;
+});
 
 const pillClasses = computed(() => {
   const base = [
@@ -53,7 +104,6 @@ const pillClasses = computed(() => {
     return [
       ...base,
       'bg-primary/10 text-primary border border-primary/30',
-      'font-semibold',
     ];
   }
 

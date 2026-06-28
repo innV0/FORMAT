@@ -24,7 +24,7 @@ export const useDocumentStore = defineStore('document', () => {
   const nodeMarkers = ref<NodeMarkers>({});
   const metamatrix = ref<MetamatrixRow[]>([]);
   const matrixValues = ref<MatrixValues>({});
-  const activeGeneratedMatrixIndex = ref<number>(0);
+  const activeGeneratedMatrixIndex = ref<number>(-1);
   const metamodelPath = ref<string | null>(null);
   const formatVersion = ref<string>(DEFAULT_FORMAT_VERSION);
   const modelVersion = ref<string>('V_0-1-0');
@@ -94,6 +94,8 @@ export const useDocumentStore = defineStore('document', () => {
 
   const selectConcept = (name: string) => {
     activeConceptName.value = name;
+    selectedNode.value = null;
+    selectedNodeType.value = '';
   };
 
   const triggerUnsavedChanges = () => {
@@ -336,7 +338,8 @@ export const useDocumentStore = defineStore('document', () => {
       source: firstConcept,
       target: secondConcept,
       widgetType: 'cycle',
-      params: 'Neutral;High;Critical'
+      params: 'Neutral;High;Critical',
+      label: ''
     };
     metamatrix.value.push(newRow);
     triggerUnsavedChanges();

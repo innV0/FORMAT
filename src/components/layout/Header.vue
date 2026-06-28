@@ -8,35 +8,36 @@
 
       <!-- Model Info Section -->
       <div v-if="workspaceStore.activeFileName && !workspaceStore.isDemoMode" class="flex items-center gap-3 pl-3 border-l border-slate-200 text-xs text-slate-500">
-        <!-- Template Info -->
+        <!-- Format Version -->
         <div class="flex items-center gap-1">
+          <span>Format:</span>
+          <span class="font-mono">{{ documentStore.formatVersion }}</span>
+        </div>
+
+        <!-- Plantilla / Template Info -->
+        <div class="flex items-center gap-1">
+          <span>Template:</span>
           <span>{{ documentStore.templateName }}</span>
           <span>{{ documentStore.templateVersion }}</span>
         </div>
 
-        <span class="text-slate-300">|</span>
-
-        <!-- Version Info -->
+        <!-- Model Version -->
         <div class="flex items-center gap-1">
-          <span>Format:</span>
-          <span class="font-mono">{{ documentStore.formatVersion }}</span>
-          <span class="text-slate-300">|</span>
           <span>Model:</span>
           <span class="font-mono">{{ documentStore.modelVersion }}</span>
         </div>
 
-        <span class="text-slate-300">|</span>
-
-        <!-- File Path (full, no truncation) -->
-        <span class="font-mono">{{ fullFilePath }}</span>
+        <!-- File Path with Copy -->
+        <div class="flex items-center gap-1">
+          <span class="font-mono">{{ fullFilePath }}</span>
+          <button @click="copyFilePath" class="p-0.5 rounded text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer" title="Copy path">
+            <Copy class="w-3 h-3" />
+          </button>
+        </div>
       </div>
     </div>
     
     <div class="flex items-center gap-3">
-      <!-- Unsaved changes badge -->
-      <StatusBadge v-if="documentStore.unsavedChanges" status="unsaved">Unsaved Changes</StatusBadge>
-      <StatusBadge v-else status="synced">Synced</StatusBadge>
-
       <!-- Workspace Connection Dropdown Split Button -->
       <div class="relative inline-flex rounded-md shadow-xs" ref="dropdownRef">
         <!-- Main Button: Reconnect vs Current Folder vs Connect Directory -->
@@ -55,6 +56,7 @@
           @click="toggleDropdown" 
           class="inline-flex items-center gap-1.5 rounded-l-md bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
         >
+          <span class="w-2 h-2 rounded-full shrink-0" :class="documentStore.unsavedChanges ? 'bg-amber-400' : 'bg-emerald-400'"></span>
           <FolderOpen class="w-3.5 h-3.5 text-slate-500" />
           <span class="max-w-[140px] truncate">{{ workspaceStore.dirHandle ? workspaceStore.dirHandle.name : 'Connect Directory' }}</span>
         </button>
@@ -124,15 +126,15 @@
         <button
           @click="documentStore.saveActiveFile"
           :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName"
-          class="inline-flex items-center gap-1.5 rounded-l-md bg-primary px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          class="inline-flex items-center gap-1.5 rounded-l-md bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <Save class="w-3.5 h-3.5" />
-          Save (Ctrl+S)
+          {{ documentStore.unsavedChanges ? 'Update' : 'Save' }}
         </button>
         <button
           @click="toggleSaveDropdown"
           :disabled="workspaceStore.isDemoMode || !workspaceStore.activeFileName"
-          class="inline-flex items-center rounded-r-md bg-primary px-2 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-primary/90 border-l border-primary/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          class="inline-flex items-center rounded-r-md bg-white px-2 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 border-l border-slate-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           title="Save options: backup & version"
         >
           <ChevronDown class="w-3.5 h-3.5" />
@@ -207,6 +209,22 @@
         </div>
       </div>
 
+      <!-- Edit with AI Button -->
+      <button
+        @click="aiGuideOpen = true"
+        class="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 px-3 py-1.5 text-xs font-bold text-white shadow-md hover:from-violet-500 hover:to-indigo-500 hover:shadow-lg active:scale-95 transition-all cursor-pointer relative overflow-hidden group"
+        title="Learn how to edit this model with AI agents"
+      >
+        <!-- subtle shimmer -->
+        <span class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
+        <Sparkles class="w-3.5 h-3.5" />
+        <span>Edit with AI</span>
+        <ExternalLink class="w-3 h-3 text-violet-200" />
+      </button>
+
+      <!-- AI Guide Panel -->
+      <AiGuidePanel :visible="aiGuideOpen" @close="aiGuideOpen = false" />
+
         <button 
           @click="documentStore.selectConcept('info')"
           :class="documentStore.activeConceptName === 'info' ? 'text-primary' : 'text-slate-500 hover:text-slate-700'"
@@ -226,7 +244,6 @@
           title="Visit project website"
         >
           <Globe class="w-4 h-4" />
-          <span>Website</span>
         </a>
         <a
           href="https://github.com/innV0/FORMAT"
@@ -244,11 +261,11 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive, Github, Globe } from 'lucide-vue-next';
+import { Copy, FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive, Github, Globe, Sparkles, ExternalLink } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useDocumentStore } from '../../stores/document';
 import type { BumpLevel } from '../../utils/version';
-import StatusBadge from '../ui/StatusBadge.vue';
+import AiGuidePanel from './AiGuidePanel.vue';
 
 const workspaceStore = useWorkspaceStore();
 const documentStore = useDocumentStore();
@@ -260,10 +277,22 @@ const saveDropdownOpen = ref(false);
 const saveDropdownRef = ref<HTMLElement | null>(null);
 const bumpError = ref('');
 
+const aiGuideOpen = ref(false);
+
 const fullFilePath = computed(() => {
   if (!workspaceStore.dirHandle || !workspaceStore.activeFileName) return '';
   return `${workspaceStore.dirHandle.name}/${workspaceStore.activeFileName}`;
 });
+
+const copyFilePath = async () => {
+  if (fullFilePath.value) {
+    try {
+      await navigator.clipboard.writeText(fullFilePath.value);
+    } catch {
+      // clipboard not available
+    }
+  }
+};
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
