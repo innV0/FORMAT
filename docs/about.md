@@ -1,7 +1,7 @@
 ---
 title: "About _FORMAT"
 description: "Learn about the _FORMAT project — an open-source format for business modeling."
-html_url: "https://format.innv0.com/about"
+html_url: "https://format.innv0.com/about.html"
 generator: "https://skills.innv0.com/innv0-web-design-guide"
 ---
 

@@ -12,7 +12,7 @@
   </style>
   <script>
     var path = window.location.pathname.replace(/\/+$/, '') || '/';
-    if (path === '/' || path === '/about' || path.startsWith('/docs')) {
+    if (path === '/' || path === '/about.html' || path.startsWith('/docs')) {
       window.location.replace(path);
     } else {
       window.location.replace('/docs/#' + path);
