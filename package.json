@@ -8,7 +8,10 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "check:spec-version": "node scripts/check-spec-version.mjs"
+    "check:spec-version": "node scripts/check-spec-version.mjs",
+    "check:template-version": "node scripts/check-template-version.mjs",
+    "check:skill-refs": "node scripts/check-skill-refs.mjs",
+    "check:all": "npm run check:spec-version && npm run check:template-version && node scripts/check-skill-refs.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

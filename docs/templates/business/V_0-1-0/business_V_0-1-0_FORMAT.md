@@ -1,13 +1,478 @@
 ---
-specification_version: "V_0-1-4"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
+specification_version: "V_0-1-0"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 template:
   name: "business"
   version: "V_0-1-0"
   title: "FORMAT Template"
   last_updated: "2026-06-25T19:37:01.783Z"
-  concepts: []
-  markers: []
+  concepts:
+    - name: "Business summary"
+      icon: "file-text"
+      type: "text"
+      color: "blue"
+      weight: 90
+    - name: "Market"
+      icon: "store"
+      type: "category"
+      color: "blue"
+      weight: 90
+    - name: "Stakeholders"
+      icon: "users"
+      type: "weight"
+      color: "blue"
+      weight: 80
+    - name: "Segments"
+      icon: "pie-chart"
+      type: "weight"
+      color: "blue"
+      weight: 70
+    - name: "Profiles"
+      icon: "user"
+      type: "weight"
+      color: "blue"
+      weight: 80
+    - name: "Persona"
+      icon: "user-round"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Segmentation"
+      icon: "split"
+      type: "weight"
+      color: "blue"
+      weight: 60
+    - name: "Market trends"
+      icon: "trending-up"
+      type: "weight"
+      color: "blue"
+      weight: 20
+    - name: "Market size"
+      icon: "ruler"
+      type: "text"
+      color: "blue"
+      weight: 50
+    - name: "Competition"
+      icon: "swords"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Roles"
+      icon: "user-cog"
+      type: "weight"
+      color: "blue"
+      weight: 30
+    - name: "Problems"
+      icon: "circle-alert"
+      type: "weight"
+      color: "blue"
+      weight: 85
+    - name: "Value propositions"
+      icon: "gem"
+      type: "weight"
+      color: "blue"
+      weight: 70
+    - name: "Messages"
+      icon: "message-square"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Channels"
+      icon: "share-2"
+      type: "weight"
+      color: "blue"
+      weight: 70
+    - name: "Relationships"
+      icon: "handshake"
+      type: "text"
+      color: "blue"
+      weight: 50
+    - name: "Perceptions"
+      icon: "eye"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Emotions"
+      icon: "heart"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Behaviors"
+      icon: "activity"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Journey"
+      icon: "route"
+      type: "steps"
+      color: "blue"
+      weight: 40
+    - name: "Solutions"
+      icon: "lightbulb"
+      type: "category"
+      color: "blue"
+      weight: 90
+    - name: "Products and services"
+      icon: "package"
+      type: "weight"
+      color: "blue"
+      weight: 80
+    - name: "Portfolio"
+      icon: "briefcase"
+      type: "text"
+      color: "blue"
+      weight: 80
+    - name: "Components"
+      icon: "puzzle"
+      type: "weight"
+      color: "blue"
+      weight: 20
+    - name: "Features"
+      icon: "sparkles"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Roadmap"
+      icon: "map"
+      type: "steps"
+      color: "blue"
+      weight: 20
+    - name: "Pricing"
+      icon: "tag"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Offerings"
+      icon: "shopping-bag"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Brochure"
+      icon: "book-open"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Marketing"
+      icon: "megaphone"
+      type: "category"
+      color: "blue"
+      weight: 60
+    - name: "Naming"
+      icon: "type"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Branding"
+      icon: "palette"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Visual identity"
+      icon: "image"
+      type: "text"
+      color: "blue"
+      weight: 10
+    - name: "Logo"
+      icon: "shapes"
+      type: "text"
+      color: "blue"
+      weight: 10
+    - name: "Media plan"
+      icon: "newspaper"
+      type: "text"
+      color: "blue"
+      weight: 10
+    - name: "Communication"
+      icon: "message-circle"
+      type: "category"
+      color: "blue"
+      weight: 50
+    - name: "Pitch"
+      icon: "presentation"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Web"
+      icon: "globe"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Storytelling"
+      icon: "feather"
+      type: "text"
+      color: "blue"
+      weight: 20
+    - name: "Presentations"
+      icon: "monitor-play"
+      type: "text"
+      color: "blue"
+      weight: 35
+    - name: "Organization"
+      icon: "building-2"
+      type: "category"
+      color: "blue"
+      weight: 60
+    - name: "Business idea"
+      icon: "lightbulb"
+      type: "category"
+      color: "blue"
+      weight: 60
+    - name: "Inspiration"
+      icon: "sparkles"
+      type: "weight"
+      color: "blue"
+      weight: 30
+    - name: "Opportunity"
+      icon: "door-open"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Business status"
+      icon: "heart-pulse"
+      type: "text"
+      color: "blue"
+      weight: 70
+    - name: "Challenges"
+      icon: "mountain"
+      type: "weight"
+      color: "blue"
+      weight: 20
+    - name: "Business objectives"
+      icon: "target"
+      type: "category"
+      color: "blue"
+      weight: 70
+    - name: "Mission"
+      icon: "target"
+      type: "text"
+      color: "blue"
+      weight: 50
+    - name: "Vision"
+      icon: "telescope"
+      type: "text"
+      color: "blue"
+      weight: 40
+    - name: "Organizational values"
+      icon: "compass"
+      type: "weight"
+      color: "blue"
+      weight: 35
+    - name: "Organizational goals"
+      icon: "flag"
+      type: "weight"
+      color: "blue"
+      weight: 60
+    - name: "Operations"
+      icon: "settings"
+      type: "category"
+      color: "blue"
+      weight: 50
+    - name: "Activities"
+      icon: "list-checks"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Functions"
+      icon: "workflow"
+      type: "weight"
+      color: "blue"
+      weight: 30
+    - name: "Resources"
+      icon: "boxes"
+      type: "weight"
+      color: "blue"
+      weight: 30
+    - name: "Team"
+      icon: "users-round"
+      type: "category"
+      color: "blue"
+      weight: 70
+    - name: "Goals"
+      icon: "goal"
+      type: "weight"
+      color: "blue"
+      weight: 30
+    - name: "Skills"
+      icon: "award"
+      type: "weight"
+      color: "blue"
+      weight: 30
+    - name: "Contributions"
+      icon: "gift"
+      type: "weight"
+      color: "blue"
+      weight: 10
+    - name: "Compensations"
+      icon: "hand-coins"
+      type: "weight"
+      color: "blue"
+      weight: 10
+    - name: "Positions"
+      icon: "contact"
+      type: "weight"
+      color: "blue"
+      weight: 20
+    - name: "Project plan"
+      icon: "calendar-range"
+      type: "category"
+      color: "blue"
+      weight: 30
+    - name: "Phases"
+      icon: "layers"
+      type: "steps"
+      color: "blue"
+      weight: 20
+    - name: "Milestones"
+      icon: "milestone"
+      type: "sequence"
+      color: "blue"
+      weight: 10
+    - name: "Metrics"
+      icon: "gauge"
+      type: "weight"
+      color: "blue"
+      weight: 50
+    - name: "Finance"
+      icon: "banknote"
+      type: "category"
+      color: "blue"
+      weight: 70
+    - name: "Revenue"
+      icon: "coins"
+      type: "weight"
+      color: "blue"
+      weight: 65
+    - name: "Life Time Value"
+      icon: "repeat"
+      type: "text"
+      color: "blue"
+      weight: 35
+    - name: "Costs"
+      icon: "receipt"
+      type: "weight"
+      color: "blue"
+      weight: 50
+    - name: "Customer Aquisition Cost"
+      icon: "user-plus"
+      type: "text"
+      color: "blue"
+      weight: 35
+    - name: "Unit economics"
+      icon: "calculator"
+      type: "text"
+      color: "blue"
+      weight: 25
+    - name: "Funding sources"
+      icon: "landmark"
+      type: "weight"
+      color: "blue"
+      weight: 25
+    - name: "Shareholders"
+      icon: "pie-chart"
+      type: "weight"
+      color: "blue"
+      weight: 20
+    - name: "Projections"
+      icon: "line-chart"
+      type: "weight"
+      color: "blue"
+      weight: 20
+    - name: "Legal"
+      icon: "scale"
+      type: "category"
+      color: "blue"
+      weight: 40
+    - name: "Legal issues"
+      icon: "gavel"
+      type: "weight"
+      color: "blue"
+      weight: 40
+    - name: "Contracts"
+      icon: "scroll-text"
+      type: "weight"
+      color: "blue"
+      weight: 10
+    - name: "Matrices"
+      icon: "grid-3x3"
+      type: "weight"
+      color: null
+      weight: 40
+    - name: "Analysis"
+      icon: "microscope"
+      type: "category"
+      color: "red"
+      weight: 80
+    - name: "Assumptions"
+      icon: "circle-help"
+      type: "weight"
+      color: "red"
+      weight: 50
+    - name: "Risks"
+      icon: "shield-alert"
+      type: "weight"
+      color: "red"
+      weight: 90
+    - name: "Suggestions"
+      icon: "messages-square"
+      type: "weight"
+      color: "red"
+      weight: 30
+    - name: "Unfair advantage"
+      icon: "zap"
+      type: "text"
+      color: "blue"
+      weight: 30
+    - name: "SWOT"
+      icon: "layout-grid"
+      type: "text"
+      color: "red"
+      weight: 10
+    - name: "Keys"
+      icon: "key-round"
+      type: "weight"
+      color: "red"
+      weight: 50
+    - name: "Validation"
+      icon: "clipboard-check"
+      type: "category"
+      color: "green"
+      weight: 90
+    - name: "Coherence"
+      icon: "link"
+      type: "weight"
+      color: "green"
+      weight: 25
+    - name: "Experiments"
+      icon: "flask-conical"
+      type: "weight"
+      color: "green"
+      weight: 40
+    - name: "Misc"
+      icon: "ellipsis"
+      type: "text"
+      color: "grey"
+      weight: 10
+  markers:
+    - name: "weight"
+      symbol: "*"
+      icon: "plus"
+      color: "blue"
+    - name: "completion"
+      symbol: ">"
+      icon: "check"
+      color: "blue"
+    - name: "certainty"
+      symbol: "?"
+      icon: "help-circle"
+      color: "green"
+    - name: "priority"
+      symbol: "!"
+      icon: "flag"
+      color: "red"
+    - name: "rating"
+      symbol: "+"
+      icon: "star"
+      color: "green"
   matrices:
     - name: "Journey map"
       source: "Journey"

@@ -10,7 +10,7 @@
  *   3. Update each stale file to match.
  *   4. Never duplicate this value as a hardcoded string elsewhere in .ts/.vue.
  */
-export const DEFAULT_FORMAT_VERSION = 'V_0-1-4';
+export const DEFAULT_FORMAT_VERSION = 'V_0-1-0';
 
 /** Default template name for new documents. */
 export const DEFAULT_TEMPLATE_NAME = 'business';
@@ -31,7 +31,7 @@ export const MARKER_CYCLE_COUNT = MAX_MARKER_SCORE + 1;
  * The folder segment preserves the uppercase `V_x-y-z` form.
  */
 export function buildSpecificationUrl(version: string = DEFAULT_FORMAT_VERSION): string {
-  return `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/${version}/_format.md`;
+  return `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/${version}/_format.md`;
 }
 
 /**

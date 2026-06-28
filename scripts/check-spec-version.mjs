@@ -51,10 +51,12 @@ const CURRENT_VERSION = versionMatch[1];
  * Extend this list when new templates/samples are added to the repo.
  */
 const MARKER_FILES = [
-  'docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md',
-  'docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md',
-  'docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md',
-  'docs/templates/procedures/V_1-1-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md',
+  'docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md',
+  'docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md',
+  'docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-1_business_FORMAT.md',
+  'docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md',
+  'docs/templates/procedures/V_0-1-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md',
+  'docs/templates/procedures/V_0-1-0/samples/Knowledge_Management_V_1-0-0_procedures_FORMAT.md',
 ];
 
 /**

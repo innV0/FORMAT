@@ -1,7 +1,7 @@
 ---
-specification_version: "V_0-1-4"
+specification_version: "V_0-1-0"
 model_version: "V_1-0-0"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 template:
   name: "procedures"
   version: "V_0-1-0"
@@ -121,8 +121,8 @@ template:
       target: "markers"
 title: "Comprehensive Test Procedure"
 last_saved: "2026-06-24T12:00:00.000Z"
----
 
+---
 > [!NOTE]
 > This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. You can edit it as raw text in any editor, or open it in the [FORMAT app](https://format.innv0.com) for a guided visual editor.
 

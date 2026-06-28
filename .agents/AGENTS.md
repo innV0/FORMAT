@@ -42,12 +42,45 @@ The following template/model files MUST be updated when the spec version changes
 
 | Path | Type | Why it depends on the spec version |
 |------|------|------------------------------------|
-| `docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
-| `docs/templates/business/V_1-0-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
-| `docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
-| `docs/templates/procedures/V_1-1-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-1_business_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md` | Template | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_0-1-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
+| `docs/templates/procedures/V_0-1-0/samples/Knowledge_Management_V_1-0-0_procedures_FORMAT.md` | Sample model | Declares `specification_version` / `specification_url` in frontmatter |
 
 When a new non-code artifact that references the spec version is added to the repo, append its path to this table AND to `MARKER_FILES` in the same commit. The `check:spec-version` script will fail if the two lists diverge or if a listed file has a stale `specification_version`.
+
+## Template Version Propagation (MANDATORY)
+
+The template version is declared in each template's frontmatter (`template.version`) and each model's frontmatter that references it. The `check:template-version` script validates that all model files declare a `template.version` that matches an existing template directory.
+
+### Template-Version Tracked Files Registry
+
+| Path | Type | What it must match |
+|------|------|--------------------|
+| `docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md` | Template | Own `template.version` must match its directory version |
+| `docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md` | Template | Own `template.version` must match its directory version |
+| `docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md` | Sample model | `template.version` must match a template directory under `docs/templates/business/` |
+| `docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-1_business_FORMAT.md` | Sample model | `template.version` must match a template directory under `docs/templates/business/` |
+| `docs/templates/procedures/V_0-1-0/samples/Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md` | Sample model | `template.version` must match a template directory under `docs/templates/procedures/` |
+| `docs/templates/procedures/V_0-1-0/samples/Knowledge_Management_V_1-0-0_procedures_FORMAT.md` | Sample model | `template.version` must match a template directory under `docs/templates/procedures/` |
+
+### Skill Reference Integrity
+
+The file `.agents/skills/innv0-format/SKILL.md` contains hardcoded template paths, URLs, and version strings. These MUST be kept in sync with the actual file tree. When template directories, versions, or sample paths change:
+
+1. Update the SKILL.md references (File Location, Reference Locations, Dashboard, Naming Convention, Provenance Traceability).
+2. Run `node scripts/check-skill-refs.mjs` to verify integrity.
+
+The `check:spec-version` script and `check:template-version` script will warn if SKILL.md contains stale references.
+
+- **When bumping the template version:**
+  1. Create the new template directory with the new version.
+  2. Update all sample files to reference the new template version in their `template.version` field.
+  3. Update `.agents/skills/innv0-format/SKILL.md` to reflect new paths and versions.
+  4. Run `npm run check:template-version` to verify all references are consistent.
+  5. Run `node scripts/check-skill-refs.mjs` to verify SKILL.md integrity.
 
 - **When bumping the spec version:**
   1. Update `DEFAULT_FORMAT_VERSION` in `src/utils/constants.ts`.

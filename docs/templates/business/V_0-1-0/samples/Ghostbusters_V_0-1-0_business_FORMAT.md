@@ -1,10 +1,10 @@
 ---
-specification_version: "V_0-1-4"
+specification_version: "V_0-1-0"
 model_version: "V_0-1-0"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 template:
   name: "business"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
   title: "FORMAT Template"
   last_updated: "2026-06-25T19:19:44.620Z"
   concepts:
@@ -532,8 +532,8 @@ template:
       target: "markers"
 title: "Ghostbusters"
 last_saved: "2026-06-25T19:19:44.620Z"
----
 
+---
 # <!-- block: concepts --> Business summary
 
 Ghostbusters is a professional paranormal investigation and elimination service based in New York City. The company provides rapid-response containment of supernatural entities — ghosts, demons, and other spectral phenomena — for residential, commercial, and governmental clients. Revenue is generated through service fees charged per investigation and containment operation. The business was founded by three former Columbia University parapsychology researchers who leveraged their proprietary nuclear-powered containment technology (the Proton Pack) to create an entirely new industry: commercial paranormal elimination. The brand promise is simple — "Who you gonna call?" — backed by a track record of successful containment and an unmistakable visual identity.
