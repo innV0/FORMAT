@@ -874,7 +874,7 @@ last_saved: "${lastSaved}"
   // §3.1 Document Notice: required first block of the Markdown body. Parsers
   // ignore it (no H1 with `block:`), so it carries no model data. Emitted on
   // every serialize so the notice survives round-trips through the app.
-  md += `> [!NOTE]\n> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/onboarding) walks you through what this is and how to open it in the visual editor.\n\n`;
+  md += `> [!NOTE]\n> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/docs/onboarding) walks you through what this is and how to open it in the visual editor.\n\n`;
 
   const taxEdgesToSerialize = params.taxonomyEdges || [];
   if (taxEdgesToSerialize.length > 0) {

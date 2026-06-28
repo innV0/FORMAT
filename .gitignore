@@ -47,3 +47,4 @@ coverage/
 # Agent tooling
 .atl/
 .agents - Copy/
+.playwright-mcp/

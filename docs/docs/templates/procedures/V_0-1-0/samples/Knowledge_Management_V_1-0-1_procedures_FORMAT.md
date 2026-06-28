@@ -1,12 +1,12 @@
 ---
 specification_version: "V_0-1-0"
-model_version: "V_1-0-0"
+model_version: "V_1-0-1"
 specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 template:
   name: "procedures"
   version: "V_0-1-0"
   title: "FORMAT Template"
-  last_updated: "2026-06-28T15:32:08.325Z"
+  last_updated: "2026-06-28T15:36:34.560Z"
   concepts:
     - name: "procedure"
       icon: "file-text"
@@ -119,10 +119,10 @@ template:
       source: "elements"
       target: "markers"
 title: "Knowledge_Management"
-last_saved: "2026-06-28T15:32:08.325Z"
+last_saved: "2026-06-28T15:36:34.560Z"
 ---
 > [!NOTE]
-> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/onboarding) walks you through what this is and how to open it in the visual editor.
+> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/docs/onboarding) walks you through what this is and how to open it in the visual editor.
 
 # <!-- block: concepts --> procedure
 
@@ -154,7 +154,6 @@ Once the draft is complete, the author pushes the branch and opens a pull reques
   step_type: "decision"
   next: "Technical Review"
   condition: "all reviewer comments resolved"
-  input: "Pull Request"
   output: "Review Checklist"
   output_status: "reviewed"
   tool: "GitHub"

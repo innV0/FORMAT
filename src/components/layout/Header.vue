@@ -270,7 +270,7 @@
       <!-- External links -->
       <div class="flex items-center gap-1 pl-2">
         <a
-          href="https://innv0.com/FORMAT"
+          href="https://format.innv0.com"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1.5 px-2 py-1.5 rounded text-xs font-semibold text-slate-500 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"

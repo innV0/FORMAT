@@ -310,7 +310,7 @@ title: "FORMAT"
 last_saved: "2026-06-26T20:53:19.840Z"
 
 ---> [!NOTE]
-> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/onboarding) walks you through what this is and how to open it in the visual editor.
+> This is a **FORMAT document** — a plain-text Markdown file that carries its own schema in the YAML frontmatter. New to FORMAT? The [onboarding guide](https://format.innv0.com/docs/onboarding) walks you through what this is and how to open it in the visual editor.
 
 # <!-- block: concepts --> Business summary
 
