@@ -1,5 +1,10 @@
 ---
-name: _FORMAT-skill
+name: innv0-format
+version: "V_0-1-0"
+last_updated: 2026-06-27
+metadata:
+  source_type: "original"
+license: MIT
 description: |
   MANDATORY trigger: MUST activate this skill whenever the user is creating, editing, validating, or discussing any FORMAT model, template, specialization, sample, or specification file.
   This includes but is not limited to:
@@ -31,26 +36,25 @@ This skill guides LLMs and agents in authoring, editing, and validating FORMAT-c
 
 | Type | Pattern | Example |
 |------|---------|---------|
-| Official template | `<template>_V_x-y-z_FORMAT.md` | `business_V_1-0-0_FORMAT.md` |
-| Specialization | `<spec>_<template>_V_x-y-z_FORMAT.md` | `healthcare_business_V_1-0-0_FORMAT.md` |
+| Official template | `<template>_V_x-y-z_FORMAT.md` | `business_V_0-1-0_FORMAT.md` |
+| Specialization | `<spec>_<template>_V_x-y-z_FORMAT.md` | `healthcare_business_V_0-1-0_FORMAT.md` |
 
 ### File Location
 
 ```
 docs/templates/
 ├── business/
-│   └── V_1-0-0/
-│       ├── business_V_1-0-0_FORMAT.md          # Official template
-│       ├── documentation.md                     # Template docs
-│       └── samples/                             # Sample models
-│           ├── Acme_V_1-0-0_business_FORMAT.md
-│           └── Ghostbusters_V_0-3-0_business_FORMAT.md
+│   └── V_0-1-0/
+│       ├── business_V_0-1-0_FORMAT.md           # Official template
+│       ├── documentation.md                      # Template docs
+│       └── samples/                              # Sample models
+│           └── Ghostbusters_V_0-1-0_business_FORMAT.md
 └── procedures/
-    └── V_1-1-0/
-        ├── procedures_V_1-1-0_FORMAT.md         # Official template
-        ├── template.md
+    └── V_0-1-0/
+        ├── procedures_V_0-1-0_FORMAT.md          # Official template
+        ├── documentation.md
         └── samples/
-            └── Holiday_Request_V_1-0-0_procedures_FORMAT.md
+            └── Comprehensive_Test_Procedure_V_1-0-0_procedures_FORMAT.md
 ```
 
 ### Provenance Traceability
@@ -60,12 +64,12 @@ Specializations document their origin in the `description` field of frontmatter.
 ```yaml
 ---
 description: |
-  Specialization of business_V_1-0-0 template.
-  Parent: https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md
+  Specialization of business_V_0-1-0 template.
+  Parent: https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md
   Adapted for healthcare sector compliance.
 template:
   name: "healthcare_business"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
   concepts: [...]  # Complete, self-contained
 ---
 ```
@@ -75,17 +79,13 @@ template:
 
 ## Canonical Specification Index
 
-All historical and current specifications are immutable. The canonical specifications must be referenced via their raw GitHub tags to ensure immutability:
+The current specification is the single source of truth. Historical versions have been collapsed; this is the unified V_0-1-0 baseline:
 
-- **V_0-1-0**: [format-spec.md (v0.1.0)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.0/docs/spec/V_0-1-0/format-spec.md)
-- **V_0-1-1**: [format-spec.md (v0.1.1)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.1/docs/spec/V_0-1-1/format-spec.md)
-- **V_0-1-2** (Previous): [format-spec.md (v0.1.2)](https://raw.githubusercontent.com/innV0/FORMAT/v0.1.2/docs/spec/V_0-1-2/format-spec.md)
-- **V_0-1-3**: [_format.md (v0.1.3)](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-3/_format.md)
-- **V_0-1-4** (Current): [_format.md (v0.1.4)](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md)
+- **V_0-1-0** (Current): [_format.md (v0.1.0)](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md)
 
 ## Reference Directory
 
-The canonical specification sources are listed in the Canonical Specification Index above and in Section 1. No local spec files are maintained in this skill directory.
+The canonical specification source is listed above and in Section 1. No local spec files are maintained in this skill directory.
 
 ## Greeting Protocol (MANDATORY — DO NOT SKIP)
 
@@ -139,12 +139,12 @@ All FORMAT-compliant files use the `.md` extension and follow a specific naming 
 ## 1. Reference Locations (On-Demand Loading)
 To keep this skill lightweight and maintain a single source of truth, do not duplicate specification files locally in the skill. Instead, when validation or generation is requested, use your web-reading tools (e.g., `read_url_content`) to load the following canonical sources on-demand:
 
-* **Official _FORMAT Specification (V_0-1-4):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md`
-* **Business Template (V_1-0-0):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_1-0-0/business_V_1-0-0_FORMAT.md`
-* **Procedures Template (V_1-1-0):**
-  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_1-1-0/procedures_V_1-1-0_FORMAT.md`
+* **Official _FORMAT Specification (V_0-1-0):**
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md`
+* **Business Template (V_0-1-0):**
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md`
+* **Procedures Template (V_0-1-0):**
+  `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md`
 
 ## 2. Supported Templates
 There are currently two official templates:
@@ -157,14 +157,14 @@ There are currently two official templates:
 Every compliant file must start with a YAML block containing:
 ```yaml
 ---
-specification_version: "V_0-1-4"
-specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/V_0-1-4/_format.md"
+specification_version: "V_0-1-0"
+specification_url: "https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/V_0-1-0/_format.md"
 title: "Document Title"
 model_version: "V_x-y-z"
-documentation_location: "docs/spec/V_0-1-4/"
+documentation_location: "docs/spec/V_0-1-0/"
 template:
   name: "business" # or "procedures"
-  version: "V_1-0-0"
+  version: "V_0-1-0"
   title: "Template Title"
   concepts: [...]
   markers: [...]
@@ -179,7 +179,7 @@ template:
   `* <!-- block: concept name --> Element Name`
 - **Matrices Section:** Appears under `<!-- block: matrices -->` containing Markdown tables representing relationships or item-markers.
 
-### 3.3 Element Fields (V_0-1-4)
+### 3.3 Element Fields (V_0-1-0)
 
 Element fields are expressed as fenced YAML blocks (` ```yaml `) immediately after the element line. This replaces the old dash-list syntax.
 
@@ -311,9 +311,9 @@ docs/templates/<templateName>/V_x-y-z/dashboard.html
 Examples:
 
 ```
-docs/templates/business/V_1-0-0/dashboard.html
-docs/templates/procedures/V_1-1-0/dashboard.html
-docs/templates/healthcare_business/V_1-0-0/dashboard.html
+docs/templates/business/V_0-1-0/dashboard.html
+docs/templates/procedures/V_0-1-0/dashboard.html
+docs/templates/healthcare_business/V_0-1-0/dashboard.html
 ```
 
 The file name is ALWAYS `dashboard.html`. No model name, no version suffix —

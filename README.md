@@ -191,7 +191,7 @@ to deliver Feature X by Q3?
 _FORMAT includes specialized AI agent skills for automated model ingestion:
 
 - **`_FORMAT-source-incorporator`** — Ingests raw source documents and maps facts to your model with full traceability.
-- **`_FORMAT-skill`** — Creates, edits, and validates _FORMAT models from conversation.
+- **`innv0-format`** — Creates, edits, and validates _FORMAT models from conversation.
 
 These skills work with AI agents that support the Agent Skills protocol (e.g., OpenCode, Claude Code).
 
