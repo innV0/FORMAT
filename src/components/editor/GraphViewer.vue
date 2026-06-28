@@ -18,6 +18,15 @@
         {{ l.label }}
       </button>
       <div class="flex-1"></div>
+      <div v-if="selectedNode" class="flex items-center gap-1.5 mr-3 text-[10px] text-muted-foreground">
+        <span class="font-medium">{{ selectedNode.label }}</span>
+      </div>
+      <div v-if="selectedNode" class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted/50 border border-border/50">
+        <span class="text-[10px] text-muted-foreground font-medium leading-none">Depth</span>
+        <input type="range" min="0" max="5" v-model.number="depthLimit" class="w-16 h-1 accent-primary cursor-pointer" />
+        <span class="text-[10px] text-muted-foreground w-3 tabular-nums text-center">{{ depthLimit }}</span>
+        <button @click="clearExpanded" class="text-[10px] underline text-muted-foreground/60 hover:text-foreground cursor-pointer leading-none" title="Reset per-node expansions">Reset</button>
+      </div>
       <span class="text-[10px] text-muted-foreground">{{ displayNodes.length }} nodes · {{ displayEdges.length }} edges</span>
     </div>
 
@@ -162,10 +171,96 @@ function navigateToNode(node: GNode) {
   documentStore.selectConcept(node.concept);
 }
 
+const selectedNodeId = ref('');
+const selectedNode = computed(() => displayNodes.value.find(n => n.id === selectedNodeId.value));
+
+function selectNode(node: GNode) {
+  selectedNodeId.value = selectedNodeId.value === node.id ? '' : node.id;
+}
+
+function clearSelection() {
+  selectedNodeId.value = '';
+}
+
+const depthLimit = ref(1);
+const expandedNodes = new Set<string>();
+const expansionSig = ref(0);
+
+function expandNode(id: string) {
+  if (expandedNodes.has(id)) expandedNodes.delete(id);
+  else expandedNodes.add(id);
+  expansionSig.value++;
+}
+
+function clearExpanded() {
+  expandedNodes.clear();
+  expansionSig.value++;
+}
+
+function computeDepthSets(startId: string) {
+  const shown = new Set<string>();
+  const depths = new Map<string, number>();
+  const collapsible = new Set<string>();
+  const queue: [string, number][] = [[startId, 0]];
+
+  while (queue.length) {
+    const [id, d] = queue.shift()!;
+    if (shown.has(id)) continue;
+    shown.add(id);
+    depths.set(id, d);
+    const effLimit = expandedNodes.has(id) ? depthLimit.value + 1 : depthLimit.value;
+    if (d >= effLimit) continue;
+    displayEdges.value.forEach(e => {
+      if (e.source === id && !shown.has(e.target)) queue.push([e.target, d + 1]);
+      if (e.target === id && !shown.has(e.source)) queue.push([e.source, d + 1]);
+    });
+  }
+
+  for (const [id, d] of depths) {
+    const effLimit = expandedNodes.has(id) ? depthLimit.value + 1 : depthLimit.value;
+    if (d < effLimit) continue;
+    let hasHidden = false;
+    displayEdges.value.forEach(e => {
+      if (e.source === id && !shown.has(e.target)) hasHidden = true;
+      if (e.target === id && !shown.has(e.source)) hasHidden = true;
+    });
+    if (hasHidden) collapsible.add(id);
+  }
+
+  return { shown, collapsible };
+}
+
+function navIcon(parent: d3.Selection<any, any, any, any>, x: number, y: number, color: string, onClick: () => void, tooltip: string) {
+  const g = parent.append('g').attr('cursor', 'pointer').attr('class', 'sn-nav').attr('transform', `translate(${x},${y})`);
+  g.append('circle').attr('r', 7).attr('fill', color).attr('stroke', '#fff').attr('stroke-width', 1.5);
+  g.append('path')
+    .attr('d', 'M-2.5,0 h5 M0,-2.5 l2.5,2.5 -2.5,2.5')
+    .attr('stroke', '#fff').attr('stroke-width', 1.5).attr('fill', 'none')
+    .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+  g.append('title').text(tooltip);
+  g.on('click', (event: any) => { event.stopPropagation(); onClick(); });
+  return g;
+}
+
+function expandIcon(parent: d3.Selection<any, any, any, any>, x: number, y: number, color: string, expanded: boolean, onClick: () => void, tooltip: string) {
+  const g = parent.append('g').attr('cursor', 'pointer').attr('class', 'sn-expand').attr('transform', `translate(${x},${y})`);
+  g.append('circle').attr('r', 7).attr('fill', expanded ? color : 'none').attr('stroke', color).attr('stroke-width', 1.5);
+  g.append('path')
+    .attr('d', expanded ? 'M-3,0 h6' : 'M-3,0 h6 M0,-3 v6')
+    .attr('stroke', expanded ? '#fff' : color).attr('stroke-width', 1.5).attr('fill', 'none')
+    .attr('stroke-linecap', 'round');
+  g.append('title').text(tooltip);
+  g.on('click', (event: any) => { event.stopPropagation(); onClick(); });
+  return g;
+}
+
 let resizeObs: ResizeObserver | null = null;
 let svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
 let root: d3.Selection<SVGGElement, unknown, null, undefined>;
 let sim: d3.Simulation<any, any> | null = null;
+let forceLinkSel: d3.Selection<any, any, any, any> | null = null;
+let forceNodeSel: d3.Selection<any, any, any, any> | null = null;
+let forceEdgeG: d3.Selection<any, any, any, any> | null = null;
 
 function initSvg() {
   if (!svgRef.value || !containerRef.value) return;
@@ -187,25 +282,14 @@ function renderSankey() {
   const groups = d3.group(displayNodes.value, n => n.concept);
   let conceptOrder = [...groups.keys()];
 
-  // Build layer order
-  const tMap = new Map<string, string[]>();
-  metamodelStore.taxonomyEdges.forEach(e => {
-    if (!tMap.has(e.parent)) tMap.set(e.parent, []);
-    tMap.get(e.parent)!.push(e.child);
-  });
-
-  if (tMap.size > 0) {
-    const added = new Set<string>(), layers: string[][] = [];
-    function addLyr(c: string, d: number) {
-      if (added.has(c)) return; added.add(c);
-      while (layers.length <= d) layers.push([]);
-      layers[d].push(c);
-      (tMap.get(c) || []).forEach(ch => addLyr(ch, d + 1));
-    }
-    const roots = conceptOrder.filter(c => ![...tMap.values()].flat().includes(c));
-    roots.forEach(r => addLyr(r, 0));
-    conceptOrder.filter(c => !added.has(c)).forEach(c => addLyr(c, layers.length));
-    conceptOrder = layers.flat();
+  // Use hierarchyConcepts chain order as the primary ordering (matches left sidebar tree / index block)
+  const chain = metamodelStore.hierarchyConcepts;
+  if (chain.length > 0) {
+    const chainSet = new Set(chain);
+    conceptOrder = [
+      ...chain.filter(c => conceptOrder.includes(c)),
+      ...conceptOrder.filter(c => !chainSet.has(c)),
+    ];
   } else {
     const srcSet = new Set(primaryEdges.map(e => displayNodes.value.find(n => n.id === e.source)?.concept).filter(Boolean));
     const tgtSet = new Set(primaryEdges.map(e => displayNodes.value.find(n => n.id === e.target)?.concept).filter(Boolean));
@@ -231,13 +315,10 @@ function renderSankey() {
   const colInst = new Map<string, { y: number; h: number }[]>();
   const instPos = new Map<string, { x: number; y: number; w: number; h: number }>();
 
-  let maxBottom = 0;
-
   conceptOrder.forEach((cname, ci) => {
     const insts = (groups.get(cname) || []).filter(n => n.inst);
     const count = insts.length;
-    const totalH = Math.max(count * instGapY, 0);
-    const startY = Math.max(headerH + 20, (H - totalH) / 2 + headerH + 14);
+    const startY = 6 + headerH + 10;
     const x = contentStartX + ci * slotW + (slotW - colW) / 2;
     const w = colW;
     const positions: { y: number; h: number }[] = [];
@@ -246,7 +327,6 @@ function renderSankey() {
       const h = 22;
       instPos.set(n.id, { x, y, w, h });
       positions.push({ y, h });
-      maxBottom = Math.max(maxBottom, y + h + 20);
     });
     colInst.set(cname, positions);
   });
@@ -262,8 +342,18 @@ function renderSankey() {
       .attr('d', `M${sx},${sy} C${cpx},${sy} ${cpx},${ty} ${tx},${ty}`)
       .attr('fill', 'none').attr('stroke', e.color).attr('stroke-width', 2.5)
       .attr('stroke-opacity', 0.3).attr('stroke-linecap', 'round')
+      .attr('data-edge', '').attr('data-source', e.source).attr('data-target', e.target)
       .append('title').text(`${e.label} (${e.type})`);
   });
+
+  // ── Compute depth sets for selection highlighting and expand icons ──
+  let depthShown = new Set<string>();
+  let collapsible = new Set<string>();
+  if (selectedNodeId.value) {
+    const ds = computeDepthSets(selectedNodeId.value);
+    depthShown = ds.shown;
+    collapsible = ds.collapsible;
+  }
 
   // ── Draw concept column headers and instance nodes ──
   conceptOrder.forEach((cname, ci) => {
@@ -285,20 +375,43 @@ function renderSankey() {
     insts.forEach((n, i) => {
       const pos = positions[i];
       if (!pos) return;
-      const g = root.append('g').attr('cursor', 'pointer');
+      const isSelected = n.id === selectedNodeId.value;
+      const g = root.append('g').attr('cursor', 'pointer').attr('data-node', n.id);
 
       g.append('rect').attr('x', x).attr('y', pos.y).attr('width', w).attr('height', pos.h)
         .attr('rx', 4).attr('fill', hslStr(n.color, 0.35, 0.35))
-        .attr('stroke', n.color).attr('stroke-width', 1.5);
+        .attr('stroke', n.color).attr('stroke-width', isSelected ? 3 : 1.5);
 
       g.append('text').text(n.label)
         .attr('x', x + 5).attr('y', pos.y + pos.h / 2 + 3.5)
-        .attr('font-size', 8).attr('fill', '#1e293b').attr('font-weight', 500);
+        .attr('font-size', 8).attr('fill', '#1e293b').attr('font-weight', isSelected ? 700 : 500);
 
-      g.on('click', () => navigateToNode(n));
+      g.on('click', (event: any) => { event.stopPropagation(); selectNode(n); });
       g.append('title').text(`${n.label} (${n.concept})`);
+
+      let iy = 0;
+      if (isSelected) {
+        navIcon(root, x + w + 3, pos.y + 4 + iy, n.color, () => navigateToNode(n), `Navigate to ${n.label}`);
+        iy += 18;
+      }
+      if (collapsible.has(n.id)) {
+        expandIcon(root, x + w + 3, pos.y + 4 + iy, n.color, expandedNodes.has(n.id), () => expandNode(n.id), expandedNodes.has(n.id) ? 'Collapse' : 'Expand');
+      }
     });
   });
+
+  // Selection highlighting
+  if (selectedNodeId.value) {
+    root.selectAll('[data-node]').attr('opacity', function() {
+      const id = d3.select(this).attr('data-node');
+      return depthShown.has(id) ? 1 : 0.15;
+    });
+    root.selectAll('[data-edge]').attr('stroke-opacity', function() {
+      const s = d3.select(this).attr('data-source');
+      const t = d3.select(this).attr('data-target');
+      return depthShown.has(s) && depthShown.has(t) ? 0.7 : 0.03;
+    });
+  }
 }
 
   /* ─── FORCE: concept nodes larger, instance nodes smaller, hover dims ─── */
@@ -356,16 +469,14 @@ function renderForce() {
     edgeG.selectAll('line').attr('stroke-opacity', (e: any) => connected.has(e.source.id) && connected.has(e.target.id) ? 0.7 : 0.08);
     edgeG.selectAll('text').attr('opacity', (e: any) => connected.has(e.source.id) && connected.has(e.target.id) ? 1 : 0.05);
   }).on('mouseleave', function() {
-    nodeG.selectAll('g').attr('opacity', 1).select('circle').attr('stroke-width', (d: any) => d.inst ? 2 : 3).attr('stroke', 'white');
-    edgeG.selectAll('line').attr('stroke-opacity', 0.3);
-    edgeG.selectAll('text').attr('opacity', 1);
+    applyForceSelection();
   });
 
   node.call(d3.drag<any, any>()
     .on('start', (e, d: any) => { if (!e.active) sim?.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
     .on('drag', (e, d: any) => { d.fx = e.x; d.fy = e.y; })
     .on('end', (e, d: any) => { if (!e.active) sim?.alphaTarget(0); d.fx = null; d.fy = null; })
-  ).on('click', (_e: any, d: any) => navigateToNode(d));
+  ).on('click', (event: any, d: any) => { event.stopPropagation(); selectNode(d); });
 
   sim = d3.forceSimulation(gData.nodes)
     .force('link', d3.forceLink(gData.edges).id((d: any) => d.id).distance(160).strength(0.12))
@@ -378,6 +489,46 @@ function renderForce() {
       linkLabel.attr('x', (d: any) => (d.source.x + d.target.x)/2).attr('y', (d: any) => (d.source.y + d.target.y)/2);
       node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
     });
+  forceLinkSel = link;
+  forceNodeSel = node;
+  forceEdgeG = edgeG;
+}
+
+function applyForceSelection() {
+  const selId = selectedNodeId.value;
+  if (!forceNodeSel || !forceLinkSel) return;
+
+  forceNodeSel.selectAll('.sn-nav, .sn-expand').remove();
+
+  if (!selId) {
+    forceNodeSel.attr('opacity', 1);
+    forceNodeSel.select('circle').attr('stroke-width', (d: any) => d.inst ? 2 : 3).attr('stroke', 'white');
+    forceNodeSel.select('text').attr('font-weight', (d: any) => d.inst ? 500 : 700);
+    forceLinkSel.attr('stroke-opacity', 0.3);
+    forceEdgeG?.selectAll('text').attr('opacity', 1);
+    return;
+  }
+
+  const { shown, collapsible } = computeDepthSets(selId);
+
+  forceNodeSel.attr('opacity', (d: any) => shown.has(d.id) ? 1 : 0.2);
+  forceNodeSel.select('text').attr('font-weight', (d: any) => d.id === selId ? 700 : d.inst ? 500 : 700);
+  forceNodeSel.each(function(d: any) {
+    const el = d3.select(this);
+    const r = d.inst ? 16 : 28;
+    let oy = -r + 6;
+    if (d.id === selId) {
+      navIcon(el, r + 2, oy, d.color, () => navigateToNode(d), `Navigate to ${d.label}`);
+      oy += 18;
+    }
+    if (collapsible.has(d.id)) {
+      expandIcon(el, r + 2, oy, d.color, expandedNodes.has(d.id), () => expandNode(d.id), expandedNodes.has(d.id) ? 'Collapse' : 'Expand');
+    }
+  });
+  forceLinkSel.attr('stroke-opacity', (d: any) =>
+    shown.has(d.source.id) && shown.has(d.target.id) ? 0.7 : 0.05);
+  forceEdgeG?.selectAll('text').attr('opacity', (d: any) =>
+    shown.has(d.source.id) && shown.has(d.target.id) ? 1 : 0.05);
 }
 
 /* ─── RADIAL: concept rings labeled, instances per ring ─── */
@@ -424,23 +575,49 @@ function renderRadial() {
     return s && t ? { ...e, sx: s.x, sy: s.y, tx: t.x, ty: t.y } : null;
   }).filter(Boolean) as any[];
 
-  root.append('g').selectAll('line').data(linkData).join('line')
+  const edgeLines = root.append('g').selectAll('line').data(linkData).join('line')
     .attr('x1', (d: any) => d.sx).attr('y1', (d: any) => d.sy).attr('x2', (d: any) => d.tx).attr('y2', (d: any) => d.ty)
-    .attr('stroke', (d: any) => d.color).attr('stroke-width', 1.5).attr('stroke-opacity', 0.2).attr('stroke-dasharray', '3,3');
+    .attr('stroke', (d: any) => d.color).attr('stroke-width', 1.5).attr('stroke-opacity', 0.2).attr('stroke-dasharray', '3,3')
+    .attr('data-edge', '').attr('data-source', (d: any) => d.source).attr('data-target', (d: any) => d.target);
+
+  // Compute depth sets
+  let depthShown = new Set<string>();
+  let collapsible = new Set<string>();
+  if (selectedNodeId.value) {
+    const ds = computeDepthSets(selectedNodeId.value);
+    depthShown = ds.shown;
+    collapsible = ds.collapsible;
+  }
 
   // Draw nodes
   const grp = root.append('g').selectAll('g').data([...nodePos.entries()]).join('g').attr('cursor', 'pointer');
   grp.each(function([id, pos]: any) {
     const n = displayNodes.value.find(x => x.id === id);
     if (!n) return;
-    const el = d3.select(this);
+    const isSelected = n.id === selectedNodeId.value;
+    const el = d3.select(this).attr('data-node', n.id);
     el.append('circle').attr('cx', pos.x).attr('cy', pos.y).attr('r', n.inst ? 14 : 22)
-      .attr('fill', n.color).attr('stroke', 'white').attr('stroke-width', 2);
+      .attr('fill', n.color).attr('stroke', 'white').attr('stroke-width', isSelected ? 3 : 2);
     el.append('text').text(n.label.length > 14 ? n.label.slice(0, 12) + '…' : n.label)
       .attr('x', pos.x).attr('y', pos.y + 3.5).attr('text-anchor', 'middle')
-      .attr('font-size', n.inst ? 7 : 8).attr('font-weight', n.inst ? 500 : 700).attr('fill', '#1e293b');
-    el.on('click', () => navigateToNode(n));
+      .attr('font-size', n.inst ? 7 : 8).attr('font-weight', isSelected ? 700 : 500).attr('fill', '#1e293b');
+    el.on('click', (event: any) => { event.stopPropagation(); selectNode(n); });
+    let iy = 0;
+    if (isSelected) {
+      navIcon(root, pos.x + (n.inst ? 16 : 24), pos.y - 14 + iy, n.color, () => navigateToNode(n), `Navigate to ${n.label}`);
+      iy += 18;
+    }
+    if (collapsible.has(n.id)) {
+      expandIcon(root, pos.x + (n.inst ? 16 : 24), pos.y - 14 + iy, n.color, expandedNodes.has(n.id), () => expandNode(n.id), expandedNodes.has(n.id) ? 'Collapse' : 'Expand');
+    }
   });
+
+  // Selection highlighting
+  if (selectedNodeId.value) {
+    grp.attr('opacity', (d: any) => depthShown.has(d[0]) ? 1 : 0.2);
+    edgeLines.attr('stroke-opacity', (d: any) =>
+      depthShown.has(d.source) && depthShown.has(d.target) ? 0.7 : 0.03);
+  }
 }
 
 function render() {
@@ -450,6 +627,7 @@ function render() {
   if (displayNodes.value.length === 0) return;
   const W = svgRef.value.clientWidth || 900, H = svgRef.value.clientHeight || 600;
   svg.attr('viewBox', `0 0 ${W} ${H}`);
+  svg.on('click', () => clearSelection());
   switch (currentLayout.value) {
     case 'sankey': renderSankey(); break;
     case 'force': renderForce(); break;
@@ -473,6 +651,36 @@ watch([() => documentStore.modelTree, () => documentStore.matrixValues, () => do
   render();
 }, { deep: true });
 
-onMounted(() => { initSvg(); render(); });
-onUnmounted(() => { if (sim) sim.stop(); if (resizeObs) resizeObs.disconnect(); });
+watch(selectedNodeId, () => {
+  expandedNodes.clear();
+  expansionSig.value++;
+  if (currentLayout.value === 'force' && svgRef.value) {
+    applyForceSelection();
+  } else {
+    render();
+  }
+});
+
+watch(depthLimit, () => {
+  if (currentLayout.value === 'force' && svgRef.value) {
+    applyForceSelection();
+  } else {
+    render();
+  }
+});
+
+watch(expansionSig, () => {
+  if (currentLayout.value === 'force' && svgRef.value) {
+    applyForceSelection();
+  } else {
+    render();
+  }
+});
+
+function onKeyDown(e: KeyboardEvent) {
+  if (e.key === 'Escape') clearSelection();
+}
+
+onMounted(() => { initSvg(); render(); window.addEventListener('keydown', onKeyDown); });
+onUnmounted(() => { if (sim) sim.stop(); if (resizeObs) resizeObs.disconnect(); window.removeEventListener('keydown', onKeyDown); });
 </script>

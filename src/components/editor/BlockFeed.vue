@@ -24,7 +24,7 @@
     <!-- Instance Sheets (list concept only) -->
     <div v-if="isListConcept" class="pl-4 space-y-3">
       <div v-if="items.length === 0" class="text-center py-12 text-slate-400 italic text-xs bg-slate-50 rounded-lg border border-dashed border-slate-200">
-        No instances yet. Add one with the button above or create bullet points in the description.
+        No elements yet. Add one with the '+' button above or use a &lt;!-- block: --&gt; entry in the markdown.
       </div>
 
       <BlockSheet
@@ -109,6 +109,8 @@ const setInstanceCollapsed = (id: string, val: boolean) => {
 };
 
 // When a specific element is selected from the sidebar, expand it and collapse all others.
+// `immediate: true` handles the case where the feed mounts with selectedItemName already set
+// (e.g. concept switch triggered by clicking a tree element), so the sheet auto-expands.
 watch(() => props.selectedItemName, (name) => {
   if (!name) return;
   // Collapse all instances first
@@ -122,5 +124,5 @@ watch(() => props.selectedItemName, (name) => {
   }
   // Also collapse the concept header when viewing a specific element
   conceptCollapsed.value = true;
-});
+}, { immediate: true });
 </script>

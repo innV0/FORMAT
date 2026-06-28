@@ -12,14 +12,14 @@ template:
       icon: "file-text"
       type: "text"
       mode: "basic"
-      color: "purple"
+      color: "blue"
       weight: 100
       ai_applicability: 9
     - name: "work"
       icon: "list-ordered"
       type: "sequence"
       mode: "basic"
-      color: "purple"
+      color: "blue"
       weight: 90
       ai_applicability: 9
       fields:
@@ -51,7 +51,7 @@ template:
       icon: "package"
       type: "list"
       mode: "basic"
-      color: "blue"
+      color: "orange"
       weight: 80
       ai_applicability: 7
     - name: "tools"

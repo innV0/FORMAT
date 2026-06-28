@@ -59,23 +59,58 @@
         <!-- Relations & Setup -->
         <div class="space-y-1 mt-4">
           <div class="px-2 py-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider bg-muted/60 rounded-sm">
-            Relations & Setup
+            Relations
           </div>
+
           <button
-            @click="documentStore.selectConcept('metamatrix')"
-            :class="documentStore.activeConceptName === 'metamatrix' ? 'bg-accent text-accent-foreground font-semibold border border-border shadow-xs' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'"
-            class="w-full flex items-center gap-2 rounded px-2.5 py-1.5 text-xs transition-all text-left cursor-pointer"
+            @click="toggleMatricesExpanded"
+            class="w-full flex items-center gap-2 rounded px-2.5 py-1.5 text-xs transition-all text-left cursor-pointer text-muted-foreground hover:bg-accent/50 hover:text-foreground"
           >
-            <Settings class="w-3.5 h-3.5 text-muted-foreground" />
-            <span class="truncate">Metamatrix Config</span>
+            <ChevronRight class="w-3 h-3 shrink-0 transition-transform duration-200" :class="{ 'rotate-90': matricesExpanded }" />
+            <BarChart2 class="w-3.5 h-3.5 text-primary shrink-0" />
+            <span class="truncate font-semibold">Matrices</span>
           </button>
+
+          <div v-if="matricesExpanded" class="space-y-0.5 ml-3 pl-2 border-l border-border/40">
+            <MatrixPill
+              v-for="(matrix, idx) in documentStore.metamatrix"
+              :key="matrix.name"
+              :name="matrix.name"
+              :source="matrix.source"
+              :target="matrix.target"
+              :label="matrix.label"
+              :selected="isMatrixActive(idx)"
+              :full-width="true"
+              interactive
+              show-source-target
+              as="button"
+              @click="navigateToMatrix(idx)"
+            />
+
+            <div v-if="documentStore.metamatrix.length === 0" class="px-2.5 py-1.5 text-[11px] text-muted-foreground/50 italic">
+              No matrices defined
+            </div>
+
+            <div class="border-t border-border/40 my-0.5" />
+
+            <button
+              @click="navigateToMetamatrix"
+              :class="documentStore.activeConceptName === 'metamatrix' ? 'bg-accent text-accent-foreground font-semibold border border-border shadow-xs' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground border border-transparent'"
+              class="w-full flex items-center gap-2 rounded px-2.5 py-1.5 text-xs transition-all text-left cursor-pointer"
+            >
+              <Settings class="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+              <span class="truncate">Metamatrix Config</span>
+            </button>
+          </div>
+
           <button
-            @click="documentStore.selectConcept('matrices')"
-            :class="documentStore.activeConceptName === 'matrices' ? 'bg-accent text-accent-foreground font-semibold border border-border shadow-xs' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'"
+            v-if="!matricesExpanded"
+            @click="navigateToMetamatrix"
+            :class="documentStore.activeConceptName === 'metamatrix' ? 'bg-accent text-accent-foreground font-semibold border border-border shadow-xs' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground border border-transparent'"
             class="w-full flex items-center gap-2 rounded px-2.5 py-1.5 text-xs transition-all text-left cursor-pointer"
           >
-            <BarChart2 class="w-3.5 h-3.5 text-primary" />
-            <span class="truncate font-semibold">Relational Matrices</span>
+            <Settings class="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+            <span class="truncate">Metamatrix Config</span>
           </button>
 
         </div>
@@ -88,10 +123,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { ChevronsDown, ChevronsUp, Settings, BarChart2, LayoutDashboard } from 'lucide-vue-next';
+import { ChevronsDown, ChevronsUp, ChevronRight, Settings, BarChart2, LayoutDashboard } from 'lucide-vue-next';
 import { useMetamodelStore } from '../../stores/metamodel';
 import { useDocumentStore } from '../../stores/document';
 import ConceptTreeNode from './ConceptTreeNode.vue';
+import MatrixPill from '../editor/MatrixPill.vue';
 import { Concept, TreeNode } from '../../types';
 import { useResizablePanel } from '../../composables/useResizablePanel';
 
@@ -163,5 +199,24 @@ const collapseAll = () => {
 
 const selectConcept = (name: string) => {
   documentStore.selectConcept(name);
+};
+
+const matricesExpanded = ref(false);
+
+const toggleMatricesExpanded = () => {
+  matricesExpanded.value = !matricesExpanded.value;
+};
+
+const navigateToMatrix = (idx: number) => {
+  documentStore.activeGeneratedMatrixIndex = idx;
+  documentStore.selectConcept('matrices');
+};
+
+const navigateToMetamatrix = () => {
+  documentStore.selectConcept('metamatrix');
+};
+
+const isMatrixActive = (idx: number) => {
+  return documentStore.activeConceptName === 'matrices' && documentStore.activeGeneratedMatrixIndex === idx;
 };
 </script>

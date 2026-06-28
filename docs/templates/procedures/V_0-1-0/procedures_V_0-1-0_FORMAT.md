@@ -6,8 +6,94 @@ template:
   version: "V_0-1-0"
   title: "FORMAT Procedures Template"
   last_updated: "2026-06-25T19:37:01.835Z"
-  concepts: []
-  markers: []
+  concepts:
+    - name: "procedure"
+      icon: "file-text"
+      type: "text"
+      mode: "basic"
+      color: "blue"
+      weight: 100
+      ai_applicability: 9
+    - name: "work"
+      icon: "list-ordered"
+      type: "sequence"
+      mode: "basic"
+      color: "blue"
+      weight: 90
+      ai_applicability: 9
+      fields:
+        - name: "step_type"
+          type: "select"
+          options:
+            - "task"
+            - "decision"
+            - "event"
+        - name: "next"
+          type: "string"
+        - name: "condition"
+          type: "string"
+        - name: "input"
+          type: "reference"
+          target_concepts:
+            - "artifact"
+        - name: "output"
+          type: "reference"
+          target_concepts:
+            - "artifact"
+        - name: "output_status"
+          type: "string"
+        - name: "tool"
+          type: "reference"
+          target_concepts:
+            - "tools"
+    - name: "artifact"
+      icon: "package"
+      type: "list"
+      mode: "basic"
+      color: "orange"
+      weight: 80
+      ai_applicability: 7
+    - name: "tools"
+      icon: "wrench"
+      type: "list"
+      mode: "basic"
+      color: "orange"
+      weight: 70
+      ai_applicability: 8
+    - name: "roles"
+      icon: "users"
+      type: "list"
+      mode: "basic"
+      color: "green"
+      weight: 60
+      ai_applicability: 8
+      fields:
+        - name: "scope"
+          type: "select"
+          options:
+            - "internal"
+            - "external"
+    - name: "position"
+      icon: "briefcase"
+      type: "list"
+      mode: "basic"
+      color: "green"
+      weight: 50
+      ai_applicability: 7
+    - name: "person"
+      icon: "user"
+      type: "list"
+      mode: "basic"
+      color: "green"
+      weight: 40
+      ai_applicability: 6
+  markers:
+    - name: "complexity"
+      icon: "gauge"
+      description: "How complex is the procedure to execute"
+      mode: "basic"
+      color: "green"
+      weight: 50
   matrices:
     - name: "work-roles matrix"
       source: "work"

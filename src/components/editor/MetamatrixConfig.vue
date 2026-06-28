@@ -16,10 +16,11 @@
         <thead class="bg-slate-50">
           <tr>
             <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Matrix Name</th>
-            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Source Category</th>
-            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Target Category</th>
-            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Widget Input Type</th>
-            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Parameters (semi-colon separated)</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Source</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Target</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Label (relación)</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Widget</th>
+            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Parameters</th>
             <th class="px-4 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
@@ -49,6 +50,14 @@
               >
                 <option v-for="c in listConcepts" :key="c" :value="c">{{ c }}</option>
               </select>
+            </td>
+            <td class="px-4 py-2.5">
+              <input 
+                v-model="row.label" 
+                @input="documentStore.triggerUnsavedChanges"
+                placeholder="e.g. impacts, belongs to" 
+                class="border rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
+              >
             </td>
             <td class="px-4 py-2.5">
               <select 
@@ -82,7 +91,7 @@
             </td>
           </tr>
           <tr v-if="!documentStore.metamatrix.length">
-            <td colspan="6" class="text-center text-slate-400 text-xs italic py-6">
+            <td colspan="7" class="text-center text-slate-400 text-xs italic py-6">
               No relational matrices configured. Click "+ Add New Matrix Config" to define one.
             </td>
           </tr>

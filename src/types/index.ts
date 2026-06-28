@@ -30,6 +30,7 @@ export interface MetamatrixRow {
   params: string;
   min_color?: string;
   max_color?: string;
+  label?: string;
 }
 
 // A directed concept→concept edge within a perspective (parent contains/precedes child).
