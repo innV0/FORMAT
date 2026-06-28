@@ -45,7 +45,7 @@
                   <span class="text-lg">{{ agent.icon }}</span>
                   <div>
                     <span class="text-xs font-semibold text-slate-800">{{ agent.name }}</span>
-                    <span v-if="agent.badge" class="ml-1.5 inline-block text-[10px] font-bold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">{{ agent.badge }}</span>
+                    <span v-if="agent.badge" class="ml-1.5 inline-block text-2xs font-bold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">{{ agent.badge }}</span>
                   </div>
                 </div>
               </div>
@@ -64,8 +64,8 @@
                         @click="copy(step.code)"
                         class="group relative w-full text-left"
                       >
-                        <pre class="text-[11px] font-mono bg-slate-900 text-slate-200 rounded-lg p-3 overflow-x-auto leading-relaxed">{{ step.code }}</pre>
-                        <span class="absolute top-2 right-2 text-[10px] text-slate-500 group-hover:text-slate-300 transition-colors">{{ copiedIndex === i ? 'Copied!' : 'Copy' }}</span>
+                        <pre class="text-2xs font-mono bg-slate-900 text-slate-200 rounded-lg p-3 overflow-x-auto leading-relaxed">{{ step.code }}</pre>
+                        <span class="absolute top-2 right-2 text-2xs text-slate-500 group-hover:text-slate-300 transition-colors">{{ copiedIndex === i ? 'Copied!' : 'Copy' }}</span>
                       </button>
                     </div>
                   </div>
@@ -84,7 +84,7 @@
                   class="group relative w-full text-left rounded-lg border border-slate-200 bg-slate-50 p-3 hover:border-violet-200 hover:bg-violet-50 transition-all cursor-pointer"
                 >
                   <p class="text-xs text-slate-700 leading-relaxed pr-12">{{ example.prompt }}</p>
-                  <span class="absolute top-3 right-3 text-[10px] text-slate-400 group-hover:text-violet-600 transition-colors">{{ copiedExampleIndex === i ? 'Copied!' : 'Copy' }}</span>
+                  <span class="absolute top-3 right-3 text-2xs text-slate-400 group-hover:text-violet-600 transition-colors">{{ copiedExampleIndex === i ? 'Copied!' : 'Copy' }}</span>
                 </button>
               </div>
             </section>
@@ -104,7 +104,7 @@
 
             <!-- Footer -->
             <section class="border-t border-slate-100 pt-4 pb-2">
-              <p class="text-[11px] text-slate-400 text-center">
+              <p class="text-xs text-slate-400 text-center">
                 The FORMAT skill is available at
                 <a href="https://github.com/innV0/FORMAT" target="_blank" rel="noopener noreferrer" class="text-violet-600 hover:text-violet-700 underline">github.com/innV0/FORMAT</a>
               </p>
@@ -137,14 +137,14 @@ const steps = [
     text: 'Open the project root (<strong class="text-slate-900">FORMAT/</strong>) in your AI agent.',
   },
   {
-    text: 'Make sure the agent has loaded the <strong class="text-slate-900">FORMAT skill</strong>. It auto-detects from the <span class="font-mono text-[11px] bg-slate-100 px-1 py-0.5 rounded">.agents/</span> directory.',
+    text: 'Make sure the agent has loaded the <strong class="text-slate-900">FORMAT skill</strong>. It auto-detects from the <span class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">.agents/</span> directory.',
   },
   {
     text: 'Tell the agent what you want to change. Be specific about the concept, element, and field.',
     code: 'Add a new element "Social Media" under "Channels" with scope "external" and priority "High".',
   },
   {
-    text: 'The agent edits the model, updates all wikilinks and matrix references automatically, and tags changes with <span class="font-mono text-[11px] bg-slate-100 px-1 py-0.5 rounded">#AI</span>.',
+    text: 'The agent edits the model, updates all wikilinks and matrix references automatically, and tags changes with <span class="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">#AI</span>.',
   },
   {
     text: 'Review the changes, save the file, and close the loop.',

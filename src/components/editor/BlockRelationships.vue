@@ -1,8 +1,8 @@
 <template>
-  <div v-if="hasAnyRelationships" class="mt-4 border-t border-slate-200/60 pt-4 space-y-3">
+  <div v-if="hasAnyRelationships" class="space-y-3">
     <!-- Incoming Relationships: "Referenced by" -->
     <div v-if="incomingRelationships.length > 0">
-      <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+      <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
         <ArrowDownToLine class="w-3.5 h-3.5 text-slate-400" />
         Referenced by
       </h4>
@@ -11,7 +11,7 @@
           v-for="ref in incomingRelationships"
           :key="ref.block.id || ref.block.name"
           @click="navigateToBlock(ref.block)"
-          class="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-lg border transition-all duration-150 cursor-pointer hover:scale-[1.02]"
+          class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-lg border transition-all duration-150 cursor-pointer hover:scale-[1.02]"
           :class="chipClasses"
           :title="ref.fieldName ? `Via field: ${ref.fieldName}` : 'Via wikilink in description'"
         >
@@ -23,7 +23,7 @@
 
     <!-- Outgoing Relationships: "References" -->
     <div v-if="outgoingLinks.length > 0">
-      <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+      <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
         <ArrowUpFromLine class="w-3.5 h-3.5 text-slate-400" />
         References
       </h4>
@@ -32,7 +32,7 @@
           v-for="link in outgoingLinks"
           :key="link"
           @click="navigateByName(link)"
-          class="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-medium rounded-lg border transition-all duration-150 cursor-pointer hover:scale-[1.02]"
+          class="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-lg border transition-all duration-150 cursor-pointer hover:scale-[1.02]"
           :class="chipClasses"
         >
           <GitBranch class="w-3 h-3 opacity-60" />
@@ -48,7 +48,6 @@ import { computed } from 'vue';
 import { ArrowDownToLine, ArrowUpFromLine, GitBranch } from 'lucide-vue-next';
 import { useBlockRelationships } from '../../composables/useBlockRelationships';
 import { useDocumentStore } from '../../stores/document';
-import { findNodeByName } from '../../utils/tree';
 import type { BlockData, TreeNode } from '../../types';
 
 const props = defineProps<{
@@ -83,17 +82,11 @@ const chipClasses = computed(() => {
 
 // Navigate to a block by clicking its chip
 const navigateToBlock = (block: TreeNode) => {
-  const concept = documentStore.modelTree.find(n => n.name === block.name);
-  if (concept) {
-    documentStore.selectTreeNode(block, block.type);
-  }
+  documentStore.navigateToElement(block.name, props.conceptName);
 };
 
 // Navigate to a block by name (for outgoing links that may be in different concepts)
 const navigateByName = (name: string) => {
-  const node = findNodeByName(documentStore.modelTree, name);
-  if (node) {
-    documentStore.selectTreeNode(node, node.type);
-  }
+  documentStore.navigateToElement(name, props.conceptName);
 };
 </script>

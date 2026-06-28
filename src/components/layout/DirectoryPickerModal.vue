@@ -36,7 +36,7 @@
               <p class="font-semibold text-amber-900">
                 Choose the folder, not the model file
               </p>
-              <p class="text-[11px] text-amber-800">
+              <p class="text-xs text-amber-800">
                 Select the <strong>parent directory/folder</strong> containing your model, not the model file itself. Windows will not let you select files in a folder picker.
               </p>
             </div>
@@ -50,7 +50,7 @@
           </div>
 
           <!-- Visual Diagram -->
-          <div class="border border-slate-200 rounded-lg bg-slate-50 p-4 font-mono text-[11px] text-slate-700">
+          <div class="border border-slate-200 rounded-lg bg-slate-50 p-4 font-mono text-xs text-slate-700">
             <div class="flex items-center gap-1.5 font-semibold text-primary mb-2">
               <CheckCircle class="w-3.5 h-3.5" />
               <span>Correct Selection Structure</span>
@@ -65,7 +65,7 @@
                 <div class="flex items-center gap-1.5 text-slate-400">
                   <FileText class="w-3.5 h-3.5 shrink-0" />
                   <span>📄 model_file.md</span>
-                  <span class="text-[9px] text-slate-400 bg-slate-100 px-1.5 py-0.2 rounded">(Loaded automatically)</span>
+                  <span class="text-2xs text-slate-400 bg-slate-100 px-1.5 py-0.2 rounded">(Loaded automatically)</span>
                 </div>
                 <div class="flex items-center gap-1.5 text-slate-400">
                   <Folder class="w-3.5 h-3.5 shrink-0" />
@@ -76,7 +76,7 @@
           </div>
 
           <!-- Native Behavior Reminder -->
-<div class="bg-primary/5 rounded-lg p-3 text-[11px] text-primary border border-primary/10">
+<div class="bg-primary/5 rounded-lg p-3 text-xs text-primary border border-primary/10">
             <p class="font-semibold mb-0.5">Windows Explorer Notice</p>
             <p>
               In the file dialog window, individual files inside the folder might be invisible or grayed out. Don't worry—just select the parent directory, and the app will load all models immediately.

@@ -136,7 +136,7 @@ THEN each button has an `aria-label` describing its action (e.g., "Move up", "Ad
 
 ### REQ-06 — `BlockSheet` (Work Display — Collapsed / Expanded / Edit States)
 
-`BlockSheet` is the work display, replacing `BlockViewer`. It has three mutually exclusive visual states: **Collapsed**, **Expanded**, and **Edit**. In Edit state, `BlockSheet` MUST render each field through the corresponding widget component from the field-widget-system instead of inline `v-if/v-else-if/v-else` chains. Each widget receives `field`, `value`, and `readonly` props. In Expanded (non-edit) state, `BlockSheet` MUST render a `BlockRelationships` section between the rendered description and the `ConceptRelationshipGraph`.
+`BlockSheet` is the work display, replacing `BlockViewer`. It has three mutually exclusive visual states: **Collapsed**, **Expanded**, and **Edit**. In Edit state, `BlockSheet` MUST render each field through the corresponding widget component from the field-widget-system instead of inline `v-if/v-else-if/v-else` chains. Each widget receives `field`, `value`, and `readonly` props. In Expanded (non-edit) state, `BlockSheet` MUST render, in order: **Content**, **Fields** (element field values), **Relationships** (`BlockRelationships` + `BlockMatrixSummary`), and **Graph** (`GraphViewer`).
 
 **Scenarios:**
 
@@ -145,11 +145,11 @@ THEN it displays: header pill (icon/emoji + name) + fields list only (no body/de
 
 WHEN a `BlockSheet` is in the Expanded state (not Edit)  
 AND the current block has incoming or outgoing wikilink relationships  
-THEN the `BlockRelationships` component is rendered between the `renderedDescription` div and the `ConceptRelationshipGraph`
+THEN the `BlockRelationships` component is rendered inside the **Relationships** section, below the **Fields** section and above the **Graph** section
 
 WHEN a `BlockSheet` is in the Expanded state  
 AND the current block has no incoming or outgoing relationships  
-THEN no `BlockRelationships` section is rendered (no empty placeholder)
+THEN the **Relationships** section still renders with `BlockMatrixSummary` (matrix participations), but no `BlockRelationships` wikilinks are shown (no empty placeholder)
 
 WHEN a user clicks to expand a Collapsed `BlockSheet`  
 THEN the Sheet transitions to Expanded state — it does NOT enter Edit state, and the relationship section becomes visible if relationships exist

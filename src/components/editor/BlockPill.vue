@@ -31,7 +31,7 @@
       <!-- Active markers, read-only, rendered inside the pill -->
       <Info
         v-if="blockId && showInfoIcon"
-        class="shrink-0 w-3.5 h-3.5 text-slate-400 hover:text-primary cursor-pointer transition-colors"
+        :class="infoIconClass"
         @click.stop="togglePopup"
       />
       <span
@@ -86,7 +86,7 @@
             <span
               v-for="field in visibleFields"
               :key="field.name"
-              class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 text-[10px] font-medium border border-slate-200/60"
+              class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 text-xs font-medium border border-slate-200/60"
             >
         <span class="text-slate-400 mr-1 uppercase font-bold">{{ field.name.replace(/_/g, ' ') }}:</span>
         <span v-if="field.isWikiLink" class="text-primary underline decoration-dotted">[[{{ field.value }}]]</span>
@@ -95,14 +95,14 @@
           </div>
 
           <!-- Description -->
-          <p v-if="description && description.trim()" class="text-slate-600 leading-relaxed text-[11px] mb-3 break-words">
+          <p v-if="description && description.trim()" class="text-slate-600 leading-relaxed text-xs mb-3 break-words">
             {{ description }}
           </p>
-          <p v-else class="text-slate-400 italic text-[11px] mb-3">Sin contenido.</p>
+          <p v-else class="text-slate-400 italic text-xs mb-3">Sin contenido.</p>
 
           <!-- Marker cycling toolbar -->
           <div v-if="showMarkers && allMarkers.length" class="border-t border-slate-100 pt-2.5">
-            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1.5">Marcadores</div>
+            <div class="text-xs uppercase font-bold tracking-wider text-slate-400 mb-1.5">Marcadores</div>
             <div class="flex items-center gap-1.5">
               <MarkerTooltip
                 v-for="marker in allMarkers"
@@ -134,7 +134,6 @@ import { getMarkerIcon, getMarkerClasses } from './MarkerIcons';
 import { useBlockVisuals } from '../../composables/useBlockVisuals';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
-import { findNodeByName } from '../../utils/tree';
 import { MARKER_CYCLE_COUNT } from '../../utils/constants';
 import type { BlockKind, ConceptType } from '../../utils/conceptVisuals';
 
@@ -224,15 +223,7 @@ const markerClassesFor = (markerName: string) =>
 // ── Navigation ────────────────────────────────────────────────────────────────
 const navigateToBlock = () => {
   if (!props.name || !props.conceptType) return;
-  const isHierarchy = metamodelStore.hierarchyConcepts.includes(props.conceptType);
-  if (isHierarchy) {
-    const node = findNodeByName(documentStore.modelTree, props.name);
-    if (node) {
-      documentStore.selectTreeNode(node, node.type);
-    }
-  } else {
-    documentStore.selectConcept(props.conceptType);
-  }
+  documentStore.navigateToElement(props.name, props.conceptType);
   popupVisible.value = false;
 };
 
@@ -273,6 +264,15 @@ const visibleFields = computed(() => {
     .filter((f): f is { name: string; value: any; isWikiLink: boolean } => f !== null);
 });
 
+// ── Info icon class ──────────────────────────────────────────────────────────
+const infoIconClass = computed(() => {
+  const base = 'shrink-0 w-3.5 h-3.5 cursor-pointer transition-colors';
+  if (props.selected && props.kind === 'concept') {
+    return `${base} text-white/80 hover:text-white`;
+  }
+  return `${base} text-slate-400 hover:text-primary`;
+});
+
 // ── Pill classes ─────────────────────────────────────────────────────────────
 const pillClasses = computed(() => {
   const baseClasses = [
@@ -285,6 +285,12 @@ const pillClasses = computed(() => {
 
   if (props.selected) {
     const p = visuals.palette.value;
+    if (props.kind === 'concept') {
+      return [
+        ...baseClasses,
+        p.selectedBg, 'text-white',
+      ];
+    }
     return [
       ...baseClasses,
       p.text,

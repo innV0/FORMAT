@@ -57,7 +57,7 @@
       <div v-if="activeMatrix" class="flex-1 flex flex-col min-h-0 overflow-y-auto">
         <div class="mb-4 flex items-center justify-between">
           <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Matrix:</span>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Matrix:</span>
             <BlockPill kind="concept" :concept-type="activeMatrix.source" />
             <span class="text-slate-400">➔</span>
             <BlockPill kind="concept" :concept-type="activeMatrix.target" />
@@ -66,7 +66,7 @@
 
           <button
             @click="copyMatrixMarkdown"
-            class="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded px-2.5 py-1 text-[11px] font-semibold text-slate-700 cursor-pointer shadow-2xs"
+            class="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded px-2.5 py-1 text-xs font-semibold text-slate-700 cursor-pointer shadow-2xs"
           >
             <Copy class="w-3 h-3 text-slate-500" />
             Copy Table MD
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Value Distribution Card -->
-        <div v-if="Object.keys(valueDistribution).length > 0" class="mb-3 flex items-center gap-1.5 flex-wrap text-[10px]">
+        <div v-if="Object.keys(valueDistribution).length > 0" class="mb-3 flex items-center gap-1.5 flex-wrap text-xs">
           <span class="font-semibold text-slate-400 uppercase tracking-wider shrink-0">Values:</span>
           <span
             v-for="(count, value) in valueDistribution"
@@ -138,7 +138,7 @@
                     @click="documentStore.rotateMatrixCellCycle(activeMatrix.name, row, col, activeMatrix.params)"
                     :class="[
                       documentStore.getCycleBgColor(getVal(row, col), activeMatrix.min_color, activeMatrix.max_color, activeMatrix.params),
-                      'px-2 py-1 rounded border text-[10px] font-bold w-full transition-all cursor-pointer'
+                      'px-2 py-1 rounded border text-xs font-bold w-full transition-all cursor-pointer'
                     ]"
                   >
                     {{ getVal(row, col) === '-' ? '' : getVal(row, col) }}
@@ -149,7 +149,7 @@
                     v-else-if="activeMatrix.widgetType === 'scale'"
                     :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
                     @change="setVal(row, col, ($event.target as HTMLSelectElement).value || '-')"
-                    class="border rounded px-1.5 py-1 text-[10px] w-full text-center outline-none focus:ring-1 focus:ring-primary border-slate-200"
+                    class="border rounded px-1.5 py-1 text-xs w-full text-center outline-none focus:ring-1 focus:ring-primary border-slate-200"
                   >
                     <option value="">-</option>
                     <option v-for="num in scaleRange" :key="num" :value="num">{{ num }}</option>
@@ -160,7 +160,7 @@
                     v-else-if="activeMatrix.widgetType === 'set'"
                     :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
                     @change="setVal(row, col, ($event.target as HTMLSelectElement).value || '-')"
-                    class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
+                    class="border rounded px-1.5 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
                   >
                     <option value="">-</option>
                     <option v-for="opt in documentStore.getSetOptionsList(activeMatrix.params)" :key="opt" :value="opt">{{ opt }}</option>
@@ -173,7 +173,7 @@
                     :value="getVal(row, col) === '-' ? '' : getVal(row, col)"
                     @input="setVal(row, col, ($event.target as HTMLInputElement).value || '-')"
                     placeholder="-"
-                    class="border rounded px-1.5 py-1 text-[10px] w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
+                    class="border rounded px-1.5 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-primary border-slate-200"
                   >
                 </td>
               </tr>

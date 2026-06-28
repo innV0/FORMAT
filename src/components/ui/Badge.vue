@@ -12,6 +12,6 @@ const props = withDefaults(defineProps<{
 }>(), { size: 'xs' });
 
 const sizeClass = computed(() =>
-  props.size === 'sm' ? 'text-[10px]' : 'text-[9px] uppercase tracking-wider'
+  props.size === 'sm' ? 'text-2xs' : 'text-2xs uppercase tracking-wider'
 );
 </script>

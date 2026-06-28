@@ -1,10 +1,10 @@
 <template>
-  <div v-if="participations.length > 0" class="mt-4 border-t border-slate-200/60 pt-4 space-y-3">
+  <div v-if="participations.length > 0" class="space-y-3">
     <div v-for="part in participations" :key="part.matrixName" class="space-y-1">
       <div
         v-for="cell in part.cells"
         :key="cell.counterpart"
-        class="flex items-center gap-1.5 text-[11px]"
+        class="flex items-center gap-1.5 text-xs"
       >
         <BlockPill
           kind="instance"
@@ -14,7 +14,7 @@
           class="shrink-0"
         />
         <span
-          class="text-[10px] font-semibold text-slate-400 px-1.5 py-0.5 rounded cursor-pointer hover:text-primary hover:bg-slate-100 transition-colors shrink-0"
+          class="text-xs font-semibold text-slate-400 px-1.5 py-0.5 rounded cursor-pointer hover:text-primary hover:bg-slate-100 transition-colors shrink-0"
           @click="$emit('navigate-to-matrix', part.matrixIndex)"
         >
           {{ part.matrixName }}

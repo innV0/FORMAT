@@ -8,6 +8,7 @@ import { useMetamodelStore } from './metamodel';
 import { parseMetamodelDocumentation } from '../utils/documentationParser';
 import { generateId } from '../utils/id';
 import { slugify } from '../utils/sanitize';
+import { findNodeByName } from '../utils/tree';
 import { DEFAULT_FORMAT_VERSION, DEFAULT_TEMPLATE_NAME, DEFAULT_TEMPLATE_VERSION, buildSpecificationUrl } from '../utils/constants';
 
 export const useDocumentStore = defineStore('document', () => {
@@ -96,6 +97,25 @@ export const useDocumentStore = defineStore('document', () => {
     activeConceptName.value = name;
     selectedNode.value = null;
     selectedNodeType.value = '';
+  };
+
+  /**
+   * Unified navigation to an element. Finds the element by name in modelTree,
+   * switches to its concept view, and selects it. Falls back to switching to
+   * conceptHint if the element isn't found in the tree (list concept items).
+   * This is the single mechanism used by GraphViewer, BlockSheet,
+   * BlockRelationships, BlockPill, TreeNodeItem, and ConceptTreeNode.
+   */
+  const navigateToElement = (elementName: string, conceptHint?: string) => {
+    const node = findNodeByName(modelTree.value, elementName);
+    if (node) {
+      const conceptName = node.type || conceptHint || '';
+      activeConceptName.value = conceptName;
+      selectedNode.value = node;
+      selectedNodeType.value = conceptName;
+    } else if (conceptHint) {
+      selectConcept(conceptHint);
+    }
   };
 
   const triggerUnsavedChanges = () => {
@@ -847,6 +867,7 @@ export const useDocumentStore = defineStore('document', () => {
     loadDocument,
     getConceptType,
     selectConcept,
+    navigateToElement,
     triggerUnsavedChanges,
     renameBlock,
     selectTreeNode,

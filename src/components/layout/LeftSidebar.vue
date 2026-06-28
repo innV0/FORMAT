@@ -27,14 +27,14 @@
           <div class="flex items-center gap-2">
             <button
               @click="expandAll"
-              class="p-1 hover:bg-accent rounded text-[11px] text-muted-foreground hover:text-primary cursor-pointer transition-colors flex items-center justify-center"
+              class="p-1 hover:bg-accent rounded text-2xs text-muted-foreground hover:text-primary cursor-pointer transition-colors flex items-center justify-center"
               title="Expand All"
             >
               <ChevronsDown class="w-3.5 h-3.5" />
             </button>
             <button
               @click="collapseAll"
-              class="p-1 hover:bg-accent rounded text-[11px] text-muted-foreground hover:text-primary cursor-pointer transition-colors flex items-center justify-center"
+              class="p-1 hover:bg-accent rounded text-2xs text-muted-foreground hover:text-primary cursor-pointer transition-colors flex items-center justify-center"
               title="Collapse All"
             >
               <ChevronsUp class="w-3.5 h-3.5" />
@@ -58,7 +58,7 @@
 
         <!-- Relations & Setup -->
         <div class="space-y-1 mt-4">
-          <div class="px-2 py-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider bg-muted/60 rounded-sm">
+          <div class="px-2 py-1 text-2xs font-bold text-muted-foreground uppercase tracking-wider bg-muted/60 rounded-sm">
             Relations
           </div>
 
@@ -87,7 +87,7 @@
               @click="navigateToMatrix(idx)"
             />
 
-            <div v-if="documentStore.metamatrix.length === 0" class="px-2.5 py-1.5 text-[11px] text-muted-foreground/50 italic">
+            <div v-if="documentStore.metamatrix.length === 0" class="px-2.5 py-1.5 text-xs text-muted-foreground/50 italic">
               No matrices defined
             </div>
 

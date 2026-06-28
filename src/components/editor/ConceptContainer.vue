@@ -17,7 +17,7 @@
       </div>
       <div>
         <div
-          class="text-[10px] font-bold uppercase tracking-widest"
+          class="text-xs font-bold uppercase tracking-widest"
           :class="palette.accent"
         >
           Concept

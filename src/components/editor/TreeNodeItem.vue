@@ -31,7 +31,7 @@
         :interactive="true"
         full-width
         class="flex-1 min-w-0"
-        @click="documentStore.selectTreeNode(node, currentConcept)"
+        @click="documentStore.navigateToElement(node.name, currentConcept)"
       />
     </div>
 

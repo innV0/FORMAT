@@ -13,7 +13,7 @@
       class="rounded-lg border border-border bg-background/60 p-2.5 space-y-1.5"
     >
       <!-- Perspective header -->
-      <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+      <div class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
         <IconRenderer :icon="n.perspective.icon" custom-class="w-3 h-3 text-primary" />
         <span>{{ n.perspective.name }}</span>
       </div>
@@ -100,7 +100,7 @@ const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon ||
   flex-shrink: 0;
   width: 3.5rem;
   padding-top: 0.1875rem;
-  font-size: 0.5625rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -125,8 +125,8 @@ const iconFor = (name: string) => metamodelStore.getConceptByName(name)?.icon ||
   max-width: 11rem;
   padding: 0.125rem 0.5rem;
   border-radius: 0.375rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
   border: 1px solid var(--border);
   background: var(--background);
   color: var(--foreground);

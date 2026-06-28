@@ -42,11 +42,12 @@
         :is-list="true"
         :show-reorder="true"
         :show-delete="true"
+        :disable-expand="!selectedItemName || item.name !== selectedItemName"
         :is-first="idx === 0"
         :is-last="idx === items.length - 1"
-        :collapsed="instanceCollapsed[item.id] ?? true"
+        :collapsed="itemCollapsed(item)"
         :is-editing="editingId === item.id"
-        @update:collapsed="setInstanceCollapsed(item.id, $event)"
+        @update:collapsed="onItemCollapsed(item, $event)"
         @edit-toggle="toggleEdit(item.id)"
         @move-up="$emit('move-item-up', idx)"
         @move-down="$emit('move-item-down', idx)"
@@ -58,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue';
+import { ref, watch } from 'vue';
 import BlockSheet from './BlockSheet.vue';
 import type { BlockKind } from '../../utils/conceptVisuals';
 import type { ParsedItem } from '../../types';
@@ -94,35 +95,37 @@ defineEmits<{
 // Single-active-editor state: at most ONE editor open at a time
 const editingId = ref<string | null>(null);
 
-// Collapse state for concept sheet and instance sheets.
+// Per-item collapsed state tracking (user toggles via chevron).
+// Keyed by item name so toggling persists across re-renders
+// but resets when a different element is selected.
+const collapsedOverrides = ref<Record<string, boolean>>({});
+
 // A list concept's sheet is pure context (collapse it); a single-block concept's
 // sheet IS the content, so it starts expanded for immediate read/edit.
 const conceptCollapsed = ref(props.isListConcept);
-const instanceCollapsed = reactive<Record<string, boolean>>({});
 
 const toggleEdit = (key: string) => {
   editingId.value = editingId.value === key ? null : key;
 };
 
-const setInstanceCollapsed = (id: string, val: boolean) => {
-  instanceCollapsed[id] = val;
+// Collapse the concept header when a specific element is selected
+watch(() => props.selectedItemName, (name) => {
+  // Reset per-item overrides when selection changes so the new item starts expanded
+  collapsedOverrides.value = {};
+  if (name) {
+    conceptCollapsed.value = true;
+  }
+}, { immediate: true });
+
+const itemCollapsed = (item: ParsedItem): boolean => {
+  const override = collapsedOverrides.value[item.name];
+  if (override !== undefined) return override;
+  // Default: expanded only when it's the currently selected item
+  return props.selectedItemName ? item.name !== props.selectedItemName : true;
 };
 
-// When a specific element is selected from the sidebar, expand it and collapse all others.
-// `immediate: true` handles the case where the feed mounts with selectedItemName already set
-// (e.g. concept switch triggered by clicking a tree element), so the sheet auto-expands.
-watch(() => props.selectedItemName, (name) => {
-  if (!name) return;
-  // Collapse all instances first
-  for (const key of Object.keys(instanceCollapsed)) {
-    instanceCollapsed[key] = true;
-  }
-  // Expand the selected one
-  const selected = props.items.find(item => item.name === name);
-  if (selected) {
-    instanceCollapsed[selected.id] = false;
-  }
-  // Also collapse the concept header when viewing a specific element
-  conceptCollapsed.value = true;
-}, { immediate: true });
+const onItemCollapsed = (item: ParsedItem, val: boolean) => {
+  collapsedOverrides.value = { ...collapsedOverrides.value, [item.name]: val };
+};
+
 </script>

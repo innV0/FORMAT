@@ -23,7 +23,7 @@
             
             <!-- Score Visualizer (0-3 dots) -->
             <div class="flex items-center gap-1">
-              <span class="text-[10px] text-slate-400 mr-1">Value: {{ score }}/3</span>
+              <span class="text-xs text-slate-400 mr-1">Value: {{ score }}/3</span>
               <div 
                 v-for="i in 3" 
                 :key="i"
@@ -38,7 +38,7 @@
           </div>
           
           <!-- Score Meaning (Text) -->
-          <div class="text-[11px] text-slate-400 font-medium mb-2">
+          <div class="text-xs text-slate-400 font-medium mb-2">
             Rating: <span class="text-slate-300 font-semibold">{{ getScoreLabel(score) }}</span>
           </div>
 
@@ -46,16 +46,16 @@
           <div class="border-t border-slate-800 my-2"></div>
 
           <!-- Description -->
-          <p class="text-slate-300 leading-relaxed mb-3 text-[11px]">
+          <p class="text-slate-300 leading-relaxed mb-3 text-xs">
             {{ marker.description }}
           </p>
 
           <!-- Guidelines -->
           <div v-if="formattedGuidelines && formattedGuidelines.length" class="mb-3">
-            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1.5">
+            <div class="text-xs uppercase font-bold tracking-wider text-slate-500 mb-1.5">
               Evaluation Criteria
             </div>
-            <ul class="space-y-1 text-slate-300 pl-3.5 list-disc text-[11px]">
+            <ul class="space-y-1 text-slate-300 pl-3.5 list-disc text-xs">
               <li v-for="(g, idx) in formattedGuidelines" :key="idx" class="leading-normal">
                 {{ g }}
               </li>
@@ -64,15 +64,15 @@
 
           <!-- Examples High/Low -->
           <div v-if="examples && examples.length" class="mt-2 border-t border-slate-800/60 pt-2.5">
-            <div class="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1.5">
+            <div class="text-xs uppercase font-bold tracking-wider text-slate-500 mb-1.5">
               Reference Examples
             </div>
             <div class="space-y-2">
-              <div v-for="(exampleGroup, idx) in examples" :key="idx" class="text-[11px]">
-                <div class="text-[10px] font-semibold mb-0.5" :class="exampleGroup.type === 'high' ? 'text-emerald-400' : 'text-rose-400'">
+              <div v-for="(exampleGroup, idx) in examples" :key="idx" class="text-xs">
+                <div class="text-xs font-semibold mb-0.5" :class="exampleGroup.type === 'high' ? 'text-emerald-400' : 'text-rose-400'">
                   {{ exampleGroup.type === 'high' ? 'High score (3/3):' : 'Low score (1/3):' }}
                 </div>
-                <ul class="space-y-0.5 text-slate-400 pl-3 list-disc text-[10.5px]">
+                <ul class="space-y-0.5 text-slate-400 pl-3 list-disc text-xs">
                   <li v-for="(ex, exIdx) in exampleGroup.items" :key="exIdx" class="leading-normal">
                     {{ ex }}
                   </li>

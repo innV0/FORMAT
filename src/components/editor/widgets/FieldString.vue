@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 capitalize">
+    <label class="text-xs font-bold uppercase tracking-wider text-slate-400 capitalize">
       {{ field.name.replace(/_/g, ' ') }}
     </label>
     <input

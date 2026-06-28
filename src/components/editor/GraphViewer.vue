@@ -1,12 +1,6 @@
 <template>
   <div class="flex flex-col" :class="localNodeId ? 'h-[480px] min-h-0' : 'h-full'">
     <div class="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30 shrink-0">
-      <div v-if="localNodeId" class="flex items-center gap-1.5 text-[10px] text-muted-foreground mr-2">
-        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold text-[9px]">LOCAL</span>
-        <span class="truncate max-w-[140px]">{{ localNodeLabel }}</span>
-        <button @click="$emit('exit-local')" class="ml-1 text-xs underline hover:text-primary cursor-pointer">Full&nbsp;graph</button>
-      </div>
-      <div v-else class="flex items-center gap-1 text-xs text-muted-foreground mr-2 font-semibold uppercase tracking-wider">Layout</div>
       <button
         v-for="l in layouts"
         :key="l.id"
@@ -18,16 +12,16 @@
         {{ l.label }}
       </button>
       <div class="flex-1"></div>
-      <div v-if="selectedNode" class="flex items-center gap-1.5 mr-3 text-[10px] text-muted-foreground">
+      <div v-if="selectedNode" class="flex items-center gap-1.5 mr-3 text-xs text-muted-foreground">
         <span class="font-medium">{{ selectedNode.label }}</span>
       </div>
       <div v-if="selectedNode" class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted/50 border border-border/50">
-        <span class="text-[10px] text-muted-foreground font-medium leading-none">Depth</span>
+        <span class="text-xs text-muted-foreground font-medium leading-none">Depth</span>
         <input type="range" min="0" max="5" v-model.number="depthLimit" class="w-16 h-1 accent-primary cursor-pointer" />
-        <span class="text-[10px] text-muted-foreground w-3 tabular-nums text-center">{{ depthLimit }}</span>
-        <button @click="clearExpanded" class="text-[10px] underline text-muted-foreground/60 hover:text-foreground cursor-pointer leading-none" title="Reset per-node expansions">Reset</button>
+        <span class="text-xs text-muted-foreground w-3 tabular-nums text-center">{{ depthLimit }}</span>
+        <button @click="clearExpanded" class="text-xs underline text-muted-foreground/60 hover:text-foreground cursor-pointer leading-none" title="Reset per-node expansions">Reset</button>
       </div>
-      <span class="text-[10px] text-muted-foreground">{{ displayNodes.length }} nodes · {{ displayEdges.length }} edges</span>
+      <span class="text-xs text-muted-foreground">{{ displayNodes.length }} nodes · {{ displayEdges.length }} edges</span>
     </div>
 
     <div ref="containerRef" class="flex-1 min-h-0 relative overflow-auto bg-slate-50/50" :class="localNodeId ? 'rounded-b-lg' : ''">
@@ -42,15 +36,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import * as d3 from 'd3';
-import { GitFork, Share2, CircleDot } from 'lucide-vue-next';
+import { GitFork, Share2 } from 'lucide-vue-next';
 import { useDocumentStore } from '../../stores/document';
 import { useMetamodelStore } from '../../stores/metamodel';
 import type { TreeNode } from '../../types';
 
 const props = withDefaults(defineProps<{
   localNodeId?: string;
-}>(), { localNodeId: '' });
-const emit = defineEmits<{ (e: 'exit-local'): void }>();
+  autoSelectConcept?: string;
+}>(), { localNodeId: '', autoSelectConcept: '' });
+
 
 const documentStore = useDocumentStore();
 const metamodelStore = useMetamodelStore();
@@ -61,18 +56,10 @@ const currentLayout = ref('sankey');
 const layouts = [
   { id: 'sankey', label: 'Sankey', icon: GitFork },
   { id: 'force', label: 'Force', icon: Share2 },
-  { id: 'radial', label: 'Radial', icon: CircleDot },
 ];
 
 interface GNode { id: string; label: string; concept: string; color: string; inst: boolean; }
 interface GEdge { source: string; target: string; label: string; type: string; color: string; }
-
-const localNodeLabel = computed(() => {
-  if (!props.localNodeId) return '';
-  const n = allNodes.value.find(x => x.id === `inst:${props.localNodeId}` || x.id === `concept:${props.localNodeId}`);
-  return n ? n.label : props.localNodeId;
-});
-
 const conceptColors: Record<string, string> = {};
 function initConceptColors() {
   const palette = ['#3b82f6','#22c55e','#f59e0b','#a855f7','#ef4444','#14b8a6','#f97316','#6366f1','#ec4899','#84cc16','#06b6d4','#e11d48'];
@@ -164,21 +151,35 @@ const displayEdges = computed(() => {
 });
 
 function navigateToNode(node: GNode) {
-  if (node.inst) {
-    const found = documentStore.modelTree.find(n => n.name === node.label);
-    if (found) documentStore.selectTreeNode(found, node.concept);
-  }
-  documentStore.selectConcept(node.concept);
+  documentStore.navigateToElement(node.label, node.concept);
 }
 
 const selectedNodeId = ref('');
+const highlightedConcept = ref('');
 const selectedNode = computed(() => displayNodes.value.find(n => n.id === selectedNodeId.value));
 
+function isNodeSelected(node: GNode): boolean {
+  if (highlightedConcept.value) return node.concept === highlightedConcept.value && node.inst;
+  return node.id === selectedNodeId.value;
+}
+
+function getSelectionRoots(): string[] {
+  if (highlightedConcept.value) {
+    return displayNodes.value
+      .filter(n => n.concept === highlightedConcept.value && n.inst)
+      .map(n => n.id);
+  }
+  if (selectedNodeId.value) return [selectedNodeId.value];
+  return [];
+}
+
 function selectNode(node: GNode) {
+  highlightedConcept.value = '';
   selectedNodeId.value = selectedNodeId.value === node.id ? '' : node.id;
 }
 
 function clearSelection() {
+  highlightedConcept.value = '';
   selectedNodeId.value = '';
 }
 
@@ -197,11 +198,11 @@ function clearExpanded() {
   expansionSig.value++;
 }
 
-function computeDepthSets(startId: string) {
+function computeDepthSets(startIds: string[]) {
   const shown = new Set<string>();
   const depths = new Map<string, number>();
   const collapsible = new Set<string>();
-  const queue: [string, number][] = [[startId, 0]];
+  const queue: [string, number][] = startIds.map(id => [id, 0]);
 
   while (queue.length) {
     const [id, d] = queue.shift()!;
@@ -309,8 +310,7 @@ function renderSankey() {
   const slotW = (W - 2 * padX) / cCount;
   const colW = Math.max(140, Math.min(220, slotW * 0.7));
 
-  const totalW = cCount * (colW + 48) - 48;
-  const contentStartX = Math.max(20, (W - totalW) / 2);
+  const contentStartX = padX;
 
   const colInst = new Map<string, { y: number; h: number }[]>();
   const instPos = new Map<string, { x: number; y: number; w: number; h: number }>();
@@ -347,10 +347,11 @@ function renderSankey() {
   });
 
   // ── Compute depth sets for selection highlighting and expand icons ──
+  const selRoots = getSelectionRoots();
   let depthShown = new Set<string>();
   let collapsible = new Set<string>();
-  if (selectedNodeId.value) {
-    const ds = computeDepthSets(selectedNodeId.value);
+  if (selRoots.length > 0) {
+    const ds = computeDepthSets(selRoots);
     depthShown = ds.shown;
     collapsible = ds.collapsible;
   }
@@ -362,35 +363,42 @@ function renderSankey() {
     const baseColor = getHexColor(metamodelStore.getConceptByName(cname)?.color || 'slate');
     const fill = hslStr(baseColor, 1, 0);
 
-    root.append('rect').attr('x', x - 2).attr('y', 6).attr('width', w + 4).attr('height', headerH)
+    const hdr = root.append('g').attr('cursor', 'pointer');
+    hdr.append('rect').attr('x', x - 2).attr('y', 6).attr('width', w + 4).attr('height', headerH)
       .attr('rx', 6).attr('fill', fill);
 
     const label = cname.length > 18 ? cname.slice(0, 16) + '…' : cname;
-    root.append('text').text(label.toUpperCase()).attr('x', x + w / 2).attr('y', 6 + headerH / 2 + 3.5)
-      .attr('text-anchor', 'middle').attr('font-size', 9).attr('font-weight', 700)
+    hdr.append('text').text(label.toUpperCase()).attr('x', x + w / 2).attr('y', 6 + headerH / 2 + 3.5)
+      .attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700)
       .attr('fill', textColor(baseColor)).append('title').text(cname);
+
+    hdr.on('click', (event: any) => {
+      event.stopPropagation();
+      const insts = (groups.get(cname) || []).filter(n => n.inst);
+      if (insts.length > 0) selectNode(insts[0]);
+    });
 
     const insts = (groups.get(cname) || []).filter(n => n.inst);
     const positions = colInst.get(cname) || [];
     insts.forEach((n, i) => {
       const pos = positions[i];
       if (!pos) return;
-      const isSelected = n.id === selectedNodeId.value;
+      const sel = isNodeSelected(n);
       const g = root.append('g').attr('cursor', 'pointer').attr('data-node', n.id);
 
       g.append('rect').attr('x', x).attr('y', pos.y).attr('width', w).attr('height', pos.h)
         .attr('rx', 4).attr('fill', hslStr(n.color, 0.35, 0.35))
-        .attr('stroke', n.color).attr('stroke-width', isSelected ? 3 : 1.5);
+        .attr('stroke', n.color).attr('stroke-width', sel ? 3 : 1.5);
 
       g.append('text').text(n.label)
         .attr('x', x + 5).attr('y', pos.y + pos.h / 2 + 3.5)
-        .attr('font-size', 8).attr('fill', '#1e293b').attr('font-weight', isSelected ? 700 : 500);
+        .attr('font-size', 10).attr('fill', '#1e293b').attr('font-weight', sel ? 700 : 500);
 
       g.on('click', (event: any) => { event.stopPropagation(); selectNode(n); });
       g.append('title').text(`${n.label} (${n.concept})`);
 
       let iy = 0;
-      if (isSelected) {
+      if (n.id === selectedNodeId.value && !highlightedConcept.value) {
         navIcon(root, x + w + 3, pos.y + 4 + iy, n.color, () => navigateToNode(n), `Navigate to ${n.label}`);
         iy += 18;
       }
@@ -426,7 +434,7 @@ function renderForce() {
     .attr('stroke-dasharray', (d: any) => d.type === 'taxonomy' ? '4,3' : 'none');
 
   const linkLabel = edgeG.selectAll('text').data(gData.edges).join('text')
-    .attr('font-size', 7).attr('fill', '#64748b').attr('pointer-events', 'none')
+    .attr('font-size', 10).attr('fill', '#64748b').attr('pointer-events', 'none')
     .attr('text-anchor', 'middle').attr('dy', -5).text((d: any) => d.label);
 
   const nodeG = root.append('g');
@@ -445,7 +453,7 @@ function renderForce() {
 
   node.append('text').text((d: any) => d.label.length > 18 ? d.label.slice(0, 16) + '…' : d.label)
     .attr('text-anchor', 'middle').attr('dy', (d: any) => d.inst ? 3 : 4)
-    .attr('font-size', (d: any) => d.inst ? 7 : 9).attr('font-weight', (d: any) => d.inst ? 500 : 700)
+    .attr('font-size', (d: any) => d.inst ? 10 : 11).attr('font-weight', (d: any) => d.inst ? 500 : 700)
     .attr('fill', (d: any) => textColor(d.color)).attr('pointer-events', 'none');
 
   node.append('title').text((d: any) => `${d.label} (${d.concept})${d.inst ? ' · instance' : ' · concept'}`);
@@ -509,15 +517,22 @@ function applyForceSelection() {
     return;
   }
 
-  const { shown, collapsible } = computeDepthSets(selId);
+  const roots = getSelectionRoots();
+  const { shown, collapsible } = computeDepthSets(roots.length > 0 ? roots : [selId]);
 
   forceNodeSel.attr('opacity', (d: any) => shown.has(d.id) ? 1 : 0.2);
-  forceNodeSel.select('text').attr('font-weight', (d: any) => d.id === selId ? 700 : d.inst ? 500 : 700);
+  forceNodeSel.each(function(d: any) {
+    const el = d3.select(this);
+    const sel = isNodeSelected(d);
+    el.select('text').attr('font-weight', sel ? 700 : d.inst ? 500 : 700);
+    el.select('circle').attr('stroke-width', sel ? (d.inst ? 4 : 5) : (d.inst ? 2 : 3))
+      .attr('stroke', sel ? d.color : 'white');
+  });
   forceNodeSel.each(function(d: any) {
     const el = d3.select(this);
     const r = d.inst ? 16 : 28;
     let oy = -r + 6;
-    if (d.id === selId) {
+    if (d.id === selId && !highlightedConcept.value) {
       navIcon(el, r + 2, oy, d.color, () => navigateToNode(d), `Navigate to ${d.label}`);
       oy += 18;
     }
@@ -531,95 +546,6 @@ function applyForceSelection() {
     shown.has(d.source.id) && shown.has(d.target.id) ? 1 : 0.05);
 }
 
-/* ─── RADIAL: concept rings labeled, instances per ring ─── */
-function renderRadial() {
-  const W = svgRef.value?.clientWidth || 900, H = svgRef.value?.clientHeight || 600;
-  const cx = W / 2, cy = H / 2;
-  const groups = d3.group(displayNodes.value, n => n.concept);
-  const conceptNames = [...groups.keys()];
-  const count = conceptNames.length;
-  if (count === 0) return;
-
-  const maxR = Math.min(W, H) / 2 - 80;
-  const rStep = count > 1 ? maxR / count : maxR / 2;
-
-  // Draw rings and label them
-  conceptNames.forEach((cname, li) => {
-    const r = rStep * (li + 1);
-    const color = getHexColor(metamodelStore.getConceptByName(cname)?.color || 'slate');
-    root.append('circle').attr('cx', cx).attr('cy', cy).attr('r', r)
-      .attr('fill', 'none').attr('stroke', hslStr(color, 0.3, 0.4)).attr('stroke-width', 1.5)
-      .attr('stroke-dasharray', '4,4');
-    // Ring label at 12 o'clock
-    root.append('text').text(cname).attr('x', cx).attr('y', cy - r - 8)
-      .attr('text-anchor', 'middle').attr('font-size', 8).attr('font-weight', 700)
-      .attr('fill', color).attr('text-transform', 'uppercase');
-  });
-
-  // Position instances on their concept ring
-  const nodePos = new Map<string, { x: number; y: number }>();
-  conceptNames.forEach((cname, li) => {
-    const insts = (groups.get(cname) || []).filter(n => n.inst);
-    const r = rStep * (li + 1);
-    const angleStep = (2 * Math.PI) / Math.max(insts.length, 1);
-    const start = -Math.PI / 2;
-    insts.forEach((n, i) => {
-      const angle = start + i * angleStep;
-      nodePos.set(n.id, { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) });
-    });
-  });
-
-  // Draw edges between instances
-  const linkData = displayEdges.value.filter(e => e.type !== 'taxonomy').map(e => {
-    const s = nodePos.get(e.source), t = nodePos.get(e.target);
-    return s && t ? { ...e, sx: s.x, sy: s.y, tx: t.x, ty: t.y } : null;
-  }).filter(Boolean) as any[];
-
-  const edgeLines = root.append('g').selectAll('line').data(linkData).join('line')
-    .attr('x1', (d: any) => d.sx).attr('y1', (d: any) => d.sy).attr('x2', (d: any) => d.tx).attr('y2', (d: any) => d.ty)
-    .attr('stroke', (d: any) => d.color).attr('stroke-width', 1.5).attr('stroke-opacity', 0.2).attr('stroke-dasharray', '3,3')
-    .attr('data-edge', '').attr('data-source', (d: any) => d.source).attr('data-target', (d: any) => d.target);
-
-  // Compute depth sets
-  let depthShown = new Set<string>();
-  let collapsible = new Set<string>();
-  if (selectedNodeId.value) {
-    const ds = computeDepthSets(selectedNodeId.value);
-    depthShown = ds.shown;
-    collapsible = ds.collapsible;
-  }
-
-  // Draw nodes
-  const grp = root.append('g').selectAll('g').data([...nodePos.entries()]).join('g').attr('cursor', 'pointer');
-  grp.each(function([id, pos]: any) {
-    const n = displayNodes.value.find(x => x.id === id);
-    if (!n) return;
-    const isSelected = n.id === selectedNodeId.value;
-    const el = d3.select(this).attr('data-node', n.id);
-    el.append('circle').attr('cx', pos.x).attr('cy', pos.y).attr('r', n.inst ? 14 : 22)
-      .attr('fill', n.color).attr('stroke', 'white').attr('stroke-width', isSelected ? 3 : 2);
-    el.append('text').text(n.label.length > 14 ? n.label.slice(0, 12) + '…' : n.label)
-      .attr('x', pos.x).attr('y', pos.y + 3.5).attr('text-anchor', 'middle')
-      .attr('font-size', n.inst ? 7 : 8).attr('font-weight', isSelected ? 700 : 500).attr('fill', '#1e293b');
-    el.on('click', (event: any) => { event.stopPropagation(); selectNode(n); });
-    let iy = 0;
-    if (isSelected) {
-      navIcon(root, pos.x + (n.inst ? 16 : 24), pos.y - 14 + iy, n.color, () => navigateToNode(n), `Navigate to ${n.label}`);
-      iy += 18;
-    }
-    if (collapsible.has(n.id)) {
-      expandIcon(root, pos.x + (n.inst ? 16 : 24), pos.y - 14 + iy, n.color, expandedNodes.has(n.id), () => expandNode(n.id), expandedNodes.has(n.id) ? 'Collapse' : 'Expand');
-    }
-  });
-
-  // Selection highlighting
-  if (selectedNodeId.value) {
-    grp.attr('opacity', (d: any) => depthShown.has(d[0]) ? 1 : 0.2);
-    edgeLines.attr('stroke-opacity', (d: any) =>
-      depthShown.has(d.source) && depthShown.has(d.target) ? 0.7 : 0.03);
-  }
-}
-
 function render() {
   if (!svgRef.value) return;
   svg.selectAll('*').remove();
@@ -631,7 +557,6 @@ function render() {
   switch (currentLayout.value) {
     case 'sankey': renderSankey(); break;
     case 'force': renderForce(); break;
-    case 'radial': renderRadial(); break;
   }
   // Auto-fit: scale to show all content with padding
   requestAnimationFrame(() => {
@@ -652,9 +577,10 @@ watch([() => documentStore.modelTree, () => documentStore.matrixValues, () => do
 }, { deep: true });
 
 watch(selectedNodeId, () => {
+  if (!svgRef.value) return;
   expandedNodes.clear();
   expansionSig.value++;
-  if (currentLayout.value === 'force' && svgRef.value) {
+  if (currentLayout.value === 'force') {
     applyForceSelection();
   } else {
     render();
@@ -676,6 +602,33 @@ watch(expansionSig, () => {
     render();
   }
 });
+
+watch(() => props.autoSelectConcept, (concept) => {
+  highlightedConcept.value = concept || '';
+  if (concept) {
+    const firstInst = allNodes.value.find(n => n.concept === concept && n.inst);
+    if (firstInst) {
+      selectedNodeId.value = firstInst.id;
+      return;
+    }
+  }
+  if (selectedNodeId.value) {
+    clearSelection();
+  }
+}, { immediate: true });
+
+watch(() => props.localNodeId, (nodeId) => {
+  if (nodeId) {
+    const match = allNodes.value.find(n => n.id === `inst:${nodeId}`);
+    if (match) {
+      selectedNodeId.value = match.id;
+      return;
+    }
+  }
+  if (selectedNodeId.value) {
+    clearSelection();
+  }
+}, { immediate: true });
 
 function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'Escape') clearSelection();
