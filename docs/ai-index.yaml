@@ -17,8 +17,8 @@ pages:
     description: "About the _FORMAT project"
     format: markdown
     url: "https://format.innv0.com/about.md"
-  - path: "/docs/"
+  - path: "/documentation/"
     title: "_FORMAT Documentation"
     description: "Full documentation"
     format: markdown
-    url: "https://format.innv0.com/docs/README.md"
+    url: "https://format.innv0.com/documentation/README.md"

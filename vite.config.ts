@@ -4,24 +4,22 @@ import { fileURLToPath, URL } from 'node:url';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const serveDocs = () => ({
-  name: 'serve-docs',
+const serveStatic = (prefix: string, dir: string) => ({
+  name: `serve-${prefix.replace('/', '')}`,
   configureServer(server: any) {
     server.middlewares.use((req: any, res: any, next: any) => {
       const urlPath = decodeURIComponent((req.url || '').split('?')[0]);
-      
-      // Canonical redirect for /docs to /docs/ to prevent relative path breakage
-      if (urlPath === '/docs') {
-        res.writeHead(301, { Location: '/docs/' });
+
+      if (urlPath === prefix.replace(/\/$/, '')) {
+        res.writeHead(301, { Location: prefix });
         res.end();
         return;
       }
 
-      if (urlPath.startsWith('/docs/')) {
+      if (urlPath.startsWith(prefix)) {
         const root = fileURLToPath(new URL('.', import.meta.url));
-        let filePath = path.join(root, urlPath);
-        
-        // If it's a directory, serve index.html
+        let filePath = path.join(root, dir, urlPath.replace(prefix, ''));
+
         if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
           filePath = path.join(filePath, 'index.html');
         }
@@ -50,8 +48,8 @@ const serveDocs = () => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
-  plugins: [vue(), serveDocs()],
+  base: '/app/',
+  plugins: [vue(), serveStatic('/documentation/', 'docs/documentation'), serveStatic('/site/', 'docs')],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

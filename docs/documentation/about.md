@@ -23,6 +23,6 @@ _FORMAT solves these by representing business models as structured Markdown.
 
 ## Links
 
-- [Documentation](/documentation/)
-- [Specification](/documentation/spec/V_0-1-0/_format)
+- [Documentation](https://format.innv0.com/documentation/)
+- [Specification](https://format.innv0.com/documentation/spec/V_0-1-0/_format)
 - [GitHub](https://github.com/innV0/FORMAT)

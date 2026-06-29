@@ -28,21 +28,15 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Move app to /app subfolder
+      - name: Move built app to docs/app/
         run: |
-          mkdir -p dist/app
-          mv dist/assets dist/app/
-          mv dist/index.html dist/app/
-
-      - name: Copy docs to root
-        run: cp -r docs/* dist/
-
-      - name: Ensure CNAME at root
-        run: echo "format.innv0.com" > dist/CNAME
+          rm -rf docs/app
+          mkdir -p docs/app
+          cp -r dist/* docs/app/
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: docs
 
   deploy:
     needs: build

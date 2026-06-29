@@ -31,7 +31,7 @@ export const MARKER_CYCLE_COUNT = MAX_MARKER_SCORE + 1;
  * The folder segment preserves the uppercase `V_x-y-z` form.
  */
 export function buildSpecificationUrl(version: string = DEFAULT_FORMAT_VERSION): string {
-  return `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/spec/${version}/_format.md`;
+  return `https://raw.githubusercontent.com/innV0/FORMAT/main/docs/documentation/spec/${version}/_format.md`;
 }
 
 /**

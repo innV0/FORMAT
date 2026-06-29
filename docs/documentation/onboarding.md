@@ -1,3 +1,13 @@
+> **💡 ¿Cansado de ver el documento como texto plano?**  
+> En vez de leer el Markdown crudo, podés abrirlo en la **app de FORMAT** para verlo de forma visual e interactiva.  
+> Cargá tu archivo `.md` en [format.innv0.com/app](https://format.innv0.com/app) y al instante tenés cards editables, matrices interactivas y un **graph view** que muestra todas las conexiones entre conceptos.  
+> Abajo te dejamos un pantallazo del graph view con el modelo de Ghostbusters cargado — así se ve cuando lo visualizás en la app.
+
+![Graph View — Sankey layout](/documentation/images/format-graph-view-sankey.png)
+![Graph View — Force layout](/documentation/images/format-graph-view-force.png)
+
+---
+
 # Welcome to FORMAT
 
 You just opened a **FORMAT document** — and it probably looks like a wall of text with symbols, dashes, and tables. That's normal. FORMAT documents are plain Markdown files that carry their own schema, designed to be both human-readable and machine-processable.
@@ -127,6 +137,6 @@ The app turns tables into interactive grids, YAML blocks into editable forms, an
 
 ## What's Next?
 
-- **[User Guide](app/user_guide.md)** — detailed reference for the app's features
-- **[How To _FORMAT](how-to.md)** — guide to authoring your own models
-- **[Core Specification](spec/V_0-1-0/_format.md)** — the full spec if you want to understand the format in depth
+- **[User Guide](/documentation/app/user_guide)** — detailed reference for the app's features
+- **[How To _FORMAT](/documentation/how-to)** — guide to authoring your own models
+- **[Core Specification](/documentation/spec/V_0-1-0/_format)** — the full spec if you want to understand the format in depth

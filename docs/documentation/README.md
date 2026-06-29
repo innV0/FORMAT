@@ -10,22 +10,22 @@ _FORMAT reads a single structured `.md` file that holds your complete business s
 
 ## Getting Started
 
-- **[Onboarding Guide](onboarding.md)** — First time? Start here.
-- **[How To _FORMAT](how-to.md)** — Step-by-step guide to modeling your business.
+- **[Onboarding Guide](/documentation/onboarding)** — First time? Start here.
+- **[How To _FORMAT](/documentation/how-to)** — Step-by-step guide to modeling your business.
 
 ## Specification
 
-- **[Core Specification (V_0-1-0)](spec/V_0-1-0/_format.md)** — The full _FORMAT spec.
+- **[Core Specification (V_0-1-0)](/documentation/spec/V_0-1-0/_format)** — The full _FORMAT spec.
 
 ## Templates
 
-- **[Business Template](templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md)** — Model your entire business.
-- **[Procedures Template](templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md)** — Document workflows.
+- **[Business Template](/documentation/templates/business/V_0-1-0/business_V_0-1-0_FORMAT)** — Model your entire business.
+- **[Procedures Template](/documentation/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT)** — Document workflows.
 
 ## App Reference
 
-- **[User Guide](app/user_guide.md)** — How to use the _FORMAT visual editor.
-- **[App Spec](app/app_spec.md)** — Technical app specification.
+- **[User Guide](/documentation/app/user_guide)** — How to use the _FORMAT visual editor.
+- **[App Spec](/documentation/app/app_spec)** — Technical app specification.
 
 ---
 
@@ -46,4 +46,4 @@ _FORMAT reads a single structured `.md` file that holds your complete business s
 
 ---
 
-> This is documentation for the **FORMAT** project. The visual editor app is available at [/app/](/app/).
+> This is documentation for the **FORMAT** project. The visual editor app is available at [/app/](/app/). Visit the [project website](/) for an overview.

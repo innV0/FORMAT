@@ -29,18 +29,18 @@ Choose the template that fits your goal and save the `.md` file to a folder on y
 ### Business Template
 For modeling complete business strategies — market, solutions, finance, roadmap, and more.
 
-**[Download business template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md)**
+**[Download business template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/documentation/templates/business/V_0-1-0/business_V_0-1-0_FORMAT.md)**
 
 Right-click → **Save link as...** → save to your chosen folder.
 
 ### Procedures Template
 For documenting workflows, SOPs, and step-by-step processes.
 
-**[Download procedures template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md)**
+**[Download procedures template →](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/documentation/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT.md)**
 
 Right-click → **Save link as...** → save to the same folder.
 
-> **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) first — it's a filled-in example showing what a complete model looks like.
+> **New to _FORMAT?** Try the [Ghostbusters sample model](https://raw.githubusercontent.com/innV0/FORMAT/main/docs/documentation/templates/business/V_0-1-0/samples/Ghostbusters_V_0-1-0_business_FORMAT.md) first — it's a filled-in example showing what a complete model looks like.
 
 ---
 
@@ -302,6 +302,6 @@ Example: `MyStartup_V_0-1-0_business_FORMAT.md`
 
 ## Next Steps
 
-- [Read the full specification →](spec/V_0-1-0/_format.md)
-- [Business template documentation →](templates/business/V_0-1-0/documentation.md)
+- [Read the full specification →](/documentation/spec/V_0-1-0/_format)
+- [Business template documentation →](/documentation/templates/business/V_0-1-0/documentation)
 - [View on GitHub →](https://github.com/innV0/FORMAT)

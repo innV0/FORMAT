@@ -5,10 +5,10 @@
 Pages:
 - [Home](https://format.innv0.com/index.md): _FORMAT landing page
 - [About](https://format.innv0.com/about.md): About the project
-- [Documentation Home](https://format.innv0.com/docs/README.md): Full documentation
-- [Onboarding Guide](https://format.innv0.com/docs/onboarding.md): First-time user guide
-- [How To _FORMAT](https://format.innv0.com/docs/how-to.md): Step-by-step guide
-- [Specification (V_0-1-0)](https://format.innv0.com/docs/spec/V_0-1-0/_format.md): Core specification
-- [User Guide](https://format.innv0.com/docs/app/user_guide.md): App user guide
+- [Documentation Home](https://format.innv0.com/documentation/README.md): Full documentation
+- [Onboarding Guide](https://format.innv0.com/documentation/onboarding.md): First-time user guide
+- [How To _FORMAT](https://format.innv0.com/documentation/how-to.md): Step-by-step guide
+- [Specification (V_0-1-0)](https://format.innv0.com/documentation/spec/V_0-1-0/_format.md): Core specification
+- [User Guide](https://format.innv0.com/documentation/app/user_guide.md): App user guide
 
 # Generator: https://skills.innv0.com/innv0-web-design-guide

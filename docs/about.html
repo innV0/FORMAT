@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About _FORMAT</title>
+  <meta name="description" content="Learn about the _FORMAT project — an open-source format for business modeling.">
+  <meta name="generator" content="https://skills.innv0.com/innv0-web-design-guide">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" type="text/markdown" href="/about.md">
+  <script src="/js/analytics.js" defer></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Geist Sans', system-ui, sans-serif;
+      background: #FFFFFF; color: #111112; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    header {
+      padding: 24px 0; border-bottom: 1px solid #F2F2F7;
+    }
+    header .container { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 22px; font-weight: 800; color: #4D0E4E; letter-spacing: -0.02em; text-decoration: none; }
+    .logo span { color: #111112; }
+    nav { display: flex; align-items: center; gap: 24px; }
+    nav a {
+      font-size: 14px; font-weight: 500; color: #636366;
+      text-decoration: none; transition: color 0.2s;
+    }
+    nav a:hover { color: #4D0E4E; }
+    .btn-primary {
+      font-size: 14px; font-weight: 600; padding: 10px 22px;
+      border-radius: 8px; text-decoration: none;
+      background: #4D0E4E; color: #FFFFFF; border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: #3d0b3e; }
+    main { padding: 80px 0; max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 24px; }
+    h2 { font-size: 22px; font-weight: 600; margin-top: 48px; margin-bottom: 12px; }
+    p { font-size: 16px; color: #111112; margin-bottom: 16px; }
+    p.subtitle { color: #636366; font-size: 18px; margin-bottom: 40px; }
+    ul { margin: 0 0 24px 24px; }
+    li { font-size: 16px; color: #636366; margin-bottom: 8px; }
+    a { color: #4D0E4E; }
+    footer {
+      border-top: 1px solid #F2F2F7; padding: 32px 0; text-align: center;
+    }
+    footer p { font-size: 13px; color: #636366; }
+    footer a { color: #4D0E4E; text-decoration: none; }
+    @media (max-width: 768px) {
+      header .container { flex-direction: column; gap: 16px; }
+      main { padding: 48px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo"><span>_</span>FORMAT</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/documentation/">Documentation</a>
+        <a href="/about">About</a>
+        <a href="https://github.com/innV0/FORMAT" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/app/" class="btn-primary" target="_blank" rel="noopener noreferrer">Open App</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>About _FORMAT</h1>
+    <p class="subtitle">Flat, Omnipotent, Readable, Model, Annotated, Template</p>
+
+    <p>_FORMAT is an open-source, human-readable, agent-friendly format for representing business models in a single Markdown file. It is designed to be easily authored by humans, generated and analyzed by AI agents, and versioned cleanly in Git.</p>
+
+    <h2>Why</h2>
+    <p>Traditional business modeling tools store data in opaque formats. This creates problems:</p>
+    <ul>
+      <li><strong>No portability</strong> — models can't be shared without dedicated software</li>
+      <li><strong>Poor diffing</strong> — database exports produce noisy diffs</li>
+      <li><strong>AI friction</strong> — LLMs struggle with complex relational structures</li>
+    </ul>
+    <p>_FORMAT solves these by representing business models as structured Markdown.</p>
+
+    <h2>Links</h2>
+    <ul>
+      <li><a href="/documentation/">Documentation</a></li>
+      <li><a href="/documentation/spec/V_0-1-0/_format">Specification</a></li>
+      <li><a href="https://github.com/innV0/FORMAT" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+    </ul>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Creado con <a href="https://skills.innv0.com/innv0-web-design-guide">iNNv0 web design skill</a></p>
+      <p style="margin-top:8px">&copy; 2026 iNNv0. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

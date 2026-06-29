@@ -9,8 +9,8 @@ generator: "https://skills.innv0.com/innv0-web-design-guide"
 
 One structured Markdown file gives any AI model instant, complete context of your entire business. Drop it as context into ChatGPT, Claude, or Gemini and get strategic answers. Commit it to Git and get a living, visual, version-controlled business model.
 
-- [Documentation](https://format.innv0.com/docs/)
-- [First Time? Start Here](https://format.innv0.com/docs/onboarding)
+- [Documentation](https://format.innv0.com/documentation/)
+- [First Time? Start Here](https://format.innv0.com/documentation/onboarding)
 - [About](https://format.innv0.com/about)
 
 ## How it works

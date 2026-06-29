@@ -3,71 +3,291 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>_FORMAT — Business Strategy as Code</title>
+  <meta name="description" content="One structured Markdown file gives any AI model instant, complete context of your entire business. Drop it as context into ChatGPT, Claude, or Gemini and get strategic answers.">
   <meta name="generator" content="https://skills.innv0.com/innv0-web-design-guide">
-  <title>_FORMAT Documentation</title>
-  <meta name="description" content="_FORMAT documentation — specification, templates, and guides.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital@0;1&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="alternate" type="text/markdown" href="/index.md">
+  <script src="/js/analytics.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "_FORMAT",
+    "url": "https://format.innv0.com",
+    "description": "One structured Markdown file gives any AI model instant, complete context of your entire business.",
+    "author": {
+      "@type": "Organization",
+      "name": "iNNv0"
+    },
+    "inLanguage": "en",
+    "isAccessibleForFree": true
+  }
+  </script>
   <style>
-    :root {
-      --theme-color: #4D0E4E;
-      --base-background: #FFFFFF;
-      --textColor: #111112;
-      --sidebar-background: #FFFFFF;
-      --sidebar-border-color: #F2F2F7;
-      --code-background: #FAFAFC;
-      --code-color: #4D0E4E;
-      --base-font-size: 15px;
-      --sidebar-width: 260px;
-      --sidebar-nav-link-color--active: #4D0E4E;
-      --sidebar-nav-link-border-color--active: #4D0E4E;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Geist Sans', system-ui, sans-serif;
+      background: #FFFFFF;
+      color: #111112;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
-    .markdown-section h1 { border-bottom: 2px solid #4D0E4E; padding-bottom: 8px; }
-    .markdown-section h2 { border-bottom: 1px solid #F2F2F7; padding-bottom: 6px; margin-top: 2em; }
-    .markdown-section code { background: #FAFAFC; padding: 2px 6px; border-radius: 4px; font-size: 90%; color: #4D0E4E; }
-    .markdown-section pre > code { background: transparent; padding: 0; color: inherit; }
-    .app-nav { position: fixed; top: 0; right: 0; z-index: 100; padding: 10px 20px; }
-    .app-nav a { color: #4D0E4E; font-weight: 600; margin-left: 18px; text-decoration: none; font-size: 14px; }
-    .app-nav a:hover { text-decoration: underline; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid #F2F2F7;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-size: 22px; font-weight: 800; color: #4D0E4E; letter-spacing: -0.02em; text-decoration: none; }
+    .logo span { color: #111112; }
+    nav { display: flex; align-items: center; gap: 24px; }
+    nav a {
+      font-size: 14px; font-weight: 500; color: #636366;
+      text-decoration: none; transition: color 0.2s;
+    }
+    nav a:hover { color: #4D0E4E; }
+    .btn-primary, .btn-secondary {
+      font-size: 14px; font-weight: 600; padding: 10px 22px;
+      border-radius: 8px; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .btn-primary {
+      background: #4D0E4E; color: #FFFFFF; border: none;
+    }
+    .btn-primary:hover { background: #3d0b3e; }
+    .btn-secondary {
+      background: transparent; color: #4D0E4E;
+      border: 1px solid #4D0E4E;
+    }
+    .btn-secondary:hover { background: #faf5fa; }
+
+    /* Hero */
+    .hero {
+      padding: 96px 0 80px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 48px; font-weight: 800; line-height: 1.15;
+      letter-spacing: -0.03em; color: #111112;
+      max-width: 800px; margin: 0 auto 24px;
+    }
+    .hero h1 em {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic; font-weight: 400; color: #4D0E4E;
+    }
+    .hero p {
+      font-size: 18px; color: #636366;
+      max-width: 640px; margin: 0 auto 40px; line-height: 1.6;
+    }
+    .hero .actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* Features */
+    .features { padding: 80px 0; }
+    .features h2 {
+      font-size: 32px; font-weight: 700; text-align: center;
+      letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .features .subtitle {
+      text-align: center; color: #636366; font-size: 16px;
+      max-width: 560px; margin: 0 auto 64px;
+    }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: #FFFFFF; border: 1px solid #F2F2F7;
+      border-radius: 12px; padding: 32px 24px;
+    }
+    .card .icon { font-size: 28px; margin-bottom: 16px; display: block; }
+    .card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .card p { font-size: 14px; color: #636366; line-height: 1.6; }
+
+    /* How it works */
+    .steps { padding: 80px 0; background: #FAFAFC; }
+    .steps h2 {
+      font-size: 32px; font-weight: 700; text-align: center;
+      letter-spacing: -0.02em; margin-bottom: 64px;
+    }
+    .step-list { display: flex; flex-direction: column; gap: 24px; max-width: 720px; margin: 0 auto; }
+    .step {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: #FFFFFF; border: 1px solid #F2F2F7;
+      border-radius: 12px; padding: 24px;
+    }
+    .step .num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #4D0E4E; color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; flex-shrink: 0;
+    }
+    .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .step p { font-size: 14px; color: #636366; }
+
+    /* CTA */
+    .cta { padding: 80px 0; text-align: center; }
+    .cta h2 {
+      font-size: 32px; font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .cta p { color: #636366; margin-bottom: 32px; font-size: 16px; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid #F2F2F7;
+      padding: 32px 0; text-align: center;
+    }
+    footer p { font-size: 13px; color: #636366; }
+    footer a { color: #4D0E4E; text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 32px; }
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding: 64px 0 48px; }
+      .features, .steps, .cta { padding: 48px 0; }
+      header .container { flex-direction: column; gap: 16px; }
+    }
   </style>
 </head>
 <body>
-  <div id="app"></div>
-  <nav class="app-nav">
-    <a href="/">Home</a>
-    <a href="/app/" target="_blank" rel="noopener noreferrer">App</a>
-    <a href="https://innv0.com/contact?ref=FORMAT" target="_blank" rel="noopener noreferrer">Contact</a>
-    <a href="https://github.com/innV0/FORMAT" target="_blank" rel="noopener noreferrer">GitHub</a>
-  </nav>
-  <script>
-    window.$docsify = {
-      name: '_FORMAT Docs',
-      repo: 'https://github.com/innV0/FORMAT',
-      loadSidebar: true,
-      coverpage: false,
-      subMaxLevel: 3,
-      search: 'auto',
-      auto2top: true,
-      homepage: 'README.md',
-      externalLinkTarget: '_blank',
-      alias: {
-        '/how-to': 'how-to.md',
-        '/onboarding': 'onboarding.md'
-      }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
-  <script>
-    window.addEventListener('load', function () {
-      if (typeof Docsify !== 'undefined') {
-        Docsify.doneEach(function () {
-          if (window.umami) {
-            umami.track({ url: window.location.pathname + window.location.search });
-          }
-        });
-      }
-    });
-  </script>
+  <header>
+    <div class="container">
+      <a href="/" class="logo"><span>_</span>FORMAT</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/documentation/">Documentation</a>
+        <a href="/about">About</a>
+        <a href="https://github.com/innV0/FORMAT" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/app/" class="btn-primary" target="_blank" rel="noopener noreferrer">Open App</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Your business model as <em>one file</em>. Ready for AI.</h1>
+        <p>_FORMAT is a structured Markdown format that holds your complete strategy — segments, value propositions, roadmap, finances, team. Drop it into any AI model for instant strategic context.</p>
+        <div class="actions">
+          <a href="/app/" class="btn-primary" target="_blank" rel="noopener noreferrer">Try the App</a>
+          <a href="/documentation/onboarding" class="btn-secondary">Get Started</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>One file. Infinite possibilities.</h2>
+        <p class="subtitle">_FORMAT keeps your entire business model in a single Markdown file that humans read, AI understands, and Git versions.</p>
+        <div class="grid">
+          <div class="card">
+            <span class="icon">📄</span>
+            <h3>Plain Markdown</h3>
+            <p>Author in any text editor. Review in GitHub. The format is designed for both human readability and machine processing.</p>
+          </div>
+          <div class="card">
+            <span class="icon">🔗</span>
+            <h3>Built-in Relations</h3>
+            <p>Define matrix tables that map how stakeholders, problems, value propositions, and metrics interconnect in your business.</p>
+          </div>
+          <div class="card">
+            <span class="icon">🤖</span>
+            <h3>AI-Native</h3>
+            <p>Drop your model into ChatGPT, Claude, or Gemini. The AI instantly understands your full business context without extra prompting.</p>
+          </div>
+          <div class="card">
+            <span class="icon">📊</span>
+            <h3>Visual Graph View</h3>
+            <p>Open your model in the FORMAT app to see an interactive graph of all concepts and relationships — Sankey or force-directed layouts.</p>
+          </div>
+          <div class="card">
+            <span class="icon">📦</span>
+            <h3>Version-Controlled</h3>
+            <p>Commit your model to Git. Track changes, review diffs, collaborate with your team — just like code.</p>
+          </div>
+          <div class="card">
+            <span class="icon">🛠️</span>
+            <h3>Open Spec</h3>
+            <p>Fully open specification. Build your own tools, integrations, and generators. No vendor lock-in.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="container">
+        <h2>How it works</h2>
+        <div class="step-list">
+          <div class="step">
+            <div class="num">1</div>
+            <div>
+              <h3>Connect</h3>
+              <p>Create a _FORMAT file from a template or clone an existing model to get started.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div>
+              <h3>Model</h3>
+              <p>Declare your stakeholders, problems, value propositions, market segments, and more in structured Markdown blocks.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div>
+              <h3>Map</h3>
+              <p>Define relationships between concepts using simple matrix tables. The app visualizes these connections automatically.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">4</div>
+            <div>
+              <h3>Validate</h3>
+              <p>The app scores the coherence of your model, highlighting gaps and suggesting improvements.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">5</div>
+            <div>
+              <h3>Use</h3>
+              <p>Drop your file into any AI model or share it with stakeholders. Your entire business fits in one portable file.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Ready to model your business?</h2>
+        <p>Open the app, load a template, and start building your model in minutes.</p>
+        <a href="/app/" class="btn-primary" target="_blank" rel="noopener noreferrer">Open the App</a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container" style="text-align:center;padding:48px 24px">
+        <h2 style="font-size:22px;font-weight:600;margin-bottom:8px">Get in Touch</h2>
+        <p style="color:#636366;margin-bottom:24px;font-size:14px">Questions, ideas, or feedback? We'd love to hear from you.</p>
+        <a href="https://innv0.com/contact?ref=FORMAT" target="_blank" rel="noopener noreferrer" class="btn-primary">Contact Us</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Creado con <a href="https://skills.innv0.com/innv0-web-design-guide">iNNv0 web design skill</a></p>
+      <p style="margin-top:8px">&copy; 2026 iNNv0. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
