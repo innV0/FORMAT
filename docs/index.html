@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>_FORMAT — Business Strategy as Code</title>
-  <meta name="description" content="One structured Markdown file gives any AI model instant, complete context of your entire business. Drop it as context into ChatGPT, Claude, or Gemini and get strategic answers.">
+  <title>_FORMAT — One File. Schema Included.</title>
+  <meta name="description" content="A self-describing Markdown format for modeling business strategy, procedures, and any domain. One file carries its own schema.">
   <meta name="generator" content="https://skills.innv0.com/innv0-web-design-guide">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -19,7 +19,7 @@
     "@type": "WebSite",
     "name": "_FORMAT",
     "url": "https://format.innv0.com",
-    "description": "One structured Markdown file gives any AI model instant, complete context of your entire business.",
+    "description": "A self-describing Markdown format for modeling business strategy, procedures, and any domain.",
     "author": {
       "@type": "Organization",
       "name": "iNNv0"
@@ -87,10 +87,16 @@
       font-family: 'Playfair Display', Georgia, serif;
       font-style: italic; font-weight: 400; color: #4D0E4E;
     }
-    .hero p {
+    .hero .subtitle {
       font-size: 18px; color: #636366;
-      max-width: 640px; margin: 0 auto 40px; line-height: 1.6;
+      max-width: 680px; margin: 0 auto 12px; line-height: 1.6;
     }
+    .hero .templates-hint {
+      font-size: 14px; color: #8e8e93;
+      max-width: 600px; margin: 0 auto 40px;
+    }
+    .hero .templates-hint a { color: #4D0E4E; text-decoration: none; font-weight: 500; }
+    .hero .templates-hint a:hover { text-decoration: underline; }
     .hero .actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
 
     /* Features */
@@ -112,8 +118,33 @@
     .card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
     .card p { font-size: 14px; color: #636366; line-height: 1.6; }
 
+    /* Templates */
+    .templates-section { padding: 80px 0; background: #FAFAFC; }
+    .templates-section h2 {
+      font-size: 32px; font-weight: 700; text-align: center;
+      letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .templates-section .subtitle {
+      text-align: center; color: #636366; font-size: 16px;
+      max-width: 560px; margin: 0 auto 56px;
+    }
+    .tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 860px; margin: 0 auto; }
+    .tpl-card {
+      background: #FFFFFF; border: 1px solid #F2F2F7;
+      border-radius: 12px; padding: 32px;
+      display: flex; flex-direction: column;
+    }
+    .tpl-card .tpl-name {
+      font-size: 20px; font-weight: 700; color: #4D0E4E; margin-bottom: 8px;
+    }
+    .tpl-card .tpl-desc {
+      font-size: 14px; color: #636366; line-height: 1.6; margin-bottom: 24px; flex: 1;
+    }
+    .tpl-card .tpl-link { font-size: 14px; font-weight: 600; color: #4D0E4E; text-decoration: none; }
+    .tpl-card .tpl-link:hover { text-decoration: underline; }
+
     /* How it works */
-    .steps { padding: 80px 0; background: #FAFAFC; }
+    .steps { padding: 80px 0; }
     .steps h2 {
       font-size: 32px; font-weight: 700; text-align: center;
       letter-spacing: -0.02em; margin-bottom: 64px;
@@ -156,8 +187,9 @@
     @media (max-width: 768px) {
       .hero h1 { font-size: 32px; }
       .grid { grid-template-columns: 1fr; }
+      .tpl-grid { grid-template-columns: 1fr; }
       .hero { padding: 64px 0 48px; }
-      .features, .steps, .cta { padding: 48px 0; }
+      .features, .steps, .cta, .templates-section { padding: 48px 0; }
       header .container { flex-direction: column; gap: 16px; }
     }
   </style>
@@ -182,8 +214,9 @@
   <main>
     <section class="hero">
       <div class="container">
-        <h1>Your business model as <em>one file</em>. Ready for AI.</h1>
-        <p>_FORMAT is a structured Markdown format that holds your complete strategy — segments, value propositions, roadmap, finances, team. Drop it into any AI model for instant strategic context.</p>
+        <h1>One file. <em>Schema included.</em></h1>
+        <p class="subtitle">_FORMAT is an open specification for structured Markdown. Every file carries its own schema — concepts, relationships, and evaluations — in plain text. Drop it into any AI model for instant context, or open it in the visual editor.</p>
+        <p class="templates-hint">Ready-to-use templates for <a href="/documentation/templates/business/V_0-1-0/business_V_0-1-0_FORMAT">Business</a> and <a href="/documentation/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT">Procedures</a>, or define your own.</p>
         <div class="actions">
           <a href="/app/" class="btn-primary" target="_blank" rel="noopener noreferrer">Try the App</a>
           <a href="/documentation/onboarding" class="btn-secondary">Get Started</a>
@@ -193,38 +226,62 @@
 
     <section class="features">
       <div class="container">
-        <h2>One file. Infinite possibilities.</h2>
-        <p class="subtitle">_FORMAT keeps your entire business model in a single Markdown file that humans read, AI understands, and Git versions.</p>
+        <h2>What makes _FORMAT different</h2>
+        <p class="subtitle">A single, portable Markdown file that humans read, AI understands, and Git versions.</p>
         <div class="grid">
           <div class="card">
             <span class="icon">📄</span>
             <h3>Plain Markdown</h3>
-            <p>Author in any text editor. Review in GitHub. The format is designed for both human readability and machine processing.</p>
+            <p>Author in any text editor. Review on GitHub. The format prioritizes both human readability and machine processing — no proprietary tools required.</p>
           </div>
           <div class="card">
             <span class="icon">🔗</span>
             <h3>Built-in Relations</h3>
-            <p>Define matrix tables that map how stakeholders, problems, value propositions, and metrics interconnect in your business.</p>
+            <p>Define matrix tables that map how concepts and elements interconnect — stakeholders to segments, procedures to roles, or any relationship your domain needs.</p>
           </div>
           <div class="card">
             <span class="icon">🤖</span>
             <h3>AI-Native</h3>
-            <p>Drop your model into ChatGPT, Claude, or Gemini. The AI instantly understands your full business context without extra prompting.</p>
+            <p>Drop your model into ChatGPT, Claude, or Gemini. The AI instantly understands the full context of your model without extra prompting or fine-tuning.</p>
+          </div>
+          <div class="card">
+            <span class="icon">🧩</span>
+            <h3>Template System</h3>
+            <p>Choose from official templates (Business, Procedures) or define your own schema. Every file is self-describing — the template lives in the frontmatter.</p>
           </div>
           <div class="card">
             <span class="icon">📊</span>
-            <h3>Visual Graph View</h3>
-            <p>Open your model in the FORMAT app to see an interactive graph of all concepts and relationships — Sankey or force-directed layouts.</p>
+            <h3>Visual Editor</h3>
+            <p>Open any model in the FORMAT app to see editable concept cards, interactive matrices, and a graph view of all relationships — Sankey or force-directed layouts.</p>
           </div>
           <div class="card">
             <span class="icon">📦</span>
             <h3>Version-Controlled</h3>
-            <p>Commit your model to Git. Track changes, review diffs, collaborate with your team — just like code.</p>
+            <p>Commit your model to Git. Track changes, review diffs, collaborate with your team — just like code. Plain Markdown means clean, meaningful diffs.</p>
           </div>
           <div class="card">
             <span class="icon">🛠️</span>
             <h3>Open Spec</h3>
-            <p>Fully open specification. Build your own tools, integrations, and generators. No vendor lock-in.</p>
+            <p>Fully open specification. Build your own tools, integrations, and generators. No vendor lock-in, no proprietary database, no API dependency.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="templates-section">
+      <div class="container">
+        <h2>Official Templates</h2>
+        <p class="subtitle">Jumpstart your model with a ready-made schema. Each template includes concepts, markers, matrices, and full documentation.</p>
+        <div class="tpl-grid">
+          <div class="tpl-card">
+            <div class="tpl-name">Business</div>
+            <p class="tpl-desc">Model stakeholders, market segments, value propositions, revenue streams, team, roadmap, and strategy — the full picture of any organization. 70+ concepts, 13 relationship matrices, and 5 evaluation markers.</p>
+            <a href="/documentation/templates/business/V_0-1-0/business_V_0-1-0_FORMAT" class="tpl-link">Browse template & documentation →</a>
+          </div>
+          <div class="tpl-card">
+            <div class="tpl-name">Procedures</div>
+            <p class="tpl-desc">Document any workflow: ordered steps with branching logic, roles, artifacts, tools, and responsible parties. Perfect for SOPs, onboarding, knowledge management, and audit trails.</p>
+            <a href="/documentation/templates/procedures/V_0-1-0/procedures_V_0-1-0_FORMAT" class="tpl-link">Browse template & documentation →</a>
           </div>
         </div>
       </div>
@@ -237,36 +294,36 @@
           <div class="step">
             <div class="num">1</div>
             <div>
-              <h3>Connect</h3>
-              <p>Create a _FORMAT file from a template or clone an existing model to get started.</p>
+              <h3>Pick a template</h3>
+              <p>Choose from official templates (Business, Procedures) or define your own schema from scratch. Every model carries its template in its frontmatter.</p>
             </div>
           </div>
           <div class="step">
             <div class="num">2</div>
             <div>
               <h3>Model</h3>
-              <p>Declare your stakeholders, problems, value propositions, market segments, and more in structured Markdown blocks.</p>
+              <p>Define concepts, elements, and their fields in structured Markdown blocks. Each concept is a section; each element is a list item with optional YAML fields.</p>
             </div>
           </div>
           <div class="step">
             <div class="num">3</div>
             <div>
               <h3>Map</h3>
-              <p>Define relationships between concepts using simple matrix tables. The app visualizes these connections automatically.</p>
+              <p>Define relationships between concepts using matrix tables. The app visualizes these connections as interactive graphs and scored matrices.</p>
             </div>
           </div>
           <div class="step">
             <div class="num">4</div>
             <div>
               <h3>Validate</h3>
-              <p>The app scores the coherence of your model, highlighting gaps and suggesting improvements.</p>
+              <p>The app scores the coherence of your model, highlighting gaps and suggesting improvements using the template's built-in markers.</p>
             </div>
           </div>
           <div class="step">
             <div class="num">5</div>
             <div>
               <h3>Use</h3>
-              <p>Drop your file into any AI model or share it with stakeholders. Your entire business fits in one portable file.</p>
+              <p>Drop your file into any AI model, commit it to Git, or share it with stakeholders. Your entire model fits in one portable, self-describing file.</p>
             </div>
           </div>
         </div>
@@ -275,8 +332,8 @@
 
     <section class="cta">
       <div class="container">
-        <h2>Ready to model your business?</h2>
-        <p>Open the app, load a template, and start building your model in minutes.</p>
+        <h2>Ready to model anything?</h2>
+        <p>Open the app, pick a template, and start building in minutes. No sign-up, no servers — everything stays on your machine.</p>
         <a href="/app/" class="btn-primary" target="_blank" rel="noopener noreferrer">Open the App</a>
       </div>
     </section>
