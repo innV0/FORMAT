@@ -267,23 +267,27 @@
         <Info class="w-4 h-4" />
       </button>
 
-      <!-- External links -->
-      <div class="flex items-center gap-1 pl-2">
+      <!-- Cross-reference links -->
+      <div class="flex items-center gap-0.5 pl-2">
         <a
           href="https://format.innv0.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 px-2 py-1.5 rounded text-xs font-semibold text-slate-500 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
-          title="Visit project website"
-        >
-          <Globe class="w-4 h-4" />
-        </a>
+          class="px-2 py-1 rounded text-xs font-medium text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors"
+        >Open web</a>
+        <a
+          href="https://format.innv0.com/documentation/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-2 py-1 rounded text-xs font-medium text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors"
+        >Open docs</a>
+        <span class="w-px h-3.5 bg-slate-200 mx-1"></span>
         <a
           href="https://github.com/innV0/FORMAT"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-1.5 rounded text-slate-500 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
-          title="View on GitHub"
+          class="p-1.5 rounded text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors"
+          title="GitHub"
         >
           <Github class="w-4 h-4" />
         </a>
@@ -294,7 +298,7 @@
 
 <script setup lang="ts">
 import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
-import { Copy, FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive, Github, Globe, Sparkles } from 'lucide-vue-next';
+import { Copy, FolderOpen, Save, ChevronDown, Folder, Trash2, FolderPlus, AlertTriangle, Info, Archive, Github, Sparkles } from 'lucide-vue-next';
 import { useWorkspaceStore } from '../../stores/workspace';
 import { useDocumentStore } from '../../stores/document';
 import { buildFormatFilename, parseFormatFilename } from '../../utils/version';
