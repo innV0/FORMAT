@@ -1,3 +1,11 @@
+> **⚠️ DEPRECATED — This repository has been discontinued.**
+>
+> The FORMAT specification has been split into two focused repositories:
+> - **[File Format](https://github.com/innV0/file-format)** — FORMAT FILE mode: single-document visual model editor
+> - **[Folder Format](https://github.com/innV0/folder-format)** — FORMAT FOLDER mode: hierarchical knowledge management platform
+>
+> Please use the new repositories for all future work.
+
 # _FORMAT
 
 **Flat, Omnipotent, Readable, Model, Annotated, Template**
